@@ -8,6 +8,7 @@ import { locations } from "@/data/locations";
 import { doctors } from "@/data/doctors";
 import { networkBrands } from "@/data/network";
 import { NetworkCard } from "@/components/NetworkCard";
+import { ParallaxImage } from "@/components/ParallaxImage";
 import { foundation } from "@/data/foundation";
 import { insuranceInfo } from "@/data/insurance";
 import { serviceCategories } from "@/data/services";
@@ -117,16 +118,14 @@ export default function Home() {
           </div>
 
           <div className="relative">
-            <div className="relative overflow-hidden rounded-[2rem] shadow-soft">
-              <Image
-                src="https://images.unsplash.com/photo-1632053002928-1919605ee6f7?auto=format&fit=crop&w=1200&q=80"
-                alt="A pediatrician examining a young patient during a check-up"
-                width={1200}
-                height={1400}
-                className="h-[22rem] w-full object-cover sm:h-[26rem]"
-                priority
-              />
-            </div>
+            <ParallaxImage
+              src="https://images.unsplash.com/photo-1632053002928-1919605ee6f7?auto=format&fit=crop&w=1200&q=80"
+              alt="A pediatrician examining a young patient during a check-up"
+              width={1200}
+              height={1400}
+              wrapperClassName="h-[22rem] rounded-[2rem] shadow-soft sm:h-[26rem]"
+              preload
+            />
 
             <div className="relative z-10 mx-4 -mt-10 rounded-2xl border border-border bg-white p-5 shadow-card sm:absolute sm:-bottom-8 sm:left-6 sm:right-6 sm:mx-0 sm:mt-0">
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
