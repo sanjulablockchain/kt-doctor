@@ -50,4 +50,42 @@ describe("LocationsMap", () => {
     expect(screen.getByText("Alpha")).toBeInTheDocument();
     expect(screen.getByText("Beta")).toBeInTheDocument();
   });
+
+  it("skips locations without lat/lng instead of crashing", () => {
+    render(
+      <LocationsMap
+        locations={[
+          {
+            id: "a",
+            name: "Alpha",
+            address: "1 A St",
+            phone: "1",
+            email: "a@x.com",
+            extension: "1",
+            lat: 34,
+            lng: -118,
+            description: "",
+            hours: { officeHours: "", telehealthHours: "" },
+            photos: [],
+          },
+          {
+            id: "telehealth",
+            name: "Telehealth",
+            address: "Video visits only",
+            phone: "",
+            email: "",
+            extension: "",
+            description: "",
+            hours: { officeHours: "", telehealthHours: "" },
+            photos: [],
+          },
+        ]}
+      />
+    );
+
+    const markers = screen.getAllByTestId("marker");
+    expect(markers).toHaveLength(1);
+    expect(screen.getByText("Alpha")).toBeInTheDocument();
+    expect(screen.queryByText("Telehealth")).not.toBeInTheDocument();
+  });
 });

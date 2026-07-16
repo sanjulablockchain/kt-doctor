@@ -1,5 +1,9 @@
 import type { Location } from "@/lib/types";
 
+// "telehealth" (added 2026-07-17) is not a physical clinic — Healow's live booking system
+// confirmed one provider (Trish Reyes) is telehealth-only with no in-person clinic. It
+// intentionally has no lat/lng so LocationsMap skips it instead of plotting a fake pin.
+
 // Lat/lng below are city-level approximations (not exact street precision) —
 // flagged in the spec as needing refinement via the Google Geocoding API
 // before production launch. "La Mirada" email/extension values follow the
@@ -366,5 +370,17 @@ export const locations: Location[] = [
       "A general pediatrics practice offering newborn care, well-child exams, and adolescent medicine, diagnosing and treating conditions including asthma, autism, and allergies with an integrated, evidence-based approach, vaccination, and nutrition services.",
     hours: { officeHours: "Monday-Friday, 9AM-6PM", telehealthHours: "Monday-Sunday, 9AM-8PM" },
     photos: ["/locations/la-mirada/1.png", "/locations/la-mirada/2.jpg", "/locations/la-mirada/3.jpg"],
+  },
+  {
+    id: "telehealth",
+    name: "Telehealth",
+    address: "Video visits only — no physical address",
+    phone: "(818) 361-5437",
+    email: "customerservice@ktdoctor.com",
+    extension: "",
+    description:
+      "Video visits with select Kids & Teens Medical Group providers, for patients who prefer or need a remote appointment instead of an in-person clinic visit.",
+    hours: { officeHours: "By appointment", telehealthHours: "Monday-Sunday, 9AM-8PM" },
+    photos: [],
   },
 ];

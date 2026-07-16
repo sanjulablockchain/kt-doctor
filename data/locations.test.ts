@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 import { locations } from "./locations";
 
 describe("locations data", () => {
-  it("has exactly 24 real clinics", () => {
-    expect(locations).toHaveLength(24);
+  it("has exactly 25 real clinics plus the telehealth pseudo-location", () => {
+    expect(locations).toHaveLength(25);
   });
 
   it("every location has a unique id", () => {
@@ -11,8 +11,9 @@ describe("locations data", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("every location has valid lat/lng within the Southern California bounding box", () => {
+  it("every physical location has valid lat/lng within the Southern California bounding box", () => {
     for (const loc of locations) {
+      if (loc.lat === undefined && loc.lng === undefined) continue; // telehealth has no address
       expect(loc.lat).toBeGreaterThan(33.0);
       expect(loc.lat).toBeLessThan(35.0);
       expect(loc.lng).toBeGreaterThan(-119.5);
@@ -49,5 +50,12 @@ describe("locations data", () => {
         expect(photo).toMatch(new RegExp(`^/locations/${loc.id}/`));
       }
     }
+  });
+
+  it("the telehealth pseudo-location has no lat/lng (not a physical clinic)", () => {
+    const telehealth = locations.find((l) => l.id === "telehealth");
+    expect(telehealth).toBeDefined();
+    expect(telehealth?.lat).toBeUndefined();
+    expect(telehealth?.lng).toBeUndefined();
   });
 });

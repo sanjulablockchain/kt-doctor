@@ -27,9 +27,11 @@ export function LocationsMap({ locations }: LocationsMapProps) {
 
   return (
     <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={9}>
-      {locations.map((loc) => (
-        <MarkerF key={loc.id} position={{ lat: loc.lat, lng: loc.lng }} title={loc.name} />
-      ))}
+      {locations
+        .filter((loc): loc is typeof loc & { lat: number; lng: number } => loc.lat !== undefined && loc.lng !== undefined)
+        .map((loc) => (
+          <MarkerF key={loc.id} position={{ lat: loc.lat, lng: loc.lng }} title={loc.name} />
+        ))}
     </GoogleMap>
   );
 }

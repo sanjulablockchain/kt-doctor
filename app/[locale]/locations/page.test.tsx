@@ -4,11 +4,12 @@ import { renderWithIntl } from "@/lib/test-utils";
 import LocationsPage from "./page";
 
 describe("LocationsPage", () => {
-  it("renders all 24 locations in list view by default", () => {
+  it("renders all 25 locations (including Telehealth) in list view by default", () => {
     renderWithIntl(<LocationsPage />);
-    expect(screen.getByText("Showing 24 of 24 locations")).toBeInTheDocument();
+    expect(screen.getByText("Showing 25 of 25 locations")).toBeInTheDocument();
     expect(screen.getByText("Pasadena")).toBeInTheDocument();
     expect(screen.getByText("Whittier")).toBeInTheDocument();
+    expect(screen.getByText("Telehealth")).toBeInTheDocument();
   });
 
   it("has a List/Map toggle with List selected by default", () => {
