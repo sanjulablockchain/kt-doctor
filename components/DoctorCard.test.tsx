@@ -30,4 +30,26 @@ describe("DoctorCard", () => {
       "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2"
     );
   });
+
+  it("uses the doctor's own healowUrl when present, instead of the shared booking link", () => {
+    render(
+      <DoctorCard
+        doctor={{
+          id: "martin-fineberg",
+          name: "Martin Fineberg",
+          credentials: "MD, FAAP",
+          specialties: ["Pediatrics"],
+          locationIds: ["beverly-hills"],
+          healowUrl: "https://healow.com/apps/provider/martin-fineberg-3161325",
+        }}
+        locationNames={["Beverly Hills"]}
+      />
+    );
+
+    const bookLink = screen.getByRole("link", { name: /book online/i });
+    expect(bookLink).toHaveAttribute(
+      "href",
+      "https://healow.com/apps/provider/martin-fineberg-3161325"
+    );
+  });
 });

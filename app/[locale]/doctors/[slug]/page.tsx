@@ -117,7 +117,7 @@ export default async function DoctorDetailPage({
       </div>
 
       <a
-        href={BOOKING_URL}
+        href={doctor.healowUrl ?? BOOKING_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-8 inline-block rounded-full bg-teal px-7 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"

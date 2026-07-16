@@ -63,7 +63,7 @@ export function DoctorCard({ doctor, locationNames }: DoctorCardProps) {
       <p className="mt-3 text-sm text-ink-soft">{locationNames.join(", ")}</p>
 
       <a
-        href={BOOKING_URL}
+        href={doctor.healowUrl ?? BOOKING_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-5 inline-flex w-fit items-center justify-center rounded-full bg-teal px-5 py-2.5 font-display text-sm font-semibold text-white transition-colors hover:bg-teal-dark"
