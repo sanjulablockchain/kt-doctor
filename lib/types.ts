@@ -10,8 +10,8 @@ export type Location = {
   phone: string;
   email: string;
   extension: string;
-  lat: number;
-  lng: number;
+  lat?: number;
+  lng?: number;
   description: string;
   hours: LocationHours;
   photos: string[];
@@ -25,4 +25,5 @@ export type Doctor = {
   locationIds: string[];
   bio?: string;
   photoSrc?: string;
+  healowUrl?: string;
 };
