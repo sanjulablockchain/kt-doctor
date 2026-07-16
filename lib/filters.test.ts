@@ -27,8 +27,8 @@ describe("filterDoctors", () => {
   });
 
   it("combines locationId and search filters", () => {
-    const result = filterDoctors(doctors, { locationId: "pasadena", search: "martin" });
-    expect(result.map((d) => d.name)).toEqual(["Martin Fineberg"]);
+    const result = filterDoctors(doctors, { locationId: "pasadena", search: "rodriguez" });
+    expect(result.map((d) => d.name)).toEqual(["Barbara Rodriguez"]);
   });
 });
 
