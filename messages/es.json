@@ -19,6 +19,7 @@
   },
   "Footer": {
     "tagline": "Atención pediátrica certificada en 24 clínicas del área de Los Ángeles, con visitas el mismo día, telesalud y un médico con quien su familia puede continuar.",
+    "bookAppointment": "Reservar una cita",
     "textLabel": "Mensaje de texto",
     "patients": "Pacientes",
     "about": "Nosotros",
