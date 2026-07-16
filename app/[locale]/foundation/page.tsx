@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 export default function FoundationPage() {
   return (
     <main className="mx-auto max-w-6xl px-5 py-12 sm:px-8">
-      <div className="flex flex-col items-start gap-6 rounded-3xl border border-border bg-white p-8 shadow-card sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col items-center gap-6 rounded-3xl border border-border bg-white p-8 shadow-card sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:gap-4 sm:text-left">
           <Image
             src={foundation.logoSrc}
             alt={`${foundation.name} logo`}
@@ -29,7 +29,7 @@ export default function FoundationPage() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 sm:flex-row">
+        <div className="flex flex-col items-center gap-2 sm:flex-row">
           <a
             href={foundation.donateUrl}
             target="_blank"
