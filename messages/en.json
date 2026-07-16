@@ -15,7 +15,9 @@
     "payOnline": "Pay Online",
     "portalLogIn": "Portal Log In",
     "appointments": "Appointments",
-    "toggleMenu": "Toggle menu"
+    "toggleMenu": "Toggle menu",
+    "toggleLanguage": "Change language",
+    "callUs": "Call us"
   },
   "Footer": {
     "tagline": "Board-certified pediatric care across 24 Greater LA clinics, with same-day visits, telehealth, and a doctor your family can stick with.",

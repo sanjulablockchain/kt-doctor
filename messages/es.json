@@ -15,7 +15,9 @@
     "payOnline": "Pagar en línea",
     "portalLogIn": "Portal del paciente",
     "appointments": "Citas",
-    "toggleMenu": "Abrir menú"
+    "toggleMenu": "Abrir menú",
+    "toggleLanguage": "Cambiar idioma",
+    "callUs": "Llámenos"
   },
   "Footer": {
     "tagline": "Atención pediátrica certificada en 24 clínicas del área de Los Ángeles, con visitas el mismo día, telesalud y un médico con quien su familia puede continuar.",
