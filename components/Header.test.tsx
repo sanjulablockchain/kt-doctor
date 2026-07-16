@@ -104,6 +104,17 @@ describe("Header", () => {
     expect(screen.getByTestId("mobile-menu")).not.toHaveClass("hidden");
   });
 
+  it("closes the mobile menu after clicking a nav link", async () => {
+    renderWithIntl(<Header />);
+    const toggle = screen.getByRole("button", { name: /toggle menu/i });
+
+    await userEvent.click(toggle);
+    expect(screen.getByTestId("mobile-menu")).not.toHaveClass("hidden");
+
+    await userEvent.click(screen.getByRole("link", { name: "Doctors" }));
+    expect(screen.getByTestId("mobile-menu")).toHaveClass("hidden");
+  });
+
   it("renders an EN/ES language switcher linking to the same page in the other locale", () => {
     renderWithIntl(<Header />, "en");
     expect(screen.getByRole("link", { name: "ES" })).toBeInTheDocument();

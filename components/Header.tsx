@@ -63,6 +63,7 @@ export function Header() {
 
         <nav
           data-testid="mobile-menu"
+          onClick={() => setMenuOpen(false)}
           className={`order-4 w-full flex-col gap-1 border-t border-border pt-3 font-medium text-ink-soft sm:order-none sm:flex sm:w-auto sm:flex-1 sm:flex-row sm:items-center sm:justify-center sm:gap-7 sm:border-none sm:pt-0 sm:text-sm ${
             menuOpen ? "flex" : "hidden"
           }`}
