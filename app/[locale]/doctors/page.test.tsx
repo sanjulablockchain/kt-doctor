@@ -21,8 +21,8 @@ describe("DoctorsPage", () => {
   it("filters by location", async () => {
     renderWithIntl(<DoctorsPage />);
 
-    const locationSelect = screen.getByLabelText("Filter by location");
-    await userEvent.selectOptions(locationSelect, "valencia");
+    await userEvent.click(screen.getByRole("button", { name: "Filter by location" }));
+    await userEvent.click(screen.getByRole("option", { name: "Valencia" }));
 
     expect(screen.getByText("Adrienne C. Altman")).toBeInTheDocument();
     expect(screen.queryByText("Martin Fineberg")).not.toBeInTheDocument();

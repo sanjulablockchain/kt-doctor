@@ -6,6 +6,7 @@ import { doctors } from "@/data/doctors";
 import { locations } from "@/data/locations";
 import { filterDoctors, getAllSpecialties } from "@/lib/filters";
 import { DoctorCard } from "@/components/DoctorCard";
+import { FilterDropdown } from "@/components/FilterDropdown";
 
 export function DoctorsPageContent() {
   const t = useTranslations("Doctors");
@@ -49,39 +50,21 @@ export function DoctorsPageContent() {
           className="flex-1 rounded-full border border-border bg-ivory px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-teal"
         />
 
-        <label className="flex flex-col text-sm">
-          <span className="sr-only">{t("filterByLocation")}</span>
-          <select
-            aria-label={t("filterByLocation")}
-            value={locationId}
-            onChange={(e) => setLocationId(e.target.value)}
-            className="rounded-full border border-border bg-ivory px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-teal"
-          >
-            <option value="">{t("allLocations")}</option>
-            {locations.map((loc) => (
-              <option key={loc.id} value={loc.id}>
-                {loc.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <FilterDropdown
+          ariaLabel={t("filterByLocation")}
+          value={locationId}
+          placeholder={t("allLocations")}
+          options={locations.map((loc) => ({ value: loc.id, label: loc.name }))}
+          onChange={setLocationId}
+        />
 
-        <label className="flex flex-col text-sm">
-          <span className="sr-only">{t("filterBySpecialty")}</span>
-          <select
-            aria-label={t("filterBySpecialty")}
-            value={specialty}
-            onChange={(e) => setSpecialty(e.target.value)}
-            className="rounded-full border border-border bg-ivory px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-teal"
-          >
-            <option value="">{t("allSpecialties")}</option>
-            {specialties.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </label>
+        <FilterDropdown
+          ariaLabel={t("filterBySpecialty")}
+          value={specialty}
+          placeholder={t("allSpecialties")}
+          options={specialties.map((s) => ({ value: s, label: s }))}
+          onChange={setSpecialty}
+        />
       </div>
 
       <p className="mt-6 text-sm font-medium text-ink-soft">
