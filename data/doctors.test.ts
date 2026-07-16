@@ -3,8 +3,14 @@ import { doctors } from "./doctors";
 import { locations } from "./locations";
 
 describe("doctors data", () => {
-  it("has at least 80 doctors", () => {
-    expect(doctors.length).toBeGreaterThanOrEqual(80);
+  it("has exactly 56 doctors — every doctor confirmed active in Healow's live booking system", () => {
+    expect(doctors.length).toBe(56);
+  });
+
+  it("every doctor has a real per-doctor Healow booking link", () => {
+    for (const doc of doctors) {
+      expect(doc.healowUrl).toMatch(/^https:\/\/healow\.com\/apps\/provider\//);
+    }
   });
 
   it("every doctor has at least one location", () => {
@@ -48,11 +54,6 @@ describe("doctors data", () => {
     expect(fineberg?.healowUrl).toBe("https://healow.com/apps/provider/martin-fineberg-3161325");
   });
 
-  it("does not invent a healowUrl for doctors Healow doesn't confirm", () => {
-    const camarillo = doctors.find((d) => d.name === "Jon D'Andrea");
-    expect(camarillo?.healowUrl).toBeUndefined();
-  });
-
   it("includes doctors added by the 2026-07-17 Healow refresh", () => {
     const sapinoso = doctors.find((d) => d.name === "Christine Sapinoso");
     expect(sapinoso).toBeDefined();
@@ -70,6 +71,12 @@ describe("doctors data", () => {
   it("re-adds providers previously (incorrectly) dropped, now confirmed active via Healow", () => {
     for (const name of ["Delaram Halavi", "Yeongbu Kim", "Ernestine Njie", "Alea Sohn"]) {
       expect(doctors.find((d) => d.name === name)).toBeDefined();
+    }
+  });
+
+  it("removes doctors not found anywhere in Healow's live booking system", () => {
+    for (const name of ["Jon D'Andrea", "Peter Jackson", "Rachel Barbour", "Aziz Nourmand"]) {
+      expect(doctors.find((d) => d.name === name)).toBeUndefined();
     }
   });
 });

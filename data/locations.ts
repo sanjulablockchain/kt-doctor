@@ -63,20 +63,6 @@ export const locations: Location[] = [
     photos: ["/locations/beverly-hills/1.png", "/locations/beverly-hills/2.png", "/locations/beverly-hills/3.png"],
   },
   {
-    id: "camarillo",
-    name: "Camarillo",
-    address: "2486 Ponderosa Dr. N., Suite D-211, Camarillo, CA 93010",
-    phone: "(818) 361-5437",
-    email: "camarillo@ktdoctor.com",
-    extension: "469",
-    lat: 34.2164,
-    lng: -119.0376,
-    description:
-      "The highest quality of general pediatric care, with board-certified pediatricians providing comprehensive newborn care, well-child exams, and physicals. Services include adolescent medicine, pediatric infectious disease, asthma, and allergies, with extended hours and seven-day-a-week telehealth availability.",
-    hours: { officeHours: "Monday-Friday, 9AM-6PM", telehealthHours: "Monday-Sunday, 9AM-8PM" },
-    photos: ["/locations/camarillo/1.png", "/locations/camarillo/2.png", "/locations/camarillo/3.png"],
-  },
-  {
     id: "canyon-country",
     name: "Canyon Country",
     address: "20655 Soledad Canyon Rd Suite 25, Canyon Country, CA 91351",

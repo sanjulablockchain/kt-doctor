@@ -2,8 +2,12 @@ import { describe, it, expect } from "vitest";
 import { locations } from "./locations";
 
 describe("locations data", () => {
-  it("has exactly 25 real clinics plus the telehealth pseudo-location", () => {
-    expect(locations).toHaveLength(25);
+  it("has exactly 24 real clinics plus the telehealth pseudo-location", () => {
+    expect(locations).toHaveLength(24);
+  });
+
+  it("does not include Camarillo — not found in Healow's live facility list", () => {
+    expect(locations.find((l) => l.id === "camarillo")).toBeUndefined();
   });
 
   it("every location has a unique id", () => {
