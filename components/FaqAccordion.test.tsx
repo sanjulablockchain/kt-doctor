@@ -96,4 +96,11 @@ describe("FaqAccordion", () => {
     );
     expect(screen.getByText("¿Qué debo llevar a la primera visita de mi hijo?")).toBeInTheDocument();
   });
+
+  it("still renders every question when revealOnScroll is enabled", () => {
+    render(<FaqAccordion items={items} revealOnScroll />);
+    for (const item of items) {
+      expect(screen.getByText(item.question)).toBeInTheDocument();
+    }
+  });
 });

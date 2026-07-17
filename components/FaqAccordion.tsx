@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useLocale } from "next-intl";
 import type { FaqItem } from "@/data/faq";
+import { Reveal } from "@/components/Reveal";
 
 type FaqAccordionProps = {
   items: FaqItem[];
+  revealOnScroll?: boolean;
 };
 
-export function FaqAccordion({ items }: FaqAccordionProps) {
+export function FaqAccordion({ items, revealOnScroll = false }: FaqAccordionProps) {
   const [openId, setOpenId] = useState<string | null>(null);
   const locale = useLocale();
 
@@ -18,15 +20,15 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
 
   return (
     <div className="flex flex-col gap-3">
-      {items.map((item) => {
+      {items.map((item, i) => {
         const isOpen = item.id === openId;
         const buttonId = `faq-button-${item.id}`;
         const panelId = `faq-panel-${item.id}`;
         const question = locale === "es" ? item.questionEs : item.question;
         const answer = locale === "es" ? item.answerEs : item.answer;
 
-        return (
-          <div key={item.id} className="rounded-2xl bg-white shadow-card">
+        const card = (
+          <div className="rounded-2xl bg-white shadow-card">
             <h3 className="contents">
               <button
                 type="button"
@@ -64,6 +66,14 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
               {answer}
             </div>
           </div>
+        );
+
+        return revealOnScroll ? (
+          <Reveal key={item.id} delayMs={Math.min(i, 4) * 70}>
+            {card}
+          </Reveal>
+        ) : (
+          <Fragment key={item.id}>{card}</Fragment>
         );
       })}
     </div>
