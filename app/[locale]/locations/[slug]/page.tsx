@@ -85,32 +85,61 @@ export default async function LocationDetailPage({
         </div>
       </div>
 
-      {providers.length > 0 && (
+      {providers.length > 0 ? (
         <>
-          <h2 className="mt-8 font-display text-lg font-bold text-ink">Providers at this location</h2>
+          {/* Booking is per-provider: Healow has no per-clinic deep link (its
+              practice URL always lands on the same default location), so we
+              route patients straight to the booking page of a provider who
+              actually practices here instead of a generic, wrong-location link. */}
+          <h2 className="mt-8 font-display text-lg font-bold text-ink">
+            Book with a provider at this location
+          </h2>
+          <p className="mt-1 text-sm text-ink-soft">
+            Choose a provider to book your appointment online.
+          </p>
           <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {providers.map((doc) => (
-              <Link
+              <a
                 key={doc.id}
-                href={`/doctors/${doc.id}`}
-                className="rounded-2xl border border-border bg-white p-4 text-sm transition-colors hover:border-teal"
+                href={doc.healowUrl ?? BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Book online with ${doc.name}`}
+                className="group rounded-2xl border border-border bg-white p-4 text-sm transition-colors hover:border-teal"
               >
-                <p className="font-display font-semibold text-ink">{doc.name}</p>
-                <p className="mt-0.5 text-ink-soft">{doc.credentials}</p>
-              </Link>
+                <span className="block font-display font-semibold text-ink">{doc.name}</span>
+                <span className="mt-0.5 block text-ink-soft">{doc.credentials}</span>
+                <span className="mt-2 flex items-center gap-1 font-display text-xs font-semibold text-teal-dark">
+                  Book Online
+                  <svg
+                    aria-hidden
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="h-3 w-3 transition-transform group-hover:translate-x-0.5"
+                  >
+                    <path
+                      d="M5 12h14M13 6l6 6-6 6"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </a>
             ))}
           </div>
         </>
+      ) : (
+        <a
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 inline-block rounded-full bg-teal px-7 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
+        >
+          Book an Appointment
+        </a>
       )}
-
-      <a
-        href={BOOKING_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-8 inline-block rounded-full bg-teal px-7 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
-      >
-        Book an Appointment
-      </a>
     </main>
   );
 }

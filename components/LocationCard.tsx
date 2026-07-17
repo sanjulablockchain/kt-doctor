@@ -7,7 +7,11 @@ type LocationCardProps = {
 
 export function LocationCard({ location }: LocationCardProps) {
   return (
-    <div className="rounded-3xl border border-border bg-white p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
+    <Link
+      href={`/locations/${location.id}`}
+      aria-label={location.name}
+      className="group block rounded-3xl border border-border bg-white p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal"
+    >
       <div className="flex items-center gap-3">
         <span
           aria-hidden
@@ -23,15 +27,13 @@ export function LocationCard({ location }: LocationCardProps) {
             <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.8" />
           </svg>
         </span>
-        <h3 className="font-display text-lg font-bold text-ink">
-          <Link href={`/locations/${location.id}`} className="hover:text-teal-dark">
-            {location.name}
-          </Link>
+        <h3 className="font-display text-lg font-bold text-ink transition-colors group-hover:text-teal-dark">
+          {location.name}
         </h3>
       </div>
       <p className="mt-3 text-sm text-ink-soft">{location.address}</p>
       <p className="mt-2 font-display text-sm font-semibold text-ink">{location.phone}</p>
       <p className="mt-1 text-sm text-ink-soft">{location.email}</p>
-    </div>
+    </Link>
   );
 }
