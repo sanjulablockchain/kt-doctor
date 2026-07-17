@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom/vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { screen } from "@testing-library/react";
 import { renderWithIntl as render } from "@/lib/test-utils";
 
@@ -9,6 +9,10 @@ vi.mock("@react-google-maps/api", () => ({
   ),
   MarkerF: ({ title }: { title: string }) => <div data-testid="marker">{title}</div>,
 }));
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
 
 import { LocationsMap } from "./LocationsMap";
 
@@ -53,10 +57,6 @@ const telehealth = {
 };
 
 describe("LocationsMap", () => {
-  afterEach(() => {
-    vi.unstubAllEnvs();
-  });
-
   it("renders a fallback with directions links when no API key is configured", () => {
     render(<LocationsMap locations={[alpha, beta]} />);
 
