@@ -100,6 +100,7 @@
     "showingLocations": "Showing {count} of {count} locations",
     "mapUnavailable": "Map is temporarily unavailable — see clinic addresses below.",
     "getDirections": "Get Directions",
-    "viewDetails": "View Details"
+    "viewDetails": "View Details",
+    "loadingMap": "Loading map…"
   }
 }

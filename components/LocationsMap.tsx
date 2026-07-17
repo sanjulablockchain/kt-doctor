@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { GoogleMap, InfoWindow, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -30,9 +30,19 @@ export function LocationsMap({ locations }: LocationsMapProps) {
   const t = useTranslations("Locations");
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
   const { isLoaded, loadError } = useJsApiLoader({ googleMapsApiKey: apiKey });
-  const mappable = locations.filter(isMappable);
+  const mappable = useMemo(() => locations.filter(isMappable), [locations]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = mappable.find((loc) => loc.id === selectedId) ?? null;
+
+  const onMapLoad = useCallback(
+    (map: google.maps.Map) => {
+      if (mappable.length === 0) return;
+      const bounds = new google.maps.LatLngBounds();
+      mappable.forEach((loc) => bounds.extend({ lat: loc.lat, lng: loc.lng }));
+      map.fitBounds(bounds);
+    },
+    [mappable]
+  );
 
   if (!apiKey || loadError) {
     return (
@@ -61,14 +71,14 @@ export function LocationsMap({ locations }: LocationsMapProps) {
   if (!isLoaded) {
     return (
       <div className={`${MAP_SHELL_CLASSES} flex items-center justify-center bg-white text-ink-soft`}>
-        Loading map...
+        {t("loadingMap")}
       </div>
     );
   }
 
   return (
     <div className={MAP_SHELL_CLASSES}>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={9}>
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={9} onLoad={onMapLoad}>
         {mappable.map((loc) => (
           <MarkerF
             key={loc.id}

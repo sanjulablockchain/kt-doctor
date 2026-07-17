@@ -100,6 +100,7 @@
     "showingLocations": "Mostrando {count} de {count} ubicaciones",
     "mapUnavailable": "El mapa no está disponible en este momento. Consulta las direcciones de las clínicas a continuación.",
     "getDirections": "Cómo llegar",
-    "viewDetails": "Ver detalles"
+    "viewDetails": "Ver detalles",
+    "loadingMap": "Cargando el mapa…"
   }
 }

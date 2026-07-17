@@ -1,13 +1,25 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { screen } from "@testing-library/react";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import userEvent from "@testing-library/user-event";
 
+const { fitBoundsMock, boundsExtendMock } = vi.hoisted(() => ({
+  fitBoundsMock: vi.fn(),
+  boundsExtendMock: vi.fn(),
+}));
+
 vi.mock("@react-google-maps/api", () => ({
   useJsApiLoader: () => ({ isLoaded: true, loadError: undefined }),
-  GoogleMap: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="google-map">{children}</div>
-  ),
+  GoogleMap: ({
+    children,
+    onLoad,
+  }: {
+    children: React.ReactNode;
+    onLoad?: (map: { fitBounds: typeof fitBoundsMock }) => void;
+  }) => {
+    onLoad?.({ fitBounds: fitBoundsMock });
+    return <div data-testid="google-map">{children}</div>;
+  },
   MarkerF: ({ title, onClick }: { title: string; onClick?: () => void }) => (
     <button type="button" data-testid="marker" onClick={onClick}>
       {title}
@@ -20,6 +32,18 @@ vi.mock("@react-google-maps/api", () => ({
 
 afterEach(() => {
   vi.unstubAllEnvs();
+});
+
+beforeEach(() => {
+  fitBoundsMock.mockClear();
+  boundsExtendMock.mockClear();
+  (globalThis as { google?: unknown }).google = {
+    maps: {
+      LatLngBounds: vi.fn(function LatLngBounds() {
+        return { extend: boundsExtendMock };
+      }),
+    },
+  };
 });
 
 import { LocationsMap } from "./LocationsMap";
@@ -121,5 +145,16 @@ describe("LocationsMap", () => {
       "href",
       "https://www.google.com/maps/dir/?api=1&destination=34,-118"
     );
+  });
+
+  it("fits the map to every mappable location on load", () => {
+    vi.stubEnv("NEXT_PUBLIC_GOOGLE_MAPS_API_KEY", "test-key");
+
+    render(<LocationsMap locations={[alpha, beta]} />);
+
+    expect(fitBoundsMock).toHaveBeenCalledTimes(1);
+    expect(boundsExtendMock).toHaveBeenCalledTimes(2);
+    expect(boundsExtendMock).toHaveBeenCalledWith({ lat: 34, lng: -118 });
+    expect(boundsExtendMock).toHaveBeenCalledWith({ lat: 34.1, lng: -118.1 });
   });
 });
