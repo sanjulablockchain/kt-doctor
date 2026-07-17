@@ -62,4 +62,20 @@ describe("ResourceCard", () => {
     expect(screen.getByText("Contáctenos para obtener una copia")).toBeInTheDocument();
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
+
+  it("appends a custom className to the card root", () => {
+    const resource = {
+      id: "our-doctors",
+      name: "Our Doctors",
+      nameEs: "Nuestros Doctores",
+      description: "Meet our board-certified pediatricians and find the right fit for your family.",
+      descriptionEs: "Conozca a nuestros pediatras certificados y encuentre el más adecuado para su familia.",
+      available: true,
+      href: "/doctors",
+    };
+    const { container } = render(
+      <ResourceCard resource={resource} className="h-full" />
+    );
+    expect(container.firstChild).toHaveClass("h-full");
+  });
 });

@@ -4,16 +4,17 @@ import type { ParentResource } from "@/data/resources";
 
 type ResourceCardProps = {
   resource: ParentResource;
+  className?: string;
 };
 
-export function ResourceCard({ resource }: ResourceCardProps) {
+export function ResourceCard({ resource, className = "" }: ResourceCardProps) {
   const t = useTranslations("Resources");
   const locale = useLocale();
   const name = locale === "es" ? resource.nameEs : resource.name;
   const description = locale === "es" ? resource.descriptionEs : resource.description;
 
   return (
-    <div className="rounded-2xl border border-border bg-white p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
+    <div className={`rounded-2xl border border-border bg-white p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft ${className}`}>
       <p className="font-display text-base font-bold text-ink">{name}</p>
       <p className="mt-2 text-sm text-ink-soft">{description}</p>
       {resource.available && resource.href ? (
