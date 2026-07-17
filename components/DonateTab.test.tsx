@@ -20,6 +20,21 @@ describe("DonateTab", () => {
     expect(screen.getByText("Donate")).toBeInTheDocument();
   });
 
+  it("renders the '$0 Admin Fees' hover tooltip message, described by the link", () => {
+    render(<DonateTab />);
+    expect(screen.getByText("$0 Admin Fees")).toBeInTheDocument();
+    expect(
+      screen.getByText(/100% of your donation goes directly/i)
+    ).toBeInTheDocument();
+
+    // The tooltip is associated with the link for assistive tech.
+    const link = screen.getByRole("link", {
+      name: /donate to the kids and teens foundation/i,
+    });
+    const tip = screen.getByRole("tooltip");
+    expect(link).toHaveAttribute("aria-describedby", tip.id);
+  });
+
   it("renders Spanish label and aria-label when locale is es", () => {
     render(<DonateTab />, "es");
     expect(

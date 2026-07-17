@@ -13,7 +13,7 @@ export function LocationsPageContent() {
   const [view, setView] = useState<View>("list");
 
   return (
-    <main className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
+    <main className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-8">
       <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
         {t("eyebrowCount", { count: locations.length })}
       </span>

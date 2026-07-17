@@ -46,20 +46,46 @@ export function LocationsMap({ locations }: LocationsMapProps) {
 
   if (!apiKey || loadError) {
     return (
-      <div className={`${MAP_SHELL_CLASSES} overflow-y-auto bg-white p-6`}>
-        <p className="text-sm text-ink-soft">{t("mapUnavailable")}</p>
-        <ul className="mt-4 space-y-4">
+      <div className="bg-white p-6 sm:p-8">
+        <div className="flex items-start gap-3 rounded-2xl bg-teal-tint px-4 py-3">
+          <svg
+            aria-hidden
+            viewBox="0 0 24 24"
+            fill="none"
+            className="mt-0.5 h-5 w-5 shrink-0 text-teal-dark"
+          >
+            <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
+            <path
+              d="M12 11v5"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+            />
+            <circle cx="12" cy="8" r="1" fill="currentColor" />
+          </svg>
+          <p className="text-sm text-ink-soft">{t("mapUnavailable")}</p>
+        </div>
+        <ul className="mt-6 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
           {mappable.map((loc) => (
-            <li key={loc.id} className="text-sm">
-              <p className="font-display font-semibold text-ink">{loc.name}</p>
-              <p className="text-ink-soft">{loc.address}</p>
+            <li key={loc.id}>
+              <p className="font-display text-base font-semibold text-ink">{loc.name}</p>
+              <p className="mt-1 text-sm text-ink-soft">{loc.address}</p>
               <a
                 href={directionsUrl(loc)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-display font-semibold text-teal-dark hover:text-teal"
+                className="mt-2 inline-flex items-center gap-1 font-display text-sm font-semibold text-teal-dark transition-colors hover:text-teal"
               >
                 {t("getDirections")}
+                <svg aria-hidden viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </a>
             </li>
           ))}

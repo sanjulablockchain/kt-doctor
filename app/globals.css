@@ -24,7 +24,6 @@
   --color-teal-tint: #e4f5f6;
   --color-gold: #d6a34a;
   --color-gold-tint: #fbf1de;
-  --color-gold-dark: #bd8a34;
   --color-border: #dde3ea;
 
   --font-display: var(--font-jakarta), "Plus Jakarta Sans", sans-serif;
@@ -42,7 +41,6 @@
   --color-teal-tint: var(--color-teal-tint);
   --color-gold: var(--color-gold);
   --color-gold-tint: var(--color-gold-tint);
-  --color-gold-dark: var(--color-gold-dark);
   --color-border: var(--color-border);
 
   --font-display: var(--font-display);

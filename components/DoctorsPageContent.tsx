@@ -1,18 +1,23 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { doctors } from "@/data/doctors";
 import { locations } from "@/data/locations";
 import { filterDoctors, getAllSpecialties } from "@/lib/filters";
 import { DoctorCard } from "@/components/DoctorCard";
 import { FilterDropdown } from "@/components/FilterDropdown";
+import { Pagination } from "@/components/Pagination";
+
+const PAGE_SIZE = 12;
 
 export function DoctorsPageContent() {
   const t = useTranslations("Doctors");
   const [search, setSearch] = useState("");
   const [locationId, setLocationId] = useState("");
   const [specialty, setSpecialty] = useState("");
+  const [page, setPage] = useState(1);
+  const resultsRef = useRef<HTMLParagraphElement>(null);
 
   const specialties = useMemo(() => getAllSpecialties(doctors), []);
 
@@ -31,6 +36,33 @@ export function DoctorsPageContent() {
     []
   );
 
+  // Any filter change returns the user to the first page, so a filter can never
+  // leave them stranded on a page that no longer exists.
+  function handleSearchChange(value: string) {
+    setSearch(value);
+    setPage(1);
+  }
+
+  function handleLocationChange(value: string) {
+    setLocationId(value);
+    setPage(1);
+  }
+
+  function handleSpecialtyChange(value: string) {
+    setSpecialty(value);
+    setPage(1);
+  }
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  const visible = filtered.slice(pageStart, pageStart + PAGE_SIZE);
+
+  function goToPage(next: number) {
+    setPage(next);
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
     <main className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
       <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
@@ -46,7 +78,7 @@ export function DoctorsPageContent() {
           type="text"
           placeholder={t("searchPlaceholder")}
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => handleSearchChange(e.target.value)}
           className="flex-1 rounded-full border border-border bg-ivory px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-teal"
         />
 
@@ -55,7 +87,7 @@ export function DoctorsPageContent() {
           value={locationId}
           placeholder={t("allLocations")}
           options={locations.map((loc) => ({ value: loc.id, label: loc.name }))}
-          onChange={setLocationId}
+          onChange={handleLocationChange}
         />
 
         <FilterDropdown
@@ -63,16 +95,19 @@ export function DoctorsPageContent() {
           value={specialty}
           placeholder={t("allSpecialties")}
           options={specialties.map((s) => ({ value: s, label: s }))}
-          onChange={setSpecialty}
+          onChange={handleSpecialtyChange}
         />
       </div>
 
-      <p className="mt-6 text-sm font-medium text-ink-soft">
+      <p
+        ref={resultsRef}
+        className="mt-6 scroll-mt-24 text-sm font-medium text-ink-soft"
+      >
         {t("showingProviders", { filtered: filtered.length, total: doctors.length })}
       </p>
 
       <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((doc) => (
+        {visible.map((doc) => (
           <DoctorCard
             key={doc.id}
             doctor={doc}
@@ -80,6 +115,12 @@ export function DoctorsPageContent() {
           />
         ))}
       </div>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={goToPage}
+      />
     </main>
   );
 }
