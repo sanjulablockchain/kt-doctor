@@ -97,10 +97,20 @@ describe("FaqAccordion", () => {
     expect(screen.getByText("¿Qué debo llevar a la primera visita de mi hijo?")).toBeInTheDocument();
   });
 
-  it("still renders every question when revealOnScroll is enabled", () => {
-    render(<FaqAccordion items={items} revealOnScroll />);
+  it("wraps every item in a Reveal wrapper with staggered delays when revealOnScroll is enabled", () => {
+    const { container } = render(<FaqAccordion items={items} revealOnScroll />);
     for (const item of items) {
       expect(screen.getByText(item.question)).toBeInTheDocument();
     }
+
+    const wrappers = container.querySelectorAll(".transition-all");
+    expect(wrappers.length).toBe(items.length);
+    expect((wrappers[0] as HTMLElement).style.transitionDelay).toBe("0ms");
+    expect((wrappers[1] as HTMLElement).style.transitionDelay).toBe("70ms");
+  });
+
+  it("adds no Reveal wrappers when revealOnScroll is off (default)", () => {
+    const { container } = render(<FaqAccordion items={items} />);
+    expect(container.querySelectorAll(".transition-all").length).toBe(0);
   });
 });
