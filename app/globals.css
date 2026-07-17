@@ -24,6 +24,7 @@
   --color-teal-tint: #e4f5f6;
   --color-gold: #d6a34a;
   --color-gold-tint: #fbf1de;
+  --color-gold-dark: #bd8a34;
   --color-border: #dde3ea;
 
   --font-display: var(--font-jakarta), "Plus Jakarta Sans", sans-serif;
@@ -41,6 +42,7 @@
   --color-teal-tint: var(--color-teal-tint);
   --color-gold: var(--color-gold);
   --color-gold-tint: var(--color-gold-tint);
+  --color-gold-dark: var(--color-gold-dark);
   --color-border: var(--color-border);
 
   --font-display: var(--font-display);
@@ -66,4 +68,38 @@ h4 {
 ::selection {
   background: var(--color-teal-tint);
   color: var(--color-teal-dark);
+}
+
+/* Floating DonateTab: subtle idle heart-beat on the heart icon. */
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.15);
+  }
+  30% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.1);
+  }
+  60% {
+    transform: scale(1);
+  }
+}
+
+/* Floating DonateTab: slide the tab in from off the right edge on mount.
+   Keeps the vertical centering (translateY -50%) throughout so it does not
+   jump when the animation ends. */
+@keyframes slide-in-right {
+  from {
+    transform: translate(100%, -50%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, -50%);
+    opacity: 1;
+  }
 }

@@ -7,6 +7,8 @@ import { routing } from "@/i18n/routing";
 import "../globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { BackToTopButton } from "@/components/BackToTopButton";
+import { ContactWidget } from "@/components/ContactWidget";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -56,6 +58,8 @@ export default async function RootLayout({
           <Header />
           {children}
           <Footer />
+          <BackToTopButton />
+          <ContactWidget />
         </NextIntlClientProvider>
       </body>
     </html>
