@@ -85,17 +85,17 @@ export default async function LocationDetailPage({
         </div>
       </div>
 
-      {providers.length > 0 ? (
+      {providers.length > 0 && (
         <>
-          {/* Booking is per-provider: Healow has no per-clinic deep link (its
-              practice URL always lands on the same default location), so we
-              route patients straight to the booking page of a provider who
-              actually practices here instead of a generic, wrong-location link. */}
+          {/* Secondary booking path. The primary CTA below deep-links Healow
+              straight to this facility (per-location f= code, harvested from
+              the live site). These per-provider links let a patient instead
+              book directly with a named provider who practices here. */}
           <h2 className="mt-8 font-display text-lg font-bold text-ink">
-            Book with a provider at this location
+            Prefer a specific provider?
           </h2>
           <p className="mt-1 text-sm text-ink-soft">
-            Choose a provider to book your appointment online.
+            Book directly with a provider who practices at this location.
           </p>
           <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {providers.map((doc) => (
@@ -130,16 +130,25 @@ export default async function LocationDetailPage({
             ))}
           </div>
         </>
-      ) : (
-        <a
-          href={BOOKING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-8 inline-block rounded-full bg-teal px-7 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
-        >
-          Book an Appointment
-        </a>
       )}
+
+      <a
+        href={location.bookingUrl ?? BOOKING_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-10 inline-flex items-center gap-2 rounded-full bg-teal px-7 py-3.5 font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
+      >
+        Book Appointment Now
+        <svg aria-hidden viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+          <path
+            d="M5 12h14M13 6l6 6-6 6"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </a>
     </main>
   );
 }

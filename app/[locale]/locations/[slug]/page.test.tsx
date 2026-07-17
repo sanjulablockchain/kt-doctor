@@ -31,4 +31,24 @@ describe("LocationDetailPage", () => {
     const links = screen.getAllByRole("link");
     expect(links.some((el) => el.getAttribute("href") === BOOKING_URL)).toBe(false);
   });
+
+  it("renders a primary 'Book Appointment Now' CTA linking to the clinic's Healow facility URL", async () => {
+    const ui = await LocationDetailPage({ params: Promise.resolve({ slug: "agoura-hills" }) });
+    render(ui);
+
+    const cta = screen.getByRole("link", { name: /book appointment now/i });
+    expect(cta).toHaveAttribute(
+      "href",
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=8mqPBWAOD8V9GrMn"
+    );
+    expect(cta).toHaveAttribute("target", "_blank");
+  });
+
+  it("falls back to the shared practice booking URL on the telehealth location (no facility link)", async () => {
+    const ui = await LocationDetailPage({ params: Promise.resolve({ slug: "telehealth" }) });
+    render(ui);
+
+    const cta = screen.getByRole("link", { name: /book appointment now/i });
+    expect(cta).toHaveAttribute("href", BOOKING_URL);
+  });
 });

@@ -62,4 +62,23 @@ describe("locations data", () => {
     expect(telehealth?.lat).toBeUndefined();
     expect(telehealth?.lng).toBeUndefined();
   });
+
+  it("gives every real clinic a Healow per-facility booking URL; telehealth has none", () => {
+    for (const loc of locations) {
+      if (loc.id === "telehealth") {
+        expect(loc.bookingUrl).toBeUndefined();
+        continue;
+      }
+      expect(loc.bookingUrl).toMatch(
+        /^https:\/\/healow\.com\/apps\/practice\/[^?]*-25634\?v=2&t=[12]&f=[A-Za-z0-9]+$/
+      );
+    }
+  });
+
+  it("gives each clinic a distinct facility booking URL", () => {
+    const urls = locations
+      .map((l) => l.bookingUrl)
+      .filter((u): u is string => Boolean(u));
+    expect(new Set(urls).size).toBe(urls.length);
+  });
 });

@@ -15,6 +15,10 @@ export type Location = {
   description: string;
   hours: LocationHours;
   photos: string[];
+  // Per-facility Healow booking deep link (the `f=` code), harvested from the
+  // live location page's "Book Appointment Now" button. Absent for the
+  // telehealth pseudo-location, which has no physical facility page.
+  bookingUrl?: string;
 };
 
 export type Doctor = {

@@ -19,6 +19,15 @@ import type { Location } from "@/lib/types";
 // replaces the old unconfirmed "west-la" placeholder entry — its extension
 // is not confirmed (no Healow deep-link code was found for it on the real
 // site) and is left blank pending confirmation from the client.
+//
+// --- 2026-07-18: per-location booking links ---
+// `bookingUrl` added for every physical clinic — the real Healow
+// per-facility deep link (the `f=` code) behind each live location page's
+// "Book Appointment Now" button. This corrects the earlier assumption (see
+// the old note that was in the location detail page) that Healow had no
+// per-clinic deep link: it does, via the `f=` facility parameter, so each
+// clinic now links straight to its own facility. Telehealth has no facility
+// page and intentionally has no bookingUrl (the UI falls back to BOOKING_URL).
 export const locations: Location[] = [
   {
     id: "agoura-hills",
@@ -27,6 +36,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "agourahills@ktdoctor.com",
     extension: "207",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=8mqPBWAOD8V9GrMn",
     lat: 34.1361,
     lng: -118.7615,
     description:
@@ -41,6 +52,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "arcadia@ktdoctor.com",
     extension: "060",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=9DQ48zAN6zAew2J6",
     lat: 34.1397,
     lng: -118.0353,
     description:
@@ -55,6 +68,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "beverlyhills@ktdoctor.com",
     extension: "115",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=ObYNDykzjWkpB3jQ",
     lat: 34.0836,
     lng: -118.3762,
     description:
@@ -69,6 +84,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "canyoncountry@ktdoctor.com",
     extension: "014",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=1ZQB8mAJZOAjdG4n",
     lat: 34.4237,
     lng: -118.4873,
     description:
@@ -83,6 +100,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "culvercity@ktdoctor.com",
     extension: "073",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=mdbGr1kwdgvyLDwZ",
     lat: 34.0211,
     lng: -118.3965,
     description:
@@ -100,6 +119,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "downey@ktdoctor.com",
     extension: "079",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=gLZ6qokap9VB7rEl",
     lat: 33.9401,
     lng: -118.1332,
     description:
@@ -117,6 +138,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "glendale@ktdoctor.com",
     extension: "239",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=Qd1p2JAR0DkDozmN",
     lat: 34.1425,
     lng: -118.2551,
     description:
@@ -135,6 +158,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "hollywood@ktdoctor.com",
     extension: "",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=1&f=gBJw10krelVP4Rmo",
     lat: 34.0983,
     lng: -118.308,
     description:
@@ -149,6 +174,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "lacanada@ktdoctor.com",
     extension: "841",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=41Brm3AmMaAY2nDW",
     lat: 34.2064,
     lng: -118.2001,
     description:
@@ -165,6 +192,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "missionhills@ktdoctor.com",
     extension: "195",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=ZNo3rwVYY0VqK04O",
     lat: 34.2695,
     lng: -118.4595,
     description:
@@ -179,6 +208,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "northridge@ktdoctor.com",
     extension: "713",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=a8gDE7vnNqvjwXe2",
     lat: 34.2381,
     lng: -118.5364,
     description:
@@ -193,6 +224,8 @@ export const locations: Location[] = [
     phone: "(626) 655-4041",
     email: "pasadena@ktdoctor.com",
     extension: "118",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=gBJw10kr7PvP4Rmo",
     lat: 34.1478,
     lng: -118.1445,
     description:
@@ -207,6 +240,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "picorivera@ktdoctor.com",
     extension: "191",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=Qd1p2JAR0RkDozmN",
     lat: 33.9836,
     lng: -118.0967,
     description:
@@ -221,6 +256,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "sanfernando@ktdoctor.com",
     extension: "774",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=8ryDOMA2yMvgLGWn",
     lat: 34.2817,
     lng: -118.4392,
     description:
@@ -238,6 +275,8 @@ export const locations: Location[] = [
     phone: "(310) 234-0300",
     email: "santamonica@ktdoctor.com",
     extension: "059",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=wOpGEdvXDLv3We9z",
     lat: 34.0089,
     lng: -118.4649,
     description:
@@ -252,6 +291,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "sanpedro@ktdoctor.com",
     extension: "443",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=1&f=4XQdORVQQdVPzbZq",
     lat: 33.7361,
     lng: -118.2922,
     description:
@@ -266,6 +307,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "tarzana@ktdoctor.com",
     extension: "136",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=Ng8dZoVoWrVJ3b9w",
     lat: 34.173,
     lng: -118.5537,
     description:
@@ -280,6 +323,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "torrance@ktdoctor.com",
     extension: "247",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=KDdE17AxW7vZx8jg",
     lat: 33.8358,
     lng: -118.3406,
     description:
@@ -294,6 +339,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "valencia@ktdoctor.com",
     extension: "026",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=J28rg7vjX6VM9lOq",
     lat: 34.4211,
     lng: -118.5542,
     description:
@@ -308,6 +355,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "vannuys@ktdoctor.com",
     extension: "302",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=yQxbd9V5MlVROwY5",
     lat: 34.1866,
     lng: -118.4487,
     description:
@@ -322,6 +371,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "westhills@ktdoctor.com",
     extension: "110",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=xaqPX3Aq9BAQGJ46",
     lat: 34.2011,
     lng: -118.6428,
     description:
@@ -336,6 +387,8 @@ export const locations: Location[] = [
     phone: "(818) 361-5437",
     email: "whittier@ktdoctor.com",
     extension: "103",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2&f=WgeqlNApN5k5GEMQ",
     lat: 33.9792,
     lng: -118.0328,
     description:
@@ -350,6 +403,8 @@ export const locations: Location[] = [
     phone: "(714) 979-3917",
     email: "lamirada@ktdoctor.com",
     extension: "205",
+    bookingUrl:
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=1&f=06nB2aAKmLkgpJZq",
     lat: 33.9172,
     lng: -118.012,
     description:
