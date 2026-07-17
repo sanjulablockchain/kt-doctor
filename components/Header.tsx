@@ -76,7 +76,7 @@ export function Header() {
         className="absolute inset-0 border-b border-border bg-ivory/95 shadow-[0_1px_0_0_rgba(18,24,31,0.04)] backdrop-blur-md"
       />
 
-      <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-5 sm:h-auto sm:gap-6 sm:px-8 sm:py-2.5">
+      <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-5 sm:h-auto sm:gap-6 sm:px-8 sm:py-2.5">
         <Link href="/" className="flex shrink-0 items-center">
           <Image
             src="/clinic-logo.svg"
