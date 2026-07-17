@@ -9,6 +9,7 @@ import { doctors } from "@/data/doctors";
 import { networkBrands } from "@/data/network";
 import { NetworkCard } from "@/components/NetworkCard";
 import { ParallaxImage } from "@/components/ParallaxImage";
+import { Reveal } from "@/components/Reveal";
 import { foundation } from "@/data/foundation";
 import { insuranceInfo } from "@/data/insurance";
 import { serviceCategories } from "@/data/services";
@@ -127,6 +128,7 @@ export default function Home() {
               width={1200}
               height={1400}
               wrapperClassName="h-[22rem] rounded-[2rem] shadow-soft sm:h-[26rem]"
+              speed={0.18}
               preload
             />
 
@@ -155,6 +157,7 @@ export default function Home() {
             width={1000}
             height={1000}
             wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
+            speed={0.12}
           />
 
           <div>
@@ -236,49 +239,50 @@ export default function Home() {
       {/* Doctors preview */}
       <section className="border-y border-border bg-white/60">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
-                {t("teamEyebrow")}
-              </span>
-              <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-                {t("teamHeading", { count: doctors.length })}
-              </h2>
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
+                  {t("teamEyebrow")}
+                </span>
+                <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+                  {t("teamHeading", { count: doctors.length })}
+                </h2>
+              </div>
+              <Link
+                href="/doctors"
+                className="font-display font-semibold text-teal-dark hover:text-teal"
+              >
+                {t("browseAllDoctors")} →
+              </Link>
             </div>
-            <Link
-              href="/doctors"
-              className="font-display font-semibold text-teal-dark hover:text-teal"
-            >
-              {t("browseAllDoctors")} →
-            </Link>
-          </div>
+          </Reveal>
 
           <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-4">
             {previewDoctors.map((doc, i) => (
-              <div
-                key={doc.id}
-                className="rounded-2xl border border-border bg-white p-5 text-center shadow-card transition-all hover:-translate-y-1 hover:border-teal hover:shadow-soft"
-              >
-                {doc.photoSrc ? (
-                  <Image
-                    src={doc.photoSrc}
-                    alt={doc.name}
-                    width={64}
-                    height={64}
-                    className="mx-auto h-16 w-16 rounded-full object-cover"
-                  />
-                ) : (
-                  <div
-                    className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full font-display text-lg font-bold ${
-                      avatarTints[i % avatarTints.length]
-                    }`}
-                  >
-                    {initials(doc.name)}
-                  </div>
-                )}
-                <p className="mt-3 font-display text-sm font-bold text-ink">{doc.name}</p>
-                <p className="text-xs text-ink-soft">{doc.credentials}</p>
-              </div>
+              <Reveal key={doc.id} delayMs={Math.min(i, 4) * 70} className="h-full">
+                <div className="h-full rounded-2xl border border-border bg-white p-5 text-center shadow-card transition-all hover:-translate-y-1 hover:border-teal hover:shadow-soft">
+                  {doc.photoSrc ? (
+                    <Image
+                      src={doc.photoSrc}
+                      alt={doc.name}
+                      width={64}
+                      height={64}
+                      className="mx-auto h-16 w-16 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div
+                      className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full font-display text-lg font-bold ${
+                        avatarTints[i % avatarTints.length]
+                      }`}
+                    >
+                      {initials(doc.name)}
+                    </div>
+                  )}
+                  <p className="mt-3 font-display text-sm font-bold text-ink">{doc.name}</p>
+                  <p className="text-xs text-ink-soft">{doc.credentials}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -286,26 +290,30 @@ export default function Home() {
 
       {/* Network teaser */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
-              {t("networkEyebrow")}
-            </span>
-            <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-              {t("networkHeading")}
-            </h2>
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
+                {t("networkEyebrow")}
+              </span>
+              <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+                {t("networkHeading")}
+              </h2>
+            </div>
+            <Link
+              href="/network"
+              className="font-display font-semibold text-teal-dark hover:text-teal"
+            >
+              {t("seeFullNetwork")} →
+            </Link>
           </div>
-          <Link
-            href="/network"
-            className="font-display font-semibold text-teal-dark hover:text-teal"
-          >
-            {t("seeFullNetwork")} →
-          </Link>
-        </div>
+        </Reveal>
 
         <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {networkBrands.map((brand) => (
-            <NetworkCard key={brand.id} brand={brand} compact />
+          {networkBrands.map((brand, i) => (
+            <Reveal key={brand.id} delayMs={Math.min(i, 4) * 70} className="h-full">
+              <NetworkCard brand={brand} compact />
+            </Reveal>
           ))}
         </div>
       </section>
@@ -413,31 +421,40 @@ export default function Home() {
 
       {/* Resources */}
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
-        <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
-          {t("resourcesHeading")}
-        </span>
-        <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-          {t("resourcesSectionHeading")}
-        </h2>
-        <p className="mt-2 max-w-lg text-ink-soft">{t("resourcesBody")}</p>
+        <Reveal>
+          <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
+            {t("resourcesHeading")}
+          </span>
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+            {t("resourcesSectionHeading")}
+          </h2>
+          <p className="mt-2 max-w-lg text-ink-soft">{t("resourcesBody")}</p>
+        </Reveal>
 
         <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {parentResources.map((resource) => (
-            <ResourceCard key={resource.id} resource={resource} />
+          {parentResources.map((resource, i) => (
+            <Reveal key={resource.id} delayMs={Math.min(i, 4) * 70} className="h-full">
+              <ResourceCard resource={resource} className="h-full" />
+            </Reveal>
           ))}
 
-          <Link
-            href="/resources"
-            className="flex flex-col items-start justify-center rounded-2xl border border-border bg-teal-tint p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
+          <Reveal
+            delayMs={Math.min(parentResources.length, 4) * 70}
+            className="h-full"
           >
-            <p className="font-display text-base font-bold text-teal-dark">
-              {t("browseAllResourcesTitle")}
-            </p>
-            <p className="mt-2 text-sm text-ink-soft">{t("browseAllResourcesBody")}</p>
-            <span className="mt-3 font-display text-sm font-semibold text-teal-dark">
-              {t("viewAllResources")} →
-            </span>
-          </Link>
+            <Link
+              href="/resources"
+              className="flex h-full flex-col items-start justify-center rounded-2xl border border-border bg-teal-tint p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
+            >
+              <p className="font-display text-base font-bold text-teal-dark">
+                {t("browseAllResourcesTitle")}
+              </p>
+              <p className="mt-2 text-sm text-ink-soft">{t("browseAllResourcesBody")}</p>
+              <span className="mt-3 font-display text-sm font-semibold text-teal-dark">
+                {t("viewAllResources")} →
+              </span>
+            </Link>
+          </Reveal>
         </div>
       </section>
 
@@ -474,39 +491,42 @@ export default function Home() {
 
       {/* Featured Stories */}
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
-        <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
-          {t("storiesEyebrow")}
-        </span>
-        <h2 className="mt-2 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
-          {t("storiesHeading")}
-        </h2>
+        <Reveal>
+          <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
+            {t("storiesEyebrow")}
+          </span>
+          <h2 className="mt-2 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+            {t("storiesHeading")}
+          </h2>
+        </Reveal>
 
         <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {stories.map((story) => {
+          {stories.map((story, i) => {
             const title = locale === "es" ? story.titleEs : story.title;
 
             return (
-              <Link
-                key={story.id}
-                href={`/blog/${story.id}`}
-                className="flex flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
-              >
-                <Image
-                  src={story.imageSrc}
-                  alt={title}
-                  width={300}
-                  height={225}
-                  unoptimized
-                  className="h-36 w-full object-cover"
-                />
-                <div className="flex flex-1 flex-col p-5">
-                  <p className="text-xs font-semibold text-ink-soft">{story.date}</p>
-                  <p className="mt-2 font-display text-base font-bold text-ink">{title}</p>
-                  <span className="mt-auto pt-4 font-display text-sm font-semibold text-teal-dark">
-                    {t("readFullStory")} →
-                  </span>
-                </div>
-              </Link>
+              <Reveal key={story.id} delayMs={Math.min(i, 4) * 70} className="h-full">
+                <Link
+                  href={`/blog/${story.id}`}
+                  className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
+                >
+                  <Image
+                    src={story.imageSrc}
+                    alt={title}
+                    width={300}
+                    height={225}
+                    unoptimized
+                    className="h-36 w-full object-cover"
+                  />
+                  <div className="flex flex-1 flex-col p-5">
+                    <p className="text-xs font-semibold text-ink-soft">{story.date}</p>
+                    <p className="mt-2 font-display text-base font-bold text-ink">{title}</p>
+                    <span className="mt-auto pt-4 font-display text-sm font-semibold text-teal-dark">
+                      {t("readFullStory")} →
+                    </span>
+                  </div>
+                </Link>
+              </Reveal>
             );
           })}
         </div>
@@ -537,18 +557,20 @@ export default function Home() {
       {/* FAQ */}
       <section className="bg-teal-tint/60 py-16">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
-              {t("faqEyebrow")}
-            </span>
-            <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-              {t("faqHeading")}
-            </h2>
-            <p className="mt-3 text-ink-soft">{t("faqSubheading")}</p>
-          </div>
+          <Reveal>
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
+                {t("faqEyebrow")}
+              </span>
+              <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+                {t("faqHeading")}
+              </h2>
+              <p className="mt-3 text-ink-soft">{t("faqSubheading")}</p>
+            </div>
+          </Reveal>
 
           <div className="mx-auto mt-8 max-w-3xl">
-            <FaqAccordion items={faqs} />
+            <FaqAccordion items={faqs} revealOnScroll />
           </div>
         </div>
       </section>
