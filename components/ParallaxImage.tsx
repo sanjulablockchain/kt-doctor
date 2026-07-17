@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 type ParallaxImageProps = {
   src: string;
@@ -25,10 +26,9 @@ export function ParallaxImage({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
     if (prefersReducedMotion) return;
 
     const wrapper = wrapperRef.current;
@@ -61,7 +61,7 @@ export function ParallaxImage({
       window.removeEventListener("scroll", onScroll);
       if (frameId !== null) cancelAnimationFrame(frameId);
     };
-  }, [speed]);
+  }, [speed, prefersReducedMotion]);
 
   return (
     <div ref={wrapperRef} className={`relative overflow-hidden ${wrapperClassName}`}>
