@@ -18,6 +18,7 @@ import { parentResources } from "@/data/resources";
 import { ResourceCard } from "@/components/ResourceCard";
 import { faqs } from "@/data/faq";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 function initials(name: string): string {
   return name
@@ -132,7 +133,7 @@ export default function Home() {
                 {STATS.map((stat) => (
                   <div key={stat.label} className="flex flex-col">
                     <p className="font-display text-2xl font-extrabold text-teal-dark">
-                      {stat.value}
+                      <AnimatedCounter value={stat.value} />
                     </p>
                     <p className="mt-0.5 text-xs leading-tight text-ink-soft">{stat.label}</p>
                   </div>
