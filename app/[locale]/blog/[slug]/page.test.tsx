@@ -35,4 +35,28 @@ describe("BlogPostPage", () => {
 
     expect(screen.getByRole("link", { name: /back to blog/i })).toHaveAttribute("href", "/blog");
   });
+
+  it("renders the Spanish back link when locale is es", async () => {
+    const ui = await BlogPostPage({ params: Promise.resolve({ slug: "halloween-safety-tips" }) });
+    render(ui, "es");
+    expect(screen.getByRole("link", { name: /volver al blog/i })).toHaveAttribute("href", "/es/blog");
+  });
+
+  it("renders the Spanish title, excerpt, and sections when locale is es", async () => {
+    const ui = await BlogPostPage({
+      params: Promise.resolve({ slug: "halloween-safety-tips", locale: "es" }),
+    });
+    render(ui, "es");
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Consejos de Seguridad para Halloween para los Padres"
+    );
+    expect(
+      screen.getByText(/Halloween es una de las noches más emocionantes/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText("Reglas para los Dulces")).toBeInTheDocument();
+    expect(
+      screen.getByText(/revise los dulces por envolturas abiertas/i)
+    ).toBeInTheDocument();
+  });
 });

@@ -6,8 +6,20 @@ import { FaqAccordion } from "./FaqAccordion";
 import type { FaqItem } from "@/data/faq";
 
 const items: FaqItem[] = [
-  { id: "one", question: "First question?", answer: "First answer." },
-  { id: "two", question: "Second question?", answer: "Second answer." },
+  {
+    id: "one",
+    question: "First question?",
+    questionEs: "¿Primera pregunta?",
+    answer: "First answer.",
+    answerEs: "Primera respuesta.",
+  },
+  {
+    id: "two",
+    question: "Second question?",
+    questionEs: "¿Segunda pregunta?",
+    answer: "Second answer.",
+    answerEs: "Segunda respuesta.",
+  },
 ];
 
 describe("FaqAccordion", () => {
@@ -65,5 +77,23 @@ describe("FaqAccordion", () => {
     await user.click(button);
     await user.click(button);
     expect(button).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("renders the Spanish question and answer when locale is es", () => {
+    render(
+      <FaqAccordion
+        items={[
+          {
+            id: "first-visit",
+            question: "What should I bring to my child's first visit?",
+            questionEs: "¿Qué debo llevar a la primera visita de mi hijo?",
+            answer: "Please bring your child's insurance card.",
+            answerEs: "Por favor traiga la tarjeta de seguro de su hijo.",
+          },
+        ]}
+      />,
+      "es"
+    );
+    expect(screen.getByText("¿Qué debo llevar a la primera visita de mi hijo?")).toBeInTheDocument();
   });
 });

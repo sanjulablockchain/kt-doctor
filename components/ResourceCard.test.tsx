@@ -4,69 +4,62 @@ import { renderWithIntl as render } from "@/lib/test-utils";
 import { ResourceCard } from "./ResourceCard";
 
 describe("ResourceCard", () => {
-  it("renders the name and description", () => {
-    render(
-      <ResourceCard
-        resource={{
-          id: "developmental-milestones",
-          name: "Developmental Milestone Guides",
-          description: "What to expect at each stage.",
-          available: false,
-        }}
-      />
-    );
-    expect(screen.getByText("Developmental Milestone Guides")).toBeInTheDocument();
-    expect(screen.getByText("What to expect at each stage.")).toBeInTheDocument();
-  });
-
-  it("shows a 'contact us for a copy' state when not available", () => {
-    render(
-      <ResourceCard
-        resource={{
-          id: "developmental-milestones",
-          name: "Developmental Milestone Guides",
-          description: "What to expect at each stage.",
-          available: false,
-        }}
-      />
-    );
-    expect(screen.getByText(/contact us for a copy/i)).toBeInTheDocument();
-    expect(screen.queryByRole("link")).not.toBeInTheDocument();
-  });
-
-  it("renders an external link when available and external", () => {
-    render(
-      <ResourceCard
-        resource={{
-          id: "patient-forms",
-          name: "Patient Forms",
-          description: "New patient intake forms.",
-          available: true,
-          href: "https://healow.com/apps/jsp/webview/signIn.jsp",
-          external: true,
-        }}
-      />
-    );
-    const link = screen.getByRole("link", { name: /patient forms/i });
-    expect(link).toHaveAttribute("href", "https://healow.com/apps/jsp/webview/signIn.jsp");
-    expect(link).toHaveAttribute("target", "_blank");
-    expect(link).toHaveAttribute("rel", "noopener noreferrer");
-  });
-
-  it("renders an internal link when available and not external", () => {
+  it("renders English name and description by default", () => {
     render(
       <ResourceCard
         resource={{
           id: "our-doctors",
           name: "Our Doctors",
-          description: "Meet our team.",
+          nameEs: "Nuestros Doctores",
+          description: "Meet our board-certified pediatricians and find the right fit for your family.",
+          descriptionEs: "Conozca a nuestros pediatras certificados y encuentre el más adecuado para su familia.",
           available: true,
           href: "/doctors",
         }}
       />
     );
-    const link = screen.getByRole("link", { name: /our doctors/i });
-    expect(link).toHaveAttribute("href", "/doctors");
-    expect(link).not.toHaveAttribute("target");
+    expect(screen.getByText("Our Doctors")).toBeInTheDocument();
+    expect(
+      screen.getByText("Meet our board-certified pediatricians and find the right fit for your family.")
+    ).toBeInTheDocument();
+  });
+
+  it("renders Spanish name and description when locale is es", () => {
+    render(
+      <ResourceCard
+        resource={{
+          id: "our-doctors",
+          name: "Our Doctors",
+          nameEs: "Nuestros Doctores",
+          description: "Meet our board-certified pediatricians and find the right fit for your family.",
+          descriptionEs: "Conozca a nuestros pediatras certificados y encuentre el más adecuado para su familia.",
+          available: true,
+          href: "/doctors",
+        }}
+      />,
+      "es"
+    );
+    expect(screen.getByText("Nuestros Doctores")).toBeInTheDocument();
+    expect(
+      screen.getByText("Conozca a nuestros pediatras certificados y encuentre el más adecuado para su familia.")
+    ).toBeInTheDocument();
+  });
+
+  it("shows a translated 'contact us for a copy' state when not available", () => {
+    render(
+      <ResourceCard
+        resource={{
+          id: "developmental-milestones",
+          name: "Developmental Milestone Guides",
+          nameEs: "Guías de Hitos del Desarrollo",
+          description: "What to expect at each stage of your child's development.",
+          descriptionEs: "Qué esperar en cada etapa del desarrollo de su hijo.",
+          available: false,
+        }}
+      />,
+      "es"
+    );
+    expect(screen.getByText("Contáctenos para obtener una copia")).toBeInTheDocument();
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 });

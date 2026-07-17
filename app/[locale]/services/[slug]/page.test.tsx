@@ -45,4 +45,29 @@ describe("ServiceDetailPage", () => {
       "/services"
     );
   });
+
+  it("renders the Spanish back link when locale is es", async () => {
+    const ui = await ServiceDetailPage({ params: Promise.resolve({ slug: "telehealth" }) });
+    render(ui, "es");
+    expect(screen.getByRole("link", { name: /volver a servicios/i })).toHaveAttribute(
+      "href",
+      "/es/services"
+    );
+  });
+
+  it("renders the Spanish name, category, description, and long description when locale is es", async () => {
+    const ui = await ServiceDetailPage({
+      params: Promise.resolve({ slug: "telehealth", locale: "es" }),
+    });
+    render(ui, "es");
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Telesalud");
+    expect(screen.getByText("Atención de Enfermedades y Urgencias")).toBeInTheDocument();
+    expect(
+      screen.getByText("Consultas médicas remotas desde donde se encuentre su familia.")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/pediatra certificado de forma remota/i)
+    ).toBeInTheDocument();
+  });
 });

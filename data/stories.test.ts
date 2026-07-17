@@ -38,4 +38,19 @@ describe("stories data", () => {
       .join(" ");
     expect(allText).not.toContain("—");
   });
+
+  it("every story has real Spanish translations with no em dash", () => {
+    for (const story of stories) {
+      expect(story.titleEs.length).toBeGreaterThan(0);
+      expect(story.excerptEs.length).toBeGreaterThan(20);
+      expect(story.titleEs).not.toContain("—");
+      expect(story.excerptEs).not.toContain("—");
+      for (const section of story.sections) {
+        expect(section.headingEs.length).toBeGreaterThan(0);
+        expect(section.bodyEs.length).toBeGreaterThan(20);
+        expect(section.headingEs).not.toContain("—");
+        expect(section.bodyEs).not.toContain("—");
+      }
+    }
+  });
 });

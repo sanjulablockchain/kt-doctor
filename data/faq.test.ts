@@ -23,4 +23,13 @@ describe("faq data", () => {
       expect(faq.answer.length).toBeGreaterThan(0);
     }
   });
+
+  it("every FAQ has a Spanish question and answer with no em dash", () => {
+    for (const faq of faqs) {
+      expect(faq.questionEs.length).toBeGreaterThan(0);
+      expect(faq.answerEs.length).toBeGreaterThan(20);
+      expect(faq.questionEs).not.toContain("—");
+      expect(faq.answerEs).not.toContain("—");
+    }
+  });
 });

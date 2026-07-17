@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { BOOKING_URL } from "@/lib/constants";
 import { locations } from "@/data/locations";
@@ -19,6 +19,7 @@ import { ResourceCard } from "@/components/ResourceCard";
 import { faqs } from "@/data/faq";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
+import { DonateTab } from "@/components/DonateTab";
 
 function initials(name: string): string {
   return name
@@ -33,6 +34,7 @@ function initials(name: string): string {
 
 export default function Home() {
   const t = useTranslations("Home");
+  const locale = useLocale();
   const doctorsWithPhotos = doctors.filter((d) => d.photoSrc);
   const previewDoctors = (doctorsWithPhotos.length >= 4 ? doctorsWithPhotos : doctors).slice(0, 4);
   const avatarTints = ["bg-teal-tint text-teal-dark", "bg-gold-tint text-gold"];
@@ -49,7 +51,7 @@ export default function Home() {
     <main>
       {/* Hero */}
       <section className="overflow-hidden bg-gradient-to-b from-teal-tint/60 to-ivory">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-8 pt-12 sm:px-8 sm:pt-16 lg:grid-cols-[1fr_1.05fr] lg:gap-10">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 pb-8 pt-12 sm:px-8 sm:pt-16 lg:grid-cols-[1fr_1.05fr] lg:gap-10">
           <div className="flex flex-col gap-6">
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-white px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
               <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5">
@@ -145,7 +147,7 @@ export default function Home() {
       </section>
 
       {/* Why families choose us */}
-      <section className="mx-auto max-w-6xl px-5 pb-16 pt-20 sm:px-8 sm:pt-24">
+      <section className="mx-auto max-w-7xl px-5 pb-16 pt-20 sm:px-8 sm:pt-24">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           <ParallaxImage
             src="https://images.unsplash.com/photo-1769698678497-c41f0ab47c3e?auto=format&fit=crop&w=1000&q=80"
@@ -233,7 +235,7 @@ export default function Home() {
 
       {/* Doctors preview */}
       <section className="border-y border-border bg-white/60">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
@@ -283,7 +285,7 @@ export default function Home() {
       </section>
 
       {/* Network teaser */}
-      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
@@ -309,7 +311,7 @@ export default function Home() {
       </section>
 
       {/* Find a clinic */}
-      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <Link
           href="/locations"
           className="group flex flex-col gap-6 rounded-3xl border border-border bg-white p-8 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft sm:flex-row sm:items-center sm:justify-between"
@@ -345,7 +347,7 @@ export default function Home() {
       </section>
 
       {/* Foundation teaser */}
-      <section className="mx-auto max-w-6xl px-5 pb-16 sm:px-8">
+      <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <div className="flex flex-col items-center gap-6 rounded-3xl border border-border bg-white p-8 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <div className="flex flex-col items-center gap-4 sm:flex-row">
             <Image
@@ -381,7 +383,7 @@ export default function Home() {
       </section>
 
       {/* Careers, Insurance teaser */}
-      <section className="mx-auto max-w-6xl px-5 pb-16 sm:px-8">
+      <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div className="rounded-3xl border border-border bg-white p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
             <p className="font-display text-lg font-bold text-ink">{t("careersHeading")}</p>
@@ -410,12 +412,12 @@ export default function Home() {
       </section>
 
       {/* Resources */}
-      <section className="mx-auto max-w-6xl px-5 pb-16 sm:px-8">
+      <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
           {t("resourcesHeading")}
         </span>
         <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-          Everything your family needs, in one place.
+          {t("resourcesSectionHeading")}
         </h2>
         <p className="mt-2 max-w-lg text-ink-soft">{t("resourcesBody")}</p>
 
@@ -429,26 +431,24 @@ export default function Home() {
             className="flex flex-col items-start justify-center rounded-2xl border border-border bg-teal-tint p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
           >
             <p className="font-display text-base font-bold text-teal-dark">
-              Browse all resources
+              {t("browseAllResourcesTitle")}
             </p>
-            <p className="mt-2 text-sm text-ink-soft">
-              See every guide, form, and video we have for your family in one place.
-            </p>
+            <p className="mt-2 text-sm text-ink-soft">{t("browseAllResourcesBody")}</p>
             <span className="mt-3 font-display text-sm font-semibold text-teal-dark">
-              View all resources →
+              {t("viewAllResources")} →
             </span>
           </Link>
         </div>
       </section>
 
       {/* Services pill cloud */}
-      <section className="mx-auto max-w-6xl px-5 pb-16 sm:px-8">
+      <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <div className="rounded-3xl border border-border bg-white p-8 text-center shadow-card sm:p-10">
           <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
-            {allServices.length} Specialties
+            {t("servicesEyebrow", { count: allServices.length })}
           </span>
           <h2 className="mt-2 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
-            Comprehensive Pediatric Services
+            {t("servicesHeading")}
           </h2>
 
           <div className="mt-6 flex flex-wrap justify-center gap-2.5">
@@ -458,7 +458,7 @@ export default function Home() {
                 href={`/services/${service.id}`}
                 className="rounded-full border border-border bg-ivory px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
               >
-                {service.name}
+                {locale === "es" ? service.nameEs : service.name}
               </Link>
             ))}
           </div>
@@ -467,50 +467,54 @@ export default function Home() {
             href="/services"
             className="mt-6 inline-block font-display font-semibold text-teal-dark hover:text-teal"
           >
-            View all services →
+            {t("viewAllServices")} →
           </Link>
         </div>
       </section>
 
       {/* Featured Stories */}
-      <section className="mx-auto max-w-6xl px-5 pb-16 sm:px-8">
+      <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
-          From Our Blog
+          {t("storiesEyebrow")}
         </span>
         <h2 className="mt-2 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
-          Featured Stories
+          {t("storiesHeading")}
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {stories.map((story) => (
-            <Link
-              key={story.id}
-              href={`/blog/${story.id}`}
-              className="flex flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
-            >
-              <Image
-                src={story.imageSrc}
-                alt={story.title}
-                width={300}
-                height={225}
-                unoptimized
-                className="h-36 w-full object-cover"
-              />
-              <div className="flex flex-1 flex-col p-5">
-                <p className="text-xs font-semibold text-ink-soft">{story.date}</p>
-                <p className="mt-2 font-display text-base font-bold text-ink">{story.title}</p>
-                <span className="mt-auto pt-4 font-display text-sm font-semibold text-teal-dark">
-                  Read the full story →
-                </span>
-              </div>
-            </Link>
-          ))}
+          {stories.map((story) => {
+            const title = locale === "es" ? story.titleEs : story.title;
+
+            return (
+              <Link
+                key={story.id}
+                href={`/blog/${story.id}`}
+                className="flex flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
+              >
+                <Image
+                  src={story.imageSrc}
+                  alt={title}
+                  width={300}
+                  height={225}
+                  unoptimized
+                  className="h-36 w-full object-cover"
+                />
+                <div className="flex flex-1 flex-col p-5">
+                  <p className="text-xs font-semibold text-ink-soft">{story.date}</p>
+                  <p className="mt-2 font-display text-base font-bold text-ink">{title}</p>
+                  <span className="mt-auto pt-4 font-display text-sm font-semibold text-teal-dark">
+                    {t("readFullStory")} →
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
       {/* Trusted Partners & Affiliations */}
       <section className="border-y border-border bg-white">
-        <div className="mx-auto max-w-6xl px-5 py-12 text-center sm:px-8">
+        <div className="mx-auto max-w-7xl px-5 py-12 text-center sm:px-8">
           <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
             {t("partnersHeading")}
           </span>
@@ -532,7 +536,7 @@ export default function Home() {
 
       {/* FAQ */}
       <section className="bg-teal-tint/60 py-16">
-        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
               {t("faqEyebrow")}
@@ -550,7 +554,7 @@ export default function Home() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-8">
+      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8">
         <div className="flex flex-col items-start gap-6 rounded-3xl bg-navy px-8 py-10 text-white sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <Image
@@ -577,6 +581,8 @@ export default function Home() {
           </a>
         </div>
       </section>
+
+      <DonateTab />
     </main>
   );
 }

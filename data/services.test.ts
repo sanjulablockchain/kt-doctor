@@ -65,4 +65,19 @@ describe("services data", () => {
       expect(service.longDescription).not.toContain("—");
     }
   });
+
+  it("every category and service has real Spanish translations with no em dash", () => {
+    for (const category of serviceCategories) {
+      expect(category.nameEs.length).toBeGreaterThan(0);
+      expect(category.nameEs).not.toContain("—");
+      for (const service of category.services) {
+        expect(service.nameEs.length).toBeGreaterThan(0);
+        expect(service.descriptionEs.length).toBeGreaterThan(20);
+        expect(service.longDescriptionEs.length).toBeGreaterThan(20);
+        expect(service.nameEs).not.toContain("—");
+        expect(service.descriptionEs).not.toContain("—");
+        expect(service.longDescriptionEs).not.toContain("—");
+      }
+    }
+  });
 });

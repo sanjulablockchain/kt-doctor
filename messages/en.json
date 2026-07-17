@@ -21,11 +21,21 @@
   },
   "Footer": {
     "tagline": "Board-certified pediatric care across 24 Greater LA clinics, with same-day visits, telehealth, and a doctor your family can stick with.",
+    "highlight": "Largest pediatric medical group in California",
     "bookAppointment": "Book an Appointment",
+    "followUs": "Follow us",
+    "quickLinks": "Quick Links",
+    "forPatients": "For Patients",
+    "getInTouch": "Get in Touch",
+    "callLabel": "Call us",
     "textLabel": "Text",
+    "emailLabel": "Email",
     "patients": "Patients",
     "about": "About",
+    "home": "Home",
     "aboutUs": "About Us",
+    "services": "Services",
+    "blog": "Blog",
     "doctors": "Doctors",
     "locations": "Locations",
     "insurance": "Insurance",
@@ -35,6 +45,21 @@
     "foundation": "Foundation",
     "careers": "Careers",
     "rights": "All rights reserved."
+  },
+  "FloatingContact": {
+    "backToTop": "Back to top",
+    "openContact": "Contact us",
+    "closeContact": "Close contact options",
+    "title": "Contact us",
+    "helper": "Choose how you'd like to reach us.",
+    "whatsapp": "WhatsApp",
+    "callUs": "Call Us",
+    "copyPhone": "Copy phone number",
+    "copied": "Copied!"
+  },
+  "DonateTab": {
+    "label": "Donate",
+    "ariaLabel": "Donate to the Kids and Teens Foundation"
   },
   "Home": {
     "badge": "{count} clinics across Greater LA",
@@ -78,7 +103,17 @@
     "faqHeading": "Frequently Asked Questions",
     "faqSubheading": "Everything you need to know about visiting our clinics.",
     "bottomCtaHeading": "Your child can be seen today.",
-    "bottomCtaBody": "Book online in under a minute, or call and we'll find the soonest opening."
+    "bottomCtaBody": "Book online in under a minute, or call and we'll find the soonest opening.",
+    "servicesEyebrow": "{count} Specialties",
+    "servicesHeading": "Comprehensive Pediatric Services",
+    "viewAllServices": "View all services",
+    "storiesEyebrow": "From Our Blog",
+    "storiesHeading": "Featured Stories",
+    "readFullStory": "Read the full story",
+    "resourcesSectionHeading": "Everything your family needs, in one place.",
+    "browseAllResourcesTitle": "Browse all resources",
+    "browseAllResourcesBody": "See every guide, form, and video we have for your family in one place.",
+    "viewAllResources": "View all resources"
   },
   "Doctors": {
     "eyebrow": "Our Team",
@@ -100,7 +135,88 @@
     "showingLocations": "Showing {count} of {count} locations",
     "mapUnavailable": "Map is temporarily unavailable — see clinic addresses below.",
     "getDirections": "Get Directions",
-    "viewDetails": "View Details",
-    "loadingMap": "Loading map…"
+    "viewDetails": "View Details"
+  },
+  "Network": {
+    "eyebrow": "One Network",
+    "heading": "More ways to care for your family.",
+    "description": "Kids & Teens Medical Group works alongside three sister companies to cover family practice, pediatric therapy, and hospital care in Sri Lanka, all under one trusted network.",
+    "browseDoctors": "Browse doctors",
+    "visitSite": "Visit site"
+  },
+  "Foundation": {
+    "programsHeading": "Our programs",
+    "donateNow": "Donate now",
+    "visitFoundationSite": "Visit the Foundation site",
+    "sriLankaEyebrow": "Sri Lanka Initiative",
+    "preventiveScreeningsTitle": "Preventive Health Screenings",
+    "preventiveScreeningsBody": "Early detection of health issues through regular screenings for vision, hearing, dental, and nutrition, reducing long-term healthcare costs.",
+    "studentWellnessTitle": "Student Mental Wellness",
+    "studentWellnessBody": "On-campus counseling and mental health support programs that improve academic performance, reduce absenteeism, and build resilience.",
+    "internationalStandardsTitle": "International Healthcare Standards",
+    "internationalStandardsBody": "Bringing US-trained pediatric expertise and evidence-based protocols to Sri Lanka, elevating the quality of school-based healthcare.",
+    "communityImpactTitle": "Community Health Impact",
+    "communityImpactBody": "Wellness centers serve not just students but entire families, creating a ripple effect of health literacy and preventive care across Negombo.",
+    "seeLiveCampaign": "See live campaign progress & donate"
+  },
+  "Careers": {
+    "eyebrow": "Careers",
+    "heading": "Build your career at Kids & Teens.",
+    "description": "We're always glad to hear from clinicians and staff who want to join a pediatric network built around same-day care and long-term patient relationships. Email us your resume and we'll reach out if there's a fit.",
+    "emailResume": "Email Us Your Resume",
+    "postingsNotice": "Our official job postings are only shared on our social media pages, our own company websites, and Indeed. Be cautious of postings claiming to represent Kids & Teens Medical Group anywhere else."
+  },
+  "Insurance": {
+    "eyebrow": "Insurance",
+    "heading": "We accept all major insurance.",
+    "description": "Coverage shouldn't be a barrier to care. We accept the plan categories below across our clinics, plus Serendib Healthways for families in an HMO/IPA.",
+    "hmoRestrictionsTitle": "Stuck with your HMO plan restrictions?",
+    "hmoRestrictionsBody": "Switch to Serendib Healthways HMO/IPA for access to our network with no referrals required.",
+    "serendibLink": "Serendib Healthways",
+    "callToVerify": "Call to Verify Your Plan"
+  },
+  "Resources": {
+    "eyebrow": "Parent Resources",
+    "heading": "Everything in one place.",
+    "description": "Vaccine schedules, patient forms, and developmental guides for your family. Downloads are being added here soon. Contact your clinic in the meantime for a copy.",
+    "contactForCopy": "Contact us for a copy"
+  },
+  "About": {
+    "eyebrow": "About Us",
+    "heading": "Kids & Teens Pediatric Medical Group",
+    "tagline": "Caring for the Future Generations in Greater Los Angeles",
+    "intro": "Kids & Teens Medical Group is a pediatric practice dedicated to providing compassionate, comprehensive care for children and adolescents. Our team of board-certified pediatricians is committed to offering personalized care tailored to your child's unique needs. We offer a wide range of services, including:",
+    "careaRoutineCheckups": "Routine check-ups",
+    "careAreaAllergies": "Allergies",
+    "careAreaAdhd": "ADHD",
+    "careAreaUrgentCare": "Urgent care",
+    "careAreaPrenatal": "Prenatal consultations",
+    "careAreaAfterHours": "After-hours care",
+    "locationsIntro": "With {count} locations throughout Los Angeles and beyond, we're here to serve your family's needs. We accept most major insurance plans, including any HMO/IPA:",
+    "closing": "For those without insurance, we offer affordable payment options. Rest assured, your child's health is our top priority. Schedule an appointment today and let us help your family thrive.",
+    "bookAppointment": "Book an Appointment",
+    "findClinic": "Find a Clinic"
+  },
+  "Testimonials": {
+    "eyebrow": "Testimonials & Reviews",
+    "heading": "Share Your Experience",
+    "intro1": "Kids & Teens Medical Group is a general pediatrics practice that takes an integrated approach to care, with offices across Greater LA offering high-quality pediatric care and pediatric urgent care services.",
+    "intro2": "We always appreciate feedback from our valued patients, and we're thrilled that so many parents have shared their positive experiences with us.",
+    "googleReviewsHeading": "Google Reviews",
+    "googleReviewsSubheading": "Select a clinic to read or leave a review on Google.",
+    "closing": "Please read what others are saying about Kids & Teens Medical Group above, and as always, we would love to collect your feedback too."
+  },
+  "Services": {
+    "eyebrow": "What We Offer",
+    "heading": "Comprehensive Pediatric Care",
+    "intro": "Kids & Teens Medical Group provides exceptional healthcare tailored to the needs of children and adolescents, from newborn checkups to teen medicine.",
+    "backToServices": "Back to Services"
+  },
+  "Blog": {
+    "eyebrow": "From Our Blog",
+    "heading": "Parent Stories & Tips",
+    "intro": "Seasonal health advice, safety tips, and guidance from our pediatric team to help your family stay informed.",
+    "backToBlog": "Back to Blog",
+    "readFullStory": "Read the full story"
   }
 }

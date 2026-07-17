@@ -45,6 +45,18 @@ describe("Home page", () => {
     expect(donateLink).toHaveAttribute("href", "https://kidsandteensfoundation.org/donate/");
   });
 
+  it("renders a floating Donate tab linking to the foundation donate page", () => {
+    render(<Home />);
+    const donateTab = screen.getByRole("link", {
+      name: /donate to the kids and teens foundation/i,
+    });
+    expect(donateTab).toHaveAttribute(
+      "href",
+      "https://kidsandteensfoundation.org/donate/"
+    );
+    expect(donateTab).toHaveAttribute("target", "_blank");
+  });
+
   it("renders a careers teaser linking to /careers", () => {
     render(<Home />);
     expect(screen.getByRole("link", { name: /join our team/i })).toHaveAttribute(
@@ -123,6 +135,50 @@ describe("Home page", () => {
     expect(screen.getByText("cerca de casa.")).toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: /reservar una cita/i }).length).toBeGreaterThanOrEqual(
       1
+    );
+  });
+
+  it("renders the services pill-cloud eyebrow and heading in Spanish when locale is es", () => {
+    render(<Home />, "es");
+    expect(screen.getByText("Servicios Pediátricos Integrales")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /ver todos los servicios/i })).toHaveAttribute(
+      "href",
+      "/es/services"
+    );
+  });
+
+  it("renders the services pill-cloud labels in Spanish when locale is es", () => {
+    render(<Home />, "es");
+    expect(screen.getByRole("link", { name: "Telesalud" })).toHaveAttribute(
+      "href",
+      "/es/services/telehealth"
+    );
+    expect(screen.getByRole("link", { name: "Examen de Niño Sano" })).toHaveAttribute(
+      "href",
+      "/es/services/well-child-exam"
+    );
+  });
+
+  it("renders the Featured Stories heading in Spanish when locale is es", () => {
+    render(<Home />, "es");
+    expect(screen.getByText("Historias Destacadas")).toBeInTheDocument();
+  });
+
+  it("renders the Featured Stories card titles in Spanish when locale is es", () => {
+    render(<Home />, "es");
+    expect(
+      screen.getByText("Consejos de Seguridad para Halloween para los Padres")
+    ).toBeInTheDocument();
+  });
+
+  it("renders the Resources section heading in Spanish when locale is es", () => {
+    render(<Home />, "es");
+    expect(
+      screen.getByText("Todo lo que su familia necesita, en un solo lugar.")
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /ver todos los recursos/i })).toHaveAttribute(
+      "href",
+      "/es/resources"
     );
   });
 });

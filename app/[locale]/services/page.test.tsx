@@ -23,4 +23,17 @@ describe("ServicesPage", () => {
     expect(screen.getByText("ADHD & Behavioral Issues")).toBeInTheDocument();
     expect(screen.getByText("Adolescent Medicine")).toBeInTheDocument();
   });
+
+  it("renders the eyebrow, heading, and intro in Spanish when locale is es", () => {
+    render(<ServicesPage />, "es");
+    expect(screen.getByText("Lo Que Ofrecemos")).toBeInTheDocument();
+    expect(screen.getByText("Atención Pediátrica Integral")).toBeInTheDocument();
+  });
+
+  it("renders category and service names in Spanish when locale is es", () => {
+    render(<ServicesPage />, "es");
+    expect(screen.getByText("Atención Preventiva y de Bienestar")).toBeInTheDocument();
+    expect(screen.getByText("Examen de Niño Sano")).toBeInTheDocument();
+    expect(screen.getByText("Telesalud")).toBeInTheDocument();
+  });
 });

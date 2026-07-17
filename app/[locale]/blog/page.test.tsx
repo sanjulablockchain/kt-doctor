@@ -20,4 +20,20 @@ describe("BlogPage", () => {
       screen.getByRole("link", { name: /halloween safety tips for parents/i })
     ).toHaveAttribute("href", "/blog/halloween-safety-tips");
   });
+
+  it("renders the eyebrow and heading in Spanish when locale is es", () => {
+    render(<BlogPage />, "es");
+    expect(screen.getByText("De Nuestro Blog")).toBeInTheDocument();
+    expect(screen.getByText("Historias y Consejos para Padres")).toBeInTheDocument();
+  });
+
+  it("renders story titles and excerpts in Spanish when locale is es", () => {
+    render(<BlogPage />, "es");
+    expect(
+      screen.getByText("Consejos de Seguridad para Halloween para los Padres")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Halloween es una de las noches más emocionantes/i)
+    ).toBeInTheDocument();
+  });
 });

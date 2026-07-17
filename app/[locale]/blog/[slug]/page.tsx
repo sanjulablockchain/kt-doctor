@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { Link } from "@/i18n/navigation";
+import { BackLink } from "@/components/BackLink";
 import { stories } from "@/data/stories";
 
 function findStory(slug: string) {
@@ -30,35 +30,32 @@ export async function generateMetadata({
 export default async function BlogPostPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale?: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const story = findStory(slug);
   if (!story) {
     notFound();
   }
+  const title = locale === "es" ? story.titleEs : story.title;
+  const excerpt = locale === "es" ? story.excerptEs : story.excerpt;
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
-      <Link
-        href="/blog"
-        className="font-display text-sm font-semibold text-teal-dark hover:text-teal"
-      >
-        ← Back to Blog
-      </Link>
+      <BackLink href="/blog" messageKey="backToBlog" namespace="Blog" />
 
       <p className="mt-6 flex flex-wrap gap-x-2 text-xs font-semibold text-ink-soft">
         <span>{story.date}</span>
         {story.author ? <span>{story.author}</span> : null}
       </p>
       <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-        {story.title}
+        {title}
       </h1>
 
       <div className="mt-6 overflow-hidden rounded-2xl">
         <Image
           src={story.imageSrc}
-          alt={story.title}
+          alt={title}
           width={800}
           height={450}
           unoptimized
@@ -66,13 +63,17 @@ export default async function BlogPostPage({
         />
       </div>
 
-      <p className="mt-6 text-lg font-semibold text-ink-soft">{story.excerpt}</p>
+      <p className="mt-6 text-lg font-semibold text-ink-soft">{excerpt}</p>
 
       <div className="mt-8 flex flex-col gap-6">
         {story.sections.map((section) => (
           <div key={section.heading}>
-            <h2 className="font-display text-xl font-bold text-ink">{section.heading}</h2>
-            <p className="mt-2 text-ink-soft">{section.body}</p>
+            <h2 className="font-display text-xl font-bold text-ink">
+              {locale === "es" ? section.headingEs : section.heading}
+            </h2>
+            <p className="mt-2 text-ink-soft">
+              {locale === "es" ? section.bodyEs : section.body}
+            </p>
           </div>
         ))}
       </div>

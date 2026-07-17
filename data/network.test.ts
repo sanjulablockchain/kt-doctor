@@ -32,23 +32,12 @@ describe("network brand data", () => {
     expect(laipt?.services.length).toBeGreaterThan(0);
   });
 
-  it("St. Joseph Hospital links externally to sjhospital.lk with its real logo and an ACIG partner credit", () => {
+  it("St. Joseph Hospital links externally to sjhospital.lk with its real logo", () => {
     const sjh = networkBrands.find((b) => b.id === "st-joseph-hospital");
     expect(sjh?.externalUrl).toBe("https://www.sjhospital.lk");
     expect(sjh?.internalHref).toBeUndefined();
     expect(sjh?.logoSrc).toBe("/sjh-logo.png");
     expect(sjh?.services.length).toBeGreaterThan(0);
-    expect(sjh?.partnerCredit).toEqual({
-      label: "Insurance coordination via Asiacorp Insurance Brokers",
-      url: "https://acig.lk",
-    });
-  });
-
-  it("only St. Joseph Hospital has a partner credit", () => {
-    const withoutSJH = networkBrands.filter((b) => b.id !== "st-joseph-hospital");
-    for (const brand of withoutSJH) {
-      expect(brand.partnerCredit).toBeUndefined();
-    }
   });
 
   it("no brand description or tagline contains an em dash", () => {

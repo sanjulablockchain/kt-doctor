@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale } from "next-intl";
 import type { FaqItem } from "@/data/faq";
 
 type FaqAccordionProps = {
@@ -9,6 +10,7 @@ type FaqAccordionProps = {
 
 export function FaqAccordion({ items }: FaqAccordionProps) {
   const [openId, setOpenId] = useState<string | null>(null);
+  const locale = useLocale();
 
   function toggle(id: string) {
     setOpenId((current) => (current === id ? null : id));
@@ -20,6 +22,8 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
         const isOpen = item.id === openId;
         const buttonId = `faq-button-${item.id}`;
         const panelId = `faq-panel-${item.id}`;
+        const question = locale === "es" ? item.questionEs : item.question;
+        const answer = locale === "es" ? item.answerEs : item.answer;
 
         return (
           <div key={item.id} className="rounded-2xl bg-white shadow-card">
@@ -32,7 +36,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
                 onClick={() => toggle(item.id)}
                 className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left font-display font-bold text-ink transition-colors hover:text-teal-dark sm:py-5"
               >
-                <span>{item.question}</span>
+                <span>{question}</span>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -57,7 +61,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
               hidden={!isOpen}
               className="px-6 pb-5 text-sm text-ink-soft sm:text-base"
             >
-              {item.answer}
+              {answer}
             </div>
           </div>
         );

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { serviceCategories } from "@/data/services";
-import { Link } from "@/i18n/navigation";
+import { BackLink } from "@/components/BackLink";
 import { BOOKING_URL } from "@/lib/constants";
 
 function findService(slug: string) {
@@ -36,32 +36,31 @@ export async function generateMetadata({
 export default async function ServiceDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale?: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const found = findService(slug);
   if (!found) {
     notFound();
   }
   const { service, category } = found;
+  const name = locale === "es" ? service.nameEs : service.name;
+  const categoryName = locale === "es" ? category.nameEs : category.name;
+  const description = locale === "es" ? service.descriptionEs : service.description;
+  const longDescription = locale === "es" ? service.longDescriptionEs : service.longDescription;
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
-      <Link
-        href="/services"
-        className="font-display text-sm font-semibold text-teal-dark hover:text-teal"
-      >
-        ← Back to Services
-      </Link>
+      <BackLink href="/services" messageKey="backToServices" namespace="Services" />
 
       <span className="mt-6 block font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
-        {category.name}
+        {categoryName}
       </span>
       <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-        {service.name}
+        {name}
       </h1>
-      <p className="mt-2 text-lg font-semibold text-ink-soft">{service.description}</p>
-      <p className="mt-6 text-ink-soft">{service.longDescription}</p>
+      <p className="mt-2 text-lg font-semibold text-ink-soft">{description}</p>
+      <p className="mt-6 text-ink-soft">{longDescription}</p>
 
       <a
         href={BOOKING_URL}

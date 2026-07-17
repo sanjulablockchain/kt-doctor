@@ -21,11 +21,21 @@
   },
   "Footer": {
     "tagline": "Atención pediátrica certificada en 24 clínicas del área de Los Ángeles, con visitas el mismo día, telesalud y un médico con quien su familia puede continuar.",
+    "highlight": "El grupo médico pediátrico más grande de California",
     "bookAppointment": "Reservar una cita",
+    "followUs": "Síganos",
+    "quickLinks": "Enlaces rápidos",
+    "forPatients": "Para Pacientes",
+    "getInTouch": "Contáctenos",
+    "callLabel": "Llámenos",
     "textLabel": "Mensaje de texto",
+    "emailLabel": "Correo",
     "patients": "Pacientes",
     "about": "Nosotros",
+    "home": "Inicio",
     "aboutUs": "Sobre Nosotros",
+    "services": "Servicios",
+    "blog": "Blog",
     "doctors": "Doctores",
     "locations": "Ubicaciones",
     "insurance": "Seguro",
@@ -35,6 +45,21 @@
     "foundation": "Fundación",
     "careers": "Empleo",
     "rights": "Todos los derechos reservados."
+  },
+  "FloatingContact": {
+    "backToTop": "Volver arriba",
+    "openContact": "Contáctenos",
+    "closeContact": "Cerrar opciones de contacto",
+    "title": "Contáctenos",
+    "helper": "Elija cómo desea comunicarse con nosotros.",
+    "whatsapp": "WhatsApp",
+    "callUs": "Llámenos",
+    "copyPhone": "Copiar número de teléfono",
+    "copied": "¡Copiado!"
+  },
+  "DonateTab": {
+    "label": "Donar",
+    "ariaLabel": "Donar a la Fundación Kids and Teens"
   },
   "Home": {
     "badge": "{count} clínicas en el área de Los Ángeles",
@@ -78,7 +103,17 @@
     "faqHeading": "Preguntas Frecuentes",
     "faqSubheading": "Todo lo que necesita saber sobre cómo visitar nuestras clínicas.",
     "bottomCtaHeading": "Su hijo puede ser atendido hoy.",
-    "bottomCtaBody": "Reserve en línea en menos de un minuto, o llame y encontraremos la cita más pronta."
+    "bottomCtaBody": "Reserve en línea en menos de un minuto, o llame y encontraremos la cita más pronta.",
+    "servicesEyebrow": "{count} Especialidades",
+    "servicesHeading": "Servicios Pediátricos Integrales",
+    "viewAllServices": "Ver todos los servicios",
+    "storiesEyebrow": "De Nuestro Blog",
+    "storiesHeading": "Historias Destacadas",
+    "readFullStory": "Leer la historia completa",
+    "resourcesSectionHeading": "Todo lo que su familia necesita, en un solo lugar.",
+    "browseAllResourcesTitle": "Ver todos los recursos",
+    "browseAllResourcesBody": "Vea todas las guías, formularios y videos que tenemos para su familia en un solo lugar.",
+    "viewAllResources": "Ver todos los recursos"
   },
   "Doctors": {
     "eyebrow": "Nuestro Equipo",
@@ -100,7 +135,88 @@
     "showingLocations": "Mostrando {count} de {count} ubicaciones",
     "mapUnavailable": "El mapa no está disponible en este momento. Consulta las direcciones de las clínicas a continuación.",
     "getDirections": "Cómo llegar",
-    "viewDetails": "Ver detalles",
-    "loadingMap": "Cargando el mapa…"
+    "viewDetails": "Ver detalles"
+  },
+  "Network": {
+    "eyebrow": "Una red",
+    "heading": "Más formas de cuidar a su familia.",
+    "description": "Kids & Teens Medical Group trabaja junto a tres empresas hermanas para cubrir medicina familiar, terapia pediátrica y atención hospitalaria en Sri Lanka, todo bajo una red de confianza.",
+    "browseDoctors": "Ver doctores",
+    "visitSite": "Visitar sitio"
+  },
+  "Foundation": {
+    "programsHeading": "Nuestros programas",
+    "donateNow": "Donar ahora",
+    "visitFoundationSite": "Visitar el sitio de la Fundación",
+    "sriLankaEyebrow": "Iniciativa en Sri Lanka",
+    "preventiveScreeningsTitle": "Exámenes Preventivos de Salud",
+    "preventiveScreeningsBody": "Detección temprana de problemas de salud mediante exámenes regulares de visión, audición, salud dental y nutrición, reduciendo costos de salud a largo plazo.",
+    "studentWellnessTitle": "Bienestar Mental Estudiantil",
+    "studentWellnessBody": "Programas de asesoramiento y apoyo de salud mental en el campus que mejoran el rendimiento académico, reducen el ausentismo y fortalecen la resiliencia.",
+    "internationalStandardsTitle": "Estándares Internacionales de Salud",
+    "internationalStandardsBody": "Llevando experiencia pediátrica formada en EE. UU. y protocolos basados en evidencia a Sri Lanka, elevando la calidad de la atención de salud escolar.",
+    "communityImpactTitle": "Impacto en la Salud Comunitaria",
+    "communityImpactBody": "Los centros de bienestar sirven no solo a los estudiantes sino a familias enteras, creando un efecto positivo en la educación sanitaria y la atención preventiva en Negombo.",
+    "seeLiveCampaign": "Ver el progreso de la campaña en vivo y donar"
+  },
+  "Careers": {
+    "eyebrow": "Empleo",
+    "heading": "Construya su carrera en Kids & Teens.",
+    "description": "Siempre nos alegra saber de médicos y personal que desean unirse a una red pediátrica enfocada en la atención el mismo día y relaciones duraderas con los pacientes. Envíenos su currículum por correo y nos pondremos en contacto si hay una buena opción.",
+    "emailResume": "Envíenos su Currículum",
+    "postingsNotice": "Nuestras vacantes oficiales solo se publican en nuestras redes sociales, nuestros propios sitios web y en Indeed. Tenga cuidado con publicaciones que afirmen representar a Kids & Teens Medical Group en cualquier otro lugar."
+  },
+  "Insurance": {
+    "eyebrow": "Seguro",
+    "heading": "Aceptamos todos los principales seguros.",
+    "description": "La cobertura no debería ser una barrera para la atención. Aceptamos las categorías de planes a continuación en todas nuestras clínicas, además de Serendib Healthways para familias en un HMO/IPA.",
+    "hmoRestrictionsTitle": "¿Atrapado con las restricciones de su plan HMO?",
+    "hmoRestrictionsBody": "Cámbiese a Serendib Healthways HMO/IPA para acceder a nuestra red sin necesidad de referencias.",
+    "serendibLink": "Serendib Healthways",
+    "callToVerify": "Llame para Verificar su Plan"
+  },
+  "Resources": {
+    "eyebrow": "Recursos para Padres",
+    "heading": "Todo en un solo lugar.",
+    "description": "Calendarios de vacunas, formularios para pacientes y guías de desarrollo para su familia. Pronto agregaremos descargas aquí. Mientras tanto, contacte a su clínica para obtener una copia.",
+    "contactForCopy": "Contáctenos para obtener una copia"
+  },
+  "About": {
+    "eyebrow": "Sobre Nosotros",
+    "heading": "Kids & Teens Pediatric Medical Group",
+    "tagline": "Cuidando a las futuras generaciones del área de Los Ángeles",
+    "intro": "Kids & Teens Medical Group es una práctica pediátrica dedicada a brindar atención compasiva e integral a niños y adolescentes. Nuestro equipo de pediatras certificados se compromete a ofrecer atención personalizada adaptada a las necesidades únicas de su hijo. Ofrecemos una amplia gama de servicios, entre ellos:",
+    "careaRoutineCheckups": "Chequeos de rutina",
+    "careAreaAllergies": "Alergias",
+    "careAreaAdhd": "TDAH",
+    "careAreaUrgentCare": "Atención de urgencia",
+    "careAreaPrenatal": "Consultas prenatales",
+    "careAreaAfterHours": "Atención fuera de horario",
+    "locationsIntro": "Con {count} ubicaciones en Los Ángeles y sus alrededores, estamos aquí para atender las necesidades de su familia. Aceptamos la mayoría de los principales planes de seguro, incluyendo cualquier HMO/IPA:",
+    "closing": "Para quienes no tienen seguro, ofrecemos opciones de pago accesibles. Tenga la seguridad de que la salud de su hijo es nuestra máxima prioridad. Programe una cita hoy y permítanos ayudar a que su familia prospere.",
+    "bookAppointment": "Reservar una Cita",
+    "findClinic": "Buscar una Clínica"
+  },
+  "Testimonials": {
+    "eyebrow": "Testimonios y Reseñas",
+    "heading": "Comparta su Experiencia",
+    "intro1": "Kids & Teens Medical Group es una práctica de pediatría general que adopta un enfoque integrado de la atención, con consultorios en toda el área de Los Ángeles que ofrecen atención pediátrica de alta calidad y servicios de urgencia pediátrica.",
+    "intro2": "Siempre apreciamos los comentarios de nuestros valiosos pacientes, y nos alegra que tantos padres hayan compartido sus experiencias positivas con nosotros.",
+    "googleReviewsHeading": "Reseñas de Google",
+    "googleReviewsSubheading": "Seleccione una clínica para leer o dejar una reseña en Google.",
+    "closing": "Lea lo que otros dicen sobre Kids & Teens Medical Group arriba, y como siempre, nos encantaría recibir también sus comentarios."
+  },
+  "Services": {
+    "eyebrow": "Lo Que Ofrecemos",
+    "heading": "Atención Pediátrica Integral",
+    "intro": "Kids & Teens Medical Group brinda atención médica excepcional adaptada a las necesidades de niños y adolescentes, desde chequeos de recién nacidos hasta medicina para adolescentes.",
+    "backToServices": "Volver a Servicios"
+  },
+  "Blog": {
+    "eyebrow": "De Nuestro Blog",
+    "heading": "Historias y Consejos para Padres",
+    "intro": "Consejos de salud según la temporada, tips de seguridad y orientación de nuestro equipo pediátrico para mantener informada a su familia.",
+    "backToBlog": "Volver al Blog",
+    "readFullStory": "Leer la historia completa"
   }
 }
