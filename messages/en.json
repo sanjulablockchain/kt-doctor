@@ -97,6 +97,8 @@
     "description": "A clinic close to home, from the Valley to the South Bay.",
     "list": "List",
     "map": "Map",
-    "showingLocations": "Showing {count} of {count} locations"
+    "showingLocations": "Showing {count} of {count} locations",
+    "mapUnavailable": "Map is temporarily unavailable — see clinic addresses below.",
+    "getDirections": "Get Directions"
   }
 }
