@@ -147,15 +147,13 @@ export default function Home() {
       {/* Why families choose us */}
       <section className="mx-auto max-w-6xl px-5 pb-16 pt-20 sm:px-8 sm:pt-24">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
-          <div className="relative overflow-hidden rounded-[2rem] shadow-card">
-            <Image
-              src="https://images.unsplash.com/photo-1769698678497-c41f0ab47c3e?auto=format&fit=crop&w=1000&q=80"
-              alt="Modern medical clinic building with a glass facade"
-              width={1000}
-              height={1000}
-              className="h-72 w-full object-cover sm:h-96"
-            />
-          </div>
+          <ParallaxImage
+            src="https://images.unsplash.com/photo-1769698678497-c41f0ab47c3e?auto=format&fit=crop&w=1000&q=80"
+            alt="Modern medical clinic building with a glass facade"
+            width={1000}
+            height={1000}
+            wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
+          />
 
           <div>
             <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
