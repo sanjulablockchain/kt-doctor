@@ -1,7 +1,9 @@
 "use client";
 
-import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
+import { useState } from "react";
+import { GoogleMap, InfoWindow, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Location } from "@/lib/types";
 
 type LocationsMapProps = {
@@ -29,6 +31,8 @@ export function LocationsMap({ locations }: LocationsMapProps) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
   const { isLoaded, loadError } = useJsApiLoader({ googleMapsApiKey: apiKey });
   const mappable = locations.filter(isMappable);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selected = mappable.find((loc) => loc.id === selectedId) ?? null;
 
   if (!apiKey || loadError) {
     return (
@@ -66,8 +70,42 @@ export function LocationsMap({ locations }: LocationsMapProps) {
     <div className={MAP_SHELL_CLASSES}>
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={9}>
         {mappable.map((loc) => (
-          <MarkerF key={loc.id} position={{ lat: loc.lat, lng: loc.lng }} title={loc.name} />
+          <MarkerF
+            key={loc.id}
+            position={{ lat: loc.lat, lng: loc.lng }}
+            title={loc.name}
+            onClick={() => setSelectedId(loc.id)}
+          />
         ))}
+
+        {selected && (
+          <InfoWindow
+            position={{ lat: selected.lat, lng: selected.lng }}
+            onCloseClick={() => setSelectedId(null)}
+          >
+            <div className="min-w-[180px] text-sm">
+              <p className="font-display font-semibold text-ink">{selected.name}</p>
+              <p className="mt-1 text-ink-soft">{selected.address}</p>
+              <p className="mt-1 text-ink-soft">{selected.phone}</p>
+              <div className="mt-2 flex flex-col gap-1">
+                <Link
+                  href={`/locations/${selected.id}`}
+                  className="font-display font-semibold text-teal-dark hover:text-teal"
+                >
+                  {t("viewDetails")}
+                </Link>
+                <a
+                  href={directionsUrl(selected)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-display font-semibold text-teal-dark hover:text-teal"
+                >
+                  {t("getDirections")}
+                </a>
+              </div>
+            </div>
+          </InfoWindow>
+        )}
       </GoogleMap>
     </div>
   );

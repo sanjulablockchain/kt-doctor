@@ -1,13 +1,21 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { screen } from "@testing-library/react";
 import { renderWithIntl as render } from "@/lib/test-utils";
+import userEvent from "@testing-library/user-event";
 
 vi.mock("@react-google-maps/api", () => ({
   useJsApiLoader: () => ({ isLoaded: true, loadError: undefined }),
   GoogleMap: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="google-map">{children}</div>
   ),
-  MarkerF: ({ title }: { title: string }) => <div data-testid="marker">{title}</div>,
+  MarkerF: ({ title, onClick }: { title: string; onClick?: () => void }) => (
+    <button type="button" data-testid="marker" onClick={onClick}>
+      {title}
+    </button>
+  ),
+  InfoWindow: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="info-window">{children}</div>
+  ),
 }));
 
 afterEach(() => {
@@ -91,5 +99,27 @@ describe("LocationsMap", () => {
     expect(markers).toHaveLength(1);
     expect(screen.getByText("Alpha")).toBeInTheDocument();
     expect(screen.queryByText("Telehealth")).not.toBeInTheDocument();
+  });
+
+  it("opens an info window with details and a directions link when a marker is clicked", async () => {
+    vi.stubEnv("NEXT_PUBLIC_GOOGLE_MAPS_API_KEY", "test-key");
+    const user = userEvent.setup();
+
+    render(<LocationsMap locations={[alpha, beta]} />);
+
+    expect(screen.queryByTestId("info-window")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Alpha" }));
+
+    expect(screen.getByTestId("info-window")).toBeInTheDocument();
+    expect(screen.getByText("1 A St")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "View Details" })).toHaveAttribute(
+      "href",
+      "/locations/a"
+    );
+    expect(screen.getByRole("link", { name: "Get Directions" })).toHaveAttribute(
+      "href",
+      "https://www.google.com/maps/dir/?api=1&destination=34,-118"
+    );
   });
 });
