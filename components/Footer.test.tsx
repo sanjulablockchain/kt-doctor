@@ -23,7 +23,10 @@ describe("Footer", () => {
 
   it("renders links to every page on the site", () => {
     render(<Footer />);
+    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/");
     expect(screen.getByRole("link", { name: "About Us" })).toHaveAttribute("href", "/about");
+    expect(screen.getByRole("link", { name: "Services" })).toHaveAttribute("href", "/services");
+    expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute("href", "/blog");
     expect(screen.getByRole("link", { name: "Doctors" })).toHaveAttribute("href", "/doctors");
     expect(screen.getByRole("link", { name: "Locations" })).toHaveAttribute("href", "/locations");
     expect(screen.getByRole("link", { name: "Insurance" })).toHaveAttribute("href", "/insurance");
@@ -38,6 +41,27 @@ describe("Footer", () => {
       "/foundation"
     );
     expect(screen.getByRole("link", { name: "Careers" })).toHaveAttribute("href", "/careers");
+  });
+
+  it("renders external social links that open in a new tab", () => {
+    render(<Footer />);
+    const facebook = screen.getByRole("link", { name: "Facebook" });
+    expect(facebook).toHaveAttribute(
+      "href",
+      "https://www.facebook.com/pediatriciansincalifornia/"
+    );
+    expect(facebook).toHaveAttribute("target", "_blank");
+    expect(facebook).toHaveAttribute("rel", "noopener noreferrer");
+
+    expect(screen.getByRole("link", { name: "Instagram" })).toHaveAttribute(
+      "href",
+      "https://www.instagram.com/napediatricurgentcare/"
+    );
+    expect(screen.getByRole("link", { name: "YouTube" })).toHaveAttribute(
+      "href",
+      "https://www.youtube.com/channel/UCpc-umQeo6CQFLHq4bTWeUQ"
+    );
+    expect(screen.getByRole("link", { name: "X" })).toHaveAttribute("href", "https://x.com/");
   });
 
   it("uses the Spanish text line when rendered in the es locale", () => {
