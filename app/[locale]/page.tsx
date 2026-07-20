@@ -9,6 +9,7 @@ import { doctors } from "@/data/doctors";
 import { networkBrands } from "@/data/network";
 import { NetworkCard } from "@/components/NetworkCard";
 import { ClinicNearYouCard } from "@/components/ClinicNearYouCard";
+import { InfoStatCard } from "@/components/InfoStatCard";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { Reveal } from "@/components/Reveal";
 import { foundation } from "@/data/foundation";
@@ -365,29 +366,44 @@ export default function Home() {
       {/* Careers, Insurance teaser */}
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div className="rounded-3xl border border-border bg-surface p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
-            <p className="font-display text-lg font-bold text-ink">{t("careersHeading")}</p>
-            <p className="mt-2 text-sm text-ink-soft">{t("careersBody")}</p>
-            <Link
+          <Reveal className="h-full">
+            <InfoStatCard
               href="/careers"
-              className="mt-4 inline-block font-display font-semibold text-teal-dark hover:text-teal"
-            >
-              {t("joinOurTeam")} →
-            </Link>
-          </div>
+              variant="teal"
+              stat={`${doctors.length}+`}
+              statLabel={t("careersStatLabel")}
+              heading={t("careersHeading")}
+              body={t("careersBody")}
+              cta={t("joinOurTeam")}
+              icon={
+                <>
+                  <rect x="2" y="7" width="20" height="14" rx="2" />
+                  <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  <path d="M2 13h20" />
+                </>
+              }
+            />
+          </Reveal>
 
-          <div className="rounded-3xl border border-border bg-surface p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
-            <p className="font-display text-lg font-bold text-ink">{t("insuranceHeading")}</p>
-            <p className="mt-2 text-sm text-ink-soft">
-              {t("insuranceBody", { categories: insuranceInfo.acceptedCategories.join(", ") })}
-            </p>
-            <Link
+          <Reveal delayMs={90} className="h-full">
+            <InfoStatCard
               href="/insurance"
-              className="mt-4 inline-block font-display font-semibold text-teal-dark hover:text-teal"
-            >
-              {t("seeAcceptedInsurance")} →
-            </Link>
-          </div>
+              variant="navy"
+              stat={`${insuranceInfo.acceptedCategories.length + 1}+`}
+              statLabel={t("insuranceStatLabel")}
+              heading={t("insuranceHeading")}
+              body={t("insuranceBody", {
+                categories: insuranceInfo.acceptedCategories.join(", "),
+              })}
+              cta={t("seeAcceptedInsurance")}
+              icon={
+                <>
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+                  <path d="m9 12 2 2 4-4" />
+                </>
+              }
+            />
+          </Reveal>
         </div>
       </section>
 
