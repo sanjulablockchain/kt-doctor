@@ -20,9 +20,9 @@ describe("DonateTab", () => {
     expect(screen.getByText("Donate")).toBeInTheDocument();
   });
 
-  it("renders the '$0 Admin Fees' hover tooltip message, described by the link", () => {
+  it("renders the '$ 0 Admin Fees' hover tooltip message, described by the link", () => {
     render(<DonateTab />);
-    expect(screen.getByText("$0 Admin Fees")).toBeInTheDocument();
+    expect(screen.getByText("$ 0 Admin Fees")).toBeInTheDocument();
     expect(
       screen.getByText(/100% of your donation goes directly/i)
     ).toBeInTheDocument();

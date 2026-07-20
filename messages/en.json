@@ -76,7 +76,7 @@
   "DonateTab": {
     "label": "Donate",
     "ariaLabel": "Donate to the Kids and Teens Foundation",
-    "tooltipTitle": "$0 Admin Fees",
+    "tooltipTitle": "$ 0 Admin Fees",
     "tooltipBody": "100% of your donation goes directly to student wellness programs. Zero overhead."
   },
   "Home": {

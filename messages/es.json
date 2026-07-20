@@ -76,7 +76,7 @@
   "DonateTab": {
     "label": "Donar",
     "ariaLabel": "Donar a la Fundación Kids and Teens",
-    "tooltipTitle": "$0 en gastos administrativos",
+    "tooltipTitle": "$ 0 en gastos administrativos",
     "tooltipBody": "El 100% de su donación se destina directamente a programas de bienestar estudiantil. Sin gastos generales."
   },
   "Home": {

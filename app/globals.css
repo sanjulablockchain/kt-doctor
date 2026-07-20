@@ -146,15 +146,18 @@ h4 {
 }
 
 /* Floating DonateTab: slide the tab in from off the right edge on mount.
-   Keeps the vertical centering (translateY -50%) throughout so it does not
-   jump when the animation ends. */
+   Only the horizontal `transform` is animated — vertical centering is owned
+   by the `-translate-y-1/2` utility, which in Tailwind v4 compiles to the
+   separate `translate` property. Putting a Y offset here too would stack on
+   top of that (translate + transform compose), leaving the tab half its
+   height too high mid-animation and dropping it when the animation ends. */
 @keyframes slide-in-right {
   from {
-    transform: translate(100%, -50%);
+    transform: translateX(100%);
     opacity: 0;
   }
   to {
-    transform: translate(0, -50%);
+    transform: translateX(0);
     opacity: 1;
   }
 }

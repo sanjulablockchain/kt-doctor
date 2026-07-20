@@ -8,7 +8,7 @@ const TOOLTIP_ID = "donate-tab-tooltip";
 // Floating donate call-to-action, homepage only. Pinned to the right edge,
 // vertically centered so it clears the bottom-anchored ContactWidget and
 // BackToTopButton. External link — uses a plain <a>, not next-intl's Link.
-// On hover or keyboard focus it reveals a small "$0 Admin Fees" reassurance
+// On hover or keyboard focus it reveals a small "$ 0 Admin Fees" reassurance
 // tooltip to its left. All motion is gated behind `motion-safe:` so it is
 // inert under prefers-reduced-motion; the keyframes live in app/globals.css.
 export function DonateTab() {
@@ -31,7 +31,7 @@ export function DonateTab() {
         rel="noopener noreferrer"
         aria-label={t("ariaLabel")}
         aria-describedby={TOOLTIP_ID}
-        className="flex flex-col items-center gap-1.5 rounded-l-2xl bg-teal px-1.5 py-3 text-white shadow-soft transition-all duration-200 hover:bg-teal-dark focus-visible:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-dark focus-visible:ring-offset-2 motion-safe:hover:-translate-x-1 motion-safe:focus-visible:-translate-x-1 sm:gap-2 sm:px-2.5 sm:py-4"
+        className="flex flex-col items-center gap-1.5 rounded-l-2xl bg-teal px-1.5 py-3 text-white shadow-soft transition-colors duration-200 hover:bg-teal-dark focus-visible:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-dark focus-visible:ring-offset-2 sm:gap-2 sm:px-2.5 sm:py-4"
       >
         <svg
           viewBox="0 0 24 24"
