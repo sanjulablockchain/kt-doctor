@@ -70,4 +70,62 @@ describe("ServiceDetailPage", () => {
       screen.getByText(/pediatra certificado de forma remota/i)
     ).toBeInTheDocument();
   });
+
+  it("renders the service image with English alt text for same-day-appointments", async () => {
+    const ui = await ServiceDetailPage({
+      params: Promise.resolve({ slug: "same-day-appointments" }),
+    });
+    render(ui);
+    expect(screen.getByRole("img", { name: /teddy bear/i })).toBeInTheDocument();
+  });
+
+  it("renders the service image with Spanish alt text when locale is es", async () => {
+    const ui = await ServiceDetailPage({
+      params: Promise.resolve({ slug: "same-day-appointments", locale: "es" }),
+    });
+    render(ui, "es");
+    expect(screen.getByRole("img", { name: /osito de peluche/i })).toBeInTheDocument();
+  });
+
+  it("renders no image for services without one", async () => {
+    const ui = await ServiceDetailPage({
+      params: Promise.resolve({ slug: "telehealth" }),
+    });
+    render(ui);
+    expect(screen.queryByRole("img")).not.toBeInTheDocument();
+  });
+
+  it("renders a More Services link to /services on a service page", async () => {
+    const ui = await ServiceDetailPage({
+      params: Promise.resolve({ slug: "telehealth" }),
+    });
+    render(ui);
+    expect(screen.getByRole("link", { name: /more services/i })).toHaveAttribute(
+      "href",
+      "/services"
+    );
+  });
+
+  it("renders a More Services link on the image-layout page too", async () => {
+    const ui = await ServiceDetailPage({
+      params: Promise.resolve({ slug: "same-day-appointments" }),
+    });
+    render(ui);
+    expect(screen.getByRole("link", { name: /more services/i })).toHaveAttribute(
+      "href",
+      "/services"
+    );
+  });
+
+  it("localizes the booking and More Services labels when locale is es", async () => {
+    const ui = await ServiceDetailPage({
+      params: Promise.resolve({ slug: "telehealth", locale: "es" }),
+    });
+    render(ui, "es");
+    expect(screen.getByRole("link", { name: /reservar una cita/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /más servicios/i })).toHaveAttribute(
+      "href",
+      "/es/services"
+    );
+  });
 });

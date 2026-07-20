@@ -6,6 +6,9 @@ export type Service = {
   descriptionEs: string;
   longDescription: string;
   longDescriptionEs: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  imageAltEs?: string;
 };
 
 export type ServiceCategory = {
@@ -124,6 +127,9 @@ export const serviceCategories: ServiceCategory[] = [
         descriptionEs: "Atención de urgencia sencilla con citas disponibles el mismo día en la mayoría de las ubicaciones.",
         longDescription: "We know that when your child is sick or hurt, timely care matters, which is why we offer same-day appointments at our clinics across Greater LA. You can schedule by phone, online, or through after-hours telehealth, so care is available when you need it most. Same-day scheduling means less time worrying and more time getting your child the attention they need.",
         longDescriptionEs: "Sabemos que cuando su hijo está enfermo o lastimado, la atención oportuna importa, por eso ofrecemos citas el mismo día en nuestras clínicas de toda el área de Los Ángeles. Puede programar por teléfono, en línea o mediante telesalud fuera de horario, para que la atención esté disponible cuando más la necesite. Las citas el mismo día significan menos tiempo preocupándose y más tiempo consiguiendo la atención que su hijo necesita.",
+        imageSrc: "/services/same-day-appointments.jpg",
+        imageAlt: "A pediatrician smiling with a young child holding a teddy bear",
+        imageAltEs: "Una pediatra sonriendo con una niña pequeña que sostiene un osito de peluche",
       },
       {
         id: "walk-ins",
