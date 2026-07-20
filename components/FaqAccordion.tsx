@@ -28,7 +28,7 @@ export function FaqAccordion({ items, revealOnScroll = false }: FaqAccordionProp
         const answer = locale === "es" ? item.answerEs : item.answer;
 
         const card = (
-          <div className="rounded-2xl bg-white shadow-card">
+          <div className="rounded-2xl bg-surface shadow-card">
             <h3 className="contents">
               <button
                 type="button"

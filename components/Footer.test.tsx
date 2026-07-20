@@ -41,6 +41,18 @@ describe("Footer", () => {
       "/foundation"
     );
     expect(screen.getByRole("link", { name: "Careers" })).toHaveAttribute("href", "/careers");
+    expect(screen.getByRole("link", { name: "Privacy Policy" })).toHaveAttribute(
+      "href",
+      "/privacy-policy"
+    );
+    expect(screen.getByRole("link", { name: "Terms & Conditions" })).toHaveAttribute(
+      "href",
+      "/terms-and-conditions"
+    );
+    expect(screen.getByRole("link", { name: "Same-Day Appointments" })).toHaveAttribute(
+      "href",
+      "/services/same-day-appointments"
+    );
   });
 
   it("renders external social links that open in a new tab", () => {

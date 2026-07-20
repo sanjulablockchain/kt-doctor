@@ -36,7 +36,7 @@ export function TestimonialsPageContent() {
             href={googleReviewsUrl(location)}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-2xl border border-border bg-white px-4 py-3 text-center font-display text-sm font-semibold text-teal-dark shadow-card transition-all hover:-translate-y-0.5 hover:shadow-soft"
+            className="rounded-2xl border border-border bg-surface px-4 py-3 text-center font-display text-sm font-semibold text-teal-dark shadow-card transition-all hover:-translate-y-0.5 hover:shadow-soft"
           >
             {location.name}
           </a>

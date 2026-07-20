@@ -57,7 +57,7 @@ export function ContactWidget() {
   return (
     <div ref={panelRef} className="fixed bottom-5 right-5 z-20 sm:bottom-8 sm:right-8">
       {open && (
-        <div className="absolute bottom-full right-0 mb-3 w-72 rounded-2xl border border-border bg-white p-4 shadow-card">
+        <div className="absolute bottom-full right-0 mb-3 w-72 rounded-2xl border border-border bg-surface p-4 shadow-card">
           <h4 className="font-display text-sm font-bold text-ink">{t("title")}</h4>
           <p className="mb-3 mt-1 text-xs text-ink-soft">{t("helper")}</p>
 

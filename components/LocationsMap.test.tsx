@@ -1,52 +1,27 @@
-import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { screen } from "@testing-library/react";
 import { renderWithIntl as render } from "@/lib/test-utils";
-import userEvent from "@testing-library/user-event";
 
-const { fitBoundsMock, boundsExtendMock } = vi.hoisted(() => ({
-  fitBoundsMock: vi.fn(),
-  boundsExtendMock: vi.fn(),
-}));
+// The component reads NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL at module-evaluation
+// time, so we stub the env before importing it fresh in each test via a dynamic
+// import. Pass `undefined` to leave it unset and exercise the built-in default.
+async function renderMap(
+  overrideUrl: string | undefined,
+  locations: Array<Record<string, unknown>>
+) {
+  if (overrideUrl !== undefined) {
+    vi.stubEnv("NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL", overrideUrl);
+  }
+  vi.resetModules();
+  const { LocationsMap } = await import("./LocationsMap");
+  render(<LocationsMap locations={locations as never} />);
+}
 
-vi.mock("@react-google-maps/api", () => ({
-  useJsApiLoader: () => ({ isLoaded: true, loadError: undefined }),
-  GoogleMap: ({
-    children,
-    onLoad,
-  }: {
-    children: React.ReactNode;
-    onLoad?: (map: { fitBounds: typeof fitBoundsMock }) => void;
-  }) => {
-    onLoad?.({ fitBounds: fitBoundsMock });
-    return <div data-testid="google-map">{children}</div>;
-  },
-  MarkerF: ({ title, onClick }: { title: string; onClick?: () => void }) => (
-    <button type="button" data-testid="marker" onClick={onClick}>
-      {title}
-    </button>
-  ),
-  InfoWindow: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="info-window">{children}</div>
-  ),
-}));
+const MAP_TITLE = "Map of Kids & Teens clinic locations";
 
 afterEach(() => {
   vi.unstubAllEnvs();
 });
-
-beforeEach(() => {
-  fitBoundsMock.mockClear();
-  boundsExtendMock.mockClear();
-  (globalThis as { google?: unknown }).google = {
-    maps: {
-      LatLngBounds: vi.fn(function LatLngBounds() {
-        return { extend: boundsExtendMock };
-      }),
-    },
-  };
-});
-
-import { LocationsMap } from "./LocationsMap";
 
 const alpha = {
   id: "a",
@@ -89,10 +64,33 @@ const telehealth = {
 };
 
 describe("LocationsMap", () => {
-  it("renders a fallback with directions links when no API key is configured", () => {
-    render(<LocationsMap locations={[alpha, beta]} />);
+  it("defaults to a keyless business-search embed when no override is set", async () => {
+    await renderMap(undefined, [alpha, beta]);
 
-    expect(screen.queryByTestId("google-map")).not.toBeInTheDocument();
+    const iframe = screen.getByTitle(MAP_TITLE);
+    expect(iframe.tagName).toBe("IFRAME");
+    const src = iframe.getAttribute("src") ?? "";
+    expect(src).toContain("output=embed");
+    expect(src).toContain("Kids");
+    // Keyless: no API key ever appears in the URL.
+    expect(src).not.toContain("key=");
+    // The map replaces the address fallback entirely.
+    expect(screen.queryByText("1 A St")).not.toBeInTheDocument();
+  });
+
+  it("uses a My Maps override URL when one is configured", async () => {
+    const url = "https://www.google.com/maps/d/embed?mid=TEST_MAP_ID";
+    await renderMap(url, [alpha, beta]);
+
+    const iframe = screen.getByTitle(MAP_TITLE);
+    expect(iframe).toHaveAttribute("src", url);
+    expect(iframe).toHaveAttribute("loading", "lazy");
+  });
+
+  it("falls back to a list with directions links when the embed is disabled", async () => {
+    await renderMap("", [alpha, beta]);
+
+    expect(screen.queryByTitle(MAP_TITLE)).not.toBeInTheDocument();
     expect(screen.getByText("Alpha")).toBeInTheDocument();
     expect(screen.getByText("1 A St")).toBeInTheDocument();
     const directionsLinks = screen.getAllByRole("link", { name: "Get Directions" });
@@ -103,58 +101,10 @@ describe("LocationsMap", () => {
     );
   });
 
-  it("renders one marker per location when an API key is configured", () => {
-    vi.stubEnv("NEXT_PUBLIC_GOOGLE_MAPS_API_KEY", "test-key");
+  it("omits locations without lat/lng from the fallback list", async () => {
+    await renderMap("", [alpha, telehealth]);
 
-    render(<LocationsMap locations={[alpha, beta]} />);
-
-    const markers = screen.getAllByTestId("marker");
-    expect(markers).toHaveLength(2);
-    expect(screen.getByText("Alpha")).toBeInTheDocument();
-    expect(screen.getByText("Beta")).toBeInTheDocument();
-  });
-
-  it("skips locations without lat/lng instead of crashing", () => {
-    vi.stubEnv("NEXT_PUBLIC_GOOGLE_MAPS_API_KEY", "test-key");
-
-    render(<LocationsMap locations={[alpha, telehealth]} />);
-
-    const markers = screen.getAllByTestId("marker");
-    expect(markers).toHaveLength(1);
     expect(screen.getByText("Alpha")).toBeInTheDocument();
     expect(screen.queryByText("Telehealth")).not.toBeInTheDocument();
-  });
-
-  it("opens an info window with details and a directions link when a marker is clicked", async () => {
-    vi.stubEnv("NEXT_PUBLIC_GOOGLE_MAPS_API_KEY", "test-key");
-    const user = userEvent.setup();
-
-    render(<LocationsMap locations={[alpha, beta]} />);
-
-    expect(screen.queryByTestId("info-window")).not.toBeInTheDocument();
-
-    await user.click(screen.getByRole("button", { name: "Alpha" }));
-
-    expect(screen.getByTestId("info-window")).toBeInTheDocument();
-    expect(screen.getByText("1 A St")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "View Details" })).toHaveAttribute(
-      "href",
-      "/locations/a"
-    );
-    expect(screen.getByRole("link", { name: "Get Directions" })).toHaveAttribute(
-      "href",
-      "https://www.google.com/maps/dir/?api=1&destination=34,-118"
-    );
-  });
-
-  it("fits the map to every mappable location on load", () => {
-    vi.stubEnv("NEXT_PUBLIC_GOOGLE_MAPS_API_KEY", "test-key");
-
-    render(<LocationsMap locations={[alpha, beta]} />);
-
-    expect(fitBoundsMock).toHaveBeenCalledTimes(1);
-    expect(boundsExtendMock).toHaveBeenCalledTimes(2);
-    expect(boundsExtendMock).toHaveBeenCalledWith({ lat: 34, lng: -118 });
-    expect(boundsExtendMock).toHaveBeenCalledWith({ lat: 34.1, lng: -118.1 });
   });
 });

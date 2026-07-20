@@ -108,7 +108,7 @@ export default async function DoctorDetailPage({
           <Link
             key={loc.id}
             href={`/locations/${loc.id}`}
-            className="rounded-2xl border border-border bg-white p-4 text-sm transition-colors hover:border-teal"
+            className="rounded-2xl border border-border bg-surface p-4 text-sm transition-colors hover:border-teal"
           >
             <p className="font-display font-semibold text-ink">{loc.name}</p>
             <p className="mt-0.5 text-ink-soft">{loc.address}</p>

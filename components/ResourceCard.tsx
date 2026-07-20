@@ -14,7 +14,7 @@ export function ResourceCard({ resource, className = "" }: ResourceCardProps) {
   const description = locale === "es" ? resource.descriptionEs : resource.description;
 
   return (
-    <div className={`rounded-2xl border border-border bg-white p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft ${className}`}>
+    <div className={`rounded-2xl border border-border bg-surface p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft ${className}`}>
       <p className="font-display text-base font-bold text-ink">{name}</p>
       <p className="mt-2 text-sm text-ink-soft">{description}</p>
       {resource.available && resource.href ? (

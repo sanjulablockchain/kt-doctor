@@ -15,7 +15,7 @@ export function FoundationPageContent() {
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
-      <div className="flex flex-col items-center gap-6 rounded-3xl border border-border bg-white p-8 shadow-card sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col items-center gap-6 rounded-3xl border border-border bg-surface p-8 shadow-card sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:gap-4 sm:text-left">
           <Image
             src={foundation.logoSrc}
@@ -44,7 +44,7 @@ export function FoundationPageContent() {
             href={foundation.siteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full border border-border bg-white px-5 py-2.5 text-center font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
+            className="rounded-full border border-border bg-surface px-5 py-2.5 text-center font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
           >
             {t("visitFoundationSite")} →
           </a>

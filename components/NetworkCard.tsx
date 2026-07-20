@@ -16,7 +16,7 @@ export function NetworkCard({ brand, compact = false }: NetworkCardProps) {
   const services = locale === "es" ? brand.servicesEs : brand.services;
 
   return (
-    <div className="flex h-full flex-col items-center rounded-3xl border border-border bg-white p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
+    <div className="flex h-full flex-col items-center rounded-3xl border border-border bg-surface p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
       <div className="flex h-14 items-center justify-center">
         <Image
           src={brand.logoSrc}

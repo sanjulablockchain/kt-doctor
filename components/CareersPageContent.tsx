@@ -23,7 +23,7 @@ export function CareersPageContent() {
         {t("emailResume")}
       </a>
 
-      <div className="mt-10 rounded-2xl border border-border bg-white p-5 text-sm text-ink-soft shadow-card">
+      <div className="mt-10 rounded-2xl border border-border bg-surface p-5 text-sm text-ink-soft shadow-card">
         {t("postingsNotice")}
       </div>
     </main>

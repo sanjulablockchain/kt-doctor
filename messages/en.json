@@ -19,6 +19,12 @@
     "toggleLanguage": "Change language",
     "callUs": "Call us"
   },
+  "ThemeToggle": {
+    "label": "Color theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
   "Footer": {
     "tagline": "Board-certified pediatric care across 24 Greater LA clinics, with same-day visits, telehealth, and a doctor your family can stick with.",
     "highlight": "Largest pediatric medical group in California",
@@ -44,7 +50,17 @@
     "network": "Network",
     "foundation": "Foundation",
     "careers": "Careers",
+    "sameDayAppointments": "Same-Day Appointments",
+    "privacyPolicy": "Privacy Policy",
+    "termsAndConditions": "Terms & Conditions",
     "rights": "All rights reserved."
+  },
+  "Legal": {
+    "eyebrow": "Legal",
+    "privacyTitle": "Privacy Policy",
+    "termsTitle": "Terms and Conditions",
+    "effectiveLabel": "Effective Date",
+    "backToHome": "Back to Home"
   },
   "FloatingContact": {
     "backToTop": "Back to top",
@@ -142,6 +158,7 @@
     "map": "Map",
     "showingLocations": "Showing {count} of {count} locations",
     "mapUnavailable": "Map is temporarily unavailable — see clinic addresses below.",
+    "mapTitle": "Map of Kids & Teens clinic locations",
     "getDirections": "Get Directions",
     "viewDetails": "View Details"
   },

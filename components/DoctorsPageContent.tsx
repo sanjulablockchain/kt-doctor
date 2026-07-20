@@ -73,7 +73,7 @@ export function DoctorsPageContent() {
       </h1>
       <p className="mt-2 max-w-xl text-ink-soft">{t("description", { count: doctors.length })}</p>
 
-      <div className="mt-8 flex flex-col gap-3 rounded-3xl border border-border bg-white p-4 shadow-card sm:flex-row sm:items-center">
+      <div className="mt-8 flex flex-col gap-3 rounded-3xl border border-border bg-surface p-4 shadow-card sm:flex-row sm:items-center">
         <input
           type="text"
           placeholder={t("searchPlaceholder")}

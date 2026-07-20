@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { BOOKING_URL, PAY_ONLINE_URL, PATIENT_PORTAL_URL, MAIN_PHONE } from "@/lib/constants";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 // Formats a US display number like "(818) 361-5437" into E.164 for tel:
 // links, e.g. "+18183615437" — matches components/Footer.tsx's formatting.
@@ -73,7 +74,7 @@ export function Header() {
           letting it cover the viewport. */}
       <div
         aria-hidden
-        className="absolute inset-0 border-b border-border bg-ivory/95 shadow-[0_1px_0_0_rgba(18,24,31,0.04)] backdrop-blur-md"
+        className="absolute inset-0 border-b border-border bg-ivory/95 shadow-header backdrop-blur-md"
       />
 
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-5 sm:h-auto sm:gap-6 sm:px-8 sm:py-2.5">
@@ -154,7 +155,7 @@ export function Header() {
             </button>
 
             <div
-              className={`grid grid-cols-2 gap-1.5 sm:absolute sm:right-0 sm:top-full sm:mt-2 sm:w-56 sm:gap-0.5 sm:rounded-2xl sm:border sm:border-border sm:bg-white sm:p-2 sm:shadow-card ${
+              className={`grid grid-cols-2 gap-1.5 sm:absolute sm:right-0 sm:top-full sm:mt-2 sm:w-56 sm:gap-0.5 sm:rounded-2xl sm:border sm:border-border sm:bg-surface sm:p-2 sm:shadow-card ${
                 moreOpen ? "sm:flex sm:flex-col" : "sm:hidden"
               }`}
             >
@@ -211,6 +212,8 @@ export function Header() {
               </span>
             </a>
 
+            <ThemeToggle />
+
             <div
               role="group"
               aria-label={t("toggleLanguage")}
@@ -230,7 +233,7 @@ export function Header() {
                     key={loc}
                     href={pathname}
                     locale={loc}
-                    className="rounded-full px-3 py-1.5 font-display text-xs font-semibold text-ink-soft transition-colors hover:bg-white hover:text-teal-dark"
+                    className="rounded-full px-3 py-1.5 font-display text-xs font-semibold text-ink-soft transition-colors hover:bg-surface hover:text-teal-dark"
                   >
                     {loc.toUpperCase()}
                   </Link>

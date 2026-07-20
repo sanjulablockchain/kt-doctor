@@ -71,7 +71,7 @@ export function AboutPageContent() {
         </a>
         <Link
           href="/locations"
-          className="rounded-full border border-border bg-white px-7 py-3.5 text-center font-display font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
+          className="rounded-full border border-border bg-surface px-7 py-3.5 text-center font-display font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
         >
           {t("findClinic")}
         </Link>

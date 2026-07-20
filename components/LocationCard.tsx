@@ -10,7 +10,7 @@ export function LocationCard({ location }: LocationCardProps) {
     <Link
       href={`/locations/${location.id}`}
       aria-label={location.name}
-      className="group block rounded-3xl border border-border bg-white p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal"
+      className="group block rounded-3xl border border-border bg-surface p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal"
     >
       <div className="flex items-center gap-3">
         <span

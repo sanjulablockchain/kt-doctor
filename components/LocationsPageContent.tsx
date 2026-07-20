@@ -23,7 +23,7 @@ export function LocationsPageContent() {
       <p className="mt-2 max-w-xl text-ink-soft">{t("description")}</p>
 
       <div className="mt-8 flex items-center justify-between gap-4">
-        <div className="inline-flex rounded-full border border-border bg-white p-1 shadow-card">
+        <div className="inline-flex rounded-full border border-border bg-surface p-1 shadow-card">
           <button
             type="button"
             aria-pressed={view === "list"}

@@ -54,7 +54,7 @@ export default function Home() {
       <section className="overflow-hidden bg-gradient-to-b from-teal-tint/60 to-ivory">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 pb-8 pt-12 sm:px-8 sm:pt-16 lg:grid-cols-[1fr_1.05fr] lg:gap-10">
           <div className="flex flex-col gap-6">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-white px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
               <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5">
                 <path
                   d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"
@@ -88,7 +88,7 @@ export default function Home() {
               </a>
               <Link
                 href="/doctors"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
               >
                 <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
                   <path
@@ -105,7 +105,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/locations"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
               >
                 <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
                   <path
@@ -132,7 +132,7 @@ export default function Home() {
               preload
             />
 
-            <div className="relative z-10 mx-4 -mt-10 rounded-2xl border border-border bg-white p-5 shadow-card sm:absolute sm:-bottom-8 sm:left-6 sm:right-6 sm:mx-0 sm:mt-0">
+            <div className="relative z-10 mx-4 -mt-10 rounded-2xl border border-border bg-surface p-5 shadow-card sm:absolute sm:-bottom-8 sm:left-6 sm:right-6 sm:mx-0 sm:mt-0">
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {STATS.map((stat) => (
                   <div key={stat.label} className="flex flex-col">
@@ -237,7 +237,7 @@ export default function Home() {
       </section>
 
       {/* Doctors preview */}
-      <section className="border-y border-border bg-white/60">
+      <section className="border-y border-border bg-surface/60">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
@@ -261,7 +261,7 @@ export default function Home() {
           <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-4">
             {previewDoctors.map((doc, i) => (
               <Reveal key={doc.id} delayMs={Math.min(i, 4) * 70} className="h-full">
-                <div className="h-full rounded-2xl border border-border bg-white p-5 text-center shadow-card transition-all hover:-translate-y-1 hover:border-teal hover:shadow-soft">
+                <div className="h-full rounded-2xl border border-border bg-surface p-5 text-center shadow-card transition-all hover:-translate-y-1 hover:border-teal hover:shadow-soft">
                   {doc.photoSrc ? (
                     <Image
                       src={doc.photoSrc}
@@ -322,7 +322,7 @@ export default function Home() {
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <Link
           href="/locations"
-          className="group flex flex-col gap-6 rounded-3xl border border-border bg-white p-8 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft sm:flex-row sm:items-center sm:justify-between"
+          className="group flex flex-col gap-6 rounded-3xl border border-border bg-surface p-8 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft sm:flex-row sm:items-center sm:justify-between"
         >
           <div className="flex items-center gap-4">
             <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold-tint text-gold">
@@ -356,7 +356,7 @@ export default function Home() {
 
       {/* Foundation teaser */}
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
-        <div className="flex flex-col items-center gap-6 rounded-3xl border border-border bg-white p-8 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft sm:flex-row sm:items-center sm:justify-between sm:text-left">
+        <div className="flex flex-col items-center gap-6 rounded-3xl border border-border bg-surface p-8 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <div className="flex flex-col items-center gap-4 sm:flex-row">
             <Image
               src={foundation.logoSrc}
@@ -382,7 +382,7 @@ export default function Home() {
             </a>
             <Link
               href="/foundation"
-              className="rounded-full border border-border bg-white px-6 py-3 text-center font-display font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
+              className="rounded-full border border-border bg-surface px-6 py-3 text-center font-display font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
             >
               Learn more
             </Link>
@@ -393,7 +393,7 @@ export default function Home() {
       {/* Careers, Insurance teaser */}
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div className="rounded-3xl border border-border bg-white p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
+          <div className="rounded-3xl border border-border bg-surface p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
             <p className="font-display text-lg font-bold text-ink">{t("careersHeading")}</p>
             <p className="mt-2 text-sm text-ink-soft">{t("careersBody")}</p>
             <Link
@@ -404,7 +404,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="rounded-3xl border border-border bg-white p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
+          <div className="rounded-3xl border border-border bg-surface p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
             <p className="font-display text-lg font-bold text-ink">{t("insuranceHeading")}</p>
             <p className="mt-2 text-sm text-ink-soft">
               {t("insuranceBody", { categories: insuranceInfo.acceptedCategories.join(", ") })}
@@ -460,7 +460,7 @@ export default function Home() {
 
       {/* Services pill cloud */}
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
-        <div className="rounded-3xl border border-border bg-white p-8 text-center shadow-card sm:p-10">
+        <div className="rounded-3xl border border-border bg-surface p-8 text-center shadow-card sm:p-10">
           <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
             {t("servicesEyebrow", { count: allServices.length })}
           </span>
@@ -508,7 +508,7 @@ export default function Home() {
               <Reveal key={story.id} delayMs={Math.min(i, 4) * 70} className="h-full">
                 <Link
                   href={`/blog/${story.id}`}
-                  className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
+                  className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
                 >
                   <Image
                     src={story.imageSrc}
@@ -533,7 +533,7 @@ export default function Home() {
       </section>
 
       {/* Trusted Partners & Affiliations */}
-      <section className="border-y border-border bg-white">
+      <section className="border-y border-border bg-surface">
         <div className="mx-auto max-w-7xl px-5 py-12 text-center sm:px-8">
           <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
             {t("partnersHeading")}
@@ -577,7 +577,7 @@ export default function Home() {
 
       {/* Bottom CTA */}
       <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8">
-        <div className="flex flex-col items-start gap-6 rounded-3xl bg-navy px-8 py-10 text-white sm:flex-row sm:items-center sm:justify-between">
+        <div data-on-navy className="flex flex-col items-start gap-6 rounded-3xl bg-navy px-8 py-10 text-white sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <Image
               src="/clinic-logo.svg"

@@ -21,7 +21,7 @@ function initials(name: string): string {
 
 export function DoctorCard({ doctor, locationNames }: DoctorCardProps) {
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
+    <div className="flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
       <div className="h-20 shrink-0 bg-teal" />
 
       <div className="flex flex-1 flex-col items-center px-6 pb-6 text-center">
@@ -32,12 +32,12 @@ export function DoctorCard({ doctor, locationNames }: DoctorCardProps) {
               alt={doctor.name}
               width={96}
               height={96}
-              className="h-24 w-24 rounded-full object-cover shadow-card ring-4 ring-white"
+              className="h-24 w-24 rounded-full object-cover shadow-card ring-4 ring-surface"
             />
           ) : (
             <div
               aria-hidden
-              className="flex h-24 w-24 items-center justify-center rounded-full bg-teal-tint font-display text-2xl font-bold text-teal-dark shadow-card ring-4 ring-white"
+              className="flex h-24 w-24 items-center justify-center rounded-full bg-teal-tint font-display text-2xl font-bold text-teal-dark shadow-card ring-4 ring-surface"
             >
               {initials(doctor.name)}
             </div>

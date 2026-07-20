@@ -3,36 +3,64 @@
 /*
   KTMG design tokens.
 
-  Palette: warm ivory (not stark white) + near-ink navy text, with a teal
-  brand color pulled from the clinic crest logo as the primary action color,
-  and a warm gold used sparingly for trust/rating accents (matched to the
-  boss-approved manus.space reference site's amber highlight).
+  Palette: warm ivory (not stark white) + near-ink navy text, teal brand
+  action color from the clinic crest, warm gold for trust/rating accents.
 
-  Signature direction: soft, rounded, "friendly clinic" warmth (big radii,
-  teal-tinted soft shadows) instead of the sharp corporate blue-on-white
-  template most healthcare sites default to — chosen because the audience is
-  parents making a trust decision for their kids, not enterprise buyers.
+  Theming: each token is defined once with light-dark(<light>, <dark>). The
+  applied theme is driven by `color-scheme` — :root declares `light dark`
+  (follow the OS by default) and an explicit choice sets `color-scheme` via
+  the [data-theme] attribute on <html> (see ThemeProvider). All light-mode
+  values below are unchanged from before dark mode.
 */
 :root {
-  --color-ivory: #f8fafc;
-  --color-ivory-deep: #eef2f6;
-  --color-ink: #12181f;
-  --color-ink-soft: #56606e;
-  --color-navy: #1e2940;
-  --color-teal: #0e8fa0;
-  --color-teal-dark: #0b6e7c;
-  --color-teal-tint: #e4f5f6;
-  --color-gold: #d6a34a;
-  --color-gold-tint: #fbf1de;
-  --color-border: #dde3ea;
+  color-scheme: light dark;
+
+  --color-ivory: light-dark(#f8fafc, #0f141a);
+  --color-ivory-deep: light-dark(#eef2f6, #1b232e);
+  --color-surface: light-dark(#ffffff, #161d27);
+  --color-ink: light-dark(#12181f, #e9eef3);
+  --color-ink-soft: light-dark(#56606e, #a3afbd);
+  --color-navy: light-dark(#1e2940, #1e2940);
+  --color-teal: light-dark(#0e8fa0, #118da0);
+  --color-teal-dark: light-dark(#0b6e7c, #1c93a6);
+  --color-teal-tint: light-dark(#e4f5f6, #12333a);
+  --color-gold: light-dark(#d6a34a, #d9a94f);
+  --color-gold-tint: light-dark(#fbf1de, #2a2317);
+  --color-border: light-dark(#dde3ea, #3f4a5a);
 
   --font-display: var(--font-jakarta), "Plus Jakarta Sans", sans-serif;
   --font-body: var(--font-inter), "Inter", sans-serif;
+
+  /* Only the shadow COLOR is themed (light-dark() takes a <color>, not a
+     whole shadow value). The soft teal/ink-tinted shadows vanish on dark
+     surfaces, so the dark color is a stronger near-black. */
+  --shadow-soft: 0 8px 24px -8px light-dark(rgb(14 143 160 / 0.18), rgb(0 0 0 / 0.55));
+  --shadow-card: 0 2px 10px -4px light-dark(rgb(18 24 31 / 0.08), rgb(0 0 0 / 0.5));
+  --shadow-header: 0 1px 0 0 light-dark(rgb(18 24 31 / 0.04), rgb(0 0 0 / 0.5));
+}
+
+/* Explicit override: a pinned choice forces color-scheme, which is what
+   light-dark() resolves against. System = no attribute = inherit `light dark`. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Footer & bottom CTA are a fixed navy surface in both themes; pin the tokens
+   they use as "light on navy" to their light values so those regions render
+   identically regardless of theme. No-op in light mode (values already match). */
+[data-on-navy] {
+  --color-ivory: #f8fafc;
+  --color-ivory-deep: #eef2f6;
+  --color-teal-tint: #e4f5f6;
 }
 
 @theme inline {
   --color-ivory: var(--color-ivory);
   --color-ivory-deep: var(--color-ivory-deep);
+  --color-surface: var(--color-surface);
   --color-ink: var(--color-ink);
   --color-ink-soft: var(--color-ink-soft);
   --color-navy: var(--color-navy);
@@ -46,8 +74,9 @@
   --font-display: var(--font-display);
   --font-body: var(--font-body);
 
-  --shadow-soft: 0 8px 24px -8px rgb(14 143 160 / 0.18);
-  --shadow-card: 0 2px 10px -4px rgb(18 24 31 / 0.08);
+  --shadow-soft: var(--shadow-soft);
+  --shadow-card: var(--shadow-card);
+  --shadow-header: var(--shadow-header);
 }
 
 body {

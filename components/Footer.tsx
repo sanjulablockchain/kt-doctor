@@ -67,9 +67,12 @@ export function Footer() {
     { href: "/foundation", label: t("foundation") },
     { href: "/careers", label: t("careers") },
     { href: "/blog", label: t("blog") },
+    { href: "/privacy-policy", label: t("privacyPolicy") },
+    { href: "/terms-and-conditions", label: t("termsAndConditions") },
   ] as const;
 
   const patientLinks = [
+    { href: "/services/same-day-appointments", label: t("sameDayAppointments") },
     { href: "/doctors", label: t("doctors") },
     { href: "/services", label: t("services") },
     { href: "/locations", label: t("locations") },
@@ -79,7 +82,7 @@ export function Footer() {
   ] as const;
 
   return (
-    <footer className="relative mt-16 overflow-hidden rounded-t-3xl bg-navy text-ivory sm:rounded-t-[3rem]">
+    <footer data-on-navy className="relative mt-16 overflow-hidden rounded-t-3xl bg-navy text-ivory sm:rounded-t-[3rem]">
       {/* Soft brand glow — keeps the large navy block from reading as a flat slab. */}
       <div
         aria-hidden

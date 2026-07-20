@@ -9,7 +9,7 @@ export function SriLankaTimeline({ schools }: SriLankaTimelineProps) {
   const locale = useLocale();
 
   return (
-    <div className="rounded-3xl border border-border bg-white p-8 shadow-card">
+    <div className="rounded-3xl border border-border bg-surface p-8 shadow-card">
       <div className="relative pl-6">
         <div
           className="absolute bottom-1 left-1.75 top-1 w-0.5 bg-teal-tint"

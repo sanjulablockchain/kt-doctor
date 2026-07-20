@@ -28,7 +28,7 @@ export function BlogPageContent() {
             <Link
               key={story.id}
               href={`/blog/${story.id}`}
-              className="flex flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
+              className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
             >
               <Image
                 src={story.imageSrc}

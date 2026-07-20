@@ -80,7 +80,7 @@ export function FilterDropdown({
         <ul
           role="listbox"
           aria-label={ariaLabel}
-          className="absolute left-0 top-full z-20 mt-2 max-h-64 min-w-full overflow-auto rounded-2xl border border-border bg-white p-1.5 shadow-card"
+          className="absolute left-0 top-full z-20 mt-2 max-h-64 min-w-full overflow-auto rounded-2xl border border-border bg-surface p-1.5 shadow-card"
         >
           <li>
             <button

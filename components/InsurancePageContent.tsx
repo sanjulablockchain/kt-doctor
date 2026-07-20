@@ -32,7 +32,7 @@ export function InsurancePageContent() {
         ))}
       </div>
 
-      <div className="mt-8 rounded-3xl border border-border bg-white p-6 shadow-card">
+      <div className="mt-8 rounded-3xl border border-border bg-surface p-6 shadow-card">
         <p className="font-display text-lg font-bold text-ink">{t("hmoRestrictionsTitle")}</p>
         <p className="mt-2 text-ink-soft">{t("hmoRestrictionsBody")}</p>
         <a

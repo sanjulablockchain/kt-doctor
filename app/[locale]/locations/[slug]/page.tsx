@@ -75,11 +75,11 @@ export default async function LocationDetailPage({
       <p className="mt-6 text-ink-soft">{location.description}</p>
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="rounded-2xl border border-border bg-white p-4">
+        <div className="rounded-2xl border border-border bg-surface p-4">
           <p className="font-display text-sm font-bold text-ink">Office Hours</p>
           <p className="mt-1 text-sm text-ink-soft">{location.hours.officeHours}</p>
         </div>
-        <div className="rounded-2xl border border-border bg-white p-4">
+        <div className="rounded-2xl border border-border bg-surface p-4">
           <p className="font-display text-sm font-bold text-ink">Telehealth Hours</p>
           <p className="mt-1 text-sm text-ink-soft">{location.hours.telehealthHours}</p>
         </div>
@@ -105,7 +105,7 @@ export default async function LocationDetailPage({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Book online with ${doc.name}`}
-                className="group rounded-2xl border border-border bg-white p-4 text-sm transition-colors hover:border-teal"
+                className="group rounded-2xl border border-border bg-surface p-4 text-sm transition-colors hover:border-teal"
               >
                 <span className="block font-display font-semibold text-ink">{doc.name}</span>
                 <span className="mt-0.5 block text-ink-soft">{doc.credentials}</span>

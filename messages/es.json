@@ -19,6 +19,12 @@
     "toggleLanguage": "Cambiar idioma",
     "callUs": "Llámenos"
   },
+  "ThemeToggle": {
+    "label": "Tema de color",
+    "system": "Sistema",
+    "light": "Claro",
+    "dark": "Oscuro"
+  },
   "Footer": {
     "tagline": "Atención pediátrica certificada en 24 clínicas del área de Los Ángeles, con visitas el mismo día, telesalud y un médico con quien su familia puede continuar.",
     "highlight": "El grupo médico pediátrico más grande de California",
@@ -44,7 +50,17 @@
     "network": "Red",
     "foundation": "Fundación",
     "careers": "Empleo",
+    "sameDayAppointments": "Citas el Mismo Día",
+    "privacyPolicy": "Política de Privacidad",
+    "termsAndConditions": "Términos y Condiciones",
     "rights": "Todos los derechos reservados."
+  },
+  "Legal": {
+    "eyebrow": "Legal",
+    "privacyTitle": "Política de Privacidad",
+    "termsTitle": "Términos y Condiciones",
+    "effectiveLabel": "Fecha de Vigencia",
+    "backToHome": "Volver al Inicio"
   },
   "FloatingContact": {
     "backToTop": "Volver arriba",
@@ -142,6 +158,7 @@
     "map": "Mapa",
     "showingLocations": "Mostrando {count} de {count} ubicaciones",
     "mapUnavailable": "El mapa no está disponible en este momento. Consulta las direcciones de las clínicas a continuación.",
+    "mapTitle": "Mapa de las ubicaciones de las clínicas Kids & Teens",
     "getDirections": "Cómo llegar",
     "viewDetails": "Ver detalles"
   },
