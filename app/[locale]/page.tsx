@@ -8,6 +8,7 @@ import { locations } from "@/data/locations";
 import { doctors } from "@/data/doctors";
 import { networkBrands } from "@/data/network";
 import { NetworkCard } from "@/components/NetworkCard";
+import { ClinicNearYouCard } from "@/components/ClinicNearYouCard";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { Reveal } from "@/components/Reveal";
 import { foundation } from "@/data/foundation";
@@ -320,38 +321,9 @@ export default function Home() {
 
       {/* Find a clinic */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
-        <Link
-          href="/locations"
-          className="group flex flex-col gap-6 rounded-3xl border border-border bg-surface p-8 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft sm:flex-row sm:items-center sm:justify-between"
-        >
-          <div className="flex items-center gap-4">
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold-tint text-gold">
-              <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7">
-                <path
-                  d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinejoin="round"
-                />
-                <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.6" />
-              </svg>
-            </span>
-            <div>
-              <p className="font-display text-xl font-bold text-ink">
-                {t("clinicNearYouHeading")}
-              </p>
-              <p className="mt-1 text-ink-soft">
-                {t("clinicNearYouBody", { count: locations.length })}
-              </p>
-            </div>
-          </div>
-          <span className="inline-flex w-fit items-center gap-1 rounded-full border border-border px-5 py-2.5 font-display font-semibold text-ink transition-colors group-hover:border-teal group-hover:text-teal-dark">
-            {t("viewLocations")}
-            <span aria-hidden className="transition-transform group-hover:translate-x-1">
-              →
-            </span>
-          </span>
-        </Link>
+        <Reveal>
+          <ClinicNearYouCard />
+        </Reveal>
       </section>
 
       {/* Foundation teaser */}

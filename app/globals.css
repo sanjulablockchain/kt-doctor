@@ -126,6 +126,21 @@ h4 {
   display: block;
 }
 
+/* Expanding "live" ripple, shared by the ClinicNearYouCard eyebrow dot and its
+   primary map pin ("care near you"). Starts small and opaque, blooms outward
+   while fading. Gated per-use with motion-reduce:animate-none. */
+@keyframes ktmg-ping {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
 /* Floating DonateTab: subtle idle heart-beat on the heart icon. */
 @keyframes heartbeat {
   0%,
