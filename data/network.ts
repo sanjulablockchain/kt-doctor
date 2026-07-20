@@ -8,6 +8,10 @@ export type NetworkBrand = {
   services: string[];
   servicesEs: string[];
   logoSrc: string;
+  /* Optional dark-mode logo. Only needed for logos whose ink is near-black and
+     would vanish on the dark card surface (the KTMG crest); colored logos read
+     fine on both surfaces and omit this. */
+  logoDarkSrc?: string;
   externalUrl?: string;
   internalHref?: string;
 };
@@ -25,6 +29,7 @@ export const networkBrands: NetworkBrand[] = [
     services: ["Primary Care", "Urgent Care", "Telehealth", "Newborn Care"],
     servicesEs: ["Atención Primaria", "Atención de Urgencia", "Telesalud", "Cuidado del Recién Nacido"],
     logoSrc: "/clinic-logo.svg",
+    logoDarkSrc: "/clinic-logo-dark.svg",
     internalHref: "/doctors",
   },
   {

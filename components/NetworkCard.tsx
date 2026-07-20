@@ -18,14 +18,38 @@ export function NetworkCard({ brand, compact = false }: NetworkCardProps) {
   return (
     <div className="flex h-full flex-col items-center rounded-3xl border border-border bg-surface p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
       <div className="flex h-14 items-center justify-center">
-        <Image
-          src={brand.logoSrc}
-          alt={`${brand.name} logo`}
-          width={140}
-          height={44}
-          unoptimized
-          className="h-full w-auto object-contain"
-        />
+        {brand.logoDarkSrc ? (
+          // Theme-aware swap (see .logo-light/.logo-dark in globals.css): the
+          // near-black crest ink vanishes on the dark card surface, so a dark
+          // variant lights it up. Both carry the same alt; only one shows.
+          <>
+            <Image
+              src={brand.logoSrc}
+              alt={`${brand.name} logo`}
+              width={140}
+              height={44}
+              unoptimized
+              className="logo-light h-full w-auto object-contain"
+            />
+            <Image
+              src={brand.logoDarkSrc}
+              alt={`${brand.name} logo`}
+              width={140}
+              height={44}
+              unoptimized
+              className="logo-dark h-full w-auto object-contain"
+            />
+          </>
+        ) : (
+          <Image
+            src={brand.logoSrc}
+            alt={`${brand.name} logo`}
+            width={140}
+            height={44}
+            unoptimized
+            className="h-full w-auto object-contain"
+          />
+        )}
       </div>
 
       <p className="mt-4 font-display text-lg font-bold text-ink">{brand.name}</p>
