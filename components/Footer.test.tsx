@@ -73,7 +73,7 @@ describe("Footer", () => {
       "href",
       "https://www.youtube.com/channel/UCpc-umQeo6CQFLHq4bTWeUQ"
     );
-    expect(screen.getByRole("link", { name: "X" })).toHaveAttribute("href", "https://x.com/");
+    expect(screen.getByRole("link", { name: "X" })).toHaveAttribute("href", "https://x.com/KTDoctorGroup");
   });
 
   it("uses the Spanish text line when rendered in the es locale", () => {
