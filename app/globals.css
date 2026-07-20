@@ -97,6 +97,34 @@ h4 {
   color: var(--color-teal-dark);
 }
 
+/*
+  Theme-aware header logo. The crest's ink (tagline + linework) is near-black
+  and vanishes on the dark header, so a dark-mode variant recolors that ink to
+  light (public/clinic-logo-dark.svg). light-dark() can't switch a url(), so the
+  two variants are toggled here. This mirrors the exact resolution the rest of
+  the app gets from `color-scheme: light dark` + [data-theme] (see
+  ThemeProvider): system preference via the media query, an explicit choice via
+  the attribute, with the explicit choice winning. Both are always in the DOM so
+  the swap is flash-free (the server can't know the theme).
+*/
+.logo-dark {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-light {
+    display: none;
+  }
+  :root:not([data-theme="light"]) .logo-dark {
+    display: block;
+  }
+}
+:root[data-theme="dark"] .logo-light {
+  display: none;
+}
+:root[data-theme="dark"] .logo-dark {
+  display: block;
+}
+
 /* Floating DonateTab: subtle idle heart-beat on the heart icon. */
 @keyframes heartbeat {
   0%,
