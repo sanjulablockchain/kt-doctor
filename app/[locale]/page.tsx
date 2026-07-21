@@ -9,6 +9,7 @@ import { doctors } from "@/data/doctors";
 import { networkBrands } from "@/data/network";
 import { NetworkCard } from "@/components/NetworkCard";
 import { ClinicNearYouCard } from "@/components/ClinicNearYouCard";
+import { BookingCtaBanner } from "@/components/BookingCtaBanner";
 import { InfoStatCard } from "@/components/InfoStatCard";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { Reveal } from "@/components/Reveal";
@@ -563,33 +564,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Bottom CTA */}
-      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8">
-        <div data-on-navy className="flex flex-col items-start gap-6 rounded-3xl bg-navy px-8 py-10 text-white sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-4">
-            <Image
-              src="/clinic-logo.svg"
-              alt=""
-              aria-hidden
-              width={48}
-              height={15}
-              className="hidden h-12 w-auto brightness-0 invert sm:block"
-              unoptimized
-            />
-            <div>
-              <p className="font-display text-xl font-bold">{t("bottomCtaHeading")}</p>
-              <p className="mt-1 text-white/70">{t("bottomCtaBody")}</p>
-            </div>
-          </div>
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-teal px-7 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
-          >
-            {t("bookAppointment")}
-          </a>
-        </div>
+      {/* Bottom CTA — small bottom padding only; the footer's mt-16 already
+          provides the gap before it (avoids doubling up to a ~144px band). */}
+      <section className="mx-auto max-w-7xl px-5 pb-4 sm:px-8">
+        <Reveal>
+          <BookingCtaBanner />
+        </Reveal>
       </section>
 
       <DonateTab />

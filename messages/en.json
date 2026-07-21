@@ -126,6 +126,8 @@
     "faqSubheading": "Everything you need to know about visiting our clinics.",
     "bottomCtaHeading": "Your child can be seen today.",
     "bottomCtaBody": "Book online in under a minute, or call and we'll find the soonest opening.",
+    "bottomCtaPill": "Same-day openings today",
+    "bottomCtaCall": "Call {phone}",
     "servicesEyebrow": "{count} Specialties",
     "servicesHeading": "Comprehensive Pediatric Services",
     "viewAllServices": "View all services",

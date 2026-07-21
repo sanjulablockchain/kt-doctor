@@ -126,6 +126,8 @@
     "faqSubheading": "Todo lo que necesita saber sobre cómo visitar nuestras clínicas.",
     "bottomCtaHeading": "Su hijo puede ser atendido hoy.",
     "bottomCtaBody": "Reserve en línea en menos de un minuto, o llame y encontraremos la cita más pronta.",
+    "bottomCtaPill": "Citas para el mismo día, hoy",
+    "bottomCtaCall": "Llamar al {phone}",
     "servicesEyebrow": "{count} Especialidades",
     "servicesHeading": "Servicios Pediátricos Integrales",
     "viewAllServices": "Ver todos los servicios",
