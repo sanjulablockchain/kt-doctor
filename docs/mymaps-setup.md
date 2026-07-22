@@ -4,20 +4,17 @@ The locations page map is a plain `<iframe>`. It needs **no API key and no billi
 
 ## It already works — no setup required
 
-By default the map searches Google Maps for **"Kids & Teens Medical Group"** and
-shows the group's indexed clinic pins across Greater LA. This works out of the box
-with zero configuration, no Google account, and no cost.
+The app ships with a curated Google **My Maps** as its default map, baked into
+`components/LocationsMap.tsx` (`DEFAULT_EMBED_URL`). It shows every clinic as a pin,
+is keyless and free, and needs no configuration.
 
-**Trade-off:** the pins come from Google's own business listing, so you don't control
-exactly which locations appear or their precision — Google shows what it has indexed
-(most of the clinics, at business-listing accuracy). If that's good enough, you're
-done. If you want an exact, hand-curated set of all 23 pins, use the optional My Maps
-override below.
+To point the map at a **different** My Maps (e.g. a rebuilt or restyled one), create
+it with the steps below and set its embed URL in `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL`
+(see "Configure the app"), or just replace `DEFAULT_EMBED_URL` in the component.
 
-## Optional: curate exact pins with Google My Maps
+## Re-creating or replacing the curated map
 
-This gives you full control over the pins, but **requires a Google account** to create
-and host the map.
+Creating/hosting a My Maps **requires a Google account**.
 
 ### 1. Create the map and import the clinics
 
@@ -30,7 +27,7 @@ and host the map.
    **Longitude**.
 6. When asked **"Choose a column to title your markers"**, pick **Name**.
 
-All 23 physical clinics drop onto the map as pins. (The telehealth entry has no
+Every physical clinic drops onto the map as a pin. (The telehealth entry has no
 address, so it's intentionally excluded from the CSV.)
 
 7. Give the map a title and, optionally, style the pins.

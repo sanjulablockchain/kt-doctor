@@ -64,14 +64,14 @@ const telehealth = {
 };
 
 describe("LocationsMap", () => {
-  it("defaults to a keyless business-search embed when no override is set", async () => {
+  it("defaults to the curated keyless My Maps embed when no override is set", async () => {
     await renderMap(undefined, [alpha, beta]);
 
     const iframe = screen.getByTitle(MAP_TITLE);
     expect(iframe.tagName).toBe("IFRAME");
     const src = iframe.getAttribute("src") ?? "";
-    expect(src).toContain("output=embed");
-    expect(src).toContain("Kids");
+    expect(src).toContain("/maps/d/embed");
+    expect(src).toContain("mid=");
     // Keyless: no API key ever appears in the URL.
     expect(src).not.toContain("key=");
     // The map replaces the address fallback entirely.

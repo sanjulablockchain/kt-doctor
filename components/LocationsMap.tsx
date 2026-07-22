@@ -11,14 +11,23 @@ type MappableLocation = Location & { lat: number; lng: number };
 
 const MAP_SHELL_CLASSES = "h-72 w-full sm:h-96 lg:h-[32rem]";
 
-// Free, keyless Google Maps embed — no API key, no billing. By default we search
-// Google Maps for the practice name, which surfaces the group's indexed clinic
-// pins across Greater LA with zero setup. Override with a Google "My Maps" embed
-// URL (see docs/mymaps-setup.md) for a precise, hand-curated set of pins, or set
-// the override to an empty string to show the address-list fallback instead.
+// Free, keyless Google Maps embed — no API key, no billing. The default is a
+// curated Google "My Maps" showing every clinic (source data:
+// docs/locations-mymaps-import.csv; setup steps: docs/mymaps-setup.md). Override
+// with NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL to point at a different map, or set that
+// to an empty string to show the address-list fallback instead.
 const DEFAULT_EMBED_URL =
-  "https://www.google.com/maps?q=Kids+%26+Teens+Medical+Group,+Los+Angeles,+CA&output=embed";
+  "https://www.google.com/maps/d/embed?mid=1YYdtWQyub1yRh-FGsTWNQEIYDvHQHvI&ehbc=2E312F";
 const mapEmbedUrl = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ?? DEFAULT_EMBED_URL;
+
+// Google My Maps (/maps/d/embed) renders a title/toolbar bar at the top of the
+// iframe that has no option to disable. We can't hide it directly (it's served
+// cross-origin from google.com), so we clip it: grow the iframe by the bar's
+// height and shift it up under an overflow-hidden container. The bottom "Google
+// My Maps" attribution stays visible. Only applied to My Maps embeds — a plain
+// search embed (output=embed) has no such bar.
+const isMyMapsEmbed = mapEmbedUrl.includes("/maps/d/");
+const MYMAPS_HEADER_CROP_PX = 72;
 
 function isMappable(loc: Location): loc is MappableLocation {
   return loc.lat !== undefined && loc.lng !== undefined;
@@ -83,13 +92,23 @@ export function LocationsMap({ locations }: LocationsMapProps) {
   }
 
   return (
-    <div className={MAP_SHELL_CLASSES}>
+    <div className={`${MAP_SHELL_CLASSES} overflow-hidden`}>
       <iframe
         src={mapEmbedUrl}
         loading="lazy"
         title={t("mapTitle")}
         referrerPolicy="no-referrer-when-downgrade"
-        style={{ width: "100%", height: "100%", border: 0 }}
+        style={
+          isMyMapsEmbed
+            ? {
+                width: "100%",
+                height: `calc(100% + ${MYMAPS_HEADER_CROP_PX}px)`,
+                marginTop: `-${MYMAPS_HEADER_CROP_PX}px`,
+                border: 0,
+                display: "block",
+              }
+            : { width: "100%", height: "100%", border: 0, display: "block" }
+        }
       />
     </div>
   );
