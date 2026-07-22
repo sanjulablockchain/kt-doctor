@@ -86,7 +86,7 @@ export const locations: Location[] = [
     // to the shared BOOKING_URL. email/extension follow the usual conventions
     // but are UNCONFIRMED — confirm with the client (as with La Mirada above).
     address: "2486 Ponderosa Dr N, Suite D-211, Camarillo, CA 93010",
-    phone: "(818) 361-5437",
+    phone: "(805) 484-2818",
     email: "camarillo@ktdoctor.com",
     extension: "",
     lat: 34.2308,
@@ -100,7 +100,7 @@ export const locations: Location[] = [
     id: "canyon-country",
     name: "Canyon Country",
     address: "20655 Soledad Canyon Rd Suite 25, Canyon Country, CA 91351",
-    phone: "(818) 361-5437",
+    phone: "(661) 251-8400",
     email: "canyoncountry@ktdoctor.com",
     extension: "014",
     bookingUrl:
@@ -116,7 +116,7 @@ export const locations: Location[] = [
     id: "culver-city",
     name: "Culver City",
     address: "3831 Hughes Ave #602, Culver City, CA 90232",
-    phone: "(818) 361-5437",
+    phone: "(310) 558-8895",
     email: "culvercity@ktdoctor.com",
     extension: "073",
     bookingUrl:
@@ -135,7 +135,7 @@ export const locations: Location[] = [
     // previous entry here (11525 Brookshire Ave STE 302) no longer matches
     // the site.
     address: "8201 4th St, Downey, CA 90241",
-    phone: "(818) 361-5437",
+    phone: "(562) 904-2821",
     email: "downey@ktdoctor.com",
     extension: "079",
     bookingUrl:
@@ -208,7 +208,7 @@ export const locations: Location[] = [
     // Suite number corrected from the live location page (previously
     // recorded as #200).
     address: "10200 Sepulveda Blvd #220, Mission Hills, CA 91345",
-    phone: "(818) 361-5437",
+    phone: "(818) 365-7783",
     email: "missionhills@ktdoctor.com",
     extension: "195",
     bookingUrl:
@@ -224,7 +224,7 @@ export const locations: Location[] = [
     id: "northridge",
     name: "Northridge",
     address: "8628 Reseda Blvd, Northridge, CA 91324",
-    phone: "(818) 361-5437",
+    phone: "(818) 280-4268",
     email: "northridge@ktdoctor.com",
     extension: "713",
     bookingUrl:
@@ -240,7 +240,7 @@ export const locations: Location[] = [
     id: "pasadena",
     name: "Pasadena",
     address: "504 S Sierra Madre Blvd, Pasadena, CA 91107",
-    phone: "(626) 655-4041",
+    phone: "(818) 361-5437",
     email: "pasadena@ktdoctor.com",
     extension: "118",
     bookingUrl:
@@ -256,7 +256,7 @@ export const locations: Location[] = [
     id: "pico-rivera",
     name: "Pico Rivera",
     address: "8337 Telegraph Rd #119, Pico Rivera, CA 90660",
-    phone: "(818) 361-5437",
+    phone: "(562) 776-3444",
     email: "picorivera@ktdoctor.com",
     extension: "191",
     bookingUrl:
@@ -291,7 +291,7 @@ export const locations: Location[] = [
     // previous entry here (3200 Santa Monica Blvd UNIT 204) no longer
     // matches the site.
     address: "2221 Lincoln Blvd #200, Santa Monica, CA 90405",
-    phone: "(310) 234-0300",
+    phone: "(310) 829-3311",
     email: "santamonica@ktdoctor.com",
     extension: "059",
     bookingUrl:
@@ -323,7 +323,7 @@ export const locations: Location[] = [
     id: "tarzana",
     name: "Tarzana",
     address: "18372 Clark St #226, Tarzana, CA 91356",
-    phone: "(818) 361-5437",
+    phone: "(818) 708-8044",
     email: "tarzana@ktdoctor.com",
     extension: "136",
     bookingUrl:
@@ -419,7 +419,7 @@ export const locations: Location[] = [
     id: "la-mirada",
     name: "La Mirada",
     address: "12675 La Mirada Blvd, #200, La Mirada, CA 90638",
-    phone: "(714) 979-3917",
+    phone: "(818) 361-5437",
     email: "lamirada@ktdoctor.com",
     extension: "205",
     bookingUrl:
