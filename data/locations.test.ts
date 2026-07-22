@@ -2,12 +2,14 @@ import { describe, it, expect } from "vitest";
 import { locations } from "./locations";
 
 describe("locations data", () => {
-  it("has exactly 24 real clinics plus the telehealth pseudo-location", () => {
-    expect(locations).toHaveLength(24);
+  it("has 24 physical clinics plus the telehealth pseudo-location", () => {
+    expect(locations).toHaveLength(25);
   });
 
-  it("does not include Camarillo — not found in Healow's live facility list", () => {
-    expect(locations.find((l) => l.id === "camarillo")).toBeUndefined();
+  it("includes Camarillo — re-added 2026-07-22 per client direction", () => {
+    const camarillo = locations.find((l) => l.id === "camarillo");
+    expect(camarillo).toBeDefined();
+    expect(camarillo?.address).toBe("2486 Ponderosa Dr N, Suite D-211, Camarillo, CA 93010");
   });
 
   it("every location has a unique id", () => {
@@ -63,9 +65,11 @@ describe("locations data", () => {
     expect(telehealth?.lng).toBeUndefined();
   });
 
-  it("gives every real clinic a Healow per-facility booking URL; telehealth has none", () => {
+  it("gives every real clinic a Healow per-facility booking URL; telehealth and Camarillo have none", () => {
     for (const loc of locations) {
-      if (loc.id === "telehealth") {
+      // Camarillo is not in Healow (no facility deep link); telehealth has no
+      // physical facility page. Both fall back to the shared BOOKING_URL.
+      if (loc.id === "telehealth" || loc.id === "camarillo") {
         expect(loc.bookingUrl).toBeUndefined();
         continue;
       }

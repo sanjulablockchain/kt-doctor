@@ -78,6 +78,25 @@ export const locations: Location[] = [
     photos: ["/locations/beverly-hills/1.png", "/locations/beverly-hills/2.png", "/locations/beverly-hills/3.png"],
   },
   {
+    id: "camarillo",
+    name: "Camarillo",
+    // Re-added 2026-07-22 per client direction, after being removed 2026-07-17
+    // (see data/doctors.ts header) — Healow has no record of this facility, so
+    // there is no per-facility `bookingUrl` and the "Book Now" CTA falls back
+    // to the shared BOOKING_URL. email/extension follow the usual conventions
+    // but are UNCONFIRMED — confirm with the client (as with La Mirada above).
+    address: "2486 Ponderosa Dr N, Suite D-211, Camarillo, CA 93010",
+    phone: "(818) 361-5437",
+    email: "camarillo@ktdoctor.com",
+    extension: "",
+    lat: 34.2308,
+    lng: -119.0507,
+    description:
+      "The highest quality of general pediatric care, with board-certified pediatricians using an integrated and evidence-based approach. Services include comprehensive newborn care, well-child exams, and physicals, with specializations in adolescent medicine, pediatric infectious disease, asthma, and allergies. Care is available seven days a week, with after-hours access through extended telehealth hours.",
+    hours: { officeHours: "Monday-Friday, 9AM-6PM", telehealthHours: "Monday-Sunday, 9AM-8PM" },
+    photos: ["/locations/camarillo/1.png", "/locations/camarillo/2.png", "/locations/camarillo/3.png"],
+  },
+  {
     id: "canyon-country",
     name: "Canyon Country",
     address: "20655 Soledad Canyon Rd Suite 25, Canyon Country, CA 91351",

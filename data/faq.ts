@@ -21,9 +21,9 @@ export const faqs: FaqItem[] = [
     question: "Do you accept walk-in patients?",
     questionEs: "¿Aceptan pacientes sin cita previa?",
     answer:
-      "Yes! We welcome walk-in patients at all of our 24 clinic locations during regular business hours (Mon-Fri, 9AM-6PM). Same-day appointments are also available - you can book online in under a minute or call us directly. Wait times for walk-ins are typically under 30 minutes.",
+      "Yes! We welcome walk-in patients at all of our 25 clinic locations during regular business hours (Mon-Fri, 9AM-6PM). Same-day appointments are also available - you can book online in under a minute or call us directly. Wait times for walk-ins are typically under 30 minutes.",
     answerEs:
-      "¡Sí! Recibimos pacientes sin cita previa en las 24 clínicas durante el horario regular (lunes a viernes, 9 a.m. a 6 p.m.). También hay citas disponibles el mismo día: puede reservar en línea en menos de un minuto o llamarnos directamente. El tiempo de espera para pacientes sin cita suele ser menor a 30 minutos.",
+      "¡Sí! Recibimos pacientes sin cita previa en las 25 clínicas durante el horario regular (lunes a viernes, 9 a.m. a 6 p.m.). También hay citas disponibles el mismo día: puede reservar en línea en menos de un minuto o llamarnos directamente. El tiempo de espera para pacientes sin cita suele ser menor a 30 minutos.",
   },
   {
     id: "insurance-plans",
@@ -57,9 +57,9 @@ export const faqs: FaqItem[] = [
     question: "Can I switch my child's doctor within the network?",
     questionEs: "¿Puedo cambiar el médico de mi hijo dentro de la red?",
     answer:
-      "Absolutely. With 89+ providers across 24 locations, you can switch pediatricians at any time. Your child's medical records are centralized and accessible from any KTMG clinic, so there's no paperwork or delays when transitioning to a new provider.",
+      "Absolutely. With 89+ providers across 25 locations, you can switch pediatricians at any time. Your child's medical records are centralized and accessible from any KTMG clinic, so there's no paperwork or delays when transitioning to a new provider.",
     answerEs:
-      "Por supuesto. Con más de 89 proveedores en 24 ubicaciones, puede cambiar de pediatra en cualquier momento. Los registros médicos de su hijo están centralizados y accesibles desde cualquier clínica de KTMG, por lo que no hay papeleo ni demoras al cambiar de proveedor.",
+      "Por supuesto. Con más de 89 proveedores en 25 ubicaciones, puede cambiar de pediatra en cualquier momento. Los registros médicos de su hijo están centralizados y accesibles desde cualquier clínica de KTMG, por lo que no hay papeleo ni demoras al cambiar de proveedor.",
   },
   {
     id: "after-hours",

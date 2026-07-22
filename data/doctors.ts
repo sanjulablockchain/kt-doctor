@@ -58,6 +58,16 @@ import type { Doctor } from "@/lib/types";
 //   were removed entirely, and the Camarillo location was removed from
 //   data/locations.ts to match (Healow has no record of it either). Every
 //   doctor in this file is now Healow-confirmed and has a healowUrl.
+//
+// --- 2026-07-22: Camarillo re-added per client direction ---
+// (see docs/superpowers/specs/2026-07-22-add-camarillo-location-design.md)
+// The Camarillo clinic and its 5 providers were re-added at the client's
+// request, matching the live location page. None are in Healow, so they have
+// no per-doctor `healowUrl` and their "Book Online" buttons fall back to the
+// shared BOOKING_URL. They are appended as their own block at the end (this
+// file groups each batch of additions rather than merging alphabetically, as
+// the 2026-07-17 refresh block below already does). This is the single
+// documented exception to the "every doctor is Healow-confirmed" invariant.
 export const doctors: Doctor[] = [
   { id: "adrienne-altman", name: "Adrienne C. Altman", credentials: "MD", specialties: ["Pediatrics"], locationIds: ["valencia"], healowUrl: "https://healow.com/apps/provider/adrienne-altman-3156393", bio: "Grew up in Pennsylvania and New York. Undergraduate at Cornell University; medical school at SUNY Syracuse. Completed pediatric residency and a Pediatric Hematology/Oncology fellowship at UCLA before joining Dr. Greenwald in Valencia. Enjoys dressage riding.", photoSrc: "/doctors/adrienne-altman.png" },
   { id: "ahoo-sahba", name: "Ahoo Sahba", credentials: "MD", specialties: ["Pediatrics"], locationIds: ["van-nuys"], healowUrl: "https://healow.com/apps/provider/ahoo-sahba-3161338", photoSrc: "/doctors/ahoo-sahba.png" },
@@ -115,4 +125,12 @@ export const doctors: Doctor[] = [
   { id: "sonal-patel", name: "Sonal Patel", credentials: "MD", specialties: ["Pediatrics"], locationIds: ["la-canada"], healowUrl: "https://healow.com/apps/provider/sonal-patel-3672049", photoSrc: "/doctors/sonal-patel.png" },
   { id: "trish-reyes", name: "Trish Reyes", credentials: "NP", specialties: ["Pediatrics"], locationIds: ["telehealth"], healowUrl: "https://healow.com/apps/provider/trish-reyes-3161336", bio: "Trish Reyes is a Family Nurse Practitioner Board Certified. She has over 25 years of experience in the medical field. Trish provides continuing and comprehensive healthcare for the individual and family across all ages, genders, diseases, and body systems in Primary Care. The emphasis of the holistic nature of health the knowledge of the patient in the context of the family and the community, emphasizing disease, prevention, and health promotion.", photoSrc: "/doctors/trish-reyes.png" },
   { id: "yeongbu-kim", name: "Yeongbu Kim", credentials: "NP", specialties: ["Pediatrics"], locationIds: ["van-nuys", "glendale", "hollywood", "la-mirada"], healowUrl: "https://healow.com/apps/provider/yeongbu-kim-3653936" },
+  // Camarillo providers — re-added 2026-07-22 (see header). Not in Healow: no
+  // healowUrl (UI falls back to the shared BOOKING_URL) and no photoSrc (the
+  // live page only shows generic avatars, so the card shows an initials avatar).
+  { id: "brianne-guevara", name: "Brianne Guevara", credentials: "CPNP", specialties: ["Pediatrics"], locationIds: ["camarillo"] },
+  { id: "deborah-marlow-mejia", name: "Deborah Marlow-Mejia", credentials: "MD", specialties: ["Pediatrics"], locationIds: ["camarillo"] },
+  { id: "heidi-erickson", name: "Heidi Erickson", credentials: "CPNP", specialties: ["Pediatrics"], locationIds: ["camarillo"] },
+  { id: "jon-dandrea", name: "Jon D'Andrea", credentials: "MD", specialties: ["Pediatrics"], locationIds: ["camarillo"] },
+  { id: "lynn-garcia-galan", name: "Lynn Garcia-Galan", credentials: "MD", specialties: ["Pediatrics"], locationIds: ["camarillo"] },
 ];

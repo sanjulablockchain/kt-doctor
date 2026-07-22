@@ -3,12 +3,18 @@ import { doctors } from "./doctors";
 import { locations } from "./locations";
 
 describe("doctors data", () => {
-  it("has exactly 56 doctors — every doctor confirmed active in Healow's live booking system", () => {
-    expect(doctors.length).toBe(56);
+  it("has 61 doctors — 56 Healow-confirmed plus the 5 Camarillo providers re-added 2026-07-22", () => {
+    expect(doctors.length).toBe(61);
   });
 
-  it("every doctor has a real per-doctor Healow booking link", () => {
+  it("every doctor has a real per-doctor Healow booking link, except the non-Healow Camarillo providers", () => {
     for (const doc of doctors) {
+      // The Camarillo providers are the one documented exception — they are not
+      // in Healow, so they have no healowUrl and fall back to BOOKING_URL.
+      if (doc.locationIds.includes("camarillo")) {
+        expect(doc.healowUrl).toBeUndefined();
+        continue;
+      }
       expect(doc.healowUrl).toMatch(/^https:\/\/healow\.com\/apps\/provider\//);
     }
   });
@@ -75,8 +81,24 @@ describe("doctors data", () => {
   });
 
   it("removes doctors not found anywhere in Healow's live booking system", () => {
-    for (const name of ["Jon D'Andrea", "Peter Jackson", "Rachel Barbour", "Aziz Nourmand"]) {
+    for (const name of ["Peter Jackson", "Rachel Barbour", "Aziz Nourmand"]) {
       expect(doctors.find((d) => d.name === name)).toBeUndefined();
+    }
+  });
+
+  it("re-adds the 5 Camarillo providers (2026-07-22), each mapped to the camarillo location with no Healow link", () => {
+    const names = [
+      "Jon D'Andrea",
+      "Heidi Erickson",
+      "Lynn Garcia-Galan",
+      "Brianne Guevara",
+      "Deborah Marlow-Mejia",
+    ];
+    for (const name of names) {
+      const doc = doctors.find((d) => d.name === name);
+      expect(doc).toBeDefined();
+      expect(doc?.locationIds).toContain("camarillo");
+      expect(doc?.healowUrl).toBeUndefined();
     }
   });
 });

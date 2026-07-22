@@ -8,9 +8,9 @@ const sampleBrand = {
   name: "Kids & Teens Medical Group",
   tagline: "The flagship pediatric network.",
   taglineEs: "La red pediátrica insignia.",
-  description: "Board-certified pediatric care across 24 clinics in Greater LA, for ages 0 to 21.",
+  description: "Board-certified pediatric care across 25 clinics in Greater LA, for ages 0 to 21.",
   descriptionEs:
-    "Atención pediátrica certificada en 24 clínicas del área de Los Ángeles, para edades de 0 a 21 años.",
+    "Atención pediátrica certificada en 25 clínicas del área de Los Ángeles, para edades de 0 a 21 años.",
   services: ["Primary Care", "Urgent Care"],
   servicesEs: ["Atención Primaria", "Atención de Urgencia"],
   logoSrc: "/clinic-logo.svg",

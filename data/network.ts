@@ -23,9 +23,9 @@ export const networkBrands: NetworkBrand[] = [
     tagline: "The flagship pediatric network.",
     taglineEs: "La red pediátrica insignia.",
     description:
-      "Board-certified pediatric care across 24 clinics in Greater LA, for ages 0 to 21.",
+      "Board-certified pediatric care across 25 clinics in Greater LA, for ages 0 to 21.",
     descriptionEs:
-      "Atención pediátrica certificada en 24 clínicas del área de Los Ángeles, para edades de 0 a 21 años.",
+      "Atención pediátrica certificada en 25 clínicas del área de Los Ángeles, para edades de 0 a 21 años.",
     services: ["Primary Care", "Urgent Care", "Telehealth", "Newborn Care"],
     servicesEs: ["Atención Primaria", "Atención de Urgencia", "Telesalud", "Cuidado del Recién Nacido"],
     logoSrc: "/clinic-logo.svg",
