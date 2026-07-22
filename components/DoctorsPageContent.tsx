@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { doctors } from "@/data/doctors";
@@ -72,6 +73,44 @@ export function DoctorsPageContent() {
         {t("heading")}
       </h1>
       <p className="mt-2 max-w-xl text-ink-soft">{t("description", { count: doctors.length })}</p>
+
+      <section className="mt-8 overflow-hidden rounded-3xl border border-border bg-surface shadow-card">
+        <div className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:gap-8 sm:p-8">
+          <div className="mx-auto w-full max-w-55 shrink-0 sm:mx-0 sm:w-52 sm:max-w-none lg:w-60">
+            <Image
+              src="/doctors/care-team.jpg"
+              alt={t("expertiseImageAlt")}
+              width={236}
+              height={347}
+              className="h-auto w-full rounded-2xl object-cover shadow-card"
+            />
+          </div>
+
+          <div className="sm:flex-1">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-tint px-3 py-1 font-display text-xs font-semibold text-teal-dark">
+              <svg aria-hidden viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
+                <path
+                  d="M12 7.5V12l3 2"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {t("expertiseAvailability")}
+            </span>
+            <h2 className="mt-3 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+              {t("expertiseHeading")}
+            </h2>
+            <div className="mt-3 max-w-2xl space-y-3 text-ink-soft">
+              <p>{t("expertiseBody1")}</p>
+              <p>{t("expertiseBody2")}</p>
+              <p>{t("expertiseBody3")}</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <div className="mt-8 flex flex-col gap-3 rounded-3xl border border-border bg-surface p-4 shadow-card sm:flex-row sm:items-center">
         <input

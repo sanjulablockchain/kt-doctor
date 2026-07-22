@@ -155,7 +155,13 @@
     "filterBySpecialty": "Filtrar por especialidad",
     "allLocations": "Todas las ubicaciones",
     "allSpecialties": "Todas las especialidades",
-    "showingProviders": "Mostrando {filtered} de {total} médicos"
+    "showingProviders": "Mostrando {filtered} de {total} médicos",
+    "expertiseAvailability": "Abierto los 7 días de la semana",
+    "expertiseHeading": "Experiencia en la que puede confiar",
+    "expertiseBody1": "Con Kids & Teens Pediatric Medical Group, tiene acceso a un equipo de más de 50 pediatras certificados y dedicados.",
+    "expertiseBody2": "Nuestros expertos están disponibles los siete días de la semana, listos para brindar el más alto nivel de atención a su hijo. Entendemos que las necesidades de salud de los niños no siguen un horario, y nosotros tampoco.",
+    "expertiseBody3": "Ya sea un chequeo de rutina o una preocupación urgente, nuestro equipo experto está aquí para guiarlo en cada paso del recorrido médico de su hijo.",
+    "expertiseImageAlt": "Una pediatra de Kids & Teens chocando la mano con un pequeño paciente"
   },
   "Pagination": {
     "label": "Paginación",
