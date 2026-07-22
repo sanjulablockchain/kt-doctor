@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { locations } from "@/data/locations";
 import { LocationCard } from "@/components/LocationCard";
 import { LocationsMap } from "@/components/LocationsMap";
+import { LocationDirections } from "@/components/LocationDirections";
 
 type View = "list" | "map";
 
@@ -58,8 +59,11 @@ export function LocationsPageContent() {
           ))}
         </div>
       ) : (
-        <div className="mt-6 overflow-hidden rounded-3xl border border-border shadow-card">
-          <LocationsMap locations={locations} />
+        <div className="mt-6 space-y-8">
+          <div className="overflow-hidden rounded-3xl border border-border shadow-card">
+            <LocationsMap locations={locations} />
+          </div>
+          <LocationDirections locations={locations} />
         </div>
       )}
     </main>

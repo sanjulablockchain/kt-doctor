@@ -179,7 +179,14 @@
     "mapUnavailable": "Map is temporarily unavailable — see clinic addresses below.",
     "mapTitle": "Map of Kids & Teens clinic locations",
     "getDirections": "Get Directions",
-    "viewDetails": "View Details"
+    "viewDetails": "View Details",
+    "directionsHeading": "Get directions",
+    "directionsSubheading": "Find your nearest clinic and open turn-by-turn directions in Google Maps.",
+    "searchLocations": "Search by city or address…",
+    "searchAria": "Search clinics",
+    "clinicsCount": "Showing {filtered} of {total} clinics",
+    "noClinics": "No clinics match your search.",
+    "getDirectionsTo": "Get directions to {name}"
   },
   "Network": {
     "eyebrow": "One Network",

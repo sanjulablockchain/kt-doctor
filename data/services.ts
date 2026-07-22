@@ -161,8 +161,8 @@ export const serviceCategories: ServiceCategory[] = [
         longDescription: "Our telehealth visits let you connect with a board-certified pediatrician remotely through a secure virtual platform, without needing to leave home. Pediatricians can evaluate concerns, offer medical advice, and provide treatment recommendations with the same care and attention as an in-person visit. It's a flexible option for busy families or when getting to a clinic isn't easy.",
         longDescriptionEs: "Nuestras consultas de telesalud le permiten conectarse con un pediatra certificado de forma remota a través de una plataforma virtual segura, sin necesidad de salir de casa. Los pediatras pueden evaluar inquietudes, ofrecer consejos médicos y brindar recomendaciones de tratamiento con el mismo cuidado y atención que una visita en persona. Es una opción flexible para familias ocupadas o cuando llegar a una clínica no es fácil.",
         imageSrc: "/services/telehealth.jpg",
-        imageAlt: "A patient on a video telehealth visit with a pediatrician on a tablet",
-        imageAltEs: "Un paciente en una visita de telesalud por video con un pediatra en una tableta",
+        imageAlt: "A pediatrician in a white coat taking notes during a video telehealth visit with a patient on a laptop",
+        imageAltEs: "Una pediatra con bata blanca tomando notas durante una visita de telesalud por video con un paciente en una computadora portátil",
         imageAspectClass: "aspect-square",
         benefits: [
           {

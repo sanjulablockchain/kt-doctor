@@ -247,7 +247,7 @@ export default function Home() {
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-12">
           <ParallaxImage
-            src="/services/telehealth.jpg"
+            src="/services/telehealth-home.jpg"
             alt={t("telehealthImageAlt")}
             width={1000}
             height={665}
