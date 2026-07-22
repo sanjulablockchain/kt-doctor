@@ -89,10 +89,24 @@ describe("ServiceDetailPage", () => {
 
   it("renders no image for services without one", async () => {
     const ui = await ServiceDetailPage({
-      params: Promise.resolve({ slug: "telehealth" }),
+      params: Promise.resolve({ slug: "well-child-exam" }),
     });
     render(ui);
     expect(screen.queryByRole("img")).not.toBeInTheDocument();
+  });
+
+  it("renders the telehealth image with English alt text", async () => {
+    const ui = await ServiceDetailPage({ params: Promise.resolve({ slug: "telehealth" }) });
+    render(ui);
+    expect(screen.getByRole("img", { name: /video telehealth visit/i })).toBeInTheDocument();
+  });
+
+  it("renders the telehealth image with Spanish alt text when locale is es", async () => {
+    const ui = await ServiceDetailPage({
+      params: Promise.resolve({ slug: "telehealth", locale: "es" }),
+    });
+    render(ui, "es");
+    expect(screen.getByRole("img", { name: /visita de telesalud por video/i })).toBeInTheDocument();
   });
 
   it("renders a More Services link to /services on a service page", async () => {
@@ -127,5 +141,49 @@ describe("ServiceDetailPage", () => {
       "href",
       "/es/services"
     );
+  });
+
+  it("renders the telehealth benefits, how-it-works, and schedule sections", async () => {
+    const ui = await ServiceDetailPage({ params: Promise.resolve({ slug: "telehealth" }) });
+    render(ui);
+    expect(screen.getByRole("heading", { name: "Benefits" })).toBeInTheDocument();
+    expect(screen.getByText("Convenience")).toBeInTheDocument();
+    expect(screen.getByText("Privacy and Comfort")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "How It Works" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "How to Schedule" })).toBeInTheDocument();
+  });
+
+  it("renders the telehealth schedule contact links from constants", async () => {
+    const ui = await ServiceDetailPage({ params: Promise.resolve({ slug: "telehealth" }) });
+    render(ui);
+    expect(screen.getByRole("link", { name: /818\) 361-5437/ })).toHaveAttribute(
+      "href",
+      "tel:+18183615437"
+    );
+    expect(screen.getByRole("link", { name: /626\) 298-7121/ })).toHaveAttribute(
+      "href",
+      "sms:+16262987121"
+    );
+    expect(screen.getByRole("link", { name: /818\) 423-5637/ })).toHaveAttribute(
+      "href",
+      "sms:+18184235637"
+    );
+  });
+
+  it("renders no benefits or schedule sections for a plain service", async () => {
+    const ui = await ServiceDetailPage({ params: Promise.resolve({ slug: "well-child-exam" }) });
+    render(ui);
+    expect(screen.queryByRole("heading", { name: "Benefits" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "How to Schedule" })).not.toBeInTheDocument();
+  });
+
+  it("renders the telehealth sections in Spanish when locale is es", async () => {
+    const ui = await ServiceDetailPage({
+      params: Promise.resolve({ slug: "telehealth", locale: "es" }),
+    });
+    render(ui, "es");
+    expect(screen.getByRole("heading", { name: "Beneficios" })).toBeInTheDocument();
+    expect(screen.getByText("Comodidad")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Cómo Agendar" })).toBeInTheDocument();
   });
 });

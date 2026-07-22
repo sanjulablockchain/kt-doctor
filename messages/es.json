@@ -17,7 +17,8 @@
     "appointments": "Citas",
     "toggleMenu": "Abrir menú",
     "toggleLanguage": "Cambiar idioma",
-    "callUs": "Llámenos"
+    "callUs": "Llámenos",
+    "telehealth": "Telesalud"
   },
   "ThemeToggle": {
     "label": "Tema de color",
@@ -51,6 +52,7 @@
     "foundation": "Fundación",
     "careers": "Empleo",
     "sameDayAppointments": "Citas el Mismo Día",
+    "telehealth": "Telesalud",
     "privacyPolicy": "Política de Privacidad",
     "termsAndConditions": "Términos y Condiciones",
     "rights": "Todos los derechos reservados."
@@ -98,6 +100,11 @@
     "featureTelehealth": "Visitas por telesalud",
     "featureBoardCertified": "Equipo certificado",
     "featureAges": "Edades de 0 a 21 años",
+    "telehealthEyebrow": "Atención Virtual",
+    "telehealthHeading": "Consultas de telesalud desde casa",
+    "telehealthBody": "Conéctese con un pediatra certificado a través de una videoconsulta segura, con el mismo cuidado y atención que una visita en persona.",
+    "telehealthCta": "Conozca la Telesalud",
+    "telehealthImageAlt": "Un paciente en una visita de telesalud por video con un pediatra",
     "teamEyebrow": "Nuestro equipo",
     "teamHeading": "{count} pediatras certificados",
     "browseAllDoctors": "Ver todos los doctores",

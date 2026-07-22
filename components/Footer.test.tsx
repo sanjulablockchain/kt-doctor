@@ -83,4 +83,12 @@ describe("Footer", () => {
       "sms:+18184235637"
     );
   });
+
+  it("renders a Telehealth link in the For Patients column", () => {
+    render(<Footer />);
+    expect(screen.getByRole("link", { name: "Telehealth" })).toHaveAttribute(
+      "href",
+      "/services/telehealth"
+    );
+  });
 });

@@ -80,4 +80,33 @@ describe("services data", () => {
       }
     }
   });
+
+  it("enriches the telehealth service with an image, benefits, how-it-works, and schedule", () => {
+    const telehealth = serviceCategories
+      .flatMap((c) => c.services)
+      .find((s) => s.id === "telehealth");
+    expect(telehealth).toBeDefined();
+    expect(telehealth!.imageSrc).toBe("/services/telehealth.jpg");
+    expect(telehealth!.benefits).toHaveLength(5);
+    expect(telehealth!.showSchedule).toBe(true);
+    expect((telehealth!.howItWorks ?? "").length).toBeGreaterThan(20);
+    expect((telehealth!.howItWorksEs ?? "").length).toBeGreaterThan(20);
+  });
+
+  it("gives every telehealth benefit bilingual text with no em dash", () => {
+    const telehealth = serviceCategories
+      .flatMap((c) => c.services)
+      .find((s) => s.id === "telehealth")!;
+    for (const b of telehealth.benefits ?? []) {
+      expect(b.title.length).toBeGreaterThan(0);
+      expect(b.titleEs.length).toBeGreaterThan(0);
+      expect(b.description.length).toBeGreaterThan(10);
+      expect(b.descriptionEs.length).toBeGreaterThan(10);
+      for (const s of [b.title, b.titleEs, b.description, b.descriptionEs]) {
+        expect(s).not.toContain("—");
+      }
+    }
+    expect(telehealth.howItWorks).not.toContain("—");
+    expect(telehealth.howItWorksEs).not.toContain("—");
+  });
 });

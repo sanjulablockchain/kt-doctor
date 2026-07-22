@@ -130,4 +130,12 @@ describe("Header", () => {
     expect(screen.getByRole("button", { name: "Light" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Dark" })).toBeInTheDocument();
   });
+
+  it("renders a Telehealth link in the More menu to /services/telehealth", () => {
+    renderWithIntl(<Header />);
+    expect(screen.getByRole("link", { name: "Telehealth" })).toHaveAttribute(
+      "href",
+      "/services/telehealth"
+    );
+  });
 });

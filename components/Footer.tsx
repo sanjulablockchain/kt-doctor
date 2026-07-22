@@ -73,6 +73,7 @@ export function Footer() {
 
   const patientLinks = [
     { href: "/services/same-day-appointments", label: t("sameDayAppointments") },
+    { href: "/services/telehealth", label: t("telehealth") },
     { href: "/doctors", label: t("doctors") },
     { href: "/services", label: t("services") },
     { href: "/locations", label: t("locations") },

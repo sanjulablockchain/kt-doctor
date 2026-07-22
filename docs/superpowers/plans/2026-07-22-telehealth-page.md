@@ -150,8 +150,8 @@ In `data/services.ts`, find the `telehealth` entry (in the `sick-urgent` categor
 
 ```ts
         imageSrc: "/services/telehealth.jpg",
-        imageAlt: "A parent and child on a video telehealth visit with a pediatrician on a tablet",
-        imageAltEs: "Un padre y su hijo en una visita de telesalud por video con un pediatra en una tableta",
+        imageAlt: "A patient on a video telehealth visit with a pediatrician on a tablet",
+        imageAltEs: "Un paciente en una visita de telesalud por video con un pediatra en una tableta",
         benefits: [
           {
             title: "Convenience",
@@ -653,7 +653,7 @@ In `messages/en.json`, inside the `"Home"` object, add:
     "telehealthHeading": "Telehealth visits from home",
     "telehealthBody": "Connect with a board-certified pediatrician through a secure video visit, with the same care and attention as an in-person appointment.",
     "telehealthCta": "Learn about Telehealth",
-    "telehealthImageAlt": "A parent and child on a video telehealth visit with a pediatrician",
+    "telehealthImageAlt": "A patient on a video telehealth visit with a pediatrician",
 ```
 
 In `messages/es.json`, inside the `"Home"` object, add:
@@ -663,7 +663,7 @@ In `messages/es.json`, inside the `"Home"` object, add:
     "telehealthHeading": "Consultas de telesalud desde casa",
     "telehealthBody": "Conéctese con un pediatra certificado a través de una videoconsulta segura, con el mismo cuidado y atención que una visita en persona.",
     "telehealthCta": "Conozca la Telesalud",
-    "telehealthImageAlt": "Un padre y su hijo en una visita de telesalud por video con un pediatra",
+    "telehealthImageAlt": "Un paciente en una visita de telesalud por video con un pediatra",
 ```
 
 - [ ] **Step 4: Compute the benefit chips near the top of `Home`**

@@ -43,6 +43,10 @@ export default function Home() {
   const previewDoctors = (doctorsWithPhotos.length >= 4 ? doctorsWithPhotos : doctors).slice(0, 4);
   const avatarTints = ["bg-teal-tint text-teal-dark", "bg-gold-tint text-gold"];
   const allServices = serviceCategories.flatMap((category) => category.services);
+  const telehealthService = serviceCategories
+    .flatMap((category) => category.services)
+    .find((service) => service.id === "telehealth");
+  const telehealthChips = (telehealthService?.benefits ?? []).slice(0, 3);
 
   const STATS = [
     { label: t("statClinics"), value: `${locations.length}` },
@@ -235,6 +239,48 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Telehealth teaser */}
+      <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-12">
+          <ParallaxImage
+            src="/services/telehealth.jpg"
+            alt={t("telehealthImageAlt")}
+            width={1000}
+            height={665}
+            wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96 lg:order-2"
+            speed={0.12}
+          />
+
+          <div className="lg:order-1">
+            <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
+              {t("telehealthEyebrow")}
+            </span>
+            <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+              {t("telehealthHeading")}
+            </h2>
+            <p className="mt-3 max-w-xl text-ink-soft">{t("telehealthBody")}</p>
+            {telehealthChips.length > 0 && (
+              <div className="mt-6 flex flex-wrap gap-2.5">
+                {telehealthChips.map((chip) => (
+                  <span
+                    key={chip.title}
+                    className="rounded-full border border-border bg-ivory px-4 py-2 text-sm font-semibold text-ink"
+                  >
+                    {locale === "es" ? chip.titleEs : chip.title}
+                  </span>
+                ))}
+              </div>
+            )}
+            <Link
+              href="/services/telehealth"
+              className="mt-6 inline-block font-display font-semibold text-teal-dark hover:text-teal"
+            >
+              {t("telehealthCta")} →
+            </Link>
           </div>
         </div>
       </section>

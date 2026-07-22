@@ -172,6 +172,9 @@ export function Header() {
                 moreOpen ? "sm:flex sm:flex-col" : "sm:hidden"
               }`}
             >
+              <Link href="/services/telehealth" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+                {t("telehealth")}
+              </Link>
               <Link href="/about" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("aboutUs")}
               </Link>

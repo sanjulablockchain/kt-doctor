@@ -181,4 +181,20 @@ describe("Home page", () => {
       "/es/resources"
     );
   });
+
+  it("renders a telehealth teaser linking to /services/telehealth", () => {
+    render(<Home />);
+    expect(screen.getByRole("link", { name: /learn about telehealth/i })).toHaveAttribute(
+      "href",
+      "/services/telehealth"
+    );
+  });
+
+  it("renders the telehealth teaser CTA in Spanish when locale is es", () => {
+    render(<Home />, "es");
+    expect(screen.getByRole("link", { name: /conozca la telesalud/i })).toHaveAttribute(
+      "href",
+      "/es/services/telehealth"
+    );
+  });
 });

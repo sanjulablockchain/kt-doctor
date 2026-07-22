@@ -4,7 +4,13 @@ import Image from "next/image";
 import { serviceCategories } from "@/data/services";
 import { BackLink } from "@/components/BackLink";
 import { Link } from "@/i18n/navigation";
-import { BOOKING_URL } from "@/lib/constants";
+import { BOOKING_URL, MAIN_PHONE, TEXT_PHONE, TEXT_PHONE_ES } from "@/lib/constants";
+
+// Formats a US display number like "(818) 361-5437" into E.164 for tel:/sms:
+// links, e.g. "+18183615437" — matches components/Footer.tsx.
+function toE164(usPhone: string): string {
+  return `+1${usPhone.replace(/\D/g, "")}`;
+}
 
 function findService(slug: string) {
   for (const category of serviceCategories) {
@@ -73,6 +79,102 @@ export default async function ServiceDetailPage({
     </div>
   );
 
+  const benefits = service.benefits ?? [];
+  const howItWorks = locale === "es" ? service.howItWorksEs : service.howItWorks;
+  const benefitsHeading = locale === "es" ? "Beneficios" : "Benefits";
+  const howItWorksHeading = locale === "es" ? "Cómo Funciona" : "How It Works";
+  const scheduleHeading = locale === "es" ? "Cómo Agendar" : "How to Schedule";
+  const callLabel = locale === "es" ? "Llamar" : "Call";
+  const textEnLabel = locale === "es" ? "Texto (Inglés)" : "Text (English)";
+  const textEsLabel = locale === "es" ? "Texto (Español)" : "Text (Spanish)";
+
+  const scheduleRows = [
+    { label: callLabel, value: MAIN_PHONE, href: `tel:${toE164(MAIN_PHONE)}` },
+    { label: textEnLabel, value: TEXT_PHONE, href: `sms:${toE164(TEXT_PHONE)}` },
+    { label: textEsLabel, value: TEXT_PHONE_ES, href: `sms:${toE164(TEXT_PHONE_ES)}` },
+  ];
+
+  const detailSections = (
+    <>
+      {benefits.length > 0 && (
+        <section className="mt-14">
+          <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+            {benefitsHeading}
+          </h2>
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {benefits.map((benefit) => {
+              const title = locale === "es" ? benefit.titleEs : benefit.title;
+              const description = locale === "es" ? benefit.descriptionEs : benefit.description;
+              return (
+                <div
+                  key={benefit.title}
+                  className="rounded-2xl border border-border bg-surface p-5 shadow-card transition-all hover:-translate-y-1 hover:border-teal hover:shadow-soft"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-tint text-teal-dark">
+                    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+                      <path
+                        d="m5 13 4 4L19 7"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                  <h3 className="mt-4 font-display text-base font-bold text-ink">{title}</h3>
+                  <p className="mt-1 text-sm text-ink-soft">{description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {howItWorks && (
+        <section className="mt-14">
+          <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+            {howItWorksHeading}
+          </h2>
+          <p className="mt-4 max-w-3xl text-ink-soft">{howItWorks}</p>
+        </section>
+      )}
+
+      {service.showSchedule && (
+        <section className="mt-14">
+          <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+            {scheduleHeading}
+          </h2>
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {scheduleRows.map((row) => (
+              <a
+                key={row.label}
+                href={row.href}
+                className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-5 shadow-card transition-colors hover:border-teal"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-tint text-teal-dark">
+                  <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+                    <path
+                      d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.9c0-.6.4-1 1-1h4.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .7-.2 1L6.6 10.8Z"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span className="flex flex-col">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-ink-soft">
+                    {row.label}
+                  </span>
+                  <span className="font-display text-sm font-bold text-ink">{row.value}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </>
+  );
+
   if (service.imageSrc) {
     return (
       <main className="mx-auto max-w-5xl px-5 py-12 sm:px-8">
@@ -93,7 +195,7 @@ export default async function ServiceDetailPage({
               width={800}
               height={1000}
               unoptimized
-              className="aspect-[4/5] w-full object-cover"
+              className={`${service.imageAspectClass ?? "aspect-[4/5]"} w-full object-cover`}
             />
           </div>
 
@@ -104,6 +206,8 @@ export default async function ServiceDetailPage({
             {actions}
           </div>
         </div>
+
+        {detailSections}
       </main>
     );
   }
@@ -122,6 +226,8 @@ export default async function ServiceDetailPage({
       <p className="mt-6 text-ink-soft">{longDescription}</p>
 
       {actions}
+
+      {detailSections}
     </main>
   );
 }

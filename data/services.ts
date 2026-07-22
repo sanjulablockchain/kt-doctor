@@ -1,3 +1,10 @@
+export type Benefit = {
+  title: string;
+  titleEs: string;
+  description: string;
+  descriptionEs: string;
+};
+
 export type Service = {
   id: string;
   name: string;
@@ -9,6 +16,11 @@ export type Service = {
   imageSrc?: string;
   imageAlt?: string;
   imageAltEs?: string;
+  imageAspectClass?: string;
+  benefits?: Benefit[];
+  howItWorks?: string;
+  howItWorksEs?: string;
+  showSchedule?: boolean;
 };
 
 export type ServiceCategory = {
@@ -148,6 +160,47 @@ export const serviceCategories: ServiceCategory[] = [
         descriptionEs: "Consultas médicas remotas desde donde se encuentre su familia.",
         longDescription: "Our telehealth visits let you connect with a board-certified pediatrician remotely through a secure virtual platform, without needing to leave home. Pediatricians can evaluate concerns, offer medical advice, and provide treatment recommendations with the same care and attention as an in-person visit. It's a flexible option for busy families or when getting to a clinic isn't easy.",
         longDescriptionEs: "Nuestras consultas de telesalud le permiten conectarse con un pediatra certificado de forma remota a través de una plataforma virtual segura, sin necesidad de salir de casa. Los pediatras pueden evaluar inquietudes, ofrecer consejos médicos y brindar recomendaciones de tratamiento con el mismo cuidado y atención que una visita en persona. Es una opción flexible para familias ocupadas o cuando llegar a una clínica no es fácil.",
+        imageSrc: "/services/telehealth.jpg",
+        imageAlt: "A patient on a video telehealth visit with a pediatrician on a tablet",
+        imageAltEs: "Un paciente en una visita de telesalud por video con un pediatra en una tableta",
+        imageAspectClass: "aspect-square",
+        benefits: [
+          {
+            title: "Convenience",
+            titleEs: "Comodidad",
+            description: "Connect with your pediatrician from home, with no commute or waiting room.",
+            descriptionEs: "Conéctese con su pediatra desde casa, sin traslados ni sala de espera.",
+          },
+          {
+            title: "Quick Access",
+            titleEs: "Acceso Rápido",
+            description: "Reach a board-certified pediatrician quickly when your family needs care.",
+            descriptionEs: "Comuníquese rápidamente con un pediatra certificado cuando su familia necesite atención.",
+          },
+          {
+            title: "Flexible Scheduling",
+            titleEs: "Horarios Flexibles",
+            description: "Book visits that fit around school, work, and a busy family day.",
+            descriptionEs: "Programe visitas que se ajusten a la escuela, el trabajo y el día ocupado de la familia.",
+          },
+          {
+            title: "Continuity of Care",
+            titleEs: "Continuidad en la Atención",
+            description: "Stay with the same trusted team that already knows your child's history.",
+            descriptionEs: "Continúe con el mismo equipo de confianza que ya conoce el historial de su hijo.",
+          },
+          {
+            title: "Privacy and Comfort",
+            titleEs: "Privacidad y Comodidad",
+            description: "Talk with your pediatrician from a secure, familiar setting for your child.",
+            descriptionEs: "Hable con su pediatra desde un entorno seguro y familiar para su hijo.",
+          },
+        ],
+        howItWorks:
+          "Once your visit is scheduled, you will receive instructions to join a secure, user-friendly virtual platform. During the consultation, your pediatrician will listen to your concerns, provide medical advice, offer treatment recommendations, and answer any questions you may have.",
+        howItWorksEs:
+          "Una vez programada su visita, recibirá instrucciones para unirse a una plataforma virtual segura y fácil de usar. Durante la consulta, su pediatra escuchará sus inquietudes, le dará consejos médicos, ofrecerá recomendaciones de tratamiento y responderá cualquier pregunta que tenga.",
+        showSchedule: true,
       },
       {
         id: "pediatric-infectious-disease",
