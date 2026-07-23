@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { doctors } from "@/data/doctors";
 import { locations } from "@/data/locations";
 import { Link } from "@/i18n/navigation";
-import { BOOKING_URL } from "@/lib/constants";
+import { BOOKING_URL, SITE_NAME } from "@/lib/constants";
+import { buildMetadata, physicianJsonLd, breadcrumbJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
 function initials(name: string): string {
   return name
@@ -28,24 +30,30 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const doctor = findDoctor(slug);
   if (!doctor) return {};
-
-  return {
-    title: `${doctor.name} | Kids & Teens Medical Group`,
-    description: doctor.bio ?? `${doctor.name}, ${doctor.credentials} at Kids & Teens Medical Group.`,
-  };
+  const description =
+    doctor.bio ?? `${doctor.name}, ${doctor.credentials} at ${SITE_NAME}.`;
+  return buildMetadata({
+    locale,
+    path: `/doctors/${doctor.id}`,
+    title: doctor.name,
+    description,
+    type: "profile",
+    dedicatedOgImage: true,
+  });
 }
 
 export default async function DoctorDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale?: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const loc = locale ?? "en";
   const doctor = findDoctor(slug);
   if (!doctor) {
     notFound();
@@ -57,6 +65,17 @@ export default async function DoctorDetailPage({
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
+      <JsonLd data={physicianJsonLd(doctor, loc)} />
+      <JsonLd
+        data={breadcrumbJsonLd(
+          [
+            { name: loc === "es" ? "Inicio" : "Home", path: "/" },
+            { name: loc === "es" ? "Médicos" : "Doctors", path: "/doctors" },
+            { name: doctor.name, path: `/doctors/${doctor.id}` },
+          ],
+          loc
+        )}
+      />
       <Link
         href="/doctors"
         className="font-display text-sm font-semibold text-teal-dark hover:text-teal"

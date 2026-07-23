@@ -1,11 +1,22 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 import { DoctorsPageContent } from "@/components/DoctorsPageContent";
 
-export const metadata: Metadata = {
-  title: "Our Doctors | Kids & Teens Medical Group",
-  description:
-    "Search our board-certified pediatricians across 25 Greater LA clinics. Filter by location and specialty to find the right doctor for your family.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Seo" });
+  return buildMetadata({
+    locale,
+    path: "/doctors",
+    title: t("doctors.title"),
+    description: t("doctors.description"),
+  });
+}
 
 export default function DoctorsPage() {
   return <DoctorsPageContent />;

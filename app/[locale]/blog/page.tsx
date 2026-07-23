@@ -1,11 +1,22 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 import { BlogPageContent } from "@/components/BlogPageContent";
 
-export const metadata: Metadata = {
-  title: "Blog | Kids & Teens Medical Group",
-  description:
-    "Parent-friendly stories and tips from Kids & Teens Medical Group, from seasonal health advice to guidance on choosing the right care.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Seo" });
+  return buildMetadata({
+    locale,
+    path: "/blog",
+    title: t("blog.title"),
+    description: t("blog.description"),
+  });
+}
 
 export default function BlogPage() {
   return <BlogPageContent />;

@@ -10,6 +10,9 @@ import { Footer } from "@/components/Footer";
 import { BackToTopButton } from "@/components/BackToTopButton";
 import { ContactWidget } from "@/components/ContactWidget";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { SITE_URL, SITE_NAME } from "@/lib/constants";
+import { organizationJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -22,13 +25,28 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Kids & Teens Medical Group",
-  description: "Board-certified pediatric care across Greater LA.",
-  icons: {
-    icon: "/clinic-logo.svg",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: `${SITE_NAME} | Pediatric Care Across Greater LA`,
+      template: `%s | ${SITE_NAME}`,
+    },
+    description: "Board-certified pediatric care across Greater Los Angeles.",
+    icons: { icon: "/clinic-logo.svg" },
+    openGraph: {
+      siteName: SITE_NAME,
+      locale: locale === "es" ? "es_ES" : "en_US",
+      type: "website",
+    },
+    twitter: { card: "summary_large_image" },
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -62,6 +80,7 @@ export default async function RootLayout({
               "(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();",
           }}
         />
+        <JsonLd data={organizationJsonLd()} />
         <ThemeProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <Header />

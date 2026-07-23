@@ -14,3 +14,6 @@ export const MAIN_PHONE = "(818) 361-5437";
 export const TEXT_PHONE = "(626) 298-7121";
 export const TEXT_PHONE_ES = "(818) 423-5637";
 export const GENERAL_EMAIL = "customerservice@ktdoctor.com";
+
+export const SITE_URL = "https://www.ktdoctor.com";
+export const SITE_NAME = "Kids & Teens Medical Group";

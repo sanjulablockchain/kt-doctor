@@ -269,5 +269,63 @@
     "intro": "Consejos de salud según la temporada, tips de seguridad y orientación de nuestro equipo pediátrico para mantener informada a su familia.",
     "backToBlog": "Volver al Blog",
     "readFullStory": "Leer la historia completa"
+  },
+  "Seo": {
+    "home": {
+      "title": "Atención Pediátrica en el Gran Los Ángeles",
+      "description": "Pediatras certificados en clínicas del área de Los Ángeles. Chequeos, atención de urgencia, vacunas y telesalud los 7 días de la semana."
+    },
+    "about": {
+      "title": "Sobre Nosotros",
+      "description": "Atención pediátrica integral y compasiva en el área de Los Ángeles, desde chequeos de rutina hasta atención de urgencia y visitas fuera de horario."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Consejos de salud pediátrica, orientación para padres y noticias de la clínica de los pediatras de Kids & Teens Medical Group."
+    },
+    "careers": {
+      "title": "Empleo",
+      "description": "Únase a Kids & Teens Medical Group. Explore oportunidades de carrera pediátrica y clínica en nuestras clínicas del área de Los Ángeles."
+    },
+    "doctors": {
+      "title": "Nuestros Médicos",
+      "description": "Conozca a los pediatras certificados de Kids & Teens Medical Group, que atienden a niños y adolescentes en el área de Los Ángeles."
+    },
+    "foundation": {
+      "title": "Fundación Kids and Teens",
+      "description": "La Fundación Kids and Teens amplía el acceso a la atención pediátrica y a programas de salud comunitaria para familias del área de Los Ángeles."
+    },
+    "insurance": {
+      "title": "Seguro",
+      "description": "Aceptamos la mayoría de los planes, incluidos Medi-Cal, LA Care, Molina, Blue Shield y Anthem. La cobertura nunca es una barrera para la atención."
+    },
+    "locations": {
+      "title": "Encuentre una Clínica",
+      "description": "Encuentre una clínica pediátrica de Kids & Teens Medical Group cerca de usted en el área de Los Ángeles, con citas el mismo día y sin cita previa."
+    },
+    "network": {
+      "title": "Nuestra Red",
+      "description": "Kids & Teens Medical Group colabora con hospitales y sistemas de salud líderes del área de Los Ángeles para una atención pediátrica coordinada."
+    },
+    "privacyPolicy": {
+      "title": "Política de Privacidad",
+      "description": "Cómo Kids & Teens Medical Group recopila, usa y protege su información personal."
+    },
+    "resources": {
+      "title": "Recursos para Padres",
+      "description": "Recursos pediátricos útiles para padres: calendarios de vacunas, guías de crecimiento, formularios de salud e información de atención fuera de horario."
+    },
+    "services": {
+      "title": "Servicios",
+      "description": "Servicios pediátricos integrales: exámenes de niño sano, vacunas, atención de enfermedades y urgencias, medicina del adolescente, asma y alergias."
+    },
+    "termsAndConditions": {
+      "title": "Términos y Condiciones",
+      "description": "Los términos y condiciones que rigen el uso del sitio web de Kids & Teens Medical Group."
+    },
+    "testimonials": {
+      "title": "Testimonios",
+      "description": "Lea lo que las familias del área de Los Ángeles dicen sobre su atención en Kids & Teens Medical Group."
+    }
   }
 }

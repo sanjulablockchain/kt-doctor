@@ -1,11 +1,22 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 import { FoundationPageContent } from "@/components/FoundationPageContent";
 
-export const metadata: Metadata = {
-  title: "Kids and Teens Foundation | Kids & Teens Medical Group",
-  description:
-    "The Kids and Teens Foundation provides free clinic days, medical missions, mentorship, scholarships, community outreach, and a school wellness initiative in Negombo, Sri Lanka, alongside Kids & Teens Medical Group.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Seo" });
+  return buildMetadata({
+    locale,
+    path: "/foundation",
+    title: t("foundation.title"),
+    description: t("foundation.description"),
+  });
+}
 
 export default function FoundationPage() {
   return <FoundationPageContent />;

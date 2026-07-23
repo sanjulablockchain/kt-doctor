@@ -3,9 +3,14 @@ import { screen } from "@testing-library/react";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import Home from "./page";
 
+async function renderHome(locale: "en" | "es" = "en") {
+  const ui = await Home({ params: Promise.resolve({ locale }) });
+  render(ui, locale);
+}
+
 describe("Home page", () => {
-  it("renders links to find a doctor, find a clinic, and book an appointment", () => {
-    render(<Home />);
+  it("renders links to find a doctor, find a clinic, and book an appointment", async () => {
+    await renderHome();
 
     expect(screen.getByRole("link", { name: /find a doctor/i })).toHaveAttribute(
       "href",
@@ -15,8 +20,6 @@ describe("Home page", () => {
       "href",
       "/locations"
     );
-    // The home page repeats the "Book an Appointment" CTA (hero and bottom
-    // banner) intentionally. Both must point to the real Healow practice URL.
     const bookingLinks = screen.getAllByRole("link", { name: /book/i });
     expect(bookingLinks.length).toBeGreaterThanOrEqual(1);
     for (const link of bookingLinks) {
@@ -27,8 +30,8 @@ describe("Home page", () => {
     }
   });
 
-  it("renders a network teaser section linking to /network", () => {
-    render(<Home />);
+  it("renders a network teaser section linking to /network", async () => {
+    await renderHome();
     expect(screen.getByText("St. Gianna Medical Group")).toBeInTheDocument();
     expect(screen.getByText("LA Intensive Pediatric Therapy")).toBeInTheDocument();
     expect(screen.getByText("St. Joseph Hospital Negombo")).toBeInTheDocument();
@@ -38,15 +41,15 @@ describe("Home page", () => {
     );
   });
 
-  it("renders a foundation teaser section with a Donate Now link", () => {
-    render(<Home />);
+  it("renders a foundation teaser section with a Donate Now link", async () => {
+    await renderHome();
     expect(screen.getByText("Kids and Teens Foundation")).toBeInTheDocument();
     const donateLink = screen.getByRole("link", { name: /donate now/i });
     expect(donateLink).toHaveAttribute("href", "https://kidsandteensfoundation.org/donate/");
   });
 
-  it("renders a floating Donate tab linking to the foundation donate page", () => {
-    render(<Home />);
+  it("renders a floating Donate tab linking to the foundation donate page", async () => {
+    await renderHome();
     const donateTab = screen.getByRole("link", {
       name: /donate to the kids and teens foundation/i,
     });
@@ -57,24 +60,24 @@ describe("Home page", () => {
     expect(donateTab).toHaveAttribute("target", "_blank");
   });
 
-  it("renders a careers teaser linking to /careers", () => {
-    render(<Home />);
+  it("renders a careers teaser linking to /careers", async () => {
+    await renderHome();
     expect(screen.getByRole("link", { name: /join our team/i })).toHaveAttribute(
       "href",
       "/careers"
     );
   });
 
-  it("renders an insurance teaser linking to /insurance", () => {
-    render(<Home />);
+  it("renders an insurance teaser linking to /insurance", async () => {
+    await renderHome();
     expect(screen.getByRole("link", { name: /see accepted insurance/i })).toHaveAttribute(
       "href",
       "/insurance"
     );
   });
 
-  it("renders a standalone Resources section with the real resources and a link to /resources", () => {
-    render(<Home />);
+  it("renders a standalone Resources section with the real resources and a link to /resources", async () => {
+    await renderHome();
     expect(screen.getByText("Our Doctors")).toBeInTheDocument();
     expect(screen.getByText("Vaccine Schedule")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /browse all resources/i })).toHaveAttribute(
@@ -83,8 +86,8 @@ describe("Home page", () => {
     );
   });
 
-  it("renders a services pill cloud section with links to individual service pages", () => {
-    render(<Home />);
+  it("renders a services pill cloud section with links to individual service pages", async () => {
+    await renderHome();
     expect(screen.getByText("Comprehensive Pediatric Services")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Telehealth" })).toHaveAttribute(
       "href",
@@ -100,16 +103,15 @@ describe("Home page", () => {
     );
   });
 
-  it("renders a Featured Stories section linking to the on-site blog post pages", () => {
-    render(<Home />);
+  it("renders a Featured Stories section linking to the on-site blog post pages", async () => {
+    await renderHome();
     expect(screen.getByText("Featured Stories")).toBeInTheDocument();
-
     const storyLink = screen.getByRole("link", { name: /halloween safety tips for parents/i });
     expect(storyLink).toHaveAttribute("href", "/blog/halloween-safety-tips");
   });
 
-  it("renders a Trusted Partners & Affiliations section with all 7 real partner logos", () => {
-    render(<Home />);
+  it("renders a Trusted Partners & Affiliations section with all 7 real partner logos", async () => {
+    await renderHome();
     expect(screen.getByText("Trusted Partners & Affiliations")).toBeInTheDocument();
     expect(screen.getByAltText("Children's Hospital Los Angeles")).toBeInTheDocument();
     expect(screen.getByAltText("Cedars-Sinai")).toBeInTheDocument();
@@ -120,8 +122,8 @@ describe("Home page", () => {
     expect(screen.getByAltText("Providence")).toBeInTheDocument();
   });
 
-  it("renders a FAQ section with the section heading and first question", () => {
-    render(<Home />);
+  it("renders a FAQ section with the section heading and first question", async () => {
+    await renderHome();
     expect(screen.getByText("Frequently Asked Questions")).toBeInTheDocument();
     expect(
       screen.getByRole("button", {
@@ -130,16 +132,26 @@ describe("Home page", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders the hero heading and CTA copy in Spanish when locale is es", () => {
-    render(<Home />, "es");
-    expect(screen.getByText("cerca de casa.")).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /reservar una cita/i }).length).toBeGreaterThanOrEqual(
-      1
-    );
+  it("emits FAQPage JSON-LD structured data", async () => {
+    const { container } = (() => {
+      return { container: document.body };
+    })();
+    await renderHome();
+    const script = container.querySelector('script[type="application/ld+json"]');
+    expect(script).not.toBeNull();
+    expect(script!.innerHTML).toContain("FAQPage");
   });
 
-  it("renders the services pill-cloud eyebrow and heading in Spanish when locale is es", () => {
-    render(<Home />, "es");
+  it("renders the hero heading and CTA copy in Spanish when locale is es", async () => {
+    await renderHome("es");
+    expect(screen.getByText("cerca de casa.")).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("link", { name: /reservar una cita/i }).length
+    ).toBeGreaterThanOrEqual(1);
+  });
+
+  it("renders the services pill-cloud eyebrow and heading in Spanish when locale is es", async () => {
+    await renderHome("es");
     expect(screen.getByText("Servicios Pediátricos Integrales")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /ver todos los servicios/i })).toHaveAttribute(
       "href",
@@ -147,8 +159,8 @@ describe("Home page", () => {
     );
   });
 
-  it("renders the services pill-cloud labels in Spanish when locale is es", () => {
-    render(<Home />, "es");
+  it("renders the services pill-cloud labels in Spanish when locale is es", async () => {
+    await renderHome("es");
     expect(screen.getByRole("link", { name: "Telesalud" })).toHaveAttribute(
       "href",
       "/es/services/telehealth"
@@ -159,20 +171,20 @@ describe("Home page", () => {
     );
   });
 
-  it("renders the Featured Stories heading in Spanish when locale is es", () => {
-    render(<Home />, "es");
+  it("renders the Featured Stories heading in Spanish when locale is es", async () => {
+    await renderHome("es");
     expect(screen.getByText("Historias Destacadas")).toBeInTheDocument();
   });
 
-  it("renders the Featured Stories card titles in Spanish when locale is es", () => {
-    render(<Home />, "es");
+  it("renders the Featured Stories card titles in Spanish when locale is es", async () => {
+    await renderHome("es");
     expect(
       screen.getByText("Consejos de Seguridad para Halloween para los Padres")
     ).toBeInTheDocument();
   });
 
-  it("renders the Resources section heading in Spanish when locale is es", () => {
-    render(<Home />, "es");
+  it("renders the Resources section heading in Spanish when locale is es", async () => {
+    await renderHome("es");
     expect(
       screen.getByText("Todo lo que su familia necesita, en un solo lugar.")
     ).toBeInTheDocument();
@@ -182,16 +194,16 @@ describe("Home page", () => {
     );
   });
 
-  it("renders a telehealth teaser linking to /services/telehealth", () => {
-    render(<Home />);
+  it("renders a telehealth teaser linking to /services/telehealth", async () => {
+    await renderHome();
     expect(screen.getByRole("link", { name: /learn about telehealth/i })).toHaveAttribute(
       "href",
       "/services/telehealth"
     );
   });
 
-  it("renders the telehealth teaser CTA in Spanish when locale is es", () => {
-    render(<Home />, "es");
+  it("renders the telehealth teaser CTA in Spanish when locale is es", async () => {
+    await renderHome("es");
     expect(screen.getByRole("link", { name: /conozca la telesalud/i })).toHaveAttribute(
       "href",
       "/es/services/telehealth"

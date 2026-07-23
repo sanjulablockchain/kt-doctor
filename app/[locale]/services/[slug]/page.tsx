@@ -5,6 +5,8 @@ import { serviceCategories } from "@/data/services";
 import { BackLink } from "@/components/BackLink";
 import { Link } from "@/i18n/navigation";
 import { BOOKING_URL, MAIN_PHONE, TEXT_PHONE, TEXT_PHONE_ES } from "@/lib/constants";
+import { buildMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
 // Formats a US display number like "(818) 361-5437" into E.164 for tel:/sms:
 // links, e.g. "+18183615437" — matches components/Footer.tsx.
@@ -29,16 +31,21 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const found = findService(slug);
   if (!found) return {};
-
-  return {
-    title: `${found.service.name} | Kids & Teens Medical Group`,
-    description: found.service.description,
-  };
+  const title = locale === "es" ? found.service.nameEs : found.service.name;
+  const description =
+    locale === "es" ? found.service.descriptionEs : found.service.description;
+  return buildMetadata({
+    locale,
+    path: `/services/${found.service.id}`,
+    title,
+    description,
+    dedicatedOgImage: true,
+  });
 }
 
 export default async function ServiceDetailPage({
@@ -175,9 +182,23 @@ export default async function ServiceDetailPage({
     </>
   );
 
+  const breadcrumb = (
+    <JsonLd
+      data={breadcrumbJsonLd(
+        [
+          { name: locale === "es" ? "Inicio" : "Home", path: "/" },
+          { name: locale === "es" ? "Servicios" : "Services", path: "/services" },
+          { name, path: `/services/${service.id}` },
+        ],
+        locale ?? "en"
+      )}
+    />
+  );
+
   if (service.imageSrc) {
     return (
       <main className="mx-auto max-w-5xl px-5 py-12 sm:px-8">
+        {breadcrumb}
         <BackLink href="/services" messageKey="backToServices" namespace="Services" />
 
         <div className="mt-6 overflow-hidden rounded-3xl border border-border shadow-soft">
@@ -217,6 +238,7 @@ export default async function ServiceDetailPage({
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
+      {breadcrumb}
       <BackLink href="/services" messageKey="backToServices" namespace="Services" />
 
       <span className="mt-6 inline-flex items-center gap-2 rounded-full bg-teal-tint px-3.5 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">

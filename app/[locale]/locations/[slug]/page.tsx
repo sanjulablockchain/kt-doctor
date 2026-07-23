@@ -5,6 +5,8 @@ import { locations } from "@/data/locations";
 import { doctors } from "@/data/doctors";
 import { Link } from "@/i18n/navigation";
 import { BOOKING_URL } from "@/lib/constants";
+import { buildMetadata, localBusinessJsonLd, breadcrumbJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
 function findLocation(slug: string) {
   return locations.find((loc) => loc.id === slug) ?? null;
@@ -17,24 +19,27 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const location = findLocation(slug);
   if (!location) return {};
-
-  return {
-    title: `${location.name} Clinic | Kids & Teens Medical Group`,
+  return buildMetadata({
+    locale,
+    path: `/locations/${location.id}`,
+    title: `${location.name} Clinic`,
     description: location.description,
-  };
+    dedicatedOgImage: true,
+  });
 }
 
 export default async function LocationDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale?: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const loc = locale ?? "en";
   const location = findLocation(slug);
   if (!location) {
     notFound();
@@ -44,6 +49,17 @@ export default async function LocationDetailPage({
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
+      <JsonLd data={localBusinessJsonLd(location, loc)} />
+      <JsonLd
+        data={breadcrumbJsonLd(
+          [
+            { name: loc === "es" ? "Inicio" : "Home", path: "/" },
+            { name: loc === "es" ? "Clínicas" : "Locations", path: "/locations" },
+            { name: location.name, path: `/locations/${location.id}` },
+          ],
+          loc
+        )}
+      />
       <Link
         href="/locations"
         className="font-display text-sm font-semibold text-teal-dark hover:text-teal"

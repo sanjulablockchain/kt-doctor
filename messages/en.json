@@ -269,5 +269,63 @@
     "intro": "Seasonal health advice, safety tips, and guidance from our pediatric team to help your family stay informed.",
     "backToBlog": "Back to Blog",
     "readFullStory": "Read the full story"
+  },
+  "Seo": {
+    "home": {
+      "title": "Pediatric Care Across Greater Los Angeles",
+      "description": "Board-certified pediatricians at clinics across Greater Los Angeles. Well-child visits, urgent care, vaccines, and telehealth 7 days a week."
+    },
+    "about": {
+      "title": "About Us",
+      "description": "Compassionate, comprehensive pediatric care across Greater Los Angeles, from routine check-ups to urgent care and after-hours visits."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Pediatric health tips, parenting guidance, and clinic news from the pediatricians at Kids & Teens Medical Group."
+    },
+    "careers": {
+      "title": "Careers",
+      "description": "Join Kids & Teens Medical Group. Explore pediatric and clinical career opportunities across our Greater Los Angeles clinics."
+    },
+    "doctors": {
+      "title": "Our Doctors",
+      "description": "Meet the board-certified pediatricians at Kids & Teens Medical Group, caring for children and teens across Greater Los Angeles."
+    },
+    "foundation": {
+      "title": "Kids and Teens Foundation",
+      "description": "The Kids and Teens Foundation expands access to pediatric care and community health programs for families in Greater Los Angeles."
+    },
+    "insurance": {
+      "title": "Insurance",
+      "description": "We accept most major plans including Medi-Cal, LA Care, Molina, Blue Shield, and Anthem. Coverage is never a barrier to care."
+    },
+    "locations": {
+      "title": "Find a Clinic",
+      "description": "Find a Kids & Teens Medical Group pediatric clinic near you across Greater Los Angeles, with same-day and walk-in visits."
+    },
+    "network": {
+      "title": "Our Network",
+      "description": "Kids & Teens Medical Group partners with leading hospitals and health systems across Greater Los Angeles for coordinated pediatric care."
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy",
+      "description": "How Kids & Teens Medical Group collects, uses, and protects your personal information."
+    },
+    "resources": {
+      "title": "Parent Resources",
+      "description": "Helpful pediatric resources for parents: vaccine schedules, growth guidance, health forms, and after-hours care information."
+    },
+    "services": {
+      "title": "Services",
+      "description": "Comprehensive pediatric services: well-child exams, vaccines, sick and urgent care, adolescent medicine, and asthma and allergy care."
+    },
+    "termsAndConditions": {
+      "title": "Terms and Conditions",
+      "description": "The terms and conditions governing your use of the Kids & Teens Medical Group website."
+    },
+    "testimonials": {
+      "title": "Testimonials",
+      "description": "Read what families across Greater Los Angeles say about their care at Kids & Teens Medical Group."
+    }
   }
 }

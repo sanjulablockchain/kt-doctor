@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { BackLink } from "@/components/BackLink";
 import { stories } from "@/data/stories";
+import { buildMetadata, articleJsonLd, breadcrumbJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
 function findStory(slug: string) {
   return stories.find((s) => s.id === slug) ?? null;
@@ -15,16 +17,21 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const story = findStory(slug);
   if (!story) return {};
-
-  return {
-    title: `${story.title} | Kids & Teens Medical Group`,
-    description: story.excerpt,
-  };
+  const title = locale === "es" ? story.titleEs : story.title;
+  const description = locale === "es" ? story.excerptEs : story.excerpt;
+  return buildMetadata({
+    locale,
+    path: `/blog/${story.id}`,
+    title,
+    description,
+    type: "article",
+    dedicatedOgImage: true,
+  });
 }
 
 export default async function BlogPostPage({
@@ -42,6 +49,17 @@ export default async function BlogPostPage({
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
+      <JsonLd data={articleJsonLd(story, locale ?? "en")} />
+      <JsonLd
+        data={breadcrumbJsonLd(
+          [
+            { name: locale === "es" ? "Inicio" : "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+            { name: story.title, path: `/blog/${story.id}` },
+          ],
+          locale ?? "en"
+        )}
+      />
       <BackLink href="/blog" messageKey="backToBlog" namespace="Blog" />
 
       <p className="mt-6 flex flex-wrap gap-x-2 text-xs font-semibold text-ink-soft">
