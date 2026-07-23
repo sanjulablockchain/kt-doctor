@@ -589,8 +589,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="bg-teal-tint/60 py-16">
+      {/* FAQ — the tint fades into the body toward the bottom (same pattern as
+          the hero) so it doesn't end in a hard green→black seam above the
+          bottom CTA in dark mode. */}
+      <section className="bg-gradient-to-b from-teal-tint/60 to-ivory py-16">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <Reveal>
             <div className="mx-auto max-w-3xl text-center">
