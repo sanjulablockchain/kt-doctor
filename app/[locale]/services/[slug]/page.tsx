@@ -61,18 +61,18 @@ export default async function ServiceDetailPage({
   const moreServicesLabel = locale === "es" ? "Más Servicios" : "More Services";
 
   const actions = (
-    <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+    <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
       <a
         href={BOOKING_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="rounded-full bg-teal px-7 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
+        className="whitespace-nowrap rounded-full bg-teal px-6 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
       >
         {bookLabel}
       </a>
       <Link
         href="/services"
-        className="rounded-full border border-border bg-surface px-7 py-3.5 text-center font-display font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
+        className="whitespace-nowrap rounded-full border border-border bg-surface px-6 py-3.5 text-center font-display font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
       >
         {moreServicesLabel}
       </Link>
@@ -180,30 +180,33 @@ export default async function ServiceDetailPage({
       <main className="mx-auto max-w-5xl px-5 py-12 sm:px-8">
         <BackLink href="/services" messageKey="backToServices" namespace="Services" />
 
-        <span className="mt-6 block font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
-          {categoryName}
-        </span>
-        <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-          {name}
-        </h1>
+        <div className="mt-6 overflow-hidden rounded-3xl border border-border shadow-soft">
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            <div className="aspect-[4/5] sm:aspect-[16/11] lg:aspect-auto lg:h-full">
+              <Image
+                src={service.imageSrc}
+                alt={imageAlt ?? name}
+                width={800}
+                height={1000}
+                unoptimized
+                className="h-full w-full object-cover"
+              />
+            </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
-          <div className="overflow-hidden rounded-2xl">
-            <Image
-              src={service.imageSrc}
-              alt={imageAlt ?? name}
-              width={800}
-              height={1000}
-              unoptimized
-              className={`${service.imageAspectClass ?? "aspect-[4/5]"} w-full object-cover`}
-            />
-          </div>
+            <div className="flex flex-col justify-center bg-gradient-to-br from-teal-tint to-surface p-8 sm:p-10 lg:p-12">
+              <span className="inline-flex w-fit items-center gap-2 rounded-full bg-surface px-3.5 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-teal-dark shadow-card ring-1 ring-inset ring-teal/15">
+                <span className="h-1.5 w-1.5 rounded-full bg-teal" />
+                {categoryName}
+              </span>
 
-          <div>
-            <p className="text-lg font-semibold text-ink-soft">{description}</p>
-            <p className="mt-6 text-ink-soft">{longDescription}</p>
+              <h1 className="mt-5 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+                {name}
+              </h1>
+              <p className="mt-4 text-lg font-semibold text-ink">{description}</p>
+              <p className="mt-4 text-ink-soft">{longDescription}</p>
 
-            {actions}
+              {actions}
+            </div>
           </div>
         </div>
 
@@ -216,10 +219,11 @@ export default async function ServiceDetailPage({
     <main className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
       <BackLink href="/services" messageKey="backToServices" namespace="Services" />
 
-      <span className="mt-6 block font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
+      <span className="mt-6 inline-flex items-center gap-2 rounded-full bg-teal-tint px-3.5 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
+        <span className="h-1.5 w-1.5 rounded-full bg-teal" />
         {categoryName}
       </span>
-      <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+      <h1 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
         {name}
       </h1>
       <p className="mt-2 text-lg font-semibold text-ink-soft">{description}</p>

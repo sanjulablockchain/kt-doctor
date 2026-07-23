@@ -38,6 +38,9 @@ export const serviceCategories: ServiceCategory[] = [
     services: [
       {
         id: "well-child-exam",
+        imageSrc: "/services/well-child-exam.jpg",
+        imageAlt: "A pediatrician measuring a healthy young child during a routine checkup",
+        imageAltEs: "Una pediatra midiendo a un niño pequeño y sano durante un chequeo de rutina",
         name: "Well Child Exam",
         nameEs: "Examen de Niño Sano",
         description: "Routine preventive wellness checkups tracking growth and development at every age.",
@@ -47,6 +50,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "physicals",
+        imageSrc: "/services/physicals.jpg",
+        imageAlt: "A stethoscope, a core tool used during a child's physical exam",
+        imageAltEs: "Un estetoscopio, una herramienta esencial en el examen físico de un niño",
         name: "Physicals",
         nameEs: "Exámenes Físicos",
         description: "Routine health examinations, including sports and school physicals.",
@@ -56,6 +62,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "free-vaccines",
+        imageSrc: "/services/free-vaccines.jpg",
+        imageAlt: "A masked healthcare worker placing a bandage on a patient's arm after a vaccination",
+        imageAltEs: "Un trabajador de salud con mascarilla colocando una venda en el brazo de un paciente después de una vacuna",
         name: "Free Vaccines",
         nameEs: "Vacunas Gratuitas",
         description: "Complimentary childhood immunizations for eligible patients.",
@@ -65,6 +74,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "covid-19-vaccine",
+        imageSrc: "/services/covid-19-vaccine.jpg",
+        imageAlt: "A gloved healthcare worker preparing a vaccine syringe",
+        imageAltEs: "Un trabajador de salud con guantes preparando una jeringa con la vacuna",
         name: "COVID-19 Vaccine",
         nameEs: "Vacuna contra el COVID-19",
         description: "Vaccination services to help protect your child against COVID-19.",
@@ -74,6 +86,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "nutrition",
+        imageSrc: "/services/nutrition.jpg",
+        imageAlt: "A colorful arrangement of fresh fruits and vegetables for healthy eating",
+        imageAltEs: "Una colorida variedad de frutas y verduras frescas para una alimentación saludable",
         name: "Nutrition",
         nameEs: "Nutrición",
         description: "Dietary guidance and nutritional support for growing children.",
@@ -90,6 +105,9 @@ export const serviceCategories: ServiceCategory[] = [
     services: [
       {
         id: "newborn-care",
+        imageSrc: "/services/newborn-care.jpg",
+        imageAlt: "A newborn baby being gently held in a caregiver's hands",
+        imageAltEs: "Un bebé recién nacido sostenido con delicadeza en las manos de un cuidador",
         name: "Newborn Care",
         nameEs: "Cuidado del Recién Nacido",
         description: "Dedicated care for infants from their very first days.",
@@ -99,6 +117,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "expectant-parents",
+        imageSrc: "/services/expectant-parents.jpg",
+        imageAlt: "A pregnant person resting their hands on their belly",
+        imageAltEs: "Una persona embarazada con las manos apoyadas sobre su vientre",
         name: "Expectant Parents",
         nameEs: "Padres en Espera",
         description: "Prenatal guidance to help new parents prepare before baby arrives.",
@@ -108,6 +129,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "circumcisions",
+        imageSrc: "/services/circumcisions.jpg",
+        imageAlt: "A peacefully swaddled newborn wrapped in a soft blanket",
+        imageAltEs: "Un recién nacido plácidamente envuelto en una manta suave",
         name: "Circumcisions",
         nameEs: "Circuncisiones",
         description: "Circumcision procedures for newborns and children.",
@@ -124,6 +148,9 @@ export const serviceCategories: ServiceCategory[] = [
     services: [
       {
         id: "sick-visits",
+        imageSrc: "/services/sick-visits.jpg",
+        imageAlt: "A pediatrician listening to a child's chest with a stethoscope during a visit",
+        imageAltEs: "Una pediatra escuchando el pecho de un niño con un estetoscopio durante una consulta",
         name: "Sick Visits",
         nameEs: "Visitas por Enfermedad",
         description: "Prompt treatment for acute illnesses when your child isn't feeling well.",
@@ -145,6 +172,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "walk-ins",
+        imageSrc: "/services/walk-ins.jpg",
+        imageAlt: "The welcoming front desk of a modern pediatric clinic",
+        imageAltEs: "La acogedora recepción de una clínica pediátrica moderna",
         name: "Walk-Ins",
         nameEs: "Visitas sin Cita",
         description: "Unscheduled visits welcome for urgent needs.",
@@ -204,6 +234,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "pediatric-infectious-disease",
+        imageSrc: "/services/pediatric-infectious-disease.jpg",
+        imageAlt: "A pediatrician examining an infant during a checkup",
+        imageAltEs: "Una pediatra examinando a un bebé durante una revisión",
         name: "Pediatric Infectious Disease",
         nameEs: "Enfermedades Infecciosas Pediátricas",
         description: "Diagnosis and treatment of infections in children.",
@@ -213,6 +246,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "sports-injuries",
+        imageSrc: "/services/sports-injuries.jpg",
+        imageAlt: "A young athlete receiving care for an injury on a sports field",
+        imageAltEs: "Un joven atleta recibiendo atención por una lesión en un campo deportivo",
         name: "Sports Injuries",
         nameEs: "Lesiones Deportivas",
         description: "Specialized care to get young athletes back in the game safely.",
@@ -229,6 +265,9 @@ export const serviceCategories: ServiceCategory[] = [
     services: [
       {
         id: "adhd-behavioral-issues",
+        imageSrc: "/services/adhd-behavioral-issues.jpg",
+        imageAlt: "A child concentrating on a writing activity at a table",
+        imageAltEs: "Un niño concentrado en una actividad de escritura en una mesa",
         name: "ADHD & Behavioral Issues",
         nameEs: "TDAH y Problemas de Conducta",
         description: "Comprehensive care and support for ADHD and behavioral concerns.",
@@ -238,6 +277,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "autism-developmental-disorders",
+        imageSrc: "/services/autism-developmental-disorders.jpg",
+        imageAlt: "A child engaged in play-based developmental activities with colorful blocks",
+        imageAltEs: "Un niño participando en actividades de desarrollo mediante el juego con bloques de colores",
         name: "Autism & Developmental Disorders",
         nameEs: "Autismo y Trastornos del Desarrollo",
         description: "Specialized support for children with autism and developmental conditions.",
@@ -247,6 +289,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "childhood-obesity-weight-management",
+        imageSrc: "/services/childhood-obesity-weight-management.jpg",
+        imageAlt: "A family being active together outdoors",
+        imageAltEs: "Una familia haciendo actividad física juntos al aire libre",
         name: "Childhood Obesity & Weight Management",
         nameEs: "Obesidad Infantil y Manejo de Peso",
         description: "Programs supporting healthy weight and lifestyle habits for the whole family.",
@@ -263,6 +308,9 @@ export const serviceCategories: ServiceCategory[] = [
     services: [
       {
         id: "asthma-allergy-center",
+        imageSrc: "/services/asthma-allergy-center.jpg",
+        imageAlt: "Asthma inhalers resting on a soft surface",
+        imageAltEs: "Inhaladores para el asma sobre una superficie suave",
         name: "Asthma & Allergy Center",
         nameEs: "Centro de Asma y Alergias",
         description: "Specialized care for respiratory symptoms and allergic conditions.",
@@ -272,6 +320,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "allergies",
+        imageSrc: "/services/allergies.jpg",
+        imageAlt: "A pediatrician discussing treatment and medications with a young patient",
+        imageAltEs: "Una pediatra conversando sobre el tratamiento y los medicamentos con un paciente joven",
         name: "Allergies",
         nameEs: "Alergias",
         description: "Treatment for a range of childhood allergic conditions.",
@@ -281,6 +332,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "adolescent-medicine",
+        imageSrc: "/services/adolescent-medicine.jpg",
+        imageAlt: "A teenager talking with a healthcare provider during a consultation",
+        imageAltEs: "Una adolescente conversando con un profesional de salud durante una consulta",
         name: "Adolescent Medicine",
         nameEs: "Medicina del Adolescente",
         description: "Healthcare tailored specifically to the needs of teenagers.",
@@ -290,6 +344,9 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         id: "teenage-gynecology-menstrual-disorders",
+        imageSrc: "/services/teenage-gynecology-menstrual-disorders.jpg",
+        imageAlt: "A female doctor providing attentive care in a comfortable, confidential setting",
+        imageAltEs: "Una médica brindando atención cuidadosa en un entorno cómodo y confidencial",
         name: "Teenage Gynecology & Menstrual Disorders",
         nameEs: "Ginecología Adolescente y Trastornos Menstruales",
         description: "Adolescent reproductive health services in a comfortable, confidential setting.",

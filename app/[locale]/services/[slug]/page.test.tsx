@@ -87,12 +87,12 @@ describe("ServiceDetailPage", () => {
     expect(screen.getByRole("img", { name: /osito de peluche/i })).toBeInTheDocument();
   });
 
-  it("renders no image for services without one", async () => {
+  it("renders the service image for a previously plain service", async () => {
     const ui = await ServiceDetailPage({
       params: Promise.resolve({ slug: "well-child-exam" }),
     });
     render(ui);
-    expect(screen.queryByRole("img")).not.toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /pediatrician measuring/i })).toBeInTheDocument();
   });
 
   it("renders the telehealth image with English alt text", async () => {

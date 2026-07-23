@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { existsSync } from "fs";
+import { join } from "path";
 import { serviceCategories } from "./services";
 
 describe("services data", () => {
@@ -108,5 +110,19 @@ describe("services data", () => {
     }
     expect(telehealth.howItWorks).not.toContain("—");
     expect(telehealth.howItWorksEs).not.toContain("—");
+  });
+
+  it("gives every service an image whose file exists, with bilingual alt and no em dash", () => {
+    const allServices = serviceCategories.flatMap((c) => c.services);
+    for (const s of allServices) {
+      expect(s.imageSrc, `${s.id} missing imageSrc`).toBeTruthy();
+      expect(s.imageSrc!.startsWith("/services/")).toBe(true);
+      const filePath = join(process.cwd(), "public", s.imageSrc!.replace(/^\//, ""));
+      expect(existsSync(filePath), `${s.id} image file missing: ${s.imageSrc}`).toBe(true);
+      expect((s.imageAlt ?? "").length, `${s.id} missing imageAlt`).toBeGreaterThan(10);
+      expect((s.imageAltEs ?? "").length, `${s.id} missing imageAltEs`).toBeGreaterThan(10);
+      expect(s.imageAlt).not.toContain("—");
+      expect(s.imageAltEs).not.toContain("—");
+    }
   });
 });
