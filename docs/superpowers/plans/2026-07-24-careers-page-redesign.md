@@ -14,7 +14,8 @@
 - **Bilingual EN/ES:** every user-facing string exists in both `messages/en.json` and `messages/es.json`; position titles/summaries carry `*Es` fields in `data/careers.ts`.
 - **This is a modified Next.js.** Before writing server-action or file-upload code, read `node_modules/next/dist/docs/01-app/02-guides/server-actions.md`. The 1 MB default action body limit is confirmed in `node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/serverActions.md`.
 - **Design tokens only** (from `app/globals.css`): colors `ivory`, `ivory-deep`, `surface`, `ink`, `ink-soft`, `navy`, `teal`, `teal-dark`, `teal-tint`, `gold`, `gold-tint`, `border`; fonts `font-display`, `font-body`; helpers `shadow-soft`, `shadow-card`. Buttons are `rounded-full`.
-- **Applications route to `CONTACT_TO`** over the existing `SMTP_*` / `CONTACT_FROM` env (no new env var). Applicant address goes in `replyTo` (M365 requires `from` to be the authenticated mailbox).
+- **Applications route to a new `CAREERS_TO` env var** over the existing `SMTP_*` transport, `from` = `CONTACT_FROM` (M365 requires `from` to be the authenticated mailbox), applicant address in `replyTo`. For testing, `CAREERS_TO = Sanjula.Rajapaksha@ktdoctor.com`. `sendContactMail` keeps reading `CONTACT_TO` unchanged.
+- **Displayed careers email is a label, not the delivery mailbox.** `lib/constants.ts` gets `CAREERS_EMAIL = "Amanda.Desilva@ktdoctor.com"`, shown on the page as a "prefer to email us directly" link. It is never read by the mailer.
 - **Tests + build must pass:** `npm run test` and `npm run build` green before the plan is complete. Match existing test style (vitest, `renderWithIntl` from `@/lib/test-utils`).
 
 ---
@@ -34,7 +35,9 @@
 
 **Modify:**
 - `lib/escapeHtml.ts` consumers: `app/[locale]/contact/actions.ts` (use the shared helper).
-- `lib/mailer.ts` — add `sendApplicationMail` (attachments) via shared env/transport helpers; `sendContactMail` behavior unchanged.
+- `lib/mailer.ts` — add `sendApplicationMail` (attachments, reads `CAREERS_TO`) via shared transport helper; `sendContactMail` behavior unchanged.
+- `lib/constants.ts` — add `CAREERS_EMAIL` display constant.
+- `.env.local` and `.env.local.example` — add `CAREERS_TO`.
 - `data/careers.ts` — replace the mailto export with typed `positions` + `DEPARTMENTS`.
 - `data/careers.test.ts` — assert data shape + no em dash.
 - `next.config.ts` — raise `experimental.serverActions.bodySizeLimit` to `"6mb"`.
@@ -469,26 +472,35 @@ git commit -m "refactor: extract shared escapeHtml helper"
 
 ---
 
-## Task 4: Mailer attachment support
+## Task 4: Mailer attachment support + careers recipient
 
 **Files:**
 - Modify: `lib/mailer.ts`
 - Test: `lib/mailer.test.ts` (add a case; keep the existing two green)
+- Modify: `.env.local`, `.env.local.example` (add `CAREERS_TO`)
 
 **Interfaces:**
 - Produces:
   - `type MailAttachment = { filename: string; content: Buffer; contentType?: string }`.
   - `type ApplicationMail = { replyTo; subject; text; html; attachments?: MailAttachment[] }`.
-  - `sendApplicationMail(mail: ApplicationMail): Promise<void>`.
-- `sendContactMail` signature and `sendMail` call shape are unchanged.
+  - `sendApplicationMail(mail: ApplicationMail): Promise<void>` — sends to `CAREERS_TO`.
+- `sendContactMail` signature and `sendMail` call shape are unchanged (still `CONTACT_TO`).
 
-- [ ] **Step 1: Write the failing test**
+- [ ] **Step 1: Add `CAREERS_TO` to the test env map**
+
+In `lib/mailer.test.ts`, add one line to the `ENV` object (near the top, after `CONTACT_FROM`) so the new test has a recipient distinct from `CONTACT_TO`, proving the application path reads the right var:
+
+```ts
+  CAREERS_TO: "careers-inbox@ktdoctor.com",
+```
+
+- [ ] **Step 2: Write the failing test**
 
 Append to `lib/mailer.test.ts` (inside the file, after the existing `describe`):
 
 ```ts
 describe("sendApplicationMail", () => {
-  it("passes attachments through to sendMail with configured to/from", async () => {
+  it("sends to CAREERS_TO with attachments passed through", async () => {
     const { sendApplicationMail } = await import("./mailer");
     const content = Buffer.from("PDF-BYTES");
     await sendApplicationMail({
@@ -501,7 +513,7 @@ describe("sendApplicationMail", () => {
 
     expect(sendMailMock).toHaveBeenCalledWith({
       from: "from@ktdoctor.com",
-      to: "to@ktdoctor.com",
+      to: "careers-inbox@ktdoctor.com",
       replyTo: "applicant@example.com",
       subject: "[Careers] Application: Pediatrician (MD/DO)",
       text: "application",
@@ -512,12 +524,12 @@ describe("sendApplicationMail", () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [ ] **Step 3: Run test to verify it fails**
 
 Run: `npm run test -- lib/mailer.test.ts`
 Expected: FAIL (`sendApplicationMail` not exported).
 
-- [ ] **Step 3: Write minimal implementation**
+- [ ] **Step 4: Write minimal implementation**
 
 Replace the contents of `lib/mailer.ts`:
 
@@ -547,20 +559,17 @@ function requireEnv(name: string): string {
   return value;
 }
 
-// Reads SMTP + routing config from env and builds the transport. All routing is
-// env-driven so the mailbox/recipient can change with no code edit. On Microsoft
-// 365 `from` must be the authenticated mailbox, so the visitor/applicant address
-// is carried in `replyTo` instead.
-function buildMailer(): {
-  transport: nodemailer.Transporter;
-  from: string;
-  to: string;
-} {
+// Builds the SMTP transport and resolves the `from` sender. All routing is
+// env-driven so the mailbox can change with no code edit. On Microsoft 365 `from`
+// must be the authenticated mailbox, so the visitor/applicant address is carried
+// in `replyTo` instead. Each send function reads its own recipient env var
+// (`CONTACT_TO` vs `CAREERS_TO`) so contact and careers can land in different
+// inboxes over the same transport.
+function buildTransport(): { transport: nodemailer.Transporter; from: string } {
   const host = requireEnv("SMTP_HOST");
   const port = Number(requireEnv("SMTP_PORT"));
   const user = requireEnv("SMTP_USER");
   const pass = requireEnv("SMTP_PASS");
-  const to = requireEnv("CONTACT_TO");
   const from = requireEnv("CONTACT_FROM");
   const secure = process.env.SMTP_SECURE === "true";
 
@@ -570,11 +579,12 @@ function buildMailer(): {
     secure,
     auth: { user, pass },
   });
-  return { transport, from, to };
+  return { transport, from };
 }
 
 export async function sendContactMail(mail: ContactMail): Promise<void> {
-  const { transport, from, to } = buildMailer();
+  const { transport, from } = buildTransport();
+  const to = requireEnv("CONTACT_TO");
   await transport.sendMail({
     from,
     to,
@@ -585,9 +595,10 @@ export async function sendContactMail(mail: ContactMail): Promise<void> {
   });
 }
 
-// Sends a job application, attaching the applicant's CV.
+// Sends a job application to the careers mailbox, attaching the applicant's CV.
 export async function sendApplicationMail(mail: ApplicationMail): Promise<void> {
-  const { transport, from, to } = buildMailer();
+  const { transport, from } = buildTransport();
+  const to = requireEnv("CAREERS_TO");
   await transport.sendMail({
     from,
     to,
@@ -600,18 +611,34 @@ export async function sendApplicationMail(mail: ApplicationMail): Promise<void> 
 }
 ```
 
-Note: `sendContactMail`'s `sendMail` call still omits `attachments`, so the existing test's exact-match assertion stays valid.
+Note: `sendContactMail` still reads `CONTACT_TO` and omits `attachments`, so the existing test's exact-match assertion stays valid.
 
-- [ ] **Step 4: Run the full mailer test**
+- [ ] **Step 5: Run the full mailer test**
 
 Run: `npm run test -- lib/mailer.test.ts`
-Expected: PASS (all three cases).
+Expected: PASS (all three cases, including the new `CAREERS_TO` assertion).
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Add `CAREERS_TO` to the env files**
+
+Append to `.env.local` (gitignored; the real value for local testing):
+
+```
+CAREERS_TO=Sanjula.Rajapaksha@ktdoctor.com
+```
+
+Append to `.env.local.example` (committed; document the var, no secret), under the contact block:
+
+```
+# Careers application delivery. Same SMTP transport as the contact form; only the
+# recipient differs. Set to the recruiting inbox in production.
+CAREERS_TO=Sanjula.Rajapaksha@ktdoctor.com
+```
+
+- [ ] **Step 7: Commit**
 
 ```bash
-git add lib/mailer.ts lib/mailer.test.ts
-git commit -m "feat(mailer): add sendApplicationMail with attachments"
+git add lib/mailer.ts lib/mailer.test.ts .env.local.example
+git commit -m "feat(mailer): add sendApplicationMail routed to CAREERS_TO"
 ```
 
 ---
@@ -923,6 +950,7 @@ No dedicated unit test; correctness is verified by the component tests in Tasks 
     "formEyebrow": "Apply",
     "formHeading": "Apply to join our team",
     "formIntro": "Tell us a bit about you and attach your CV. We'll be in touch if there's a fit.",
+    "emailDirect": "Prefer to email us directly?",
     "requiredNote": "Fields marked * are required.",
     "nameLabel": "Full name",
     "namePlaceholder": "Jane Doe",
@@ -1001,6 +1029,7 @@ No dedicated unit test; correctness is verified by the component tests in Tasks 
     "formEyebrow": "Postúlese",
     "formHeading": "Postúlese para unirse a nuestro equipo",
     "formIntro": "Cuéntenos un poco sobre usted y adjunte su currículum. Nos pondremos en contacto si hay una buena opción.",
+    "emailDirect": "¿Prefiere enviarnos un correo directamente?",
     "requiredNote": "Los campos marcados con * son obligatorios.",
     "nameLabel": "Nombre completo",
     "namePlaceholder": "Juana Pérez",
@@ -1494,14 +1523,26 @@ git commit -m "feat(careers): add job application form component"
 ## Task 9: Rewrite CareersPageContent
 
 **Files:**
+- Modify: `lib/constants.ts` (add `CAREERS_EMAIL`)
 - Modify: `components/CareersPageContent.tsx` (full rewrite)
 - Test: `components/CareersPageContent.test.tsx` (full rewrite)
 
 **Interfaces:**
-- Consumes: `positions`/`DEPARTMENTS`/`Department`/`EmploymentType` (Task 1); `JobApplicationForm` (Task 8); `Careers` messages (Task 6); `Reveal` from `@/components/Reveal`; `next/image`.
-- Produces: `function CareersPageContent(): JSX.Element` (default page body). No props.
+- Consumes: `positions`/`DEPARTMENTS`/`Department`/`EmploymentType` (Task 1); `JobApplicationForm` (Task 8); `Careers` messages (Task 6); `CAREERS_EMAIL` from `@/lib/constants`; `Reveal` from `@/components/Reveal`; `next/image`.
+- Produces: `function CareersPageContent(): JSX.Element` (default page body). No props. Adds `export const CAREERS_EMAIL = "Amanda.Desilva@ktdoctor.com"` to `lib/constants.ts`.
 
-- [ ] **Step 1: Write the failing test**
+- [ ] **Step 1: Add the display-email constant**
+
+Append to `lib/constants.ts`:
+
+```ts
+// Display-only careers contact address shown on the careers page. This is a UI
+// label; actual application delivery is controlled by the CAREERS_TO env var
+// (see lib/mailer.ts) and may differ.
+export const CAREERS_EMAIL = "Amanda.Desilva@ktdoctor.com";
+```
+
+- [ ] **Step 2: Write the failing test**
 
 Replace the contents of `components/CareersPageContent.test.tsx`:
 
@@ -1556,15 +1597,21 @@ describe("CareersPageContent", () => {
     render(<CareersPageContent />);
     expect(screen.getByText(/official job postings are only shared/i)).toBeInTheDocument();
   });
+
+  it("shows the displayed careers email as a mailto link", () => {
+    render(<CareersPageContent />);
+    const link = screen.getByRole("link", { name: /amanda\.desilva@ktdoctor\.com/i });
+    expect(link).toHaveAttribute("href", "mailto:Amanda.Desilva@ktdoctor.com");
+  });
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [ ] **Step 3: Run test to verify it fails**
 
 Run: `npm run test -- components/CareersPageContent.test.tsx`
 Expected: FAIL (old component renders old copy; new assertions fail).
 
-- [ ] **Step 3: Write minimal implementation**
+- [ ] **Step 4: Write minimal implementation**
 
 Replace the contents of `components/CareersPageContent.tsx`:
 
@@ -1576,6 +1623,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Reveal } from "@/components/Reveal";
 import { JobApplicationForm } from "@/components/JobApplicationForm";
+import { CAREERS_EMAIL } from "@/lib/constants";
 import {
   positions,
   DEPARTMENTS,
@@ -1803,6 +1851,15 @@ export function CareersPageContent() {
             {t("formHeading")}
           </h2>
           <p className="mt-2 text-ink-soft">{t("formIntro")}</p>
+          <p className="mt-1 text-sm text-ink-soft">
+            {t("emailDirect")}{" "}
+            <a
+              href={`mailto:${CAREERS_EMAIL}`}
+              className="font-display font-semibold text-teal-dark underline underline-offset-2"
+            >
+              {CAREERS_EMAIL}
+            </a>
+          </p>
           <div className="mt-6 rounded-2xl border border-border bg-surface p-6 shadow-card">
             <JobApplicationForm
               positionId={selectedPositionId}
@@ -1823,20 +1880,20 @@ export function CareersPageContent() {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [ ] **Step 5: Run test to verify it passes**
 
 Run: `npm run test -- components/CareersPageContent.test.tsx`
 Expected: PASS.
 
-- [ ] **Step 5: Verify the existing page test still passes**
+- [ ] **Step 6: Verify the existing page test still passes**
 
 Run: `npm run test -- "app/[locale]/careers/page.test.tsx"`
 Expected: PASS ("renders without crashing").
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add components/CareersPageContent.tsx components/CareersPageContent.test.tsx
+git add lib/constants.ts components/CareersPageContent.tsx components/CareersPageContent.test.tsx
 git commit -m "feat(careers): rewrite careers page with positions, filter, culture, and apply form"
 ```
 
@@ -1883,7 +1940,8 @@ git commit -m "chore(careers): final verification fixups"
 - Filterable positions + department filter → Tasks 1, 6, 9. ✓
 - Culture band with image → Tasks 6, 7, 9. ✓
 - Application form + CV upload → Tasks 2 (schema/file validation), 5 (action), 8 (form), 9 (mount). ✓
-- CV emailed as attachment via nodemailer to CONTACT_TO → Tasks 4, 5. ✓
+- CV emailed as attachment via nodemailer to `CAREERS_TO` (testing = Sanjula) → Tasks 4, 5. ✓
+- Displayed careers email (`CAREERS_EMAIL` = Amanda.Desilva) as a mailto link, separate from delivery → Tasks 6, 9. ✓
 - bodySizeLimit raised → Task 5. ✓
 - Anti-scam notice retained → Tasks 6, 9. ✓
 - Bilingual EN/ES → Task 6 messages + `*Es` data fields (Task 1). ✓

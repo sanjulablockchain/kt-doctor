@@ -40,8 +40,12 @@ design, using two references:
 4. **Sections:** full — hero (with image), perks strip, benefits section, filterable
    positions, culture/"why work here" band, application form, and the retained
    anti-scam notice.
-5. **Applications route to the existing contact inbox** (`CONTACT_TO`) over the same
-   SMTP env. No new mailbox.
+5. **Applications route to a new `CAREERS_TO` mailbox** over the same SMTP transport
+   (`from` stays `CONTACT_FROM`, the authenticated M365 mailbox; applicant address in
+   `replyTo`). For testing, `CAREERS_TO = Sanjula.Rajapaksha@ktdoctor.com`. Separately,
+   the page **displays** a careers contact address
+   `CAREERS_EMAIL = Amanda.Desilva@ktdoctor.com` (a "prefer to email us directly" UI
+   label), independent of the actual delivery mailbox.
 
 ## Goals
 
@@ -159,9 +163,13 @@ applicant fields (escaped) and the chosen position; the CV is attached.
 Refactor the transport creation into a small helper and add
 `sendApplicationMail({ replyTo, subject, text, html, attachments })`, passing
 `attachments` (nodemailer `{ filename, content: Buffer, contentType }`) through to
-`transport.sendMail`. Existing `sendContactMail` behavior unchanged. Applications go
-to `CONTACT_TO` from `CONTACT_FROM`, applicant address in `replyTo`, subject
-`[Careers] Application: <position title>`.
+`transport.sendMail`. Existing `sendContactMail` behavior unchanged (still reads
+`CONTACT_TO`). Applications go to a new `CAREERS_TO` env var from `CONTACT_FROM`,
+applicant address in `replyTo`, subject `[Careers] Application: <position title>`.
+Add `CAREERS_TO` to `.env.local` and `.env.local.example`. A separate display-only
+constant `CAREERS_EMAIL = "Amanda.Desilva@ktdoctor.com"` is added to `lib/constants.ts`
+and shown on the page as a "prefer to email us directly" link; it is not used by the
+mailer.
 
 ### Config — `next.config.ts`
 
