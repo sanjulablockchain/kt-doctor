@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kids & Teens Medical Group
+
+The marketing site for Kids & Teens Medical Group, built with [Next.js](https://nextjs.org) (App Router), React 19, Tailwind CSS 4, and `next-intl` (English + Spanish).
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and run the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser. Pages live under `app/[locale]/`; UI strings live in `messages/en.json` and `messages/es.json`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Useful scripts:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev     # start the dev server
+npm run build   # production build
+npm start       # serve the production build
+npm run lint    # ESLint
+npm test        # Vitest unit/component tests
+```
+
+## Environment variables
+
+Copy the example file and fill in your values:
+
+```bash
+cp .env.local.example .env.local
+```
+
+`.env.local` is gitignored and never committed. Everything works for local development without any values except the contact form, which needs the SMTP block below to actually send email.
+
+### Contact form email (Microsoft 365 SMTP)
+
+The `/contact` form sends messages by email through Nodemailer over SMTP. The sender and recipient are read from the environment, so they can change without code edits. On Microsoft 365 the `From` address must be the authenticated mailbox, so the visitor's address is placed in `Reply-To`.
+
+```dotenv
+# Microsoft 365 SMTP
+SMTP_HOST=smtp.office365.com
+SMTP_PORT=587
+SMTP_SECURE=false             # STARTTLS on 587; set true only for port 465
+SMTP_USER=you@ktdoctor.com    # the authenticating mailbox
+SMTP_PASS=                    # mailbox password, or an App Password if 2FA is on
+CONTACT_TO=you@ktdoctor.com   # where contact messages are delivered
+CONTACT_FROM=you@ktdoctor.com # must equal SMTP_USER on Microsoft 365
+```
+
+If sending fails with an authentication error, the tenant likely has "Authenticated SMTP" disabled. Enable it for the mailbox (Microsoft 365 admin center > Users > mailbox > Mail > Manage email apps > Authenticated SMTP), and use an App Password if the account has 2FA.
+
+### Locations map (optional)
+
+```dotenv
+# NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL=
+```
+
+A curated, keyless Google "My Maps" showing every clinic is baked in as the default, so the map works with no configuration. Set this only to point the map at a different Google "My Maps" embed URL, or set it to an empty string to hide the map and show the clinic address list instead.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [next-intl Documentation](https://next-intl.dev)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)

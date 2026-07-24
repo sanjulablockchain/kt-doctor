@@ -18,7 +18,8 @@
     "toggleMenu": "Toggle menu",
     "toggleLanguage": "Change language",
     "callUs": "Call us",
-    "telehealth": "Telehealth"
+    "telehealth": "Telehealth",
+    "contact": "Contact"
   },
   "ThemeToggle": {
     "label": "Color theme",
@@ -55,7 +56,8 @@
     "telehealth": "Telehealth",
     "privacyPolicy": "Privacy Policy",
     "termsAndConditions": "Terms & Conditions",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "contact": "Contact"
   },
   "Legal": {
     "eyebrow": "Legal",
@@ -270,6 +272,55 @@
     "backToBlog": "Back to Blog",
     "readFullStory": "Read the full story"
   },
+  "Contact": {
+    "eyebrow": "We reply within one business day",
+    "heading": "We're here for your family. How can we help?",
+    "intro": "Questions about appointments, insurance, records, or billing? Reach out and a member of our care team will get back to you. For a same-day visit, calling is fastest.",
+    "callTitle": "Call the front desk",
+    "callHelper": "Fastest for same-day & urgent needs",
+    "textTitle": "Text us",
+    "textHelper": "Quick questions & reminders",
+    "emailTitle": "Email",
+    "emailHelper": "Non-urgent inquiries",
+    "hoursTitle": "Office Hours",
+    "hoursWeekdays": "Mon to Fri",
+    "hoursWeekdaysTime": "8:00 AM to 6:00 PM",
+    "hoursSaturday": "Saturday",
+    "hoursSaturdayTime": "9:00 AM to 2:00 PM",
+    "hoursSunday": "Sunday",
+    "hoursSundayTime": "Telehealth only",
+    "hoursNote": "Hours vary by clinic across our {count} Greater LA locations.",
+    "hoursLink": "Find your clinic",
+    "emergencyTitle": "Medical emergency?",
+    "emergencyBody": "Call 911 or go to your nearest emergency room. This form is not monitored for urgent care.",
+    "formTitle": "Send us a message",
+    "requiredNote": "Fields marked * are required.",
+    "nameLabel": "Full name",
+    "namePlaceholder": "Jane Doe",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@email.com",
+    "phoneLabel": "Phone",
+    "phonePlaceholder": "(555) 123-4567",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Appointment inquiry",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell us how we can help your family…",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "successTitle": "Thank you!",
+    "successBody": "Your message has been sent. We'll reply within one business day.",
+    "sendAnother": "Send another message",
+    "privacyNote": "By submitting, you agree to be contacted about your inquiry. Please don't include sensitive medical details.",
+    "errors": {
+      "nameRequired": "Please enter your name.",
+      "emailRequired": "Please enter your email.",
+      "emailInvalid": "Please enter a valid email address.",
+      "subjectRequired": "Please enter a subject.",
+      "messageRequired": "Please enter a message.",
+      "tooLong": "This value is too long.",
+      "sendFailed": "We couldn't send your message right now. Please call or email us directly."
+    }
+  },
   "Seo": {
     "home": {
       "title": "Pediatric Care Across Greater Los Angeles",
@@ -286,6 +337,10 @@
     "careers": {
       "title": "Careers",
       "description": "Join Kids & Teens Medical Group. Explore pediatric and clinical career opportunities across our Greater Los Angeles clinics."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "Get in touch with Kids & Teens Medical Group. Call, text, or send us a message about appointments, insurance, records, or billing across our Greater LA clinics."
     },
     "doctors": {
       "title": "Our Doctors",

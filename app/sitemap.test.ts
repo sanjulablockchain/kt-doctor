@@ -8,7 +8,7 @@ import { serviceCategories } from "@/data/services";
 describe("sitemap", () => {
   const entries = sitemap();
   const serviceCount = serviceCategories.flatMap((c) => c.services).length;
-  const staticCount = 14;
+  const staticCount = 15;
 
   it("includes one entry per static + dynamic route", () => {
     expect(entries).toHaveLength(
@@ -32,5 +32,10 @@ describe("sitemap", () => {
   it("maps the Spanish alternate correctly for the home entry", () => {
     const home = entries.find((e) => e.url === "https://www.ktdoctor.com/");
     expect(home?.alternates?.languages?.es).toBe("https://www.ktdoctor.com/es");
+  });
+
+  it("includes the /contact route", () => {
+    const entries = sitemap();
+    expect(entries.some((e) => e.url.endsWith("/contact"))).toBe(true);
   });
 });

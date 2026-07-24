@@ -91,4 +91,10 @@ describe("Footer", () => {
       "/services/telehealth"
     );
   });
+
+  it("renders a Contact quick link to /contact", () => {
+    render(<Footer />);
+    const link = screen.getAllByRole("link", { name: "Contact" })[0];
+    expect(link).toHaveAttribute("href", "/contact");
+  });
 });

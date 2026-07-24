@@ -66,6 +66,7 @@ export function Footer() {
     { href: "/network", label: t("network") },
     { href: "/foundation", label: t("foundation") },
     { href: "/careers", label: t("careers") },
+    { href: "/contact", label: t("contact") },
     { href: "/blog", label: t("blog") },
     { href: "/privacy-policy", label: t("privacyPolicy") },
     { href: "/terms-and-conditions", label: t("termsAndConditions") },

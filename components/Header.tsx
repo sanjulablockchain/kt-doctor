@@ -199,6 +199,9 @@ export function Header() {
               <Link href="/testimonials" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("testimonials")}
               </Link>
+              <Link href="/contact" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+                {t("contact")}
+              </Link>
             </div>
           </div>
 

@@ -138,4 +138,11 @@ describe("Header", () => {
       "/services/telehealth"
     );
   });
+
+  it("renders a Contact link in the More menu to /contact", () => {
+    renderWithIntl(<Header />);
+    const links = screen.getAllByRole("link", { name: "Contact" });
+    expect(links.length).toBeGreaterThan(0);
+    expect(links[0]).toHaveAttribute("href", "/contact");
+  });
 });

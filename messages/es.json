@@ -18,7 +18,8 @@
     "toggleMenu": "Abrir menú",
     "toggleLanguage": "Cambiar idioma",
     "callUs": "Llámenos",
-    "telehealth": "Telesalud"
+    "telehealth": "Telesalud",
+    "contact": "Contacto"
   },
   "ThemeToggle": {
     "label": "Tema de color",
@@ -55,7 +56,8 @@
     "telehealth": "Telesalud",
     "privacyPolicy": "Política de Privacidad",
     "termsAndConditions": "Términos y Condiciones",
-    "rights": "Todos los derechos reservados."
+    "rights": "Todos los derechos reservados.",
+    "contact": "Contacto"
   },
   "Legal": {
     "eyebrow": "Legal",
@@ -270,6 +272,55 @@
     "backToBlog": "Volver al Blog",
     "readFullStory": "Leer la historia completa"
   },
+  "Contact": {
+    "eyebrow": "Respondemos en un día hábil",
+    "heading": "Estamos aquí para su familia: ¿cómo podemos ayudar?",
+    "intro": "¿Preguntas sobre citas, seguros, expedientes o facturación? Comuníquese con nosotros y un miembro de nuestro equipo de atención le responderá. Para una visita el mismo día, lo más rápido es llamar.",
+    "callTitle": "Llame a recepción",
+    "callHelper": "Lo más rápido para el mismo día y urgencias",
+    "textTitle": "Envíenos un mensaje de texto",
+    "textHelper": "Preguntas rápidas y recordatorios",
+    "emailTitle": "Correo electrónico",
+    "emailHelper": "Consultas no urgentes",
+    "hoursTitle": "Horario de atención",
+    "hoursWeekdays": "Lun a Vie",
+    "hoursWeekdaysTime": "8:00 AM a 6:00 PM",
+    "hoursSaturday": "Sábado",
+    "hoursSaturdayTime": "9:00 AM a 2:00 PM",
+    "hoursSunday": "Domingo",
+    "hoursSundayTime": "Solo telesalud",
+    "hoursNote": "El horario varía según la clínica en nuestras {count} ubicaciones del área de Los Ángeles.",
+    "hoursLink": "Encuentre su clínica",
+    "emergencyTitle": "¿Emergencia médica?",
+    "emergencyBody": "Llame al 911 o acuda a la sala de emergencias más cercana. Este formulario no se supervisa para atención urgente.",
+    "formTitle": "Envíenos un mensaje",
+    "requiredNote": "Los campos marcados con * son obligatorios.",
+    "nameLabel": "Nombre completo",
+    "namePlaceholder": "Juana Pérez",
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "usted@correo.com",
+    "phoneLabel": "Teléfono",
+    "phonePlaceholder": "(555) 123-4567",
+    "subjectLabel": "Asunto",
+    "subjectPlaceholder": "Consulta sobre citas",
+    "messageLabel": "Mensaje",
+    "messagePlaceholder": "Cuéntenos cómo podemos ayudar a su familia…",
+    "submit": "Enviar mensaje",
+    "submitting": "Enviando…",
+    "successTitle": "¡Gracias!",
+    "successBody": "Su mensaje ha sido enviado; le responderemos en un día hábil.",
+    "sendAnother": "Enviar otro mensaje",
+    "privacyNote": "Al enviar, acepta ser contactado sobre su consulta. Por favor no incluya información médica confidencial.",
+    "errors": {
+      "nameRequired": "Por favor ingrese su nombre.",
+      "emailRequired": "Por favor ingrese su correo electrónico.",
+      "emailInvalid": "Por favor ingrese un correo electrónico válido.",
+      "subjectRequired": "Por favor ingrese un asunto.",
+      "messageRequired": "Por favor ingrese un mensaje.",
+      "tooLong": "Este valor es demasiado largo.",
+      "sendFailed": "No pudimos enviar su mensaje en este momento. Por favor llámenos o escríbanos directamente."
+    }
+  },
   "Seo": {
     "home": {
       "title": "Atención Pediátrica en el Gran Los Ángeles",
@@ -286,6 +337,10 @@
     "careers": {
       "title": "Empleo",
       "description": "Únase a Kids & Teens Medical Group. Explore oportunidades de carrera pediátrica y clínica en nuestras clínicas del área de Los Ángeles."
+    },
+    "contact": {
+      "title": "Contáctenos",
+      "description": "Comuníquese con Kids & Teens Medical Group. Llame, envíe un mensaje o escríbanos sobre citas, seguros, expedientes o facturación en nuestras clínicas del área de Los Ángeles."
     },
     "doctors": {
       "title": "Nuestros Médicos",
