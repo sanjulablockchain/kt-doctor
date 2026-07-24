@@ -52,10 +52,11 @@ If sending fails with an authentication error, the tenant likely has "Authentica
 
 ### Careers application email
 
-The `/careers` application form sends over the same SMTP transport as the contact form, with the applicant's CV attached, but delivers to its own inbox:
+The `/careers` application form sends over the same SMTP transport as the contact form, with the applicant's CV attached, but delivers to its own inbox(es):
 
 ```dotenv
-CAREERS_TO=you@ktdoctor.com   # where job applications are delivered
+CAREERS_TO=you@ktdoctor.com                     # where job applications are delivered
+# CAREERS_TO=you@ktdoctor.com,hr@ktdoctor.com   # comma-separate to deliver to more than one inbox
 ```
 
 This is separate from `CAREERS_EMAILS` in `lib/constants.ts`, which is just the "prefer to email us directly" addresses shown on the page and can differ from where the form actually delivers.
