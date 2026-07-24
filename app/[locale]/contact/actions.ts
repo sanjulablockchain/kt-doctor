@@ -6,6 +6,7 @@ import {
   type ContactFieldErrors,
   type ContactValues,
 } from "@/lib/contactSchema";
+import { escapeHtml } from "@/lib/escapeHtml";
 
 export type ContactFormState = {
   status: "idle" | "success" | "error";
@@ -13,15 +14,6 @@ export type ContactFormState = {
   fieldErrors?: ContactFieldErrors;
   values?: ContactValues;
 };
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
 
 export async function sendContactMessage(
   _prev: ContactFormState,

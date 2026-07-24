@@ -97,4 +97,11 @@ describe("Footer", () => {
     const link = screen.getAllByRole("link", { name: "Contact" })[0];
     expect(link).toHaveAttribute("href", "/contact");
   });
+
+  it("renders Patient Portal as an external link in the For Patients column", () => {
+    render(<Footer />);
+    const portal = screen.getByRole("link", { name: "Patient Portal" });
+    expect(portal).toHaveAttribute("target", "_blank");
+    expect(portal).toHaveAttribute("rel", "noopener noreferrer");
+  });
 });

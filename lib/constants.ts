@@ -17,3 +17,8 @@ export const GENERAL_EMAIL = "customerservice@ktdoctor.com";
 
 export const SITE_URL = "https://www.ktdoctor.com";
 export const SITE_NAME = "Kids & Teens Medical Group";
+
+// Display-only careers contact addresses shown on the careers page. This is a
+// UI label; actual application delivery is controlled by the CAREERS_TO env
+// var (see lib/mailer.ts) and may differ.
+export const CAREERS_EMAILS = ["HR@ktdoctor.com", "monessa.azad@ktdoctor.com"];

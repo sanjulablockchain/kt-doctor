@@ -13,12 +13,14 @@ export function FilterDropdown({
   placeholder,
   options,
   onChange,
+  fullWidth = false,
 }: {
   ariaLabel: string;
   value: string;
   placeholder: string;
   options: Option[];
   onChange: (value: string) => void;
+  fullWidth?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -47,20 +49,22 @@ export function FilterDropdown({
   const selectedLabel = options.find((opt) => opt.value === value)?.label ?? placeholder;
 
   return (
-    <div ref={rootRef} className="relative">
+    <div ref={rootRef} className={`relative ${fullWidth ? "w-full" : ""}`}>
       <button
         type="button"
         aria-label={ariaLabel}
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className={`flex items-center gap-2 rounded-full border bg-ivory px-4 py-2.5 text-sm outline-none transition-colors ${
+        className={`flex items-center gap-2 border bg-ivory px-4 py-2.5 text-sm outline-none transition-colors ${
+          fullWidth ? "w-full justify-between rounded-xl" : "rounded-full"
+        } ${
           open
             ? "border-teal text-teal-dark shadow-soft"
             : "border-border text-ink hover:border-teal"
         }`}
       >
-        <span className="max-w-[10rem] truncate sm:max-w-[14rem]">{selectedLabel}</span>
+        <span className={fullWidth ? "truncate text-left" : "max-w-40 truncate sm:max-w-56"}>{selectedLabel}</span>
         <svg
           viewBox="0 0 24 24"
           fill="none"

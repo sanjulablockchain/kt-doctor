@@ -7,6 +7,7 @@ import {
   TEXT_PHONE_ES,
   GENERAL_EMAIL,
   BOOKING_URL,
+  PATIENT_PORTAL_URL,
 } from "@/lib/constants";
 
 // Formats a US display number like "(818) 361-5437" into E.164 for tel:/sms:
@@ -73,14 +74,15 @@ export function Footer() {
   ] as const;
 
   const patientLinks = [
-    { href: "/services/same-day-appointments", label: t("sameDayAppointments") },
-    { href: "/services/telehealth", label: t("telehealth") },
-    { href: "/doctors", label: t("doctors") },
-    { href: "/services", label: t("services") },
-    { href: "/locations", label: t("locations") },
-    { href: "/insurance", label: t("insurance") },
-    { href: "/resources", label: t("resources") },
-    { href: "/testimonials", label: t("testimonials") },
+    { href: "/services/same-day-appointments", label: t("sameDayAppointments"), external: false },
+    { href: "/services/telehealth", label: t("telehealth"), external: false },
+    { href: "/doctors", label: t("doctors"), external: false },
+    { href: "/services", label: t("services"), external: false },
+    { href: "/locations", label: t("locations"), external: false },
+    { href: "/insurance", label: t("insurance"), external: false },
+    { href: "/resources", label: t("resources"), external: false },
+    { href: "/testimonials", label: t("testimonials"), external: false },
+    { href: PATIENT_PORTAL_URL, label: t("patientPortal"), external: true },
   ] as const;
 
   return (
@@ -147,13 +149,26 @@ export function Footer() {
           <nav aria-label={t("forPatients")}>
             <h2 className={headingClass}>{t("forPatients")}</h2>
             <ul className="mt-4 flex flex-col gap-2.5">
-              {patientLinks.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className={navLinkClass}>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {patientLinks.map((item) =>
+                item.external ? (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={navLinkClass}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ) : (
+                  <li key={item.href}>
+                    <Link href={item.href} className={navLinkClass}>
+                      {item.label}
+                    </Link>
+                  </li>
+                )
+              )}
             </ul>
           </nav>
 

@@ -50,6 +50,16 @@ CONTACT_FROM=you@ktdoctor.com # must equal SMTP_USER on Microsoft 365
 
 If sending fails with an authentication error, the tenant likely has "Authenticated SMTP" disabled. Enable it for the mailbox (Microsoft 365 admin center > Users > mailbox > Mail > Manage email apps > Authenticated SMTP), and use an App Password if the account has 2FA.
 
+### Careers application email
+
+The `/careers` application form sends over the same SMTP transport as the contact form, with the applicant's CV attached, but delivers to its own inbox:
+
+```dotenv
+CAREERS_TO=you@ktdoctor.com   # where job applications are delivered
+```
+
+This is separate from `CAREERS_EMAILS` in `lib/constants.ts`, which is just the "prefer to email us directly" addresses shown on the page and can differ from where the form actually delivers.
+
 ### Locations map (optional)
 
 ```dotenv

@@ -15,6 +15,7 @@ const ENV = {
   SMTP_PASS: "secret",
   CONTACT_TO: "to@ktdoctor.com",
   CONTACT_FROM: "from@ktdoctor.com",
+  CAREERS_TO: "careers-inbox@ktdoctor.com",
 };
 
 beforeEach(() => {
@@ -60,5 +61,29 @@ describe("sendContactMail", () => {
       sendContactMail({ replyTo: "v@e.com", subject: "s", text: "t", html: "<p>t</p>" })
     ).rejects.toThrow("Missing required env var: SMTP_PASS");
     expect(sendMailMock).not.toHaveBeenCalled();
+  });
+});
+
+describe("sendApplicationMail", () => {
+  it("sends to CAREERS_TO with attachments passed through", async () => {
+    const { sendApplicationMail } = await import("./mailer");
+    const content = Buffer.from("PDF-BYTES");
+    await sendApplicationMail({
+      replyTo: "applicant@example.com",
+      subject: "[Careers] Application: Pediatrician (MD/DO)",
+      text: "application",
+      html: "<p>application</p>",
+      attachments: [{ filename: "cv.pdf", content, contentType: "application/pdf" }],
+    });
+
+    expect(sendMailMock).toHaveBeenCalledWith({
+      from: "from@ktdoctor.com",
+      to: "careers-inbox@ktdoctor.com",
+      replyTo: "applicant@example.com",
+      subject: "[Careers] Application: Pediatrician (MD/DO)",
+      text: "application",
+      html: "<p>application</p>",
+      attachments: [{ filename: "cv.pdf", content, contentType: "application/pdf" }],
+    });
   });
 });
