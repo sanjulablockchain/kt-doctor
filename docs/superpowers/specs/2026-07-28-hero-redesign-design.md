@@ -94,7 +94,7 @@ namespace: `badge`, `headingStart`, `headingHighlight`, `subheading`,
 | Key | English | Used for |
 |---|---|---|
 | `followUs` | "Follow us" | Label before the social icon row |
-| `youtubeLine` | "Health tips weekly on **YouTube**" | Line after the social icons (bold "YouTube" via a `<strong>`/span split at render time, not rich-text interpolation — keep the translation string plain and bold the literal word "YouTube" in JSX, since it's already known/constant) |
+| `youtubeLine` | "Health tips weekly on YouTube" | Line after the social icons, rendered as one plain string (no embedded bold/rich-text — this repo doesn't use next-intl rich-text interpolation elsewhere, so this stays consistent with that) |
 | `exploreNetwork` | "Explore the network" | CTA button inside `HeroNetworkPanel`, links to `/network` |
 | `bookAppointmentTile` | "Book Appointment" | Tile 1 title |
 | `bookAppointmentBody` | "Online in under a minute, or call us." | Tile 1 description |
