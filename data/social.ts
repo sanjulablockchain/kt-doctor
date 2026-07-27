@@ -4,7 +4,7 @@ export type SocialLink = {
   path: string;
 };
 
-// Official channels — confirmed with the client. Icons are single-path brand
+// Official channels, confirmed with the client. Icons are single-path brand
 // glyphs on a 24×24 grid, filled with currentColor so the chip controls color.
 export const socialLinks: SocialLink[] = [
   {
