@@ -63,7 +63,7 @@ export function Hero() {
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 font-display text-sm font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
+            className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 font-display text-sm font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
           >
             <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4">
               <rect x="3" y="4.5" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="2" />
@@ -73,7 +73,7 @@ export function Hero() {
           </a>
           <Link
             href="/doctors"
-            className="inline-flex items-center gap-2 rounded-full bg-ivory px-5 py-2.5 font-display text-sm font-semibold text-ink transition-colors hover:bg-white"
+            className="inline-flex items-center gap-2 rounded-full bg-ivory px-5 py-2.5 font-display text-sm font-semibold text-navy transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
           >
             <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4">
               <path
@@ -96,7 +96,7 @@ export function Hero() {
           </Link>
           <Link
             href="/locations"
-            className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 font-display text-sm font-semibold text-ivory transition-colors hover:bg-white/10"
+            className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 font-display text-sm font-semibold text-ivory transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
           >
             <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4">
               <path
