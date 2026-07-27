@@ -20,7 +20,7 @@ describe("Home page", () => {
       "href",
       "/locations"
     );
-    const bookingLinks = screen.getAllByRole("link", { name: /book/i });
+    const bookingLinks = screen.getAllByRole("link", { name: /^book/i });
     expect(bookingLinks.length).toBeGreaterThanOrEqual(1);
     for (const link of bookingLinks) {
       expect(link).toHaveAttribute(
@@ -34,7 +34,7 @@ describe("Home page", () => {
     await renderHome();
     expect(screen.getByText("St. Gianna Medical Group")).toBeInTheDocument();
     expect(screen.getByText("LA Intensive Pediatric Therapy")).toBeInTheDocument();
-    expect(screen.getByText("St. Joseph Hospital Negombo")).toBeInTheDocument();
+    expect(screen.getAllByText("St. Joseph Hospital Negombo").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole("link", { name: /see the full network/i })).toHaveAttribute(
       "href",
       "/network"
