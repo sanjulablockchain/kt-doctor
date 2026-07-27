@@ -100,7 +100,7 @@ namespace: `badge`, `headingStart`, `headingHighlight`, `subheading`,
 | `bookAppointmentBody` | "Online in under a minute, or call us." | Tile 1 description |
 | `bookAppointmentTag` | "Today" | Tile 1 small badge |
 | `supportingNetworkTile` | "Supporting Network" | Tile 2 title |
-| `supportingNetworkBody` | "{count} partner organizations across two countries." | Tile 2 description, `count` = `networkBrands.length - 1` (real partner count, excluding KTMG itself since it's the flagship, not a "partner" of itself) |
+| `supportingNetworkBody` | "{count} partner organizations across the network." | Tile 2 description, `count` = `networkBrands.length - 1` (real partner count, excluding KTMG itself since it's the flagship, not a "partner" of itself). Avoids naming a specific country count: `data/network.ts`'s `blockchain-bpo` entry alone already spans Sri Lanka *and* Mexico on top of the US-based brands, so a fixed "two countries" claim would itself be inaccurate. |
 | `servicesTile` | "Services" | Tile 3 title |
 | `servicesBody` | "Well-child, urgent, vaccines, and more." | Tile 3 description |
 | `telehealthTile` | "Telehealth" | Tile 4 title |
