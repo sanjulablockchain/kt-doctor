@@ -149,6 +149,24 @@
     "browseAllResourcesBody": "Vea todas las guías, formularios y videos que tenemos para su familia en un solo lugar.",
     "viewAllResources": "Ver todos los recursos"
   },
+  "Hero": {
+    "followUs": "Síganos",
+    "youtubeLine": "Consejos de salud cada semana en YouTube",
+    "exploreNetwork": "Explorar la red",
+    "bookAppointmentTile": "Reservar una cita",
+    "bookAppointmentBody": "En línea en menos de un minuto, o llámenos.",
+    "bookAppointmentTag": "Hoy",
+    "supportingNetworkTile": "Red de Apoyo",
+    "supportingNetworkBody": "{count} organizaciones asociadas en toda la red.",
+    "servicesTile": "Servicios",
+    "servicesBody": "Niño sano, urgencias, vacunas y más.",
+    "telehealthTile": "Telesalud",
+    "telehealthBody": "Consultas seguras por video desde casa.",
+    "telehealthTag": "7 días",
+    "locationsTile": "Ubicaciones",
+    "locationsBody": "Direcciones, horarios y un mapa en vivo.",
+    "sriLankaTag": "Negombo"
+  },
   "Doctors": {
     "eyebrow": "Nuestro Equipo",
     "heading": "Nuestros Doctores",
