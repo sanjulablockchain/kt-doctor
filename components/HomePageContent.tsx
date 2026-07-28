@@ -68,6 +68,8 @@ export function HomePageContent() {
           <WhyFamiliesSlideshow
             alt={t("whyChooseUsImageAlt")}
             slideLabel={(index, total) => t("whyChooseUsSlideLabel", { index, total })}
+            previousSlideLabel={t("whyChooseUsPreviousSlide")}
+            nextSlideLabel={t("whyChooseUsNextSlide")}
             wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
           />
 

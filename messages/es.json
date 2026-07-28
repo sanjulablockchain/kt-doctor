@@ -113,6 +113,8 @@
     "whyChooseUsBody": "{count} clínicas en el área de Los Ángeles significa que la atención pediátrica experta siempre está cerca, con visitas el mismo día y telesalud para los días que no pueda venir.",
     "whyChooseUsImageAlt": "Interior de una de nuestras clínicas pediátricas",
     "whyChooseUsSlideLabel": "Ver foto {index} de {total}",
+    "whyChooseUsPreviousSlide": "Foto anterior",
+    "whyChooseUsNextSlide": "Foto siguiente",
     "featureSameDay": "Visitas el mismo día",
     "featureTelehealth": "Visitas por telesalud",
     "featureBoardCertified": "Equipo certificado",

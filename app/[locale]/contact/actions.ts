@@ -56,7 +56,7 @@ export async function sendContactMessage(
       subject: `[Website Contact] ${d.subject}`,
       text: `Name: ${d.name}\nEmail: ${d.email}\nPhone: ${phone}\nSubject: ${d.subject}\n\n${d.message}`,
       html: emailShell({
-        title: "New Website Contact Message",
+        title: "KT Doctor Contact Message",
         bodyHtml:
           emailRowTable([
             {

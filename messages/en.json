@@ -113,6 +113,8 @@
     "whyChooseUsBody": "{count} clinics across Greater LA means expert pediatric care is always close by, with same-day visits and telehealth for the days you can't make it in.",
     "whyChooseUsImageAlt": "Interior of one of our pediatric clinic locations",
     "whyChooseUsSlideLabel": "View photo {index} of {total}",
+    "whyChooseUsPreviousSlide": "Previous photo",
+    "whyChooseUsNextSlide": "Next photo",
     "featureSameDay": "Same-day visits",
     "featureTelehealth": "Telehealth visits",
     "featureBoardCertified": "Board-certified team",

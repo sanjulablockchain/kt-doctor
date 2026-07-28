@@ -17,6 +17,17 @@ function slideLabel(index: number, total: number) {
   return `View photo ${index} of ${total}`;
 }
 
+function getDots() {
+  return screen.getAllByRole("button", { name: /^View photo/ });
+}
+
+const defaultProps = {
+  slideLabel,
+  previousSlideLabel: "Previous photo",
+  nextSlideLabel: "Next photo",
+  wrapperClassName: "h-72 rounded-[2rem] shadow-card sm:h-96",
+};
+
 describe("WhyFamiliesSlideshow", () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -32,43 +43,36 @@ describe("WhyFamiliesSlideshow", () => {
   it("renders every slide with the given alt text and a dot per slide", () => {
     render(
       <WhyFamiliesSlideshow
+        {...defaultProps}
         alt="Interior of one of our pediatric clinic locations"
-        slideLabel={slideLabel}
-        wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
       />
     );
 
     const images = screen.getAllByAltText("Interior of one of our pediatric clinic locations");
-    const dots = screen.getAllByRole("button");
+    const dots = getDots();
     expect(images.length).toBeGreaterThan(1);
     expect(dots).toHaveLength(images.length);
   });
 
-  it("marks only the active slide's dot as current, starting with the first", () => {
-    render(
-      <WhyFamiliesSlideshow
-        alt="test image"
-        slideLabel={slideLabel}
-        wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
-      />
-    );
+  it("renders previous and next slide buttons", () => {
+    render(<WhyFamiliesSlideshow {...defaultProps} alt="test image" />);
 
-    const dots = screen.getAllByRole("button");
+    expect(screen.getByRole("button", { name: "Previous photo" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Next photo" })).toBeInTheDocument();
+  });
+
+  it("marks only the active slide's dot as current, starting with the first", () => {
+    render(<WhyFamiliesSlideshow {...defaultProps} alt="test image" />);
+
+    const dots = getDots();
     expect(dots[0]).toHaveAttribute("aria-current", "true");
     expect(dots[1]).toHaveAttribute("aria-current", "false");
   });
 
   it("auto-advances to the next slide after the interval elapses", () => {
-    render(
-      <WhyFamiliesSlideshow
-        alt="test image"
-        slideLabel={slideLabel}
-        wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
-        intervalMs={5000}
-      />
-    );
+    render(<WhyFamiliesSlideshow {...defaultProps} alt="test image" intervalMs={5000} />);
 
-    const dots = screen.getAllByRole("button");
+    const dots = getDots();
     expect(dots[0]).toHaveAttribute("aria-current", "true");
 
     act(() => {
@@ -80,15 +84,9 @@ describe("WhyFamiliesSlideshow", () => {
   });
 
   it("moves to the clicked slide when a dot is pressed", () => {
-    render(
-      <WhyFamiliesSlideshow
-        alt="test image"
-        slideLabel={slideLabel}
-        wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
-      />
-    );
+    render(<WhyFamiliesSlideshow {...defaultProps} alt="test image" />);
 
-    const dots = screen.getAllByRole("button");
+    const dots = getDots();
     act(() => {
       dots[2].click();
     });
@@ -97,18 +95,35 @@ describe("WhyFamiliesSlideshow", () => {
     expect(dots[0]).toHaveAttribute("aria-current", "false");
   });
 
+  it("moves to the next slide when the next arrow is pressed", () => {
+    render(<WhyFamiliesSlideshow {...defaultProps} alt="test image" />);
+
+    const dots = getDots();
+    act(() => {
+      screen.getByRole("button", { name: "Next photo" }).click();
+    });
+
+    expect(dots[0]).toHaveAttribute("aria-current", "false");
+    expect(dots[1]).toHaveAttribute("aria-current", "true");
+  });
+
+  it("wraps to the last slide when the previous arrow is pressed on the first slide", () => {
+    render(<WhyFamiliesSlideshow {...defaultProps} alt="test image" />);
+
+    const dots = getDots();
+    act(() => {
+      screen.getByRole("button", { name: "Previous photo" }).click();
+    });
+
+    expect(dots[0]).toHaveAttribute("aria-current", "false");
+    expect(dots[dots.length - 1]).toHaveAttribute("aria-current", "true");
+  });
+
   it("does not auto-advance when the user prefers reduced motion", () => {
     mockMatchMedia(true);
-    render(
-      <WhyFamiliesSlideshow
-        alt="test image"
-        slideLabel={slideLabel}
-        wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
-        intervalMs={5000}
-      />
-    );
+    render(<WhyFamiliesSlideshow {...defaultProps} alt="test image" intervalMs={5000} />);
 
-    const dots = screen.getAllByRole("button");
+    const dots = getDots();
     act(() => {
       vi.advanceTimersByTime(20000);
     });
@@ -117,16 +132,9 @@ describe("WhyFamiliesSlideshow", () => {
   });
 
   it("pauses auto-advance while a slide is focused, and resumes on blur", () => {
-    render(
-      <WhyFamiliesSlideshow
-        alt="test image"
-        slideLabel={slideLabel}
-        wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
-        intervalMs={5000}
-      />
-    );
+    render(<WhyFamiliesSlideshow {...defaultProps} alt="test image" intervalMs={5000} />);
 
-    const dots = screen.getAllByRole("button");
+    const dots = getDots();
     act(() => {
       dots[0].focus();
     });

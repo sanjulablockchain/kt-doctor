@@ -23,7 +23,7 @@ export function Hero() {
     <section data-on-navy className="relative overflow-hidden bg-navy lg:min-h-[44rem]">
       <div className="absolute inset-0">
         <ParallaxImage
-          src="https://images.unsplash.com/photo-1632053002928-1919605ee6f7?auto=format&fit=crop&w=1200&q=80"
+          src="/home/hero.jpg"
           alt="A pediatrician examining a young patient during a check-up"
           width={1200}
           height={1400}

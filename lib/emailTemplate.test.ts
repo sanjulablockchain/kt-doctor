@@ -12,12 +12,12 @@ import {
 describe("emailShell", () => {
   it("includes the SITE_NAME eyebrow, title, body, and footer", () => {
     const html = emailShell({
-      title: "New Website Contact Message",
+      title: "KT Doctor Contact Message",
       bodyHtml: "<p>BODY_MARKER</p>",
       footerText: "FOOTER_MARKER",
     });
     expect(html).toContain("Kids &amp; Teens Medical Group");
-    expect(html).toContain("New Website Contact Message");
+    expect(html).toContain("KT Doctor Contact Message");
     expect(html).toContain("BODY_MARKER");
     expect(html).toContain("FOOTER_MARKER");
   });
