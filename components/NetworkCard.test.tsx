@@ -15,6 +15,7 @@ const sampleBrand = {
   servicesEs: ["Atención Primaria", "Atención de Urgencia"],
   logoSrc: "/clinic-logo.svg",
   internalHref: "/doctors",
+  category: "care" as const,
 };
 
 describe("NetworkCard", () => {
@@ -32,5 +33,15 @@ describe("NetworkCard", () => {
     expect(screen.getByText(/atención pediátrica certificada/i)).toBeInTheDocument();
     expect(screen.getByText("Atención Primaria")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /ver doctores/i })).toBeInTheDocument();
+  });
+
+  it("does not show the flagship badge for a non-flagship brand", () => {
+    render(<NetworkCard brand={sampleBrand} />);
+    expect(screen.queryByText("Flagship network")).not.toBeInTheDocument();
+  });
+
+  it("shows the flagship badge when brand.flagship is true", () => {
+    render(<NetworkCard brand={{ ...sampleBrand, flagship: true }} />);
+    expect(screen.getByText("Flagship network")).toBeInTheDocument();
   });
 });

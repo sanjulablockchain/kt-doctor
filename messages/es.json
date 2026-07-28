@@ -229,7 +229,22 @@
     "heading": "Más formas de cuidar a su familia.",
     "description": "Kids & Teens Medical Group trabaja junto a una familia creciente de empresas hermanas y socios de confianza, que abarca medicina familiar, terapia pediátrica, atención hospitalaria en Sri Lanka, seguros y apoyo empresarial, todo bajo una red de confianza.",
     "browseDoctors": "Ver doctores",
-    "visitSite": "Visitar sitio"
+    "visitSite": "Visitar sitio",
+    "flagshipBadge": "Red insignia",
+    "groups": {
+      "care": {
+        "title": "Pediatría y Medicina Familiar",
+        "description": "Atención primaria, de urgencia y especializada para niños y familias en toda el área de Los Ángeles."
+      },
+      "sriLanka": {
+        "title": "Red en Sri Lanka",
+        "description": "Atención hospitalaria y seguros que Kids & Teens Medical Group ofrece en Sri Lanka."
+      },
+      "business": {
+        "title": "Socios de Negocios y Soporte",
+        "description": "Socios administrativos y de tercerización que mantienen la red funcionando sin contratiempos."
+      }
+    }
   },
   "Foundation": {
     "programsHeading": "Nuestros programas",

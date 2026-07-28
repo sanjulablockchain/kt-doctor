@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { networkBrands } from "./network";
+import { networkBrands, networkCategoryOrder } from "./network";
 
 describe("network brand data", () => {
   it("has exactly 9 brands", () => {
@@ -19,11 +19,23 @@ describe("network brand data", () => {
     );
   });
 
+  it("every brand belongs to one of the ordered categories", () => {
+    for (const brand of networkBrands) {
+      expect(networkCategoryOrder).toContain(brand.category);
+    }
+  });
+
+  it("only KTMG is flagged as the flagship brand", () => {
+    const flagshipIds = networkBrands.filter((b) => b.flagship).map((b) => b.id);
+    expect(flagshipIds).toEqual(["ktmg"]);
+  });
+
   it("KTMG links internally to /doctors and has no external URL", () => {
     const ktmg = networkBrands.find((b) => b.id === "ktmg");
     expect(ktmg?.internalHref).toBe("/doctors");
     expect(ktmg?.externalUrl).toBeUndefined();
     expect(ktmg?.logoSrc).toBe("/clinic-logo.svg");
+    expect(ktmg?.category).toBe("care");
   });
 
   it("St. Gianna links externally to sgmdoctor.com with its real logo", () => {
@@ -48,6 +60,7 @@ describe("network brand data", () => {
     expect(sjh?.internalHref).toBeUndefined();
     expect(sjh?.logoSrc).toBe("/sjh-logo.png");
     expect(sjh?.services.length).toBeGreaterThan(0);
+    expect(sjh?.category).toBe("sriLanka");
   });
 
   it("Serendib Healthways links externally with its real logo", () => {
@@ -80,6 +93,7 @@ describe("network brand data", () => {
     expect(brand?.internalHref).toBeUndefined();
     expect(brand?.logoSrc).toBe("/acig-logo.png");
     expect(brand?.services.length).toBeGreaterThan(0);
+    expect(brand?.category).toBe("sriLanka");
   });
 
   it("Blockchain BPO links externally with its real logo", () => {
@@ -88,6 +102,7 @@ describe("network brand data", () => {
     expect(brand?.internalHref).toBeUndefined();
     expect(brand?.logoSrc).toBe("/blockchain-bpo-logo.png");
     expect(brand?.services.length).toBeGreaterThan(0);
+    expect(brand?.category).toBe("business");
   });
 
   it("no brand description or tagline contains an em dash", () => {

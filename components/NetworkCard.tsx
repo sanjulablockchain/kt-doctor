@@ -16,7 +16,17 @@ export function NetworkCard({ brand, compact = false }: NetworkCardProps) {
   const services = locale === "es" ? brand.servicesEs : brand.services;
 
   return (
-    <div className="flex h-full flex-col items-center rounded-3xl border border-border bg-surface p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
+    <div
+      className={`flex h-full flex-col items-center rounded-3xl border p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft ${
+        brand.flagship ? "border-teal bg-teal-tint/40" : "border-border bg-surface"
+      }`}
+    >
+      {brand.flagship && (
+        <span className="mb-3 rounded-full bg-teal px-3 py-1 font-display text-xs font-semibold uppercase tracking-wide text-white">
+          {t("flagshipBadge")}
+        </span>
+      )}
+
       <div className="flex h-14 items-center justify-center">
         {brand.logoDarkSrc ? (
           // Theme-aware swap (see .logo-light/.logo-dark in globals.css): the

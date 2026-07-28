@@ -1,3 +1,5 @@
+export type NetworkCategory = "care" | "sriLanka" | "business";
+
 export type NetworkBrand = {
   id: string;
   name: string;
@@ -14,7 +16,16 @@ export type NetworkBrand = {
   logoDarkSrc?: string;
   externalUrl?: string;
   internalHref?: string;
+  /* Groups the /network page into labeled sections instead of one flat grid:
+     "care" (Greater LA pediatric/family clinical partners), "sriLanka" (KTMG's
+     Sri Lanka operations), "business" (administrative/outsourcing partners). */
+  category: NetworkCategory;
+  /* KTMG is the parent brand the rest of the network sits under; flags it for
+     a distinct visual treatment on its card. */
+  flagship?: boolean;
 };
+
+export const networkCategoryOrder: NetworkCategory[] = ["care", "sriLanka", "business"];
 
 export const networkBrands: NetworkBrand[] = [
   {
@@ -31,6 +42,8 @@ export const networkBrands: NetworkBrand[] = [
     logoSrc: "/clinic-logo.svg",
     logoDarkSrc: "/clinic-logo-dark.svg",
     internalHref: "/doctors",
+    category: "care",
+    flagship: true,
   },
   {
     id: "st-gianna",
@@ -45,6 +58,7 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Citas el Mismo Día", "Reservas 24/7", "Telesalud", "Cuidado Avanzado de Heridas"],
     logoSrc: "/sgm-logo.png",
     externalUrl: "https://www.sgmdoctor.com",
+    category: "care",
   },
   {
     id: "laipt",
@@ -59,6 +73,7 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Terapia del Habla", "Terapia Ocupacional", "Integración Sensorial"],
     logoSrc: "/laipt-logo.png",
     externalUrl: "https://www.laipt.org",
+    category: "care",
   },
   {
     id: "st-joseph-hospital",
@@ -83,6 +98,7 @@ export const networkBrands: NetworkBrand[] = [
     ],
     logoSrc: "/sjh-logo.png",
     externalUrl: "https://www.sjhospital.lk",
+    category: "sriLanka",
   },
   {
     id: "serendib-healthways",
@@ -97,6 +113,7 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["HMO/IPA Pediátrico", "Citas el Mismo Día", "Telesalud", "Atención de Urgencia Fuera de Horario"],
     logoSrc: "/serendib-healthways-logo.svg",
     externalUrl: "https://www.serendibhealthways.com/",
+    category: "care",
   },
   {
     id: "pediatric-after-hour",
@@ -111,6 +128,7 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Atención de Urgencia 24/7", "Citas el Mismo Día", "Edades de 0 a 21", "Todos los Seguros Aceptados"],
     logoSrc: "/pediatric-after-hour-logo.png",
     externalUrl: "https://pediatricafterhour.com/",
+    category: "care",
   },
   {
     id: "human-compass-mso",
@@ -125,6 +143,7 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Red de Atención Primaria", "Atención Especializada", "Atención de Urgencia", "Gestión de Proveedores"],
     logoSrc: "/human-compass-mso-logo.png",
     externalUrl: "https://humancompassmso.com/",
+    category: "business",
   },
   {
     id: "acig",
@@ -139,6 +158,7 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Seguro de Salud", "Seguro de Vida", "Seguro de Vehículos", "Seguro Corporativo"],
     logoSrc: "/acig-logo.png",
     externalUrl: "https://acig.lk/",
+    category: "sriLanka",
   },
   {
     id: "blockchain-bpo",
@@ -153,5 +173,6 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Atención al Cliente", "Procesamiento de Reclamos", "Soporte de Facturación", "Entrada de Datos"],
     logoSrc: "/blockchain-bpo-logo.png",
     externalUrl: "https://www.myblockchainbpo.com/",
+    category: "business",
   },
 ];
