@@ -7,9 +7,11 @@ import { serviceCategories } from "@/data/services";
 import { locations } from "@/data/locations";
 
 describe("HeroNetworkPanel", () => {
-  it("renders the eyebrow, heading, and explore-network CTA", () => {
+  it("renders the eyebrow, partner count badge, heading, and explore-network CTA", () => {
     render(<HeroNetworkPanel />);
+    const expectedPartnerCount = networkBrands.length - 1;
     expect(screen.getByText("One Network")).toBeInTheDocument();
+    expect(screen.getByText(`${expectedPartnerCount} partners`)).toBeInTheDocument();
     expect(screen.getByText("More ways to care for your family.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /explore the network/i })).toHaveAttribute(
       "href",
@@ -17,7 +19,7 @@ describe("HeroNetworkPanel", () => {
     );
   });
 
-  it("renders all 6 tiles with correct links", () => {
+  it("renders all 6 rows with correct links", () => {
     render(<HeroNetworkPanel />);
     expect(screen.getByRole("link", { name: /book appointment/i })).toHaveAttribute(
       "href",
@@ -38,7 +40,7 @@ describe("HeroNetworkPanel", () => {
     );
   });
 
-  it("shows the real partner count on the Supporting Network tile", () => {
+  it("shows the real partner count on the Supporting Network row", () => {
     render(<HeroNetworkPanel />);
     const expectedCount = networkBrands.length - 1;
     expect(
@@ -46,21 +48,27 @@ describe("HeroNetworkPanel", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows the real service count as the Services tile's tag", () => {
+  it("shows the real service count as the Services row's tag", () => {
     render(<HeroNetworkPanel />);
     const expectedCount = serviceCategories.flatMap((c) => c.services).length;
     expect(screen.getByText(String(expectedCount))).toBeInTheDocument();
   });
 
-  it("shows the real location count as the Locations tile's tag", () => {
+  it("shows the real location count as the Locations row's tag", () => {
     render(<HeroNetworkPanel />);
     expect(screen.getByText(String(locations.length))).toBeInTheDocument();
   });
 
-  it("renders the Sri Lanka tile linking to the foundation page", () => {
+  it("renders the Sri Lanka row linking to the foundation page", () => {
     render(<HeroNetworkPanel />);
     const link = screen.getByRole("link", { name: /sri lanka/i });
     expect(link).toHaveAttribute("href", "/foundation");
     expect(link).not.toHaveAttribute("target");
+  });
+
+  it("renders the social row alongside the explore-network CTA", () => {
+    render(<HeroNetworkPanel />);
+    expect(screen.getByRole("link", { name: "Facebook" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "YouTube" })).toBeInTheDocument();
   });
 });

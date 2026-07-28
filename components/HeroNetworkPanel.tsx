@@ -7,58 +7,58 @@ import { BOOKING_URL } from "@/lib/constants";
 import { networkBrands } from "@/data/network";
 import { serviceCategories } from "@/data/services";
 import { locations } from "@/data/locations";
+import { SocialLinks } from "@/components/SocialLinks";
 
-type HeroTileProps = {
+type HeroRowProps = {
   icon: ReactNode; // inner <path>/<rect>/<circle> of a 24x24 stroke icon
-  tag?: string;
   title: string;
   body: string;
+  tag: string;
+  tagClassName?: string;
   href: string;
   external?: boolean;
 };
 
-const tileClass =
-  "flex flex-col rounded-2xl bg-white/5 p-4 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy";
+const rowClass =
+  "-mx-2 flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy";
 
-function HeroTile({ icon, tag, title, body, href, external = false }: HeroTileProps) {
+function HeroRow({ icon, title, body, tag, tagClassName, href, external = false }: HeroRowProps) {
   const content = (
     <>
-      <div className="flex items-center justify-between">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal/15 text-teal">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden
-            className="h-4.5 w-4.5"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            {icon}
-          </svg>
-        </span>
-        {tag && (
-          <span className="rounded-full bg-white/12 px-2.5 py-1 text-[11px] font-semibold text-ivory/70">
-            {tag}
-          </span>
-        )}
-      </div>
-      <p className="mt-3 font-display text-sm font-bold text-ivory">{title}</p>
-      <p className="mt-1 text-xs leading-snug text-ivory/65">{body}</p>
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-ivory">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden
+          className="h-4.5 w-4.5"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {icon}
+        </svg>
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-display text-sm font-bold text-ivory">{title}</span>
+        <span className="block truncate text-xs text-ivory/60">{body}</span>
+      </span>
+      <span className={`shrink-0 pl-2 text-xs font-semibold ${tagClassName ?? "text-ivory/60"}`}>
+        {tag}
+      </span>
     </>
   );
 
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={tileClass}>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={rowClass}>
         {content}
       </a>
     );
   }
 
   return (
-    <Link href={href} className={tileClass}>
+    <Link href={href} className={rowClass}>
       {content}
     </Link>
   );
@@ -72,47 +72,27 @@ export function HeroNetworkPanel() {
   const serviceCount = serviceCategories.flatMap((category) => category.services).length;
 
   return (
-    <div className="relative mx-auto mt-6 mb-6 max-w-7xl px-5 sm:mb-8 sm:px-8 lg:-mt-6 xl:-mt-8">
-      <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur-xl sm:p-6">
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/15 pb-4">
-          <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <p className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-teal">
-                {tHome("networkEyebrow")}
-              </p>
-              <span className="rounded-full border border-teal/25 bg-teal/10 px-2.5 py-0.5 text-[11px] font-semibold text-teal">
-                {t("networkPartnerCount", { count: partnerCount })}
-              </span>
-            </div>
-            <p className="mt-1 font-display text-lg font-bold text-ivory sm:text-xl">
-              {tHome("networkHeading")}
-            </p>
-          </div>
-          <Link
-            href="/network"
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 font-display text-sm font-semibold text-ivory transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
-          >
-            {t("exploreNetwork")}
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden
-              className="h-3.5 w-3.5"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14m-6-6 6 6-6 6" />
-            </svg>
-          </Link>
-        </div>
+    <div className="min-w-0 w-full rounded-3xl border border-white/10 bg-navy/75 p-5 backdrop-blur-xl sm:p-6">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="inline-flex items-center rounded-full border border-teal/30 bg-teal/10 px-3 py-1 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-teal">
+          {tHome("networkEyebrow")}
+        </span>
+        <span className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-ivory/70">
+          {t("networkPartnerCount", { count: partnerCount })}
+        </span>
+      </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          <HeroTile
+      <p className="mt-3 font-display text-lg font-bold text-ivory sm:text-xl">
+        {tHome("networkHeading")}
+      </p>
+
+      <ul className="mt-4 divide-y divide-white/10 border-t border-white/15">
+        <li>
+          <HeroRow
             href={BOOKING_URL}
             external
             tag={t("bookAppointmentTag")}
+            tagClassName="text-teal"
             title={t("bookAppointmentTile")}
             body={t("bookAppointmentBody")}
             icon={
@@ -122,7 +102,9 @@ export function HeroNetworkPanel() {
               </>
             }
           />
-          <HeroTile
+        </li>
+        <li>
+          <HeroRow
             href="/network"
             tag={String(partnerCount)}
             title={t("supportingNetworkTile")}
@@ -138,18 +120,21 @@ export function HeroNetworkPanel() {
               </>
             }
           />
-          <HeroTile
+        </li>
+        <li>
+          <HeroRow
             href="/services"
             tag={String(serviceCount)}
             title={t("servicesTile")}
             body={t("servicesBody")}
-            icon={
-              <path d="m9 12 2 2 4-4M12 22s7-4 7-10V5l-7-3-7 3v7c0 6 7 10 7 10Z" />
-            }
+            icon={<path d="m9 12 2 2 4-4M12 22s7-4 7-10V5l-7-3-7 3v7c0 6 7 10 7 10Z" />}
           />
-          <HeroTile
+        </li>
+        <li>
+          <HeroRow
             href="/services/telehealth"
             tag={t("telehealthTag")}
+            tagClassName="text-teal"
             title={t("telehealthTile")}
             body={t("telehealthBody")}
             icon={
@@ -159,7 +144,9 @@ export function HeroNetworkPanel() {
               </>
             }
           />
-          <HeroTile
+        </li>
+        <li>
+          <HeroRow
             href="/locations"
             tag={String(locations.length)}
             title={t("locationsTile")}
@@ -171,7 +158,9 @@ export function HeroNetworkPanel() {
               </>
             }
           />
-          <HeroTile
+        </li>
+        <li>
+          <HeroRow
             href="/foundation"
             tag={t("sriLankaTag")}
             title={t("sriLankaTile")}
@@ -183,7 +172,29 @@ export function HeroNetworkPanel() {
               </>
             }
           />
-        </div>
+        </li>
+      </ul>
+
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-white/15 pt-4">
+        <SocialLinks />
+        <Link
+          href="/network"
+          className="inline-flex items-center gap-1.5 font-display text-sm font-semibold text-teal transition-colors hover:text-teal-tint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+        >
+          {t("exploreNetwork")}
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden
+            className="h-3.5 w-3.5"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M5 12h14m-6-6 6 6-6 6" />
+          </svg>
+        </Link>
       </div>
     </div>
   );

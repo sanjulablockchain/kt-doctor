@@ -164,10 +164,8 @@
     "viewAllResources": "View all resources"
   },
   "Hero": {
-    "followUs": "Follow us",
-    "youtubeLine": "Health tips weekly on <bold>YouTube</bold>",
     "exploreNetwork": "Explore the network",
-    "networkPartnerCount": "{count} partner organizations",
+    "networkPartnerCount": "{count} partners",
     "bookAppointmentTile": "Book Appointment",
     "bookAppointmentBody": "Online in under a minute, or call us.",
     "bookAppointmentTag": "Today",

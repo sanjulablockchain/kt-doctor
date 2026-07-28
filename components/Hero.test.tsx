@@ -37,19 +37,12 @@ describe("Hero", () => {
     expect(screen.getByText("Ages served")).toBeInTheDocument();
   });
 
-  it("renders the social row and the YouTube line", () => {
-    render(<Hero />);
-    expect(screen.getByRole("link", { name: "Facebook" })).toBeInTheDocument();
-    expect(screen.getByText(/health tips weekly on/i)).toBeInTheDocument();
-    const youtubeBold = screen.getByText("YouTube");
-    expect(youtubeBold.tagName).toBe("STRONG");
-  });
-
-  it("renders the embedded One Network panel", () => {
+  it("renders the embedded One Network panel with its social row", () => {
     render(<Hero />);
     expect(screen.getByRole("link", { name: /explore the network/i })).toHaveAttribute(
       "href",
       "/network"
     );
+    expect(screen.getByRole("link", { name: "Facebook" })).toBeInTheDocument();
   });
 });
