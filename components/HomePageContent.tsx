@@ -52,7 +52,7 @@ export function HomePageContent() {
     <main>
       <Hero />
 
-      {/* After-hours urgent care teaser — placed directly under the Hero
+      {/* After-hours urgent care teaser - placed directly under the Hero
           since this is a time-sensitive message for a visitor who needs
           care right now, outside normal office hours. */}
       <section className="mx-auto max-w-7xl px-5 pb-16 pt-20 sm:px-8 sm:pt-24">
@@ -495,8 +495,8 @@ export function HomePageContent() {
         </div>
       </section>
 
-      {/* FAQ — the tint fades into the body toward the bottom (same pattern as
-          the hero) so it doesn't end in a hard green→black seam above the
+      {/* FAQ - the tint fades into the body toward the bottom (same pattern as
+          the hero) so it doesn't end in a hard green-to-black seam above the
           bottom CTA in dark mode. */}
       <section className="bg-gradient-to-b from-teal-tint/60 to-ivory py-16">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -518,7 +518,7 @@ export function HomePageContent() {
         </div>
       </section>
 
-      {/* Bottom CTA — small bottom padding only; the footer's mt-16 already
+      {/* Bottom CTA - small bottom padding only; the footer's mt-16 already
           provides the gap before it (avoids doubling up to a ~144px band). */}
       <section className="mx-auto max-w-7xl px-5 pb-4 sm:px-8">
         <Reveal>
