@@ -72,7 +72,7 @@ export function HeroNetworkPanel() {
   const serviceCount = serviceCategories.flatMap((category) => category.services).length;
 
   return (
-    <div className="min-w-0 w-full rounded-3xl border border-white/10 bg-navy/75 p-5 backdrop-blur-xl sm:p-6">
+    <div className="min-w-0 w-full rounded-3xl border border-white/10 bg-navy/75 p-5 backdrop-blur-xl sm:p-6 lg:max-w-md lg:ml-auto">
       <div className="flex flex-wrap items-center gap-2">
         <span className="inline-flex items-center rounded-full border border-teal/30 bg-teal/10 px-3 py-1 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-teal">
           {tHome("networkEyebrow")}
