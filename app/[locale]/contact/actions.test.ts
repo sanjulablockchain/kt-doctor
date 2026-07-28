@@ -66,6 +66,20 @@ describe("sendContactMessage", () => {
     expect(arg.text).toContain("Jane Doe");
     expect(arg.text).toContain("Hello, I'd like to book a visit.");
     expect(arg.html).toContain("Jane Doe");
+    expect(arg.html).toContain('href="mailto:jane@example.com"');
+  });
+
+  it("renders the phone as a tel: link when provided, plain text when absent", async () => {
+    sendContactMailMock.mockResolvedValueOnce(undefined);
+    await sendContactMessage(IDLE, fd(VALID));
+    const withPhone = sendContactMailMock.mock.calls[0][0];
+    expect(withPhone.html).toContain('href="tel:5551234567"');
+
+    sendContactMailMock.mockResolvedValueOnce(undefined);
+    await sendContactMessage(IDLE, fd({ ...VALID, phone: "" }));
+    const withoutPhone = sendContactMailMock.mock.calls[1][0];
+    expect(withoutPhone.html).not.toContain("href=\"tel:");
+    expect(withoutPhone.html).toContain("Not provided");
   });
 
   it("escapes HTML in the message body", async () => {

@@ -7,6 +7,13 @@ import {
   type ContactValues,
 } from "@/lib/contactSchema";
 import { escapeHtml } from "@/lib/escapeHtml";
+import {
+  emailShell,
+  emailRowTable,
+  emailMessageBlock,
+  mailtoLink,
+  telLink,
+} from "@/lib/emailTemplate";
 
 export type ContactFormState = {
   status: "idle" | "success" | "error";
@@ -39,19 +46,33 @@ export async function sendContactMessage(
   }
 
   const d = result.data;
+  const phoneProvided = Boolean(d.phone);
   const phone = d.phone || "Not provided";
+  const escapedPhone = escapeHtml(phone);
+
   try {
     await sendContactMail({
       replyTo: d.email,
       subject: `[Website Contact] ${d.subject}`,
       text: `Name: ${d.name}\nEmail: ${d.email}\nPhone: ${phone}\nSubject: ${d.subject}\n\n${d.message}`,
-      html: `<h2>New website contact message</h2>
-<p><strong>Name:</strong> ${escapeHtml(d.name)}</p>
-<p><strong>Email:</strong> ${escapeHtml(d.email)}</p>
-<p><strong>Phone:</strong> ${escapeHtml(phone)}</p>
-<p><strong>Subject:</strong> ${escapeHtml(d.subject)}</p>
-<p><strong>Message:</strong></p>
-<p>${escapeHtml(d.message).replace(/\n/g, "<br>")}</p>`,
+      html: emailShell({
+        title: "New Website Contact Message",
+        bodyHtml:
+          emailRowTable([
+            {
+              label: "Name",
+              valueHtml: `<span style="font-weight:600;">${escapeHtml(d.name)}</span>`,
+            },
+            { label: "Email", valueHtml: mailtoLink(escapeHtml(d.email)) },
+            {
+              label: "Phone",
+              valueHtml: phoneProvided ? telLink(escapedPhone) : escapedPhone,
+            },
+            { label: "Subject", valueHtml: escapeHtml(d.subject) },
+          ]) +
+          emailMessageBlock("Message", escapeHtml(d.message).replace(/\n/g, "<br>")),
+        footerText: "Submitted via the Contact page at ktdoctor.com.",
+      }),
     });
     return { status: "success" };
   } catch (error) {
