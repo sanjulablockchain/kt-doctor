@@ -57,12 +57,10 @@ describe("HeroNetworkPanel", () => {
     expect(screen.getByText(String(locations.length))).toBeInTheDocument();
   });
 
-  it("renders the Sri Lanka tile from real network data", () => {
+  it("renders the Sri Lanka tile linking to the foundation page", () => {
     render(<HeroNetworkPanel />);
-    const sriLanka = networkBrands.find((b) => b.id === "st-joseph-hospital");
-    expect(sriLanka).toBeDefined();
-    const link = screen.getByRole("link", { name: /negombo/i });
-    expect(link).toHaveAttribute("href", sriLanka?.externalUrl);
-    expect(link).toHaveAttribute("target", "_blank");
+    const link = screen.getByRole("link", { name: /sri lanka/i });
+    expect(link).toHaveAttribute("href", "/foundation");
+    expect(link).not.toHaveAttribute("target");
   });
 });

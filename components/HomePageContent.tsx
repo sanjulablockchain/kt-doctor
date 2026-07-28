@@ -255,7 +255,7 @@ export function HomePageContent() {
         </Reveal>
 
         <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {networkBrands.map((brand, i) => (
+          {networkBrands.slice(0, 4).map((brand, i) => (
             <Reveal key={brand.id} delayMs={Math.min(i, 4) * 70} className="h-full">
               <NetworkCard brand={brand} compact />
             </Reveal>

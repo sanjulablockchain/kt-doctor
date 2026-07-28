@@ -151,8 +151,9 @@
   },
   "Hero": {
     "followUs": "Síganos",
-    "youtubeLine": "Consejos de salud cada semana en YouTube",
+    "youtubeLine": "Consejos de salud cada semana en <bold>YouTube</bold>",
     "exploreNetwork": "Explorar la red",
+    "networkPartnerCount": "{count} organizaciones asociadas",
     "bookAppointmentTile": "Reservar una cita",
     "bookAppointmentBody": "En línea en menos de un minuto, o llámenos.",
     "bookAppointmentTag": "Hoy",
@@ -165,6 +166,8 @@
     "telehealthTag": "7 días",
     "locationsTile": "Ubicaciones",
     "locationsBody": "Direcciones, horarios y un mapa en vivo.",
+    "sriLankaTile": "Sri Lanka",
+    "sriLankaBody": "El trabajo de bienestar escolar de nuestra fundación en Sri Lanka.",
     "sriLankaTag": "Negombo"
   },
   "Doctors": {

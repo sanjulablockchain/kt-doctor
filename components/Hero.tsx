@@ -23,22 +23,24 @@ export function Hero() {
 
   return (
     <section data-on-navy className="relative overflow-hidden bg-navy lg:min-h-[44rem]">
-      <ParallaxImage
-        src="https://images.unsplash.com/photo-1632053002928-1919605ee6f7?auto=format&fit=crop&w=1200&q=80"
-        alt="A pediatrician examining a young patient during a check-up"
-        width={1200}
-        height={1400}
-        wrapperClassName="absolute inset-0 h-full w-full"
-        speed={0.12}
-        preload
-      />
+      <div className="absolute inset-0">
+        <ParallaxImage
+          src="https://images.unsplash.com/photo-1632053002928-1919605ee6f7?auto=format&fit=crop&w=1200&q=80"
+          alt="A pediatrician examining a young patient during a check-up"
+          width={1200}
+          height={1400}
+          wrapperClassName="h-full w-full"
+          speed={0.12}
+          preload
+        />
+      </div>
 
       <div
         aria-hidden
         className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-navy/30"
       />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col gap-6 px-5 pb-8 pt-12 sm:px-8 sm:pt-16 lg:pb-60">
+      <div className="relative mx-auto flex max-w-7xl flex-col gap-6 px-5 pb-8 pt-12 sm:px-8 sm:pt-16 lg:pb-20">
         <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-ivory">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-3.5 w-3.5">
             <path
@@ -53,7 +55,7 @@ export function Hero() {
 
         <h1 className="max-w-xl font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ivory sm:text-5xl lg:text-[3.4rem]">
           {t("headingStart")}{" "}
-          <span className="text-teal-tint">{t("headingHighlight")}</span>
+          <span className="text-teal">{t("headingHighlight")}</span>
         </h1>
 
         <p className="max-w-lg text-lg text-ivory/75">{t("subheading")}</p>
@@ -128,7 +130,11 @@ export function Hero() {
           </p>
           <SocialLinks />
           <span aria-hidden className="hidden h-6 w-px bg-white/20 sm:block" />
-          <p className="text-sm text-ivory/70">{tHero("youtubeLine")}</p>
+          <p className="text-sm text-ivory/70">
+            {tHero.rich("youtubeLine", {
+              bold: (chunks) => <strong className="font-semibold text-ivory">{chunks}</strong>,
+            })}
+          </p>
         </div>
       </div>
 

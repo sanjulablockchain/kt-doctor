@@ -40,7 +40,9 @@ describe("Hero", () => {
   it("renders the social row and the YouTube line", () => {
     render(<Hero />);
     expect(screen.getByRole("link", { name: "Facebook" })).toBeInTheDocument();
-    expect(screen.getByText("Health tips weekly on YouTube")).toBeInTheDocument();
+    expect(screen.getByText(/health tips weekly on/i)).toBeInTheDocument();
+    const youtubeBold = screen.getByText("YouTube");
+    expect(youtubeBold.tagName).toBe("STRONG");
   });
 
   it("renders the embedded One Network panel", () => {
