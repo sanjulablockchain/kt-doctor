@@ -98,6 +98,36 @@ h4 {
 }
 
 /*
+  Thin, theme-aware scrollbar. Colors reuse the existing light-dark() tokens,
+  so this needs no separate dark-mode rules. The thumb uses a transparent
+  border + background-clip trick (not a smaller width) so the pill shape
+  stays visually centered with a bit of track showing on both sides.
+*/
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-teal);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/*
   Theme-aware brand logo (used by the header and the network cards). The crest's
   ink (tagline + linework) is near-black and vanishes on dark surfaces, so a
   dark-mode variant recolors that ink to light (public/clinic-logo-dark.svg).
