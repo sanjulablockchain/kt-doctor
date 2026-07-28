@@ -19,7 +19,7 @@ export function mailtoLink(escapedEmail: string): string {
 }
 
 export function telLink(escapedPhone: string): string {
-  const digits = escapedPhone.replace(/[^+\d]/g, "");
+  const digits = escapedPhone.replace(/&(?:amp|lt|gt|quot|#39);/g, "").replace(/[^+\d]/g, "");
   return `<a href="tel:${digits}" style="color:${COLOR_TEAL_DARK};text-decoration:none;">${escapedPhone}</a>`;
 }
 

@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { escapeHtml } from "./escapeHtml";
 import {
   emailShell,
   emailRowTable,
@@ -68,5 +69,10 @@ describe("telLink", () => {
     const html = telLink("(555) 123-4567");
     expect(html).toContain('href="tel:5551234567"');
     expect(html).toContain(">(555) 123-4567<");
+  });
+
+  it("does not leak digits from an HTML entity when the phone contains an apostrophe", () => {
+    const html = telLink(escapeHtml("John's cell 555-1234"));
+    expect(html).toContain('href="tel:5551234"');
   });
 });
