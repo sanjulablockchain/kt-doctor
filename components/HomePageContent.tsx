@@ -13,6 +13,7 @@ import { ClinicNearYouCard } from "@/components/ClinicNearYouCard";
 import { BookingCtaBanner } from "@/components/BookingCtaBanner";
 import { InfoStatCard } from "@/components/InfoStatCard";
 import { ParallaxImage } from "@/components/ParallaxImage";
+import { WhyFamiliesSlideshow } from "@/components/WhyFamiliesSlideshow";
 import { Reveal } from "@/components/Reveal";
 import { foundation } from "@/data/foundation";
 import { insuranceInfo } from "@/data/insurance";
@@ -64,13 +65,10 @@ export function HomePageContent() {
       {/* Why families choose us */}
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
-          <ParallaxImage
-            src="https://images.unsplash.com/photo-1769698678497-c41f0ab47c3e?auto=format&fit=crop&w=1000&q=80"
-            alt="Modern medical clinic building with a glass facade"
-            width={1000}
-            height={1000}
+          <WhyFamiliesSlideshow
+            alt={t("whyChooseUsImageAlt")}
+            slideLabel={(index, total) => t("whyChooseUsSlideLabel", { index, total })}
             wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
-            speed={0.12}
           />
 
           <div>

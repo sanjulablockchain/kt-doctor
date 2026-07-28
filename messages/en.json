@@ -111,6 +111,8 @@
     "whyChooseUsEyebrow": "Why families choose us",
     "whyChooseUsHeading": "Care built around your family's schedule.",
     "whyChooseUsBody": "{count} clinics across Greater LA means expert pediatric care is always close by, with same-day visits and telehealth for the days you can't make it in.",
+    "whyChooseUsImageAlt": "Interior of one of our pediatric clinic locations",
+    "whyChooseUsSlideLabel": "View photo {index} of {total}",
     "featureSameDay": "Same-day visits",
     "featureTelehealth": "Telehealth visits",
     "featureBoardCertified": "Board-certified team",

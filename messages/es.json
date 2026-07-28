@@ -111,6 +111,8 @@
     "whyChooseUsEyebrow": "Por qué las familias nos eligen",
     "whyChooseUsHeading": "Atención adaptada al horario de su familia.",
     "whyChooseUsBody": "{count} clínicas en el área de Los Ángeles significa que la atención pediátrica experta siempre está cerca, con visitas el mismo día y telesalud para los días que no pueda venir.",
+    "whyChooseUsImageAlt": "Interior de una de nuestras clínicas pediátricas",
+    "whyChooseUsSlideLabel": "Ver foto {index} de {total}",
     "featureSameDay": "Visitas el mismo día",
     "featureTelehealth": "Visitas por telesalud",
     "featureBoardCertified": "Equipo certificado",
