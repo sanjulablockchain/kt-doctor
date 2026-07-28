@@ -209,4 +209,21 @@ describe("Home page", () => {
       "/es/services/telehealth"
     );
   });
+
+  it("renders an after-hours urgent care teaser linking to the external partner site", async () => {
+    await renderHome();
+    expect(
+      screen.getByText("Sick after six? Our doors are still open.")
+    ).toBeInTheDocument();
+    const cta = screen.getByRole("link", { name: /get urgent care now/i });
+    expect(cta).toHaveAttribute("href", "https://pediatricafterhour.com/");
+    expect(cta).toHaveAttribute("target", "_blank");
+  });
+
+  it("renders the after-hours teaser heading in Spanish when locale is es", async () => {
+    await renderHome("es");
+    expect(
+      screen.getByText("¿Enfermo después de las seis? Nuestras puertas siguen abiertas.")
+    ).toBeInTheDocument();
+  });
 });

@@ -7,6 +7,7 @@ import { locations } from "@/data/locations";
 import { doctors } from "@/data/doctors";
 import { networkBrands } from "@/data/network";
 import { Hero } from "@/components/Hero";
+import { AfterHoursCtaBanner } from "@/components/AfterHoursCtaBanner";
 import { NetworkCard } from "@/components/NetworkCard";
 import { ClinicNearYouCard } from "@/components/ClinicNearYouCard";
 import { BookingCtaBanner } from "@/components/BookingCtaBanner";
@@ -51,8 +52,17 @@ export function HomePageContent() {
     <main>
       <Hero />
 
-      {/* Why families choose us */}
+      {/* After-hours urgent care teaser — placed directly under the Hero
+          since this is a time-sensitive message for a visitor who needs
+          care right now, outside normal office hours. */}
       <section className="mx-auto max-w-7xl px-5 pb-16 pt-20 sm:px-8 sm:pt-24">
+        <Reveal>
+          <AfterHoursCtaBanner />
+        </Reveal>
+      </section>
+
+      {/* Why families choose us */}
+      <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           <ParallaxImage
             src="https://images.unsplash.com/photo-1769698678497-c41f0ab47c3e?auto=format&fit=crop&w=1000&q=80"
