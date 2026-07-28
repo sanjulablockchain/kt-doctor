@@ -171,7 +171,7 @@ export function CareersPageContent() {
               <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-9 w-9 text-teal">
                 {PERK_ICONS[key]}
               </svg>
-              <span className="font-display text-sm font-semibold leading-snug text-navy sm:text-base">
+              <span className="font-display text-sm font-semibold leading-snug text-ink sm:text-base">
                 {t(key)}
               </span>
             </div>
