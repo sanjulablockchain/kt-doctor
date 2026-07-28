@@ -20,7 +20,7 @@ export function AfterHoursCtaBanner() {
 
   return (
     <div className="flex flex-col overflow-hidden rounded-3xl border border-border bg-surface shadow-card md:flex-row">
-      {/* Content — above the schedule panel on mobile, left of it on desktop. */}
+      {/* Content - above the schedule panel on mobile, left of it on desktop. */}
       <div className="order-2 flex flex-1 flex-col justify-center p-7 sm:p-10 md:order-1">
         <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
           {t("afterHoursEyebrow")}
@@ -49,7 +49,7 @@ export function AfterHoursCtaBanner() {
         </div>
       </div>
 
-      {/* Schedule panel — fixed teal gradient, same tokens as InfoStatCard's
+      {/* Schedule panel - fixed teal gradient, same tokens as InfoStatCard's
           "teal" variant, so it reads identically in light and dark mode. */}
       <div className="order-1 flex shrink-0 flex-col gap-5 bg-gradient-to-br from-teal to-teal-dark p-7 text-white sm:p-8 md:order-2 md:w-[38%]">
         <span className="inline-flex w-fit items-center gap-2 font-display text-xs font-semibold uppercase tracking-wide text-white/90">
