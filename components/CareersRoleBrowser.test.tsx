@@ -29,4 +29,12 @@ describe("CareersRoleBrowser", () => {
     await user.click(within(card).getByRole("button", { name: "Explore roles" }));
     expect(onExplore).toHaveBeenCalledWith(["Clinical"]);
   });
+
+  it("pairs the closing photo with supporting text instead of a bare image", () => {
+    render(<CareersRoleBrowser onExplore={() => {}} />);
+    expect(screen.getByRole("heading", { name: "One Team, Every Role" })).toBeInTheDocument();
+    expect(
+      screen.getByText(/part of the same mission: caring for kids and teens/i)
+    ).toBeInTheDocument();
+  });
 });

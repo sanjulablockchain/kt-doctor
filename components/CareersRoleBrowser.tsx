@@ -47,17 +47,25 @@ export function CareersRoleBrowser({ onExplore }: Props) {
             );
           })}
         </div>
-        <Reveal delayMs={200}>
-          <div className="relative mt-8 aspect-video overflow-hidden rounded-2xl shadow-card">
-            <Image
-              src="/careers/culture.jpg"
-              alt={t("roleBrowserImageAlt")}
-              fill
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
-        </Reveal>
+        <div className="mt-10 grid gap-8 lg:grid-cols-2 lg:items-center">
+          <Reveal delayMs={160}>
+            <h3 className="font-display text-xl font-bold text-ink sm:text-2xl">
+              {t("roleBrowserClosingHeading")}
+            </h3>
+            <p className="mt-3 text-ink-soft">{t("roleBrowserClosingBody")}</p>
+          </Reveal>
+          <Reveal delayMs={220}>
+            <div className="relative aspect-4/3 overflow-hidden rounded-2xl shadow-card">
+              <Image
+                src="/careers/culture.jpg"
+                alt={t("roleBrowserImageAlt")}
+                fill
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
