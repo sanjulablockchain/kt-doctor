@@ -42,9 +42,9 @@ export const careersFaq: FaqItem[] = [
     question: "Can I refer someone for an opportunity?",
     questionEs: "¿Puedo referir a alguien para una oportunidad?",
     answer:
-      "Yes, we welcome referrals. Have the person you are referring apply directly through this page, or email us their information at the address below.",
+      "Yes, we welcome referrals. Have the person you are referring apply directly through this page, or email us their information at the address above.",
     answerEs:
-      "Sí, con gusto aceptamos referencias. Pida a la persona que refiere que se postule directamente a través de esta página, o envíenos su información por correo electrónico a la dirección indicada abajo.",
+      "Sí, con gusto aceptamos referencias. Pida a la persona que refiere que se postule directamente a través de esta página, o envíenos su información por correo electrónico a la dirección indicada arriba.",
   },
   {
     id: "professional-development",

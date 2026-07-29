@@ -13,6 +13,14 @@ describe("CareersRoleBrowser", () => {
     expect(within(physiciansCard).getByText(/2 open roles/)).toBeInTheDocument();
   });
 
+  it("uses singular phrasing for a category with exactly 1 open role", () => {
+    render(<CareersRoleBrowser onExplore={() => {}} />);
+    const corporateAdminCard = screen
+      .getByRole("heading", { name: "Corporate and Administrative Services" })
+      .closest("div")!;
+    expect(within(corporateAdminCard).getByText(/^1 open role$/)).toBeInTheDocument();
+  });
+
   it("calls onExplore with the category's departments when Explore is clicked", async () => {
     const user = userEvent.setup();
     const onExplore = vi.fn();
