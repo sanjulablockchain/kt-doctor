@@ -13,10 +13,9 @@ describe("CareersStory", () => {
     expect(screen.getByText(/Janesri and Sunil De Silva Scholarship/i)).toBeInTheDocument();
   });
 
-  it("embeds the story video with a poster and a no-captions note", () => {
+  it("embeds the story video with a poster", () => {
     render(<CareersStory />);
     const source = document.querySelector("video source");
     expect(source).toHaveAttribute("src", "/careers/story-video.mp4");
-    expect(screen.getByText(/does not currently have captions/i)).toBeInTheDocument();
   });
 });

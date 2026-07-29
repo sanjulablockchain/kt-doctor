@@ -37,7 +37,6 @@ export function CareersStory() {
             <source src="/careers/story-video.mp4" type="video/mp4" />
           </video>
         </div>
-        <p className="mt-2 text-xs text-ink-soft">{t("storyVideoCaptionNote")}</p>
       </Reveal>
     </section>
   );
