@@ -8,6 +8,7 @@ import { JobApplicationForm } from "@/components/JobApplicationForm";
 import { PositionDetailsModal } from "@/components/PositionDetailsModal";
 import { FilterDropdown } from "@/components/FilterDropdown";
 import { CareersStory } from "@/components/CareersStory";
+import { CareersRoleBrowser } from "@/components/CareersRoleBrowser";
 import { LocationsMap } from "@/components/LocationsMap";
 import { CAREERS_EMAILS } from "@/lib/constants";
 import {
@@ -123,6 +124,13 @@ export function CareersPageContent() {
     setSelectedPositionId(id);
     if (typeof document !== "undefined") {
       document.getElementById("apply")?.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
+  function exploreRoleCategory(categoryDepartments: Department[]) {
+    setDepartment(categoryDepartments.length === 1 ? categoryDepartments[0] : "all");
+    if (typeof document !== "undefined") {
+      document.getElementById("positions")?.scrollIntoView({ behavior: "smooth" });
     }
   }
 
@@ -324,6 +332,8 @@ export function CareersPageContent() {
           </div>
         </Reveal>
       </section>
+
+      <CareersRoleBrowser onExplore={exploreRoleCategory} />
 
       {/* Open positions */}
       <section id="positions" className="bg-ivory-deep">

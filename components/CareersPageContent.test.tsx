@@ -131,6 +131,15 @@ describe("CareersPageContent", () => {
     expect(screen.getByRole("button", { name: /position/i })).toHaveTextContent("Pediatrician (MD/DO)");
   });
 
+  it("narrows Open Positions when a role-browser category is explored", async () => {
+    const user = userEvent.setup();
+    render(<CareersPageContent />);
+    const card = screen.getByRole("heading", { name: "Corporate and Administrative Services" }).closest("div")!;
+    await user.click(within(card).getByRole("button", { name: "Explore roles" }));
+    expect(screen.getByRole("heading", { name: "Billing Specialist" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Pediatrician (MD/DO)" })).not.toBeInTheDocument();
+  });
+
   it("renders sections in the approved order", () => {
     render(<CareersPageContent />);
     const headings = screen
