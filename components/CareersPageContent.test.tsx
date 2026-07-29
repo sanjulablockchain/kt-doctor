@@ -157,4 +157,13 @@ describe("CareersPageContent", () => {
       indexOf("Join the Largest Pediatric Network in LA")
     );
   });
+
+  it("renders the 4 benefits categories with their items", () => {
+    render(<CareersPageContent />);
+    expect(screen.getByRole("heading", { name: "Health & Wellbeing" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Professional Development" })).toBeInTheDocument();
+    expect(
+      screen.getByText("A restricted bonus program designed to ease student loans and support your retirement goals")
+    ).toBeInTheDocument();
+  });
 });

@@ -102,11 +102,11 @@ const VALUES = [
   ["value3Title", "value3Body"],
   ["value4Title", "value4Body"],
 ] as const;
-const BENEFITS = [
-  ["benefit1Title", "benefit1Body"],
-  ["benefit2Title", "benefit2Body"],
-  ["benefit3Title", "benefit3Body"],
-  ["benefit4Title", "benefit4Body"],
+const BENEFIT_CATEGORIES = [
+  ["benefitCategory1Title", ["benefitCategory1Item1", "benefitCategory1Item2"]],
+  ["benefitCategory2Title", ["benefitCategory2Item1", "benefitCategory2Item2"]],
+  ["benefitCategory3Title", ["benefitCategory3Item1", "benefitCategory3Item2"]],
+  ["benefitCategory4Title", ["benefitCategory4Item1", "benefitCategory4Item2"]],
 ] as const;
 
 export function CareersPageContent() {
@@ -244,11 +244,18 @@ export function CareersPageContent() {
         </Reveal>
         <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
           <div className="grid gap-4 sm:grid-cols-2">
-            {BENEFITS.map(([title, body], i) => (
+            {BENEFIT_CATEGORIES.map(([title, items], i) => (
               <Reveal key={title} delayMs={i * 60}>
                 <div className="h-full rounded-2xl border border-border bg-surface p-5 shadow-card transition-all hover:-translate-y-1 hover:border-teal/30 hover:shadow-soft">
                   <h3 className="font-display text-base font-bold text-ink">{t(title)}</h3>
-                  <p className="mt-1 text-sm text-ink-soft">{t(body)}</p>
+                  <ul className="mt-2 flex flex-col gap-1.5">
+                    {items.map((item) => (
+                      <li key={item} className="flex gap-2 text-sm text-ink-soft">
+                        <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal" />
+                        {t(item)}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </Reveal>
             ))}
