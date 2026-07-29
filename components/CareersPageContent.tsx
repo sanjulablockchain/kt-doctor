@@ -7,6 +7,7 @@ import { Reveal } from "@/components/Reveal";
 import { JobApplicationForm } from "@/components/JobApplicationForm";
 import { PositionDetailsModal } from "@/components/PositionDetailsModal";
 import { FilterDropdown } from "@/components/FilterDropdown";
+import { CareersStory } from "@/components/CareersStory";
 import { CAREERS_EMAILS } from "@/lib/constants";
 import {
   positions,
@@ -152,6 +153,8 @@ export function CareersPageContent() {
           </div>
         </div>
       </section>
+
+      <CareersStory />
 
       {/* Perks strip */}
       <section className="bg-ivory-deep">
