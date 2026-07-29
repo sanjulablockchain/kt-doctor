@@ -21,6 +21,8 @@ export type Location = {
   bookingUrl?: string;
 };
 
+export type MappableLocation = Location & { lat: number; lng: number };
+
 export type Doctor = {
   id: string;
   name: string;
