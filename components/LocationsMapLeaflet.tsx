@@ -97,6 +97,10 @@ export function LocationsMapLeaflet({ locations }: LocationsMapLeafletProps) {
           <Popup className="ktmg-map-popup">
             <p className="font-display text-sm font-semibold text-ink">{location.name}</p>
             <p className="mt-1 text-xs text-ink-soft">{location.address}</p>
+            <p className="mt-2 text-xs text-ink-soft">
+              <span className="font-semibold text-ink">{t("officeHoursLabel")}:</span>{" "}
+              {location.hours.officeHours}
+            </p>
             <div className="mt-2 flex flex-col gap-1">
               <a
                 href={directionsUrl(location)}

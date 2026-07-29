@@ -46,7 +46,7 @@ const alpha: MappableLocation = {
   lat: 34,
   lng: -118,
   description: "",
-  hours: { officeHours: "", telehealthHours: "" },
+  hours: { officeHours: "Monday-Friday, 9AM-6PM", telehealthHours: "Monday-Sunday, 9AM-8PM" },
   photos: [],
 };
 
@@ -96,10 +96,12 @@ describe("LocationsMapLeaflet", () => {
     expect(screen.getByTestId("tile-layer").dataset.url).toContain("dark_all");
   });
 
-  it("shows the clinic name, address, directions link, and details link in the popup", () => {
+  it("shows the clinic name, address, office hours, directions link, and details link in the popup", () => {
     renderMap([alpha]);
     expect(screen.getByText("Alpha")).toBeInTheDocument();
     expect(screen.getByText("1 A St")).toBeInTheDocument();
+    expect(screen.getByText("Office Hours:")).toBeInTheDocument();
+    expect(screen.getByText("Monday-Friday, 9AM-6PM")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Get Directions" })).toHaveAttribute(
       "href",
       "https://www.google.com/maps/dir/?api=1&destination=34,-118"
