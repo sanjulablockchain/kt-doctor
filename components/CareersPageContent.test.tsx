@@ -4,6 +4,18 @@ import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { CareersPageContent } from "./CareersPageContent";
 import { positions } from "@/data/careers";
+import { locations } from "@/data/locations";
+import { doctors } from "@/data/doctors";
+
+vi.mock("@/components/LocationsMapLeaflet", () => ({
+  LocationsMapLeaflet: ({ locations }: { locations: Array<{ id: string }> }) => (
+    <div data-testid="leaflet-map">
+      {locations.map((loc) => (
+        <span key={loc.id}>{loc.id}</span>
+      ))}
+    </div>
+  ),
+}));
 
 describe("CareersPageContent", () => {
   beforeEach(() => {
@@ -63,6 +75,15 @@ describe("CareersPageContent", () => {
     expect(
       screen.getByText(/every family's plan of care is built around their child/i)
     ).toBeInTheDocument();
+  });
+
+  it("renders the LA Network section with real, non-hardcoded stats", () => {
+    render(<CareersPageContent />);
+    expect(
+      screen.getByRole("heading", { name: "Join the Largest Pediatric Network in LA" })
+    ).toBeInTheDocument();
+    expect(screen.getByText(String(locations.length))).toBeInTheDocument();
+    expect(screen.getByText(`${doctors.length}+`)).toBeInTheDocument();
   });
 
   it("shows the displayed careers emails as a mailto link", () => {

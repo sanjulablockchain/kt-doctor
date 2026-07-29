@@ -8,6 +8,7 @@ import { JobApplicationForm } from "@/components/JobApplicationForm";
 import { PositionDetailsModal } from "@/components/PositionDetailsModal";
 import { FilterDropdown } from "@/components/FilterDropdown";
 import { CareersStory } from "@/components/CareersStory";
+import { LocationsMap } from "@/components/LocationsMap";
 import { CAREERS_EMAILS } from "@/lib/constants";
 import {
   positions,
@@ -15,6 +16,8 @@ import {
   type Department,
   type EmploymentType,
 } from "@/data/careers";
+import { locations } from "@/data/locations";
+import { doctors } from "@/data/doctors";
 
 const DEPT_KEY: Record<Department, string> = {
   Clinical: "deptClinical",
@@ -349,6 +352,37 @@ export function CareersPageContent() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* LA network */}
+      <section className="mx-auto max-w-5xl px-5 py-14 sm:px-8">
+        <Reveal>
+          <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+            {t("laNetworkHeading")}
+          </h2>
+          <p className="mt-2 max-w-2xl text-ink-soft">
+            {t("laNetworkIntro", { clinicCount: locations.length, providerCount: doctors.length })}
+          </p>
+        </Reveal>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-2xl border border-border bg-surface p-5 text-center shadow-card">
+            <p className="font-display text-3xl font-extrabold text-teal-dark">{locations.length}</p>
+            <p className="mt-1 text-sm text-ink-soft">{t("laNetworkStatClinics")}</p>
+          </div>
+          <div className="rounded-2xl border border-border bg-surface p-5 text-center shadow-card">
+            <p className="font-display text-3xl font-extrabold text-teal-dark">{doctors.length}+</p>
+            <p className="mt-1 text-sm text-ink-soft">{t("laNetworkStatProviders")}</p>
+          </div>
+          <div className="rounded-2xl border border-border bg-surface p-5 text-center shadow-card">
+            <p className="font-display text-3xl font-extrabold text-teal-dark">18+</p>
+            <p className="mt-1 text-sm text-ink-soft">{t("laNetworkStatYears")}</p>
+          </div>
+        </div>
+        <Reveal delayMs={100}>
+          <div className="mt-8">
+            <LocationsMap locations={locations} />
+          </div>
+        </Reveal>
       </section>
 
       {/* Application form */}
