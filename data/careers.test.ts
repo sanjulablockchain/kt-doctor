@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { positions, DEPARTMENTS, type Position } from "./careers";
+import { positions, DEPARTMENTS, roleCategories, type Position } from "./careers";
 
 describe("careers positions data", () => {
   it("has at least one position", () => {
@@ -44,6 +44,38 @@ describe("careers positions data", () => {
       ...p.responsibilities, ...p.responsibilitiesEs,
       ...p.requirements, ...p.requirementsEs,
     ]);
+    for (const s of strings) expect(s).not.toContain("—");
+  });
+});
+
+describe("careers role categories", () => {
+  it("has exactly 8 categories with unique ids", () => {
+    expect(roleCategories.length).toBe(8);
+    const ids = roleCategories.map((c) => c.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("every category is well-formed and only references real departments", () => {
+    for (const c of roleCategories) {
+      expect(c.title.length).toBeGreaterThan(0);
+      expect(c.titleEs.length).toBeGreaterThan(0);
+      expect(c.description.length).toBeGreaterThan(0);
+      expect(c.descriptionEs.length).toBeGreaterThan(0);
+      for (const dept of c.departments) {
+        expect(DEPARTMENTS).toContain(dept);
+      }
+    }
+  });
+
+  it("covers every department with at least one category", () => {
+    const covered = new Set(roleCategories.flatMap((c) => c.departments));
+    for (const dept of DEPARTMENTS) {
+      expect(covered.has(dept)).toBe(true);
+    }
+  });
+
+  it("contains no em dash in any string", () => {
+    const strings = roleCategories.flatMap((c) => [c.title, c.titleEs, c.description, c.descriptionEs]);
     for (const s of strings) expect(s).not.toContain("—");
   });
 });

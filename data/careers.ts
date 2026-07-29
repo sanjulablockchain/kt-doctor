@@ -35,6 +35,119 @@ export const DEPARTMENTS: Department[] = [
   "Finance",
 ];
 
+export type RoleCategoryId =
+  | "physicians"
+  | "advancedPractice"
+  | "nursingClinicalSupport"
+  | "medicalAssistants"
+  | "frontOffice"
+  | "clinicOperations"
+  | "corporateAdmin"
+  | "studentsEarlyCareers";
+
+export type RoleCategory = {
+  id: RoleCategoryId;
+  title: string;
+  titleEs: string;
+  description: string;
+  descriptionEs: string;
+  // Which existing Department values this category's "Explore roles" maps to. Two
+  // categories may point at the same department (e.g. Physicians and Advanced Practice
+  // Providers both map to "Clinical", since this app's Department taxonomy is coarser
+  // than the 8 role-browser labels) so their open-role counts and filtered results can
+  // legitimately overlap. Every one of the 6 Department values is covered by at least
+  // one category (enforced by a data test); "Therapy" is covered via
+  // nursingClinicalSupport rather than a dedicated category, since the reference design
+  // only defines these 8 labels.
+  departments: Department[];
+};
+
+// Seed from the reference role-browser design. Every entry's description is drafted
+// except "physicians", which matches the one real example shown in that design. Client
+// to confirm/edit before launch, same as the seed position list above.
+export const roleCategories: RoleCategory[] = [
+  {
+    id: "physicians",
+    title: "Physicians",
+    titleEs: "Médicos",
+    description:
+      "Deliver comprehensive pediatric care while working with experienced clinical and administrative teams.",
+    descriptionEs:
+      "Brinde atención pediátrica integral mientras trabaja junto a equipos clínicos y administrativos con experiencia.",
+    departments: ["Clinical"],
+  },
+  {
+    id: "advancedPractice",
+    title: "Advanced Practice Providers",
+    titleEs: "Proveedores de Práctica Avanzada",
+    description:
+      "Provide well-child visits, sick visits, and telehealth care alongside our physicians and clinical teams.",
+    descriptionEs:
+      "Brinde visitas de niño sano, visitas por enfermedad y atención de telesalud junto a nuestros médicos y equipos clínicos.",
+    departments: ["Clinical"],
+  },
+  {
+    id: "nursingClinicalSupport",
+    title: "Nursing and Clinical Support",
+    titleEs: "Enfermería y Apoyo Clínico",
+    description:
+      "Support patient care from intake through treatment, including therapy services, keeping every visit safe and on schedule.",
+    descriptionEs:
+      "Apoye la atención del paciente desde la admisión hasta el tratamiento, incluidos los servicios de terapia, manteniendo cada visita segura y a tiempo.",
+    departments: ["Clinical Support", "Therapy"],
+  },
+  {
+    id: "medicalAssistants",
+    title: "Medical Assistants",
+    titleEs: "Asistentes Médicos",
+    description:
+      "Prepare patients for their visits and assist providers with exams, vaccines, and procedures.",
+    descriptionEs:
+      "Prepare a los pacientes para sus visitas y ayude a los proveedores con exámenes, vacunas y procedimientos.",
+    departments: ["Clinical Support"],
+  },
+  {
+    id: "frontOffice",
+    title: "Front Office and Patient Services",
+    titleEs: "Recepción y Servicios al Paciente",
+    description:
+      "Be the first friendly face our families see, from scheduling to check-in to insurance questions.",
+    descriptionEs:
+      "Sea el primer rostro amable que ven nuestras familias, desde la programación hasta el registro y las preguntas de seguro.",
+    departments: ["Administration"],
+  },
+  {
+    id: "clinicOperations",
+    title: "Clinic Operations and Leadership",
+    titleEs: "Operaciones y Liderazgo Clínico",
+    description:
+      "Keep our clinics running smoothly, leading teams and processes that let clinicians focus on patients.",
+    descriptionEs:
+      "Mantenga nuestras clínicas funcionando sin problemas, liderando equipos y procesos que permiten a los clínicos enfocarse en los pacientes.",
+    departments: ["Operations"],
+  },
+  {
+    id: "corporateAdmin",
+    title: "Corporate and Administrative Services",
+    titleEs: "Servicios Corporativos y Administrativos",
+    description:
+      "Support the business behind the care, from billing and finance to human resources and administration.",
+    descriptionEs:
+      "Apoye el negocio detrás de la atención, desde facturación y finanzas hasta recursos humanos y administración.",
+    departments: ["Finance"],
+  },
+  {
+    id: "studentsEarlyCareers",
+    title: "Students and Early Careers",
+    titleEs: "Estudiantes y Carreras Iniciales",
+    description:
+      "Start your healthcare career with us through internships and entry-level opportunities.",
+    descriptionEs:
+      "Comience su carrera en el cuidado de la salud con nosotros a través de pasantías y oportunidades de nivel inicial.",
+    departments: [],
+  },
+];
+
 // Seed list from the approved mockup. The client confirms/edits the exact roles
 // before launch; ids are stable slugs used as the Apply deep-link value.
 export const positions: Position[] = [
