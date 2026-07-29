@@ -91,7 +91,13 @@ const PERK_ICONS = {
     </>
   ),
 } as const;
-const CULTURE_VALUES = ["cultureValue1", "cultureValue2", "cultureValue3", "cultureValue4"] as const;
+const WHY_CHOOSE_US = ["whyChooseUs1", "whyChooseUs2", "whyChooseUs3", "whyChooseUs4"] as const;
+const VALUES = [
+  ["value1Title", "value1Body"],
+  ["value2Title", "value2Body"],
+  ["value3Title", "value3Body"],
+  ["value4Title", "value4Body"],
+] as const;
 const BENEFITS = [
   ["benefit1Title", "benefit1Body"],
   ["benefit2Title", "benefit2Body"],
@@ -275,14 +281,14 @@ export function CareersPageContent() {
         </div>
       </section>
 
-      {/* Culture */}
+      {/* Why choose us */}
       <section className="mx-auto max-w-5xl px-5 py-14 sm:px-8">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <Reveal>
             <div className="relative aspect-4/3 overflow-hidden rounded-2xl shadow-card">
               <Image
-                src="/careers/culture.jpg"
-                alt={t("cultureImageAlt")}
+                src="/careers/team-tent.jpg"
+                alt={t("whyChooseUsImageAlt")}
                 fill
                 sizes="(min-width: 1024px) 45vw, 100vw"
                 className="object-cover"
@@ -291,11 +297,11 @@ export function CareersPageContent() {
           </Reveal>
           <Reveal delayMs={80}>
             <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
-              {t("cultureHeading")}
+              {t("whyChooseUsHeading")}
             </h2>
-            <p className="mt-3 text-ink-soft">{t("cultureBody")}</p>
+            <p className="mt-3 text-ink-soft">{t("whyChooseUsIntro")}</p>
             <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
-              {CULTURE_VALUES.map((key) => (
+              {WHY_CHOOSE_US.map((key) => (
                 <li key={key} className="flex items-start gap-2.5 text-sm text-ink-soft">
                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-tint text-teal-dark">
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-3 w-3">
@@ -307,6 +313,41 @@ export function CareersPageContent() {
               ))}
             </ul>
           </Reveal>
+        </div>
+      </section>
+
+      {/* Values behind our care */}
+      <section className="bg-ivory-deep">
+        <div className="mx-auto max-w-5xl px-5 py-14 sm:px-8">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+            <Reveal>
+              <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+                {t("valuesHeading")}
+              </h2>
+              <p className="mt-3 text-ink-soft">{t("valuesIntro")}</p>
+            </Reveal>
+            <Reveal delayMs={80}>
+              <div className="relative aspect-4/3 overflow-hidden rounded-2xl shadow-card">
+                <Image
+                  src="/careers/team-photo.jpg"
+                  alt={t("valuesImageAlt")}
+                  fill
+                  sizes="(min-width: 1024px) 45vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            </Reveal>
+          </div>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {VALUES.map(([title, body], i) => (
+              <Reveal key={title} delayMs={i * 60}>
+                <div className="h-full rounded-2xl border border-border bg-surface p-5 shadow-card">
+                  <h3 className="font-display text-base font-bold text-ink">{t(title)}</h3>
+                  <p className="mt-1 text-sm text-ink-soft">{t(body)}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 

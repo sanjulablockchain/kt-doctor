@@ -55,6 +55,16 @@ describe("CareersPageContent", () => {
     expect(screen.getByText(/official job postings are only shared/i)).toBeInTheDocument();
   });
 
+  it("renders Why Choose Us and Values as separate sections", () => {
+    render(<CareersPageContent />);
+    expect(screen.getByRole("heading", { name: "Why Choose Us" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "More than a Workplace" })).toBeInTheDocument();
+    expect(screen.getByText("Compassion")).toBeInTheDocument();
+    expect(
+      screen.getByText(/every family's plan of care is built around their child/i)
+    ).toBeInTheDocument();
+  });
+
   it("shows the displayed careers emails as a mailto link", () => {
     render(<CareersPageContent />);
     const link = screen.getByRole("link", { name: /hr@ktdoctor\.com and monessa\.azad@ktdoctor\.com/i });
