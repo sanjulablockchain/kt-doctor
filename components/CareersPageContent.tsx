@@ -10,6 +10,7 @@ import { FilterDropdown } from "@/components/FilterDropdown";
 import { CareersStory } from "@/components/CareersStory";
 import { CareersRoleBrowser } from "@/components/CareersRoleBrowser";
 import { LocationsMap } from "@/components/LocationsMap";
+import { CareersFaq } from "@/components/CareersFaq";
 import { CAREERS_EMAILS } from "@/lib/constants";
 import {
   positions,
@@ -429,6 +430,8 @@ export function CareersPageContent() {
           </div>
         </div>
       </section>
+
+      <CareersFaq />
 
       {/* Anti-scam notice — small bottom padding only; the footer's mt-16
           already provides the gap before it (avoids doubling up the band). */}

@@ -64,7 +64,11 @@ describe("CareersPageContent", () => {
 
   it("keeps the anti-scam postings notice", () => {
     render(<CareersPageContent />);
-    expect(screen.getByText(/official job postings are only shared/i)).toBeInTheDocument();
+    // Match text unique to the standalone notice banner, since the FAQ's
+    // "genuine-postings" answer (Task 9) also opens with similar phrasing.
+    expect(
+      screen.getByText(/be cautious of postings claiming to represent/i)
+    ).toBeInTheDocument();
   });
 
   it("renders Why Choose Us and Values as separate sections", () => {
@@ -164,6 +168,14 @@ describe("CareersPageContent", () => {
     expect(screen.getByRole("heading", { name: "Professional Development" })).toBeInTheDocument();
     expect(
       screen.getByText("A restricted bonus program designed to ease student loans and support your retirement goals")
+    ).toBeInTheDocument();
+  });
+
+  it("renders the Candidate FAQ section", () => {
+    render(<CareersPageContent />);
+    expect(screen.getByRole("heading", { name: "Candidate FAQ" })).toBeInTheDocument();
+    expect(
+      screen.getByText("Can I apply for more than one position?")
     ).toBeInTheDocument();
   });
 });
