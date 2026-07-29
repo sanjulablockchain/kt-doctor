@@ -165,6 +165,41 @@ export function CareersPageContent() {
 
       <CareersStory />
 
+      {/* Why choose us */}
+      <section className="mx-auto max-w-5xl px-5 py-14 sm:px-8">
+        <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+          <Reveal>
+            <div className="relative aspect-4/3 overflow-hidden rounded-2xl shadow-card">
+              <Image
+                src="/careers/team-tent.jpg"
+                alt={t("whyChooseUsImageAlt")}
+                fill
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+          <Reveal delayMs={80}>
+            <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+              {t("whyChooseUsHeading")}
+            </h2>
+            <p className="mt-3 text-ink-soft">{t("whyChooseUsIntro")}</p>
+            <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
+              {WHY_CHOOSE_US.map((key) => (
+                <li key={key} className="flex items-start gap-2.5 text-sm text-ink-soft">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-tint text-teal-dark">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-3 w-3">
+                      <path d="m5 13 4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  {t(key)}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
       {/* Perks strip */}
       <section className="bg-ivory-deep">
         <div className="mx-auto grid max-w-5xl gap-3 px-5 py-8 sm:grid-cols-2 sm:px-8 md:grid-cols-4">
@@ -220,101 +255,6 @@ export function CareersPageContent() {
                 className="object-cover"
               />
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Open positions */}
-      <section id="positions" className="bg-ivory-deep">
-        <div className="mx-auto max-w-5xl px-5 py-14 sm:px-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
-              {t("positionsHeading", { count: positions.length })}
-            </h2>
-            <FilterDropdown
-              ariaLabel={t("filterLabel")}
-              value={department === "all" ? "" : department}
-              placeholder={t("deptAll")}
-              options={DEPARTMENTS.map((d) => ({ value: d, label: t(DEPT_KEY[d]) }))}
-              onChange={(value) => setDepartment((value === "" ? "all" : value) as "all" | Department)}
-            />
-          </div>
-
-          <div className="mt-8 flex flex-col gap-4">
-            {shown.length === 0 && <p className="text-ink-soft">{t("noOpenings")}</p>}
-            {shown.map((p, i) => (
-              <Reveal key={p.id} delayMs={Math.min(i, 6) * 40}>
-                <article className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5 shadow-card sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <h3 className="font-display text-lg font-bold text-ink">
-                      {locale === "es" ? p.titleEs : p.title}
-                    </h3>
-                    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-soft">
-                      <span>{p.locations}</span>
-                      <span aria-hidden>·</span>
-                      <span>{t(TYPE_KEY[p.employmentType])}</span>
-                      <span className="rounded-full bg-teal-tint px-2.5 py-0.5 font-display font-semibold text-teal-dark">
-                        {t(DEPT_KEY[p.department])}
-                      </span>
-                    </div>
-                    <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-                      {locale === "es" ? p.summaryEs : p.summary}
-                    </p>
-                  </div>
-                  <div className="flex shrink-0 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setDetailsId(p.id)}
-                      className="rounded-full border border-border bg-surface px-5 py-2.5 font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
-                    >
-                      {t("detailsLabel")}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => applyTo(p.id)}
-                      className="rounded-full bg-teal px-6 py-2.5 font-display text-sm font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
-                    >
-                      {t("applyLabel")}
-                    </button>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why choose us */}
-      <section className="mx-auto max-w-5xl px-5 py-14 sm:px-8">
-        <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
-          <Reveal>
-            <div className="relative aspect-4/3 overflow-hidden rounded-2xl shadow-card">
-              <Image
-                src="/careers/team-tent.jpg"
-                alt={t("whyChooseUsImageAlt")}
-                fill
-                sizes="(min-width: 1024px) 45vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-          </Reveal>
-          <Reveal delayMs={80}>
-            <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
-              {t("whyChooseUsHeading")}
-            </h2>
-            <p className="mt-3 text-ink-soft">{t("whyChooseUsIntro")}</p>
-            <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
-              {WHY_CHOOSE_US.map((key) => (
-                <li key={key} className="flex items-start gap-2.5 text-sm text-ink-soft">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-tint text-teal-dark">
-                    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-3 w-3">
-                      <path d="m5 13 4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  {t(key)}
-                </li>
-              ))}
-            </ul>
           </Reveal>
         </div>
       </section>
@@ -383,6 +323,66 @@ export function CareersPageContent() {
             <LocationsMap locations={locations} />
           </div>
         </Reveal>
+      </section>
+
+      {/* Open positions */}
+      <section id="positions" className="bg-ivory-deep">
+        <div className="mx-auto max-w-5xl px-5 py-14 sm:px-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+              {t("positionsHeading", { count: positions.length })}
+            </h2>
+            <FilterDropdown
+              ariaLabel={t("filterLabel")}
+              value={department === "all" ? "" : department}
+              placeholder={t("deptAll")}
+              options={DEPARTMENTS.map((d) => ({ value: d, label: t(DEPT_KEY[d]) }))}
+              onChange={(value) => setDepartment((value === "" ? "all" : value) as "all" | Department)}
+            />
+          </div>
+
+          <div className="mt-8 flex flex-col gap-4">
+            {shown.length === 0 && <p className="text-ink-soft">{t("noOpenings")}</p>}
+            {shown.map((p, i) => (
+              <Reveal key={p.id} delayMs={Math.min(i, 6) * 40}>
+                <article className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5 shadow-card sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <h3 className="font-display text-lg font-bold text-ink">
+                      {locale === "es" ? p.titleEs : p.title}
+                    </h3>
+                    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-soft">
+                      <span>{p.locations}</span>
+                      <span aria-hidden>·</span>
+                      <span>{t(TYPE_KEY[p.employmentType])}</span>
+                      <span className="rounded-full bg-teal-tint px-2.5 py-0.5 font-display font-semibold text-teal-dark">
+                        {t(DEPT_KEY[p.department])}
+                      </span>
+                    </div>
+                    <p className="mt-2 max-w-2xl text-sm text-ink-soft">
+                      {locale === "es" ? p.summaryEs : p.summary}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setDetailsId(p.id)}
+                      className="rounded-full border border-border bg-surface px-5 py-2.5 font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
+                    >
+                      {t("detailsLabel")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => applyTo(p.id)}
+                      className="rounded-full bg-teal px-6 py-2.5 font-display text-sm font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
+                    >
+                      {t("applyLabel")}
+                    </button>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Application form */}

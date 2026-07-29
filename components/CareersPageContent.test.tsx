@@ -130,4 +130,22 @@ describe("CareersPageContent", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /position/i })).toHaveTextContent("Pediatrician (MD/DO)");
   });
+
+  it("renders sections in the approved order", () => {
+    render(<CareersPageContent />);
+    const headings = screen
+      .getAllByRole("heading", { level: 2 })
+      .map((h) => h.textContent);
+    const indexOf = (text: string) => headings.findIndex((h) => h === text);
+
+    expect(indexOf("Why Choose Us")).toBeGreaterThanOrEqual(0);
+    expect(indexOf("Why Choose Us")).toBeLessThan(indexOf("Benefits that support your life"));
+    expect(indexOf("More than a Workplace")).toBeGreaterThan(indexOf("Benefits that support your life"));
+    expect(indexOf("Join the Largest Pediatric Network in LA")).toBeGreaterThan(
+      indexOf("More than a Workplace")
+    );
+    expect(indexOf("Open Positions (8)")).toBeGreaterThan(
+      indexOf("Join the Largest Pediatric Network in LA")
+    );
+  });
 });
