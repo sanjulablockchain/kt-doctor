@@ -90,12 +90,6 @@ describe("CareersPageContent", () => {
     expect(screen.getByText(`${doctors.length}+`)).toBeInTheDocument();
   });
 
-  it("shows the displayed careers emails as a mailto link", () => {
-    render(<CareersPageContent />);
-    const link = screen.getByRole("link", { name: /hr@ktdoctor\.com and monessa\.azad@ktdoctor\.com/i });
-    expect(link).toHaveAttribute("href", "mailto:HR@ktdoctor.com,monessa.azad@ktdoctor.com");
-  });
-
   it("opens a details modal with responsibilities and requirements when a position's details link is clicked", async () => {
     const user = userEvent.setup();
     render(<CareersPageContent />);

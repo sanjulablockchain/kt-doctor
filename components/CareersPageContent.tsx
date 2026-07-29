@@ -11,7 +11,6 @@ import { CareersStory } from "@/components/CareersStory";
 import { CareersRoleBrowser } from "@/components/CareersRoleBrowser";
 import { LocationsMap } from "@/components/LocationsMap";
 import { CareersFaq } from "@/components/CareersFaq";
-import { CAREERS_EMAILS } from "@/lib/constants";
 import {
   positions,
   DEPARTMENTS,
@@ -413,15 +412,6 @@ export function CareersPageContent() {
             {t("formHeading")}
           </h2>
           <p className="mt-2 text-ink-soft">{t("formIntro")}</p>
-          <p className="mt-1 text-sm text-ink-soft">
-            {t("emailDirect")}{" "}
-            <a
-              href={`mailto:${CAREERS_EMAILS.join(",")}`}
-              className="font-display font-semibold text-teal-dark underline underline-offset-2"
-            >
-              {CAREERS_EMAILS.join(" and ")}
-            </a>
-          </p>
           <div className="mt-6 rounded-2xl border border-border bg-surface p-6 shadow-card">
             <JobApplicationForm
               positionId={selectedPositionId}
