@@ -418,7 +418,7 @@ export const locations: Location[] = [
   {
     id: "la-mirada",
     name: "La Mirada",
-    address: "12675 La Mirada Blvd, #200, La Mirada, CA 90638",
+    address: "11900 La Mirada Blvd Ste 7, La Mirada, CA 90638",
     phone: "(818) 361-5437",
     email: "lamirada@ktdoctor.com",
     extension: "205",

@@ -19,6 +19,16 @@ const SLIDE_FILENAMES = [
   "Image (11).jpg",
   "Image (12).jpg",
   "Image (13).jpg",
+  "Image.jpg",
+  "Image (3).jpg",
+  "Image (4).jpg",
+  "Image (7).jpg",
+  "Image (14).jpg",
+  "Image (15).jpg",
+  "Image (16).jpg",
+  "Image (17).jpg",
+  "Image (18).jpg",
+  "Image (19).jpg",
 ];
 
 const SLIDES = SLIDE_FILENAMES.map((filename) => `/Why families choose us/${filename}`);
