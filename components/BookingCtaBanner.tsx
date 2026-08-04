@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { BOOKING_URL, MAIN_PHONE } from "@/lib/constants";
+import { withBasePath } from "@/lib/basePath";
 
 // Homepage bottom "book an appointment" banner. A fixed-navy surface (identical
 // in light and dark via data-on-navy) carrying a live "same-day openings" status
@@ -32,7 +33,7 @@ export function BookingCtaBanner() {
       {/* Left: logo + text */}
       <div className="relative flex items-center gap-4">
         <Image
-          src="/clinic-logo.svg"
+          src={withBasePath("/clinic-logo.svg")}
           alt=""
           aria-hidden
           width={48}

@@ -1,0 +1,8 @@
+services:
+  ktdoctor:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8160:3000"
+    env_file:
+      - .env

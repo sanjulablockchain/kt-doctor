@@ -19,6 +19,7 @@ import {
 } from "@/data/careers";
 import { locations } from "@/data/locations";
 import { doctors } from "@/data/doctors";
+import { withBasePath } from "@/lib/basePath";
 
 const DEPT_KEY: Record<Department, string> = {
   Clinical: "deptClinical",
@@ -139,7 +140,7 @@ export function CareersPageContent() {
       {/* Hero */}
       <section className="relative isolate overflow-hidden bg-navy text-white">
         <Image
-          src="/careers/hero.jpg"
+          src={withBasePath("/careers/hero.jpg")}
           alt={t("heroImageAlt")}
           fill
           priority
@@ -179,7 +180,7 @@ export function CareersPageContent() {
           <Reveal>
             <div className="relative aspect-4/3 overflow-hidden rounded-2xl shadow-card">
               <Image
-                src="/careers/team-tent.jpg"
+                src={withBasePath("/careers/team-tent.jpg")}
                 alt={t("whyChooseUsImageAlt")}
                 fill
                 sizes="(min-width: 1024px) 45vw, 100vw"
@@ -263,7 +264,7 @@ export function CareersPageContent() {
           <Reveal delayMs={120}>
             <div className="relative aspect-4/3 overflow-hidden rounded-2xl shadow-card">
               <Image
-                src="/careers/benefits.jpg"
+                src={withBasePath("/careers/benefits.jpg")}
                 alt={t("benefitsImageAlt")}
                 fill
                 sizes="(min-width: 1024px) 40vw, 100vw"
@@ -287,7 +288,7 @@ export function CareersPageContent() {
             <Reveal delayMs={80}>
               <div className="relative aspect-4/3 overflow-hidden rounded-2xl shadow-card">
                 <Image
-                  src="/careers/team-photo.jpg"
+                  src={withBasePath("/careers/team-photo.jpg")}
                   alt={t("valuesImageAlt")}
                   fill
                   sizes="(min-width: 1024px) 45vw, 100vw"

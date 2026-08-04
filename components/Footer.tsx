@@ -10,6 +10,7 @@ import {
   BOOKING_URL,
   PATIENT_PORTAL_URL,
 } from "@/lib/constants";
+import { withBasePath } from "@/lib/basePath";
 
 // Formats a US display number like "(818) 361-5437" into E.164 for tel:/sms:
 // links, e.g. "+18183615437".
@@ -74,7 +75,7 @@ export function Footer() {
           {/* Brand + social */}
           <div className="max-w-sm sm:col-span-2 lg:col-span-1">
             <Image
-              src="/footer-logo.png"
+              src={withBasePath("/footer-logo.png")}
               alt="Kids & Teens Medical Group"
               width={300}
               height={262}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { withBasePath } from "@/lib/basePath";
 
 // Filenames as stored in `public/Why families choose us/` - inconsistent
 // casing/naming is preserved as-is rather than renamed, since these are
@@ -31,7 +32,9 @@ const SLIDE_FILENAMES = [
   "Image (19).jpg",
 ];
 
-const SLIDES = SLIDE_FILENAMES.map((filename) => `/Why families choose us/${filename}`);
+const SLIDES = SLIDE_FILENAMES.map((filename) =>
+  withBasePath(`/Why families choose us/${filename}`),
+);
 
 type WhyFamiliesSlideshowProps = {
   alt: string;

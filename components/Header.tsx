@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { BOOKING_URL, PAY_ONLINE_URL, PATIENT_PORTAL_URL, MAIN_PHONE } from "@/lib/constants";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { withBasePath } from "@/lib/basePath";
 
 // Formats a US display number like "(818) 361-5437" into E.164 for tel:
 // links, e.g. "+18183615437" — matches components/Footer.tsx's formatting.
@@ -84,7 +85,7 @@ export function Header() {
               crest tagline stays legible on the dark header. Only one is ever
               displayed, so both carry the same alt without duplicating it. */}
           <Image
-            src="/nav_logo.png"
+            src={withBasePath("/nav_logo.png")}
             alt="Kids & Teens Medical Group"
             width={300}
             height={262}
@@ -93,7 +94,7 @@ export function Header() {
             unoptimized
           />
           <Image
-            src="/nav_logo_dark.png"
+            src={withBasePath("/nav_logo_dark.png")}
             alt="Kids & Teens Medical Group"
             width={300}
             height={262}

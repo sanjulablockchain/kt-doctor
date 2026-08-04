@@ -5,6 +5,7 @@ import { BackLink } from "@/components/BackLink";
 import { stories } from "@/data/stories";
 import { buildMetadata, articleJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { withBasePath } from "@/lib/basePath";
 
 function findStory(slug: string) {
   return stories.find((s) => s.id === slug) ?? null;
@@ -72,7 +73,7 @@ export default async function BlogPostPage({
 
       <div className="mt-6 overflow-hidden rounded-2xl">
         <Image
-          src={story.imageSrc}
+          src={withBasePath(story.imageSrc)}
           alt={title}
           width={800}
           height={450}

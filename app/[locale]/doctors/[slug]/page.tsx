@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { BOOKING_URL, SITE_NAME } from "@/lib/constants";
 import { buildMetadata, physicianJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { withBasePath } from "@/lib/basePath";
 
 function initials(name: string): string {
   return name
@@ -86,7 +87,7 @@ export default async function DoctorDetailPage({
       <div className="mt-6 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
         {doctor.photoSrc ? (
           <Image
-            src={doctor.photoSrc}
+            src={withBasePath(doctor.photoSrc)}
             alt={doctor.name}
             width={112}
             height={112}

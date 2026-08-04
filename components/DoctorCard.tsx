@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Doctor } from "@/lib/types";
 import { BOOKING_URL } from "@/lib/constants";
 import { Link } from "@/i18n/navigation";
+import { withBasePath } from "@/lib/basePath";
 
 type DoctorCardProps = {
   doctor: Doctor;
@@ -28,7 +29,7 @@ export function DoctorCard({ doctor, locationNames }: DoctorCardProps) {
         <div className="-mt-12 shrink-0">
           {doctor.photoSrc ? (
             <Image
-              src={doctor.photoSrc}
+              src={withBasePath(doctor.photoSrc)}
               alt={doctor.name}
               width={96}
               height={96}

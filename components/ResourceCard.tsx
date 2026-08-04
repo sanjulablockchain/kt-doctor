@@ -1,6 +1,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { ParentResource } from "@/data/resources";
+import { withBasePath } from "@/lib/basePath";
 
 type ResourceCardProps = {
   resource: ParentResource;
@@ -20,7 +21,7 @@ export function ResourceCard({ resource, className = "" }: ResourceCardProps) {
       {resource.available && resource.href ? (
         resource.external ? (
           <a
-            href={resource.href}
+            href={withBasePath(resource.href)}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-3 inline-block font-display text-sm font-semibold text-teal-dark hover:text-teal"

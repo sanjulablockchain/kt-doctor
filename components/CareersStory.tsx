@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/Reveal";
+import { withBasePath } from "@/lib/basePath";
 
 export function CareersStory() {
   const t = useTranslations("Careers");
@@ -29,12 +30,12 @@ export function CareersStory() {
           <video
             controls
             preload="none"
-            poster="/careers/story-video-poster.jpg"
+            poster={withBasePath("/careers/story-video-poster.jpg")}
             width={1280}
             height={720}
             className="aspect-video w-full bg-black"
           >
-            <source src="/careers/story-video.mp4" type="video/mp4" />
+            <source src={withBasePath("/careers/story-video.mp4")} type="video/mp4" />
           </video>
         </div>
       </Reveal>

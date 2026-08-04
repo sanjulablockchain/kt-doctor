@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { stories } from "@/data/stories";
+import { withBasePath } from "@/lib/basePath";
 
 export function BlogPageContent() {
   const t = useTranslations("Blog");
@@ -31,7 +32,7 @@ export function BlogPageContent() {
               className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
             >
               <Image
-                src={story.imageSrc}
+                src={withBasePath(story.imageSrc)}
                 alt={title}
                 width={300}
                 height={225}

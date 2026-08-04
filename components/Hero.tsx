@@ -8,6 +8,7 @@ import { doctors } from "@/data/doctors";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { HeroNetworkPanel } from "@/components/HeroNetworkPanel";
+import { withBasePath } from "@/lib/basePath";
 
 export function Hero() {
   const t = useTranslations("Home");
@@ -23,7 +24,7 @@ export function Hero() {
     <section data-on-navy className="relative overflow-hidden bg-navy lg:min-h-[44rem]">
       <div className="absolute inset-0">
         <ParallaxImage
-          src="/home/hero.jpg"
+          src={withBasePath("/home/hero.jpg")}
           alt="A pediatrician examining a young patient during a check-up"
           width={1200}
           height={1400}

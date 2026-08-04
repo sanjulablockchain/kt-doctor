@@ -25,6 +25,7 @@ import { ResourceCard } from "@/components/ResourceCard";
 import { faqs } from "@/data/faq";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { DonateTab } from "@/components/DonateTab";
+import { withBasePath } from "@/lib/basePath";
 
 function initials(name: string): string {
   return name
@@ -153,7 +154,7 @@ export function HomePageContent() {
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-12">
           <ParallaxImage
-            src="/services/telehealth-home.jpg"
+            src={withBasePath("/services/telehealth-home.jpg")}
             alt={t("telehealthImageAlt")}
             width={1000}
             height={665}
@@ -219,7 +220,7 @@ export function HomePageContent() {
                 <div className="h-full rounded-2xl border border-border bg-surface p-5 text-center shadow-card transition-all hover:-translate-y-1 hover:border-teal hover:shadow-soft">
                   {doc.photoSrc ? (
                     <Image
-                      src={doc.photoSrc}
+                      src={withBasePath(doc.photoSrc)}
                       alt={doc.name}
                       width={64}
                       height={64}
@@ -285,7 +286,7 @@ export function HomePageContent() {
         <div className="flex flex-col items-center gap-6 rounded-3xl border border-border bg-surface p-8 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-soft sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <div className="flex flex-col items-center gap-4 sm:flex-row">
             <Image
-              src={foundation.logoSrc}
+              src={withBasePath(foundation.logoSrc)}
               alt={`${foundation.name} logo`}
               width={160}
               height={53}
@@ -452,7 +453,7 @@ export function HomePageContent() {
                   className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
                 >
                   <Image
-                    src={story.imageSrc}
+                    src={withBasePath(story.imageSrc)}
                     alt={title}
                     width={300}
                     height={225}
@@ -483,7 +484,7 @@ export function HomePageContent() {
             {partners.map((partner) => (
               <Image
                 key={partner.id}
-                src={partner.logoSrc}
+                src={withBasePath(partner.logoSrc)}
                 alt={partner.name}
                 width={160}
                 height={48}

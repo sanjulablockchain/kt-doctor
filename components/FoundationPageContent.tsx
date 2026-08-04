@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { foundation, sriLankaProgram, sriLankaSchools } from "@/data/foundation";
 import { ProgramCard } from "@/components/ProgramCard";
 import { SriLankaTimeline } from "@/components/SriLankaTimeline";
+import { withBasePath } from "@/lib/basePath";
 
 export function FoundationPageContent() {
   const t = useTranslations("Foundation");
@@ -18,7 +19,7 @@ export function FoundationPageContent() {
       <div className="flex flex-col items-center gap-6 rounded-3xl border border-border bg-surface p-8 shadow-card sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:gap-4 sm:text-left">
           <Image
-            src={foundation.logoSrc}
+            src={withBasePath(foundation.logoSrc)}
             alt={`${foundation.name} logo`}
             width={160}
             height={53}

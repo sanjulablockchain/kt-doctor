@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { BOOKING_URL, MAIN_PHONE, TEXT_PHONE, TEXT_PHONE_ES } from "@/lib/constants";
 import { buildMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { withBasePath } from "@/lib/basePath";
 
 // Formats a US display number like "(818) 361-5437" into E.164 for tel:/sms:
 // links, e.g. "+18183615437" — matches components/Footer.tsx.
@@ -205,7 +206,7 @@ export default async function ServiceDetailPage({
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <div className="aspect-[4/5] sm:aspect-[16/11] lg:aspect-auto lg:h-full">
               <Image
-                src={service.imageSrc}
+                src={withBasePath(service.imageSrc)}
                 alt={imageAlt ?? name}
                 width={800}
                 height={1000}

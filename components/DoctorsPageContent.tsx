@@ -9,6 +9,7 @@ import { filterDoctors, getAllSpecialties } from "@/lib/filters";
 import { DoctorCard } from "@/components/DoctorCard";
 import { FilterDropdown } from "@/components/FilterDropdown";
 import { Pagination } from "@/components/Pagination";
+import { withBasePath } from "@/lib/basePath";
 
 const PAGE_SIZE = 12;
 
@@ -78,7 +79,7 @@ export function DoctorsPageContent() {
         <div className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:gap-8 sm:p-8">
           <div className="mx-auto w-full max-w-55 shrink-0 sm:mx-0 sm:w-52 sm:max-w-none lg:w-60">
             <Image
-              src="/doctors/care-team.jpg"
+              src={withBasePath("/doctors/care-team.jpg")}
               alt={t("expertiseImageAlt")}
               width={236}
               height={347}

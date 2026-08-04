@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { BOOKING_URL } from "@/lib/constants";
 import { buildMetadata, localBusinessJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { withBasePath } from "@/lib/basePath";
 
 function findLocation(slug: string) {
   return locations.find((loc) => loc.id === slug) ?? null;
@@ -78,7 +79,7 @@ export default async function LocationDetailPage({
           {location.photos.map((src) => (
             <Image
               key={src}
-              src={src}
+              src={withBasePath(src)}
               alt={`${location.name} clinic`}
               width={400}
               height={300}

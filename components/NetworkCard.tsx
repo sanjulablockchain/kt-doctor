@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { NetworkBrand } from "@/data/network";
+import { withBasePath } from "@/lib/basePath";
 
 type NetworkCardProps = {
   brand: NetworkBrand;
@@ -34,7 +35,7 @@ export function NetworkCard({ brand, compact = false }: NetworkCardProps) {
           // variant lights it up. Both carry the same alt; only one shows.
           <>
             <Image
-              src={brand.logoSrc}
+              src={withBasePath(brand.logoSrc)}
               alt={`${brand.name} logo`}
               width={140}
               height={44}
@@ -42,7 +43,7 @@ export function NetworkCard({ brand, compact = false }: NetworkCardProps) {
               className="logo-light h-full w-auto object-contain"
             />
             <Image
-              src={brand.logoDarkSrc}
+              src={withBasePath(brand.logoDarkSrc)}
               alt={`${brand.name} logo`}
               width={140}
               height={44}
@@ -52,7 +53,7 @@ export function NetworkCard({ brand, compact = false }: NetworkCardProps) {
           </>
         ) : (
           <Image
-            src={brand.logoSrc}
+            src={withBasePath(brand.logoSrc)}
             alt={`${brand.name} logo`}
             width={140}
             height={44}

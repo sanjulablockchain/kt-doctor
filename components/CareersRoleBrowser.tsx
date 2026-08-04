@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Reveal } from "@/components/Reveal";
 import { roleCategories, positions, type Department } from "@/data/careers";
+import { withBasePath } from "@/lib/basePath";
 
 type Props = {
   onExplore: (departments: Department[]) => void;
@@ -57,7 +58,7 @@ export function CareersRoleBrowser({ onExplore }: Props) {
           <Reveal delayMs={220}>
             <div className="relative aspect-4/3 overflow-hidden rounded-2xl shadow-card">
               <Image
-                src="/careers/culture.jpg"
+                src={withBasePath("/careers/culture.jpg")}
                 alt={t("roleBrowserImageAlt")}
                 fill
                 sizes="(min-width: 1024px) 45vw, 100vw"
