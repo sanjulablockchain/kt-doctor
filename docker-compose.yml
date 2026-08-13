@@ -1,8 +1,11 @@
 services:
   ktdoctor:
-    build: .
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_BASE_PATH: ${NEXT_PUBLIC_BASE_PATH-/ktdoctor}
     restart: unless-stopped
     ports:
-      - "8160:3000"
+      - "${HOST_PORT:-8160}:3000"
     env_file:
       - .env
