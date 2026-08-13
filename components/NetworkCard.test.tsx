@@ -44,4 +44,35 @@ describe("NetworkCard", () => {
     render(<NetworkCard brand={{ ...sampleBrand, flagship: true }} />);
     expect(screen.getByText("Flagship network")).toBeInTheDocument();
   });
+
+  it("renders a social link for each entry in brand.social", () => {
+    const brand = {
+      ...sampleBrand,
+      social: [
+        { platform: "facebook" as const, href: "https://www.facebook.com/example/" },
+        { platform: "instagram" as const, href: "https://www.instagram.com/example/" },
+      ],
+    };
+    render(<NetworkCard brand={brand} />);
+    const facebookLink = screen.getByRole("link", { name: /kids & teens medical group on facebook/i });
+    expect(facebookLink).toHaveAttribute("href", "https://www.facebook.com/example/");
+    expect(facebookLink).toHaveAttribute("target", "_blank");
+    expect(
+      screen.getByRole("link", { name: /kids & teens medical group on instagram/i })
+    ).toHaveAttribute("href", "https://www.instagram.com/example/");
+  });
+
+  it("does not render social links when brand.social is not set", () => {
+    render(<NetworkCard brand={sampleBrand} />);
+    expect(screen.queryByRole("link", { name: /on facebook/i })).not.toBeInTheDocument();
+  });
+
+  it("does not render social links in compact mode, even when brand.social is set", () => {
+    const brand = {
+      ...sampleBrand,
+      social: [{ platform: "facebook" as const, href: "https://www.facebook.com/example/" }],
+    };
+    render(<NetworkCard brand={brand} compact />);
+    expect(screen.queryByRole("link", { name: /on facebook/i })).not.toBeInTheDocument();
+  });
 });

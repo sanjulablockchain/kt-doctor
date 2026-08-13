@@ -25,7 +25,7 @@ export function Hero() {
       <div className="absolute inset-0">
         <ParallaxImage
           src={withBasePath("/home/hero.jpg")}
-          alt="A pediatrician examining a young patient during a check-up"
+          alt={t("heroImageAlt")}
           width={1200}
           height={1400}
           wrapperClassName="h-full w-full"

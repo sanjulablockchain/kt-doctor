@@ -1,12 +1,22 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { HeroNetworkPanel } from "./HeroNetworkPanel";
 import { networkBrands } from "@/data/network";
-import { serviceCategories } from "@/data/services";
-import { locations } from "@/data/locations";
+
+function brand(id: string) {
+  const found = networkBrands.find((b) => b.id === id);
+  if (!found) throw new Error(`Unknown network brand id: ${id}`);
+  return found;
+}
 
 describe("HeroNetworkPanel", () => {
+  beforeEach(() => {
+    // jsdom doesn't implement scrollIntoView; these rows call it on click.
+    Element.prototype.scrollIntoView = vi.fn();
+  });
+
   it("renders the eyebrow, partner count badge, heading, and explore-network CTA", () => {
     render(<HeroNetworkPanel />);
     const expectedPartnerCount = networkBrands.length - 1;
@@ -19,44 +29,37 @@ describe("HeroNetworkPanel", () => {
     );
   });
 
-  it("renders all 6 rows with correct links", () => {
+  it("renders the Book Appointment row linking externally", () => {
     render(<HeroNetworkPanel />);
     expect(screen.getByRole("link", { name: /book appointment/i })).toHaveAttribute(
       "href",
       expect.stringContaining("healow.com")
     );
-    expect(screen.getByRole("link", { name: /supporting network/i })).toHaveAttribute(
-      "href",
-      "/network"
-    );
-    expect(screen.getByRole("link", { name: /services/i })).toHaveAttribute("href", "/services");
-    expect(screen.getByRole("link", { name: /telehealth/i })).toHaveAttribute(
-      "href",
-      "/services/telehealth"
-    );
-    expect(screen.getByRole("link", { name: /locations/i })).toHaveAttribute(
-      "href",
-      "/locations"
-    );
   });
 
-  it("shows the real partner count on the Supporting Network row", () => {
+  it.each([
+    ["st-gianna"],
+    ["laipt"],
+    ["serendib-healthways"],
+    ["pediatric-after-hour"],
+  ])("renders the %s row with its real name and tagline, linking to the network teaser", (id) => {
     render(<HeroNetworkPanel />);
-    const expectedCount = networkBrands.length - 1;
-    expect(
-      screen.getByText(`${expectedCount} partner organizations across the network.`)
-    ).toBeInTheDocument();
+    const { name, tagline } = brand(id);
+    const link = screen.getByRole("link", { name: new RegExp(name, "i") });
+    expect(link).toHaveAttribute("href", "#network-teaser");
+    expect(screen.getByText(tagline)).toBeInTheDocument();
   });
 
-  it("shows the real service count as the Services row's tag", () => {
+  it("scrolls to the network teaser section when a partner row is clicked", async () => {
+    const user = userEvent.setup();
     render(<HeroNetworkPanel />);
-    const expectedCount = serviceCategories.flatMap((c) => c.services).length;
-    expect(screen.getByText(String(expectedCount))).toBeInTheDocument();
-  });
+    document.body.insertAdjacentHTML("beforeend", '<section id="network-teaser"></section>');
+    const target = document.getElementById("network-teaser")!;
+    target.scrollIntoView = vi.fn();
 
-  it("shows the real location count as the Locations row's tag", () => {
-    render(<HeroNetworkPanel />);
-    expect(screen.getByText(String(locations.length))).toBeInTheDocument();
+    await user.click(screen.getByRole("link", { name: new RegExp(brand("laipt").name, "i") }));
+
+    expect(target.scrollIntoView).toHaveBeenCalledWith({ behavior: "smooth", block: "start" });
   });
 
   it("renders the Sri Lanka row linking to the foundation page", () => {

@@ -32,8 +32,8 @@ describe("Home page", () => {
 
   it("renders a network teaser section linking to /network", async () => {
     await renderHome();
-    expect(screen.getByText("St. Gianna Medical Group")).toBeInTheDocument();
-    expect(screen.getByText("LA Intensive Pediatric Therapy")).toBeInTheDocument();
+    expect(screen.getAllByText("St. Gianna Medical Group").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("LA Intensive Pediatric Therapy").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("St. Joseph Hospital Negombo").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole("link", { name: /see the full network/i })).toHaveAttribute(
       "href",

@@ -245,7 +245,7 @@ export function HomePageContent() {
       </section>
 
       {/* Network teaser */}
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+      <section id="network-teaser" className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>

@@ -1,5 +1,12 @@
 export type NetworkCategory = "care" | "sriLanka" | "business";
 
+export type NetworkSocialPlatform = "facebook" | "instagram" | "x" | "youtube" | "linkedin";
+
+export type NetworkSocialLink = {
+  platform: NetworkSocialPlatform;
+  href: string;
+};
+
 export type NetworkBrand = {
   id: string;
   name: string;
@@ -16,6 +23,10 @@ export type NetworkBrand = {
   logoDarkSrc?: string;
   externalUrl?: string;
   internalHref?: string;
+  /* Each partner's own social channels, sourced from their official site.
+     Omitted where no real, verifiable link exists rather than pointing to
+     a placeholder. */
+  social?: NetworkSocialLink[];
   /* Groups the /network page into labeled sections instead of one flat grid:
      "care" (Greater LA pediatric/family clinical partners), "sriLanka" (KTMG's
      Sri Lanka operations), "business" (administrative/outsourcing partners). */
@@ -42,6 +53,12 @@ export const networkBrands: NetworkBrand[] = [
     logoSrc: "/clinic-logo.svg",
     logoDarkSrc: "/clinic-logo-dark.svg",
     internalHref: "/doctors",
+    social: [
+      { platform: "facebook", href: "https://www.facebook.com/pediatriciansincalifornia/" },
+      { platform: "instagram", href: "https://www.instagram.com/napediatricurgentcare/" },
+      { platform: "x", href: "https://x.com/KTDoctorGroup" },
+      { platform: "youtube", href: "https://www.youtube.com/channel/UCpc-umQeo6CQFLHq4bTWeUQ" },
+    ],
     category: "care",
     flagship: true,
   },
@@ -73,6 +90,12 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Terapia del Habla", "Terapia Ocupacional", "Integración Sensorial"],
     logoSrc: "/laipt-logo.png",
     externalUrl: "https://www.laipt.org",
+    social: [
+      { platform: "facebook", href: "https://www.facebook.com/kidsandteensmedicalgroup/" },
+      { platform: "instagram", href: "https://www.instagram.com/ktmedicalgroup/" },
+      { platform: "linkedin", href: "https://www.linkedin.com/company/kidsteensmedicalgroup/" },
+      { platform: "youtube", href: "https://www.youtube.com/channel/UC5pMXGZ_F2OZUFdfy6YbIew" },
+    ],
     category: "care",
   },
   {
@@ -98,6 +121,11 @@ export const networkBrands: NetworkBrand[] = [
     ],
     logoSrc: "/sjh-logo.png",
     externalUrl: "https://www.sjhospital.lk",
+    social: [
+      { platform: "facebook", href: "https://www.facebook.com/sjhospitalNegombo" },
+      { platform: "instagram", href: "https://www.instagram.com/sjhospital.lk/" },
+      { platform: "linkedin", href: "https://www.linkedin.com/company/sjhnegomb/" },
+    ],
     category: "sriLanka",
   },
   {
@@ -113,6 +141,10 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["HMO/IPA Pediátrico", "Citas el Mismo Día", "Telesalud", "Atención de Urgencia Fuera de Horario"],
     logoSrc: "/serendib-healthways-logo.svg",
     externalUrl: "https://www.serendibhealthways.com/",
+    social: [
+      { platform: "facebook", href: "https://www.facebook.com/serendibhealthways/" },
+      { platform: "youtube", href: "https://www.youtube.com/channel/UCpc-umQeo6CQFLHq4bTWeUQ" },
+    ],
     category: "care",
   },
   {
@@ -128,6 +160,11 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Atención de Urgencia 24/7", "Citas el Mismo Día", "Edades de 0 a 21", "Todos los Seguros Aceptados"],
     logoSrc: "/pediatric-after-hour-logo.png",
     externalUrl: "https://pediatricafterhour.com/",
+    social: [
+      { platform: "facebook", href: "https://www.facebook.com/pediatriciansincalifornia/" },
+      { platform: "instagram", href: "https://www.instagram.com/napediatricurgentcare/" },
+      { platform: "youtube", href: "https://www.youtube.com/channel/UC5pMXGZ_F2OZUFdfy6YbIew" },
+    ],
     category: "care",
   },
   {
@@ -158,6 +195,10 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Seguro de Salud", "Seguro de Vida", "Seguro de Vehículos", "Seguro Corporativo"],
     logoSrc: "/acig-logo.png",
     externalUrl: "https://acig.lk/",
+    social: [
+      { platform: "facebook", href: "https://www.facebook.com/acig.lk/" },
+      { platform: "linkedin", href: "https://www.linkedin.com/company/asia-corp-insurance/" },
+    ],
     category: "sriLanka",
   },
   {

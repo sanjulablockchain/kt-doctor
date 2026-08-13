@@ -1,19 +1,17 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { BOOKING_URL } from "@/lib/constants";
 import { networkBrands } from "@/data/network";
-import { serviceCategories } from "@/data/services";
-import { locations } from "@/data/locations";
 import { SocialLinks } from "@/components/SocialLinks";
 
 type HeroRowProps = {
   icon: ReactNode; // inner <path>/<rect>/<circle> of a 24x24 stroke icon
   title: string;
   body: string;
-  tag: string;
+  tag?: string;
   tagClassName?: string;
   href: string;
   external?: boolean;
@@ -43,15 +41,32 @@ function HeroRow({ icon, title, body, tag, tagClassName, href, external = false 
         <span className="block font-display text-sm font-bold text-ivory">{title}</span>
         <span className="block truncate text-xs text-ivory/60">{body}</span>
       </span>
-      <span className={`shrink-0 pl-2 text-xs font-semibold ${tagClassName ?? "text-ivory/60"}`}>
-        {tag}
-      </span>
+      {tag && (
+        <span className={`shrink-0 pl-2 text-xs font-semibold ${tagClassName ?? "text-ivory/60"}`}>
+          {tag}
+        </span>
+      )}
     </>
   );
 
   if (external) {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={rowClass}>
+        {content}
+      </a>
+    );
+  }
+
+  if (href.startsWith("#")) {
+    return (
+      <a
+        href={href}
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById(href.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
+        className={rowClass}
+      >
         {content}
       </a>
     );
@@ -64,12 +79,23 @@ function HeroRow({ icon, title, body, tag, tagClassName, href, external = false 
   );
 }
 
+function findBrand(id: string) {
+  const brand = networkBrands.find((b) => b.id === id);
+  if (!brand) throw new Error(`Unknown network brand id: ${id}`);
+  return brand;
+}
+
 export function HeroNetworkPanel() {
   const tHome = useTranslations("Home");
   const t = useTranslations("Hero");
+  const locale = useLocale();
 
   const partnerCount = networkBrands.length - 1;
-  const serviceCount = serviceCategories.flatMap((category) => category.services).length;
+
+  const stGianna = findBrand("st-gianna");
+  const laipt = findBrand("laipt");
+  const serendibHealthways = findBrand("serendib-healthways");
+  const pediatricAfterHour = findBrand("pediatric-after-hour");
 
   return (
     <div className="min-w-0 w-full rounded-3xl border border-white/10 bg-navy/75 p-5 backdrop-blur-xl sm:p-6 lg:max-w-md lg:ml-auto">
@@ -105,56 +131,53 @@ export function HeroNetworkPanel() {
         </li>
         <li>
           <HeroRow
-            href="/network"
-            tag={String(partnerCount)}
-            title={t("supportingNetworkTile")}
-            body={t("supportingNetworkBody", { count: partnerCount })}
+            href="#network-teaser"
+            title={stGianna.name}
+            body={locale === "es" ? stGianna.taglineEs : stGianna.tagline}
             icon={
               <>
-                <circle cx="12" cy="12" r="3" />
-                <circle cx="5" cy="6" r="2.2" />
-                <circle cx="19" cy="6" r="2.2" />
-                <circle cx="5" cy="18" r="2.2" />
-                <circle cx="19" cy="18" r="2.2" />
-                <path d="M6.6 7.4 10 10.4M17.4 7.4 14 10.4M6.6 16.6 10 13.6M17.4 16.6 14 13.6" />
+                <rect x="4" y="4" width="16" height="16" rx="4" />
+                <path d="M12 8.5v7M8.5 12h7" />
               </>
             }
           />
         </li>
         <li>
           <HeroRow
-            href="/services"
-            tag={String(serviceCount)}
-            title={t("servicesTile")}
-            body={t("servicesBody")}
-            icon={<path d="m9 12 2 2 4-4M12 22s7-4 7-10V5l-7-3-7 3v7c0 6 7 10 7 10Z" />}
-          />
-        </li>
-        <li>
-          <HeroRow
-            href="/services/telehealth"
-            tag={t("telehealthTag")}
-            tagClassName="text-teal"
-            title={t("telehealthTile")}
-            body={t("telehealthBody")}
+            href="#network-teaser"
+            title={laipt.name}
+            body={locale === "es" ? laipt.taglineEs : laipt.tagline}
             icon={
               <>
-                <rect x="2.5" y="5" width="14" height="12" rx="2.5" />
-                <path d="M16.5 10.5 21.5 7.5v9l-5-3z" />
+                <rect x="4" y="13" width="6.5" height="6.5" rx="1" />
+                <rect x="13.5" y="13" width="6.5" height="6.5" rx="1" />
+                <rect x="8.75" y="4.5" width="6.5" height="6.5" rx="1" />
               </>
             }
           />
         </li>
         <li>
           <HeroRow
-            href="/locations"
-            tag={String(locations.length)}
-            title={t("locationsTile")}
-            body={t("locationsBody")}
+            href="#network-teaser"
+            title={serendibHealthways.name}
+            body={locale === "es" ? serendibHealthways.taglineEs : serendibHealthways.tagline}
             icon={
               <>
-                <path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z" />
-                <circle cx="12" cy="9" r="2.25" />
+                <path d="M12 21s7-3.6 7-9V6l-7-3-7 3v6c0 5.4 7 9 7 9Z" />
+                <path d="M12 14.8s-3.3-2-3.3-4.4A1.8 1.8 0 0 1 12 9.2a1.8 1.8 0 0 1 3.3 1.2c0 2.4-3.3 4.4-3.3 4.4Z" />
+              </>
+            }
+          />
+        </li>
+        <li>
+          <HeroRow
+            href="#network-teaser"
+            title={pediatricAfterHour.name}
+            body={locale === "es" ? pediatricAfterHour.taglineEs : pediatricAfterHour.tagline}
+            icon={
+              <>
+                <circle cx="12" cy="12" r="8.5" />
+                <path d="M12 7.5V12l3.2 2" />
               </>
             }
           />
