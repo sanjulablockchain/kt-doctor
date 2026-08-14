@@ -84,6 +84,21 @@
     "tooltipTitle": "$ 0 en gastos administrativos",
     "tooltipBody": "El 100% de su donación se destina directamente a programas de bienestar estudiantil. Sin gastos generales."
   },
+  "SeasonTab": {
+    "label": "Temporada",
+    "openSeason": "Abrir novedades de temporada",
+    "closeSeason": "Cerrar novedades de temporada",
+    "title": "Novedades de Temporada",
+    "helper": "Recordatorios de salud y concientización para esta temporada.",
+    "banner1Alt": "Día Mundial de Prevención de la Deficiencia de Yodo: alimentos ricos en yodo como pescado, leche y sal yodada potencian el cerebro de los niños.",
+    "banner2Alt": "Recordatorio de regreso a clases: verifique que el registro de vacunación de su hijo esté al día antes del nuevo año escolar."
+  },
+  "QuickActions": {
+    "openLabel": "Abrir acciones rápidas",
+    "closeLabel": "Cerrar acciones rápidas",
+    "title": "Acciones Rápidas",
+    "helper": "Accesos rápidos a lo que más importa."
+  },
   "Home": {
     "badge": "{count} clínicas en el área de Los Ángeles",
     "headingStart": "Atención pediátrica compasiva,",

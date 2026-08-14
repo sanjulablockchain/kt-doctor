@@ -208,6 +208,31 @@ h4 {
   }
 }
 
+/* Floating SeasonTab: mirror of slide-in-right for a tab pinned to the left
+   edge instead of the right. Same rationale re: not animating Y. */
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* MobileQuickDrawer's bottom sheet: slide up from off-screen on open. */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 /* Locations map (Leaflet + CARTO tiles, components/LocationsMapLeaflet.tsx).
    Leaflet's default .leaflet-div-icon draws a white box, border, and shadow
    behind custom HTML icons; reset it so only our inline SVG pin shows. Popup

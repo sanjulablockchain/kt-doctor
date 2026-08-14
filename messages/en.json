@@ -84,6 +84,21 @@
     "tooltipTitle": "$ 0 Admin Fees",
     "tooltipBody": "100% of your donation goes directly to student wellness programs. Zero overhead."
   },
+  "SeasonTab": {
+    "label": "Season",
+    "openSeason": "Open seasonal updates",
+    "closeSeason": "Close seasonal updates",
+    "title": "Seasonal Updates",
+    "helper": "Health reminders and awareness for this season.",
+    "banner1Alt": "Global Iodine Deficiency Prevention Day: iodine-rich foods like fish, milk, and iodized salt power up kids' brains.",
+    "banner2Alt": "Back to school reminder: check that your child's immunization record is up to date before the new school year."
+  },
+  "QuickActions": {
+    "openLabel": "Open quick actions",
+    "closeLabel": "Close quick actions",
+    "title": "Quick Actions",
+    "helper": "Quick shortcuts to what matters most."
+  },
   "Home": {
     "badge": "{count} clinics across Greater LA",
     "headingStart": "Compassionate pediatric care,",

@@ -25,6 +25,8 @@ import { ResourceCard } from "@/components/ResourceCard";
 import { faqs } from "@/data/faq";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { DonateTab } from "@/components/DonateTab";
+import { SeasonTab } from "@/components/SeasonTab";
+import { MobileQuickDrawer } from "@/components/MobileQuickDrawer";
 import { withBasePath } from "@/lib/basePath";
 
 function initials(name: string): string {
@@ -528,6 +530,8 @@ export function HomePageContent() {
       </section>
 
       <DonateTab />
+      <SeasonTab />
+      <MobileQuickDrawer />
     </main>
   );
 }
