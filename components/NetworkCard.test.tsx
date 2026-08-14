@@ -67,12 +67,12 @@ describe("NetworkCard", () => {
     expect(screen.queryByRole("link", { name: /on facebook/i })).not.toBeInTheDocument();
   });
 
-  it("does not render social links in compact mode, even when brand.social is set", () => {
+  it("still renders social links in compact mode when brand.social is set", () => {
     const brand = {
       ...sampleBrand,
       social: [{ platform: "facebook" as const, href: "https://www.facebook.com/example/" }],
     };
     render(<NetworkCard brand={brand} compact />);
-    expect(screen.queryByRole("link", { name: /on facebook/i })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /on facebook/i })).toBeInTheDocument();
   });
 });

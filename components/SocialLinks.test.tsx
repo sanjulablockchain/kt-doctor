@@ -4,11 +4,11 @@ import { renderWithIntl as render } from "@/lib/test-utils";
 import { SocialLinks } from "./SocialLinks";
 
 describe("SocialLinks", () => {
-  it("renders all 4 social links with correct hrefs and labels", () => {
+  it("renders all 5 social links with correct hrefs and labels", () => {
     render(<SocialLinks />);
     expect(screen.getByRole("link", { name: "Facebook" })).toHaveAttribute(
       "href",
-      "https://www.facebook.com/pediatriciansincalifornia/"
+      "https://www.facebook.com/kidsandteensmedicalgroup/"
     );
     expect(screen.getByRole("link", { name: "Instagram" })).toHaveAttribute(
       "href",
@@ -21,6 +21,10 @@ describe("SocialLinks", () => {
     expect(screen.getByRole("link", { name: "YouTube" })).toHaveAttribute(
       "href",
       "https://www.youtube.com/channel/UCpc-umQeo6CQFLHq4bTWeUQ"
+    );
+    expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
+      "href",
+      "https://se.linkedin.com/company/kidsteensmedicalgroup"
     );
   });
 

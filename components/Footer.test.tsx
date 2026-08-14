@@ -60,7 +60,7 @@ describe("Footer", () => {
     const facebook = screen.getByRole("link", { name: "Facebook" });
     expect(facebook).toHaveAttribute(
       "href",
-      "https://www.facebook.com/pediatriciansincalifornia/"
+      "https://www.facebook.com/kidsandteensmedicalgroup/"
     );
     expect(facebook).toHaveAttribute("target", "_blank");
     expect(facebook).toHaveAttribute("rel", "noopener noreferrer");
@@ -74,6 +74,10 @@ describe("Footer", () => {
       "https://www.youtube.com/channel/UCpc-umQeo6CQFLHq4bTWeUQ"
     );
     expect(screen.getByRole("link", { name: "X" })).toHaveAttribute("href", "https://x.com/KTDoctorGroup");
+    expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
+      "href",
+      "https://se.linkedin.com/company/kidsteensmedicalgroup"
+    );
   });
 
   it("uses the Spanish text line when rendered in the es locale", () => {

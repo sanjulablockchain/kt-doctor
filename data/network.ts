@@ -1,6 +1,6 @@
 export type NetworkCategory = "care" | "sriLanka" | "business";
 
-export type NetworkSocialPlatform = "facebook" | "instagram" | "x" | "youtube" | "linkedin";
+export type NetworkSocialPlatform = "facebook" | "instagram" | "x" | "youtube" | "linkedin" | "tiktok";
 
 export type NetworkSocialLink = {
   platform: NetworkSocialPlatform;
@@ -54,10 +54,11 @@ export const networkBrands: NetworkBrand[] = [
     logoDarkSrc: "/clinic-logo-dark.svg",
     internalHref: "/doctors",
     social: [
-      { platform: "facebook", href: "https://www.facebook.com/pediatriciansincalifornia/" },
+      { platform: "facebook", href: "https://www.facebook.com/kidsandteensmedicalgroup/" },
       { platform: "instagram", href: "https://www.instagram.com/napediatricurgentcare/" },
       { platform: "x", href: "https://x.com/KTDoctorGroup" },
       { platform: "youtube", href: "https://www.youtube.com/channel/UCpc-umQeo6CQFLHq4bTWeUQ" },
+      { platform: "linkedin", href: "https://se.linkedin.com/company/kidsteensmedicalgroup" },
     ],
     category: "care",
     flagship: true,
@@ -75,6 +76,15 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Citas el Mismo Día", "Reservas 24/7", "Telesalud", "Cuidado Avanzado de Heridas"],
     logoSrc: "/sgm-logo.png",
     externalUrl: "https://www.sgmdoctor.com",
+    /* No confirmed social channels of its own yet; using KTMG's for now per
+       explicit request, since St. Gianna partners closely with KTMG. */
+    social: [
+      { platform: "facebook", href: "https://www.facebook.com/kidsandteensmedicalgroup/" },
+      { platform: "instagram", href: "https://www.instagram.com/napediatricurgentcare/" },
+      { platform: "x", href: "https://x.com/KTDoctorGroup" },
+      { platform: "youtube", href: "https://www.youtube.com/channel/UCpc-umQeo6CQFLHq4bTWeUQ" },
+      { platform: "linkedin", href: "https://se.linkedin.com/company/kidsteensmedicalgroup" },
+    ],
     category: "care",
   },
   {
@@ -180,6 +190,15 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Red de Atención Primaria", "Atención Especializada", "Atención de Urgencia", "Gestión de Proveedores"],
     logoSrc: "/human-compass-mso-logo.png",
     externalUrl: "https://humancompassmso.com/",
+    /* No confirmed social channels of its own yet; using KTMG's for now per
+       explicit request. */
+    social: [
+      { platform: "facebook", href: "https://www.facebook.com/kidsandteensmedicalgroup/" },
+      { platform: "instagram", href: "https://www.instagram.com/napediatricurgentcare/" },
+      { platform: "x", href: "https://x.com/KTDoctorGroup" },
+      { platform: "youtube", href: "https://www.youtube.com/channel/UCpc-umQeo6CQFLHq4bTWeUQ" },
+      { platform: "linkedin", href: "https://se.linkedin.com/company/kidsteensmedicalgroup" },
+    ],
     category: "business",
   },
   {
@@ -214,6 +233,7 @@ export const networkBrands: NetworkBrand[] = [
     servicesEs: ["Atención al Cliente", "Procesamiento de Reclamos", "Soporte de Facturación", "Entrada de Datos"],
     logoSrc: "/blockchain-bpo-logo.png",
     externalUrl: "https://www.myblockchainbpo.com/",
+    social: [{ platform: "tiktok", href: "https://www.tiktok.com/content/blockchainbpo" }],
     category: "business",
   },
 ];
