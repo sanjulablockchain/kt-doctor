@@ -103,9 +103,14 @@ h4 {
   border + background-clip trick (not a smaller width) so the pill shape
   stays visually centered with a bit of track showing on both sides.
 */
+/* `stable` reserves the scrollbar's width permanently, so components that
+   toggle `body.style.overflow = "hidden"` to lock background scroll behind a
+   modal (SeasonTab, MobileQuickDrawer, PositionDetailsModal) don't cause the
+   page to shift width when the scrollbar disappears/reappears. */
 :root {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;
+  scrollbar-gutter: stable;
 }
 ::-webkit-scrollbar {
   width: 10px;

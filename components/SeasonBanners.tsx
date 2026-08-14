@@ -51,7 +51,7 @@ export function SeasonBanners({ onClose }: Props) {
         <div className="mt-6 flex flex-col gap-6">
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-soft">
             <Image
-              src="/banners/season-iodine-deficiency-day.png"
+              src="/banners/season-iodine-deficiency-day.jpg"
               alt={t("banner1Alt")}
               fill
               sizes="(max-width: 640px) 100vw, 384px"
@@ -60,7 +60,7 @@ export function SeasonBanners({ onClose }: Props) {
           </div>
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-soft">
             <Image
-              src="/banners/season-back-to-school-immunizations.png"
+              src="/banners/season-back-to-school-immunizations.jpg"
               alt={t("banner2Alt")}
               fill
               sizes="(max-width: 640px) 100vw, 384px"
