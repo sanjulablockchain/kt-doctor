@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { LocalClock } from "@/components/LocalClock";
 
 const DIALOG_ID = "season-drawer";
 const DIALOG_TITLE_ID = "season-drawer-title";
@@ -57,6 +58,8 @@ export function SeasonBanners({ onClose }: Props) {
           </button>
         </div>
         <p className="mt-1 text-sm text-ink-soft">{t("helper")}</p>
+
+        <LocalClock />
 
         <div className="mt-6 flex flex-col gap-6">
           {SEASON_BANNERS.map((banner) => (
