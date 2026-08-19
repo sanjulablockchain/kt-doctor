@@ -2,9 +2,20 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { LocalClock } from "@/components/LocalClock";
 
 const DIALOG_ID = "season-drawer";
 const DIALOG_TITLE_ID = "season-drawer-title";
+
+// Every banner in public/banners/ must be listed here to appear in the drawer:
+// dropping a file into public/ only makes it downloadable, nothing enumerates
+// the folder at runtime. To add one, add an entry plus its `altKey` message in
+// both messages/en.json and messages/es.json.
+const SEASON_BANNERS = [
+  { src: "/banners/season-iodine-deficiency-day.jpg", altKey: "banner1Alt" },
+  { src: "/banners/season-back-to-school-immunizations.jpg", altKey: "banner2Alt" },
+  { src: "/banners/season-vision-back-to-school.jpg", altKey: "banner3Alt" },
+] as const;
 
 type Props = {
   onClose: () => void;
@@ -48,25 +59,23 @@ export function SeasonBanners({ onClose }: Props) {
         </div>
         <p className="mt-1 text-sm text-ink-soft">{t("helper")}</p>
 
+        <LocalClock />
+
         <div className="mt-6 flex flex-col gap-6">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-soft">
-            <Image
-              src="/banners/season-iodine-deficiency-day.jpg"
-              alt={t("banner1Alt")}
-              fill
-              sizes="(max-width: 640px) 100vw, 384px"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-soft">
-            <Image
-              src="/banners/season-back-to-school-immunizations.jpg"
-              alt={t("banner2Alt")}
-              fill
-              sizes="(max-width: 640px) 100vw, 384px"
-              className="object-cover"
-            />
-          </div>
+          {SEASON_BANNERS.map((banner) => (
+            <div
+              key={banner.src}
+              className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-soft"
+            >
+              <Image
+                src={banner.src}
+                alt={t(banner.altKey)}
+                fill
+                sizes="(max-width: 640px) 100vw, 384px"
+                className="object-cover"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </>

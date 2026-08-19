@@ -37,7 +37,7 @@ const beta = {
 const telehealth = {
   id: "telehealth",
   name: "Telehealth",
-  address: "Video visits only — no physical address",
+  address: "Video visits only, no physical address",
   phone: "",
   email: "",
   extension: "",
@@ -52,26 +52,53 @@ describe("LocationDirections", () => {
   it("renders a directions tile for each physical clinic and excludes telehealth", () => {
     render(<LocationDirections locations={all} />);
 
-    expect(screen.getByRole("link", { name: "Get directions to Alpha" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Get directions to Beta" })).toBeInTheDocument();
+    expect(screen.getByText("Alpha")).toBeInTheDocument();
+    expect(screen.getByText("Beta")).toBeInTheDocument();
     expect(screen.queryByText("Telehealth")).not.toBeInTheDocument();
     expect(screen.getByText("Showing 2 of 2 clinics")).toBeInTheDocument();
   });
 
-  it("links each tile to Google Maps directions using the encoded street address", () => {
+  it("offers both a Google Maps and an Apple Maps link for every clinic", () => {
     render(<LocationDirections locations={all} />);
 
-    expect(screen.getByRole("link", { name: "Get directions to Alpha" })).toHaveAttribute(
+    expect(
+      screen.getByRole("link", { name: "Get directions to Alpha in Google Maps" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Get directions to Alpha in Apple Maps" })
+    ).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /Get directions/ })).toHaveLength(4);
+  });
+
+  it("links to Google Maps directions using the encoded street address", () => {
+    render(<LocationDirections locations={all} />);
+
+    expect(
+      screen.getByRole("link", { name: "Get directions to Alpha in Google Maps" })
+    ).toHaveAttribute(
       "href",
       "https://www.google.com/maps/dir/?api=1&destination=100%20Main%20St%2C%20Alphatown%2C%20CA%2090001"
     );
   });
 
-  it("opens directions in a new tab safely", () => {
+  it("links to Apple Maps directions using the encoded street address", () => {
     render(<LocationDirections locations={all} />);
-    const link = screen.getByRole("link", { name: "Get directions to Alpha" });
-    expect(link).toHaveAttribute("target", "_blank");
-    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+
+    expect(
+      screen.getByRole("link", { name: "Get directions to Alpha in Apple Maps" })
+    ).toHaveAttribute(
+      "href",
+      "https://maps.apple.com/?daddr=100%20Main%20St%2C%20Alphatown%2C%20CA%2090001&dirflg=d"
+    );
+  });
+
+  it("opens every directions link in a new tab safely", () => {
+    render(<LocationDirections locations={all} />);
+
+    for (const link of screen.getAllByRole("link", { name: /Get directions/ })) {
+      expect(link).toHaveAttribute("target", "_blank");
+      expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    }
   });
 
   it("filters clinics by name as the user types", async () => {
@@ -80,8 +107,12 @@ describe("LocationDirections", () => {
 
     await user.type(screen.getByRole("textbox", { name: "Search clinics" }), "beta");
 
-    expect(screen.getByRole("link", { name: "Get directions to Beta" })).toBeInTheDocument();
-    expect(screen.queryByRole("link", { name: "Get directions to Alpha" })).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Get directions to Beta in Google Maps" })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "Get directions to Alpha in Google Maps" })
+    ).not.toBeInTheDocument();
     expect(screen.getByText("Showing 1 of 2 clinics")).toBeInTheDocument();
   });
 
@@ -91,8 +122,12 @@ describe("LocationDirections", () => {
 
     await user.type(screen.getByRole("textbox", { name: "Search clinics" }), "oak ave");
 
-    expect(screen.getByRole("link", { name: "Get directions to Beta" })).toBeInTheDocument();
-    expect(screen.queryByRole("link", { name: "Get directions to Alpha" })).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Get directions to Beta in Apple Maps" })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "Get directions to Alpha in Apple Maps" })
+    ).not.toBeInTheDocument();
   });
 
   it("shows an empty state when nothing matches", async () => {

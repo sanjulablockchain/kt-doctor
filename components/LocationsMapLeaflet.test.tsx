@@ -96,19 +96,34 @@ describe("LocationsMapLeaflet", () => {
     expect(screen.getByTestId("tile-layer").dataset.url).toContain("dark_all");
   });
 
-  it("shows the clinic name, address, office hours, directions link, and details link in the popup", () => {
+  it("shows the clinic name, address, office hours, and details link in the popup", () => {
     renderMap([alpha]);
     expect(screen.getByText("Alpha")).toBeInTheDocument();
     expect(screen.getByText("1 A St")).toBeInTheDocument();
     expect(screen.getByText("Office Hours:")).toBeInTheDocument();
     expect(screen.getByText("Monday-Friday, 9AM-6PM")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Get Directions" })).toHaveAttribute(
-      "href",
-      "https://www.google.com/maps/dir/?api=1&destination=34,-118"
-    );
     expect(screen.getByRole("link", { name: "View Details" })).toHaveAttribute(
       "href",
       "/locations/a"
     );
+  });
+
+  it("offers both Google Maps and Apple Maps directions to the marker coordinates", () => {
+    renderMap([alpha]);
+    expect(screen.getByText("Get Directions")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Get directions to Alpha in Google Maps" })
+    ).toHaveAttribute("href", "https://www.google.com/maps/dir/?api=1&destination=34,-118");
+    expect(
+      screen.getByRole("link", { name: "Get directions to Alpha in Apple Maps" })
+    ).toHaveAttribute("href", "https://maps.apple.com/?daddr=34,-118&dirflg=d");
+  });
+
+  it("opens both directions links in a new tab safely", () => {
+    renderMap([alpha]);
+    for (const link of screen.getAllByRole("link", { name: /Get directions/ })) {
+      expect(link).toHaveAttribute("target", "_blank");
+      expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    }
   });
 });

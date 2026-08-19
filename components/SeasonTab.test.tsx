@@ -13,7 +13,7 @@ describe("SeasonTab", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
-  it("opens the drawer on click and shows both banners", async () => {
+  it("opens the drawer on click and shows every seasonal banner", async () => {
     render(<SeasonTab />);
     await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
 
@@ -21,6 +21,31 @@ describe("SeasonTab", () => {
     expect(dialog).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Global Iodine Deficiency Prevention Day/ })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Back to school reminder/ })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /Back to school vision check/ })).toBeInTheDocument();
+  });
+
+  it("shows the visitor's local clock under the drawer's intro text", async () => {
+    render(<SeasonTab />);
+    await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
+
+    const clock = screen.getByLabelText("Current local time");
+    expect(clock).toBeInTheDocument();
+    expect(clock.textContent).toMatch(/^\d{2}:\d{2}:\d{2}$/);
+
+    // It belongs below the helper copy and above the banners.
+    const helper = screen.getByText("Health reminders and awareness for this season.");
+    expect(helper.compareDocumentPosition(clock)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+
+  it("renders one image per banner asset, each with descriptive alt text", async () => {
+    render(<SeasonTab />);
+    await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
+
+    const banners = screen.getAllByRole("img");
+    expect(banners).toHaveLength(3);
+    for (const banner of banners) {
+      expect(banner.getAttribute("alt")).toBeTruthy();
+    }
   });
 
   it("closes the drawer when the close button is clicked", async () => {

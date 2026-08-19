@@ -2,20 +2,19 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
+import { appleDirectionsUrl, googleDirectionsUrl } from "@/lib/directions";
 import type { Location } from "@/lib/types";
 
 type LocationDirectionsProps = {
   locations: Location[];
 };
 
-// Route to the street address rather than the pin's lat/lng — the coordinates in
+// Route to the street address rather than the pin's lat/lng: the coordinates in
 // data/locations.ts are only city-level approximations, but the address lands
 // people at the actual clinic.
-function directionsUrl(location: Location): string {
-  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-    location.address
-  )}`;
-}
+
+const providerLinkClass =
+  "flex flex-1 items-center justify-center gap-1.5 rounded-full border border-border px-3 py-2 text-xs font-semibold text-ink-soft transition-colors hover:border-teal hover:bg-teal-tint hover:text-teal-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal";
 
 export function LocationDirections({ locations }: LocationDirectionsProps) {
   const t = useTranslations("Locations");
@@ -73,35 +72,70 @@ export function LocationDirections({ locations }: LocationDirectionsProps) {
         <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((location) => (
             <li key={location.id}>
-              <a
-                href={directionsUrl(location)}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={t("getDirectionsTo", { name: location.name })}
-                className="group flex items-center gap-3 rounded-2xl border border-border bg-surface p-4 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal"
-              >
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-display text-sm font-semibold text-ink transition-colors group-hover:text-teal-dark">
-                    {location.name}
+              <div className="flex h-full flex-col gap-3 rounded-2xl border border-border bg-surface p-4 shadow-card transition-shadow hover:shadow-soft">
+                <div className="flex items-start gap-3">
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-display text-sm font-semibold text-ink">
+                      {location.name}
+                    </span>
+                    <span className="mt-0.5 block truncate text-xs text-ink-soft">
+                      {location.address}
+                    </span>
                   </span>
-                  <span className="mt-0.5 block truncate text-xs text-ink-soft">
-                    {location.address}
+                  <span
+                    aria-hidden
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-teal-tint text-teal-dark"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                      <path
+                        d="M3 11 22 2 13 21 11 13 3 11Z"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </span>
-                </span>
-                <span
-                  aria-hidden
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-teal-tint text-teal-dark transition-colors group-hover:bg-teal group-hover:text-white"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
-                    <path
-                      d="M3 11 22 2 13 21 11 13 3 11Z"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              </a>
+                </div>
+
+                <div className="mt-auto flex flex-wrap gap-2">
+                  <a
+                    href={googleDirectionsUrl(location.address)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t("directionsToGoogle", { name: location.name })}
+                    className={providerLinkClass}
+                  >
+                    <svg aria-hidden viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5">
+                      <path
+                        d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinejoin="round"
+                      />
+                      <circle cx="12" cy="10" r="2.4" stroke="currentColor" strokeWidth="1.8" />
+                    </svg>
+                    {t("googleMaps")}
+                  </a>
+                  <a
+                    href={appleDirectionsUrl(location.address)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t("directionsToApple", { name: location.name })}
+                    className={providerLinkClass}
+                  >
+                    <svg aria-hidden viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5">
+                      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
+                      <path
+                        d="m15.5 8.5-2.1 4.9-4.9 2.1 2.1-4.9 4.9-2.1Z"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    {t("appleMaps")}
+                  </a>
+                </div>
+              </div>
             </li>
           ))}
         </ul>

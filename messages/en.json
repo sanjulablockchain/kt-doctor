@@ -90,8 +90,10 @@
     "closeSeason": "Close seasonal updates",
     "title": "Seasonal Updates",
     "helper": "Health reminders and awareness for this season.",
+    "clockLabel": "Current local time",
     "banner1Alt": "Global Iodine Deficiency Prevention Day: iodine-rich foods like fish, milk, and iodized salt power up kids' brains.",
-    "banner2Alt": "Back to school reminder: check that your child's immunization record is up to date before the new school year."
+    "banner2Alt": "Back to school reminder: check that your child's immunization record is up to date before the new school year.",
+    "banner3Alt": "Back to school vision check: a comprehensive eye exam can catch vision problems early so children see the board clearly and learn confidently."
   },
   "QuickActions": {
     "openLabel": "Open quick actions",
@@ -227,12 +229,15 @@
     "viewDetails": "View Details",
     "officeHoursLabel": "Office Hours",
     "directionsHeading": "Get directions",
-    "directionsSubheading": "Find your nearest clinic and open turn-by-turn directions in Google Maps.",
+    "directionsSubheading": "Find your nearest clinic and open turn-by-turn directions in Google Maps or Apple Maps.",
     "searchLocations": "Search by city or address…",
     "searchAria": "Search clinics",
     "clinicsCount": "Showing {filtered} of {total} clinics",
     "noClinics": "No clinics match your search.",
-    "getDirectionsTo": "Get directions to {name}"
+    "googleMaps": "Google Maps",
+    "appleMaps": "Apple Maps",
+    "directionsToGoogle": "Get directions to {name} in Google Maps",
+    "directionsToApple": "Get directions to {name} in Apple Maps"
   },
   "Network": {
     "eyebrow": "One Network",

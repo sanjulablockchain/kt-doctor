@@ -90,8 +90,10 @@
     "closeSeason": "Cerrar novedades de temporada",
     "title": "Novedades de Temporada",
     "helper": "Recordatorios de salud y concientización para esta temporada.",
+    "clockLabel": "Hora local actual",
     "banner1Alt": "Día Mundial de Prevención de la Deficiencia de Yodo: alimentos ricos en yodo como pescado, leche y sal yodada potencian el cerebro de los niños.",
-    "banner2Alt": "Recordatorio de regreso a clases: verifique que el registro de vacunación de su hijo esté al día antes del nuevo año escolar."
+    "banner2Alt": "Recordatorio de regreso a clases: verifique que el registro de vacunación de su hijo esté al día antes del nuevo año escolar.",
+    "banner3Alt": "Examen de la vista para el regreso a clases: un examen ocular completo puede detectar problemas de visión a tiempo para que los niños vean bien el pizarrón y aprendan con confianza."
   },
   "QuickActions": {
     "openLabel": "Abrir acciones rápidas",
@@ -227,12 +229,15 @@
     "viewDetails": "Ver detalles",
     "officeHoursLabel": "Horario de atención",
     "directionsHeading": "Cómo llegar",
-    "directionsSubheading": "Encuentre su clínica más cercana y abra la ruta paso a paso en Google Maps.",
+    "directionsSubheading": "Encuentre su clínica más cercana y abra la ruta paso a paso en Google Maps o Apple Maps.",
     "searchLocations": "Buscar por ciudad o dirección…",
     "searchAria": "Buscar clínicas",
     "clinicsCount": "Mostrando {filtered} de {total} clínicas",
     "noClinics": "Ninguna clínica coincide con su búsqueda.",
-    "getDirectionsTo": "Cómo llegar a {name}"
+    "googleMaps": "Google Maps",
+    "appleMaps": "Apple Maps",
+    "directionsToGoogle": "Cómo llegar a {name} en Google Maps",
+    "directionsToApple": "Cómo llegar a {name} en Apple Maps"
   },
   "Network": {
     "eyebrow": "Una red",
