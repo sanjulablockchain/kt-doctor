@@ -7,6 +7,7 @@ import "leaflet/dist/leaflet.css";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useTheme } from "@/components/ThemeProvider";
+import { appleDirectionsUrl, googleDirectionsUrl } from "@/lib/directions";
 import type { MappableLocation } from "@/lib/types";
 
 type LocationsMapLeafletProps = {
@@ -64,9 +65,7 @@ function useResolvedTheme(): "light" | "dark" {
   return preference;
 }
 
-function directionsUrl(location: MappableLocation): string {
-  return `https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`;
-}
+const popupLinkClass = "text-xs font-semibold text-teal-dark hover:text-teal";
 
 export function LocationsMapLeaflet({ locations }: LocationsMapLeafletProps) {
   const t = useTranslations("Locations");
@@ -102,18 +101,31 @@ export function LocationsMapLeaflet({ locations }: LocationsMapLeafletProps) {
               {location.hours.officeHours}
             </p>
             <div className="mt-2 flex flex-col gap-1">
-              <a
-                href={directionsUrl(location)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs font-semibold text-teal-dark hover:text-teal"
-              >
-                {t("getDirections")}
-              </a>
-              <Link
-                href={`/locations/${location.id}`}
-                className="text-xs font-semibold text-teal-dark hover:text-teal"
-              >
+              <p className="text-xs font-semibold text-ink">{t("getDirections")}</p>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                <a
+                  href={googleDirectionsUrl({ lat: location.lat, lng: location.lng })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={t("directionsToGoogle", { name: location.name })}
+                  className={popupLinkClass}
+                >
+                  {t("googleMaps")}
+                </a>
+                <span aria-hidden className="text-xs text-ink-soft">
+                  ·
+                </span>
+                <a
+                  href={appleDirectionsUrl({ lat: location.lat, lng: location.lng })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={t("directionsToApple", { name: location.name })}
+                  className={popupLinkClass}
+                >
+                  {t("appleMaps")}
+                </a>
+              </div>
+              <Link href={`/locations/${location.id}`} className={`mt-1 ${popupLinkClass}`}>
                 {t("viewDetails")}
               </Link>
             </div>
