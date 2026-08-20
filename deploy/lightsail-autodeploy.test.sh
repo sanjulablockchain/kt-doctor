@@ -135,14 +135,18 @@ test_upstream_change_deploys() {
   make_stubs
   add_upstream_commit "new work from github"
   run_deploy
+  local up_line curl_line
+  up_line="$(grep -n "up -d" "$FIXTURE/calls.log" | head -1 | cut -d: -f1)"
+  curl_line="$(grep -n "curl" "$FIXTURE/calls.log" | head -1 | cut -d: -f1)"
   if grep -q "docker compose -p ktdoctor-root .* build" "$FIXTURE/calls.log" \
     && grep -q "up -d" "$FIXTURE/calls.log" \
     && grep -q "curl" "$FIXTURE/calls.log" \
     && grep -q "image prune" "$FIXTURE/calls.log" \
-    && assert_log_contains "deployed"; then
+    && assert_log_contains "deployed" \
+    && [ -n "$up_line" ] && [ -n "$curl_line" ] && [ "$up_line" -lt "$curl_line" ]; then
     ok "$name"
   else
-    bad "$name" "expected build, up -d, curl, prune, and a deployed log line"
+    bad "$name" "expected build, up -d, curl, prune, a deployed log line, and the swap before the health check"
   fi
   teardown_fixture
 }

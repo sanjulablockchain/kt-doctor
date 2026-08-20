@@ -54,7 +54,7 @@ log "info   new commits upstream, deploying"
 health_ok() {
   local deadline=$(( SECONDS + HEALTH_TIMEOUT ))
   while [ "$SECONDS" -lt "$deadline" ]; do
-    if curl -sf -o /dev/null "$HEALTH_URL"; then
+    if curl -sf --max-time 5 -o /dev/null "$HEALTH_URL"; then
       return 0
     fi
     sleep 2
