@@ -42,6 +42,7 @@ make_stubs() {
 #!/usr/bin/env bash
 echo "docker $*" >> "$FIXTURE/calls.log"
 case "$*" in
+  *"builder prune"*) exit 0 ;;
   *build*)  exit "${STUB_DOCKER_BUILD_EXIT:-0}" ;;
   *"up -d"*) exit "${STUB_DOCKER_UP_EXIT:-0}" ;;
 esac
@@ -52,7 +53,25 @@ STUB
 echo "curl $*" >> "$FIXTURE/calls.log"
 exit "${STUB_CURL_EXIT:-0}"
 STUB
-  chmod +x "$FIXTURE/bin/docker" "$FIXTURE/bin/curl"
+  # nice and ionice: record the call, drop their own options, then exec the
+  # command that follows so the build still reaches the docker stub. ionice
+  # does not exist on Git Bash, so without a stub the build prefix would go
+  # unexercised on a developer machine.
+  cat > "$FIXTURE/bin/nice" <<'STUB'
+#!/usr/bin/env bash
+echo "$(basename "$0") $*" >> "$FIXTURE/calls.log"
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -n) shift 2 ;;
+    -*) shift ;;
+    *)  break ;;
+  esac
+done
+exec "$@"
+STUB
+  cp "$FIXTURE/bin/nice" "$FIXTURE/bin/ionice"
+  chmod +x "$FIXTURE/bin/docker" "$FIXTURE/bin/curl" \
+           "$FIXTURE/bin/nice" "$FIXTURE/bin/ionice"
   : > "$FIXTURE/calls.log"
 }
 
@@ -80,6 +99,7 @@ run_deploy() {
   AUTODEPLOY_REPO_DIR="$FIXTURE/repo" \
   AUTODEPLOY_LOG_FILE="$FIXTURE/deploy.log" \
   AUTODEPLOY_BUILD_LOG="$FIXTURE/build.log" \
+  AUTODEPLOY_SENTINEL_FILE="$FIXTURE/unbuilt" \
   AUTODEPLOY_HEALTH_TIMEOUT=2 \
   bash "$SCRIPT"
 }
@@ -90,6 +110,11 @@ assert_log_contains() {
 
 assert_calls_lack() {
   ! grep -q "$1" "$FIXTURE/calls.log" 2>/dev/null
+}
+
+# Forget every call recorded so far, so a later run can be asserted on alone.
+reset_calls() {
+  : > "$FIXTURE/calls.log"
 }
 
 # ---------------------------------------------------------------------------
@@ -129,6 +154,10 @@ test_local_only_commits_do_not_trigger_deploy() {
   teardown_fixture
 }
 
+# Both compose calls pin the env file by name rather than treating it as
+# opaque filler: without .env.root, docker-compose.yml falls back to HOST_PORT
+# 8160, the port owned by the out-of-scope ktdoctor project, and the swap would
+# try to bind it after having already stopped the root container.
 test_upstream_change_deploys() {
   local name="upstream change pulls, builds, swaps, and health checks"
   setup_fixture
@@ -138,15 +167,17 @@ test_upstream_change_deploys() {
   local up_line curl_line
   up_line="$(grep -n "up -d" "$FIXTURE/calls.log" | head -1 | cut -d: -f1)"
   curl_line="$(grep -n "curl" "$FIXTURE/calls.log" | head -1 | cut -d: -f1)"
-  if grep -q "docker compose -p ktdoctor-root .* build" "$FIXTURE/calls.log" \
-    && grep -q "up -d" "$FIXTURE/calls.log" \
+  if grep -q "^docker compose -p ktdoctor-root --env-file .env.root build$" "$FIXTURE/calls.log" \
+    && grep -q "^docker compose -p ktdoctor-root --env-file .env.root up -d$" "$FIXTURE/calls.log" \
+    && grep -q "^nice -n 10 ionice -c3 docker compose " "$FIXTURE/calls.log" \
     && grep -q "curl" "$FIXTURE/calls.log" \
     && grep -q "image prune" "$FIXTURE/calls.log" \
+    && grep -q "builder prune" "$FIXTURE/calls.log" \
     && assert_log_contains "deployed" \
     && [ -n "$up_line" ] && [ -n "$curl_line" ] && [ "$up_line" -lt "$curl_line" ]; then
     ok "$name"
   else
-    bad "$name" "expected build, up -d, curl, prune, a deployed log line, and the swap before the health check"
+    bad "$name" "expected a niced build and an up -d both against --env-file .env.root, curl, both prunes, a deployed log line, and the swap before the health check"
   fi
   teardown_fixture
 }
@@ -191,6 +222,33 @@ test_merge_conflict_aborts_cleanly() {
     ok "$name"
   else
     bad "$name" "expected a pull failure log line, no docker calls, and a clean tree"
+  fi
+  teardown_fixture
+}
+
+# The reason the pull failed has to reach the log before `git merge --abort`
+# erases the evidence, and every physical line of it has to carry its own
+# timestamp and prefix or `grep -E ERROR|WARN` hides all but the first.
+test_pull_failure_logs_the_reason() {
+  local name="pull failure logs the git reason, one prefixed line at a time"
+  setup_fixture
+  make_stubs
+  add_upstream_commit "upstream edit" "upstream version"
+  (
+    cd "$FIXTURE/repo" || exit 1
+    echo "local version" > file.txt
+    git add -A
+    git commit -qm "conflicting local edit"
+  )
+  run_deploy
+  local unprefixed
+  unprefixed="$(grep -cv "  \(ok\|info\|WARN\|ERROR\|FATAL\) " "$FIXTURE/deploy.log")"
+  if assert_log_contains "pull failed" \
+    && assert_log_contains "ERROR  .*onflict" \
+    && [ "$unprefixed" -eq 0 ]; then
+    ok "$name"
+  else
+    bad "$name" "expected the git conflict message logged under an ERROR prefix, with no unprefixed log lines"
   fi
   teardown_fixture
 }
@@ -248,6 +306,77 @@ test_build_failure_does_not_swap() {
   teardown_fixture
 }
 
+test_swap_failure_reports_and_skips_the_health_check() {
+  local name="container swap failure is reported and no health check runs"
+  setup_fixture
+  make_stubs
+  add_upstream_commit "work whose container will not start"
+  export STUB_DOCKER_UP_EXIT=1
+  run_deploy
+  unset STUB_DOCKER_UP_EXIT
+  if assert_log_contains "container swap failed" \
+    && grep -q "up -d" "$FIXTURE/calls.log" \
+    && assert_calls_lack curl \
+    && ! assert_log_contains "deployed" \
+    && [ -f "$FIXTURE/unbuilt" ]; then
+    ok "$name"
+  else
+    bad "$name" "expected a swap failure log line, no health check, no deployed line, and a recorded unbuilt HEAD"
+  fi
+  teardown_fixture
+}
+
+# The pull runs before the build, so a failed build leaves HEAD advanced while
+# the container stays on the old commit. Every later run then sees nothing new
+# upstream. Reporting that as `ok  up to date` would hide a stale public site
+# behind a clean log for as long as nobody pushes again.
+test_failed_build_is_reported_as_behind_not_up_to_date() {
+  local name="a HEAD whose build failed is reported as behind, not up to date"
+  setup_fixture
+  make_stubs
+  add_upstream_commit "work that will fail to build"
+  export STUB_DOCKER_BUILD_EXIT=1
+  run_deploy
+  unset STUB_DOCKER_BUILD_EXIT
+  reset_calls
+  run_deploy
+  if assert_log_contains "has never been built, container is behind" \
+    && ! assert_log_contains "up to date" \
+    && assert_calls_lack docker; then
+    ok "$name"
+  else
+    bad "$name" "expected a behind warning instead of an up-to-date line, and no docker calls on the second run"
+  fi
+  teardown_fixture
+}
+
+# The marker file is asserted directly as well as through the log. A successful
+# deploy always advances HEAD past the commit that failed, so the log line
+# would read `ok  up to date` even if the marker were left behind forever; only
+# the file itself proves the state is actually cleared rather than accumulating.
+test_successful_deploy_clears_the_behind_warning() {
+  local name="a later successful deploy clears the behind warning"
+  setup_fixture
+  make_stubs
+  add_upstream_commit "work that will fail to build"
+  export STUB_DOCKER_BUILD_EXIT=1
+  run_deploy
+  unset STUB_DOCKER_BUILD_EXIT
+  add_upstream_commit "the fix" "fixed upstream"
+  run_deploy
+  reset_calls
+  run_deploy
+  if assert_log_contains "ok     up to date" \
+    && ! assert_log_contains "has never been built" \
+    && assert_calls_lack docker \
+    && [ ! -f "$FIXTURE/unbuilt" ]; then
+    ok "$name"
+  else
+    bad "$name" "expected a plain up-to-date line and no unbuilt marker left on disk after a successful deploy"
+  fi
+  teardown_fixture
+}
+
 test_health_failure_warns_but_does_not_roll_back() {
   local name="health check failure warns after the swap"
   setup_fixture
@@ -257,10 +386,11 @@ test_health_failure_warns_but_does_not_roll_back() {
   run_deploy
   unset STUB_CURL_EXIT
   if assert_log_contains "health check failed" \
-    && grep -q "up -d" "$FIXTURE/calls.log"; then
+    && grep -q "up -d" "$FIXTURE/calls.log" \
+    && assert_calls_lack "down"; then
     ok "$name"
   else
-    bad "$name" "expected a health warning after a completed swap"
+    bad "$name" "expected a health warning after a completed swap, with no rollback"
   fi
   teardown_fixture
 }
@@ -270,8 +400,12 @@ test_local_only_commits_do_not_trigger_deploy
 test_upstream_change_deploys
 test_fetch_failure_does_not_deploy
 test_merge_conflict_aborts_cleanly
+test_pull_failure_logs_the_reason
 test_merge_conflict_aborts_cleanly_under_rebase_config
 test_build_failure_does_not_swap
+test_swap_failure_reports_and_skips_the_health_check
+test_failed_build_is_reported_as_behind_not_up_to_date
+test_successful_deploy_clears_the_behind_warning
 test_health_failure_warns_but_does_not_roll_back
 
 printf '\n%s passed, %s failed\n' "$PASS" "$FAIL"
