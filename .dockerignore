@@ -6,5 +6,6 @@ node_modules
 .env*.local
 .playwright-mcp
 docs
+deploy
 *.md
 npm-debug.log*
