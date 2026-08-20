@@ -44,7 +44,7 @@ onto the box before it can be copied out of the checkout. Do that first:
 
 ```bash
 cd ~/ktdoctor
-git pull --no-edit origin main
+git pull --no-edit --no-rebase origin main
 ```
 
 Then install:
