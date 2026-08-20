@@ -37,8 +37,9 @@ cd "$REPO_DIR" || {
   exit 1
 }
 
-if ! git fetch origin "$BRANCH" --quiet 2> /dev/null; then
+if ! FETCH_ERR="$(git fetch origin "$BRANCH" --quiet 2>&1 >/dev/null)"; then
   log "ERROR  fetch failed, retrying next tick"
+  log "ERROR  $FETCH_ERR"
   exit 1
 fi
 
@@ -65,7 +66,7 @@ health_ok() {
   return 1
 }
 
-if ! git pull --no-edit origin "$BRANCH" --quiet; then
+if ! git pull --no-edit --no-rebase origin "$BRANCH" --quiet; then
   log "ERROR  pull failed, aborting merge, site left on previous version"
   git merge --abort > /dev/null 2>&1
   exit 1

@@ -195,6 +195,41 @@ test_merge_conflict_aborts_cleanly() {
   teardown_fixture
 }
 
+# Regression guard: the box's ambient git config may have pull.rebase=true,
+# in which case a conflicting pull rebases instead of merging, and
+# `git merge --abort` is a silent no-op against an in-progress rebase. This
+# proves the abort works under that config too, not just the default.
+test_merge_conflict_aborts_cleanly_under_rebase_config() {
+  local name="merge conflict aborts cleanly even when pull.rebase is true"
+  setup_fixture
+  make_stubs
+  (
+    cd "$FIXTURE/repo" || exit 1
+    git config pull.rebase true
+  )
+  add_upstream_commit "upstream edit" "upstream version"
+  (
+    cd "$FIXTURE/repo" || exit 1
+    echo "local version" > file.txt
+    git add -A
+    git commit -qm "conflicting local edit"
+  )
+  run_deploy
+  local dirty
+  dirty="$(cd "$FIXTURE/repo" && git status --porcelain)"
+  if assert_log_contains "pull failed" \
+    && assert_calls_lack docker \
+    && [ -z "$dirty" ] \
+    && [ ! -f "$FIXTURE/repo/.git/MERGE_HEAD" ] \
+    && [ ! -d "$FIXTURE/repo/.git/rebase-merge" ] \
+    && [ ! -d "$FIXTURE/repo/.git/rebase-apply" ]; then
+    ok "$name"
+  else
+    bad "$name" "expected a pull failure log line, no docker calls, and a clean tree with no rebase leftovers under pull.rebase=true"
+  fi
+  teardown_fixture
+}
+
 test_build_failure_does_not_swap() {
   local name="build failure leaves the running container alone"
   setup_fixture
@@ -235,6 +270,7 @@ test_local_only_commits_do_not_trigger_deploy
 test_upstream_change_deploys
 test_fetch_failure_does_not_deploy
 test_merge_conflict_aborts_cleanly
+test_merge_conflict_aborts_cleanly_under_rebase_config
 test_build_failure_does_not_swap
 test_health_failure_warns_but_does_not_roll_back
 
