@@ -129,8 +129,27 @@ test_local_only_commits_do_not_trigger_deploy() {
   teardown_fixture
 }
 
+test_upstream_change_deploys() {
+  local name="upstream change pulls, builds, swaps, and health checks"
+  setup_fixture
+  make_stubs
+  add_upstream_commit "new work from github"
+  run_deploy
+  if grep -q "docker compose -p ktdoctor-root .* build" "$FIXTURE/calls.log" \
+    && grep -q "up -d" "$FIXTURE/calls.log" \
+    && grep -q "curl" "$FIXTURE/calls.log" \
+    && grep -q "image prune" "$FIXTURE/calls.log" \
+    && assert_log_contains "deployed"; then
+    ok "$name"
+  else
+    bad "$name" "expected build, up -d, curl, prune, and a deployed log line"
+  fi
+  teardown_fixture
+}
+
 test_no_upstream_change_does_nothing
 test_local_only_commits_do_not_trigger_deploy
+test_upstream_change_deploys
 
 printf '\n%s passed, %s failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]

@@ -48,3 +48,38 @@ if git merge-base --is-ancestor "origin/$BRANCH" HEAD; then
 fi
 
 log "info   new commits upstream, deploying"
+
+# Poll until the new container answers, or give up. This runs after the swap
+# and reports; it is not a gate.
+health_ok() {
+  local deadline=$(( SECONDS + HEALTH_TIMEOUT ))
+  while [ "$SECONDS" -lt "$deadline" ]; do
+    if curl -sf -o /dev/null "$HEALTH_URL"; then
+      return 0
+    fi
+    sleep 2
+  done
+  return 1
+}
+
+git pull --no-edit origin "$BRANCH" --quiet
+
+# Build output goes to its own file, truncated each run, so the deploy log
+# stays readable and the last build is always available for debugging.
+docker compose -p "$PROJECT" --env-file "$ENV_FILE" build > "$BUILD_LOG" 2>&1
+
+docker compose -p "$PROJECT" --env-file "$ENV_FILE" up -d >> "$BUILD_LOG" 2>&1
+
+SHA="$(git rev-parse --short HEAD)"
+
+if health_ok; then
+  log "ok     deployed $SHA"
+else
+  log "WARN   deployed $SHA but health check failed at $HEALTH_URL"
+fi
+
+# Unreferenced images older than the window. Cannot touch an image any
+# running container depends on.
+docker image prune -f --filter "until=$PRUNE_UNTIL" > /dev/null 2>&1
+
+exit 0
