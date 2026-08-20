@@ -151,9 +151,92 @@ test_upstream_change_deploys() {
   teardown_fixture
 }
 
+test_fetch_failure_does_not_deploy() {
+  local name="fetch failure logs and does not deploy"
+  setup_fixture
+  make_stubs
+  (
+    cd "$FIXTURE/repo" || exit 1
+    git remote set-url origin "$FIXTURE/does-not-exist.git"
+  )
+  run_deploy
+  if assert_log_contains "fetch failed" && assert_calls_lack docker; then
+    ok "$name"
+  else
+    bad "$name" "expected a fetch failure log line and no docker calls"
+  fi
+  teardown_fixture
+}
+
+# The most important failure test. A checkout left mid-merge would fail every
+# subsequent run and need hand repair on the production box.
+test_merge_conflict_aborts_cleanly() {
+  local name="merge conflict aborts the merge and leaves the tree clean"
+  setup_fixture
+  make_stubs
+  add_upstream_commit "upstream edit" "upstream version"
+  (
+    cd "$FIXTURE/repo" || exit 1
+    echo "local version" > file.txt
+    git add -A
+    git commit -qm "conflicting local edit"
+  )
+  run_deploy
+  local dirty
+  dirty="$(cd "$FIXTURE/repo" && git status --porcelain)"
+  if assert_log_contains "pull failed" \
+    && assert_calls_lack docker \
+    && [ -z "$dirty" ] \
+    && [ ! -f "$FIXTURE/repo/.git/MERGE_HEAD" ]; then
+    ok "$name"
+  else
+    bad "$name" "expected a pull failure log line, no docker calls, and a clean tree"
+  fi
+  teardown_fixture
+}
+
+test_build_failure_does_not_swap() {
+  local name="build failure leaves the running container alone"
+  setup_fixture
+  make_stubs
+  add_upstream_commit "work that will fail to build"
+  export STUB_DOCKER_BUILD_EXIT=1
+  run_deploy
+  unset STUB_DOCKER_BUILD_EXIT
+  if assert_log_contains "build failed" \
+    && grep -q "build" "$FIXTURE/calls.log" \
+    && assert_calls_lack "up -d"; then
+    ok "$name"
+  else
+    bad "$name" "expected a build failure log line and no container swap"
+  fi
+  teardown_fixture
+}
+
+test_health_failure_warns_but_does_not_roll_back() {
+  local name="health check failure warns after the swap"
+  setup_fixture
+  make_stubs
+  add_upstream_commit "work that starts unhealthy"
+  export STUB_CURL_EXIT=1
+  run_deploy
+  unset STUB_CURL_EXIT
+  if assert_log_contains "health check failed" \
+    && grep -q "up -d" "$FIXTURE/calls.log"; then
+    ok "$name"
+  else
+    bad "$name" "expected a health warning after a completed swap"
+  fi
+  teardown_fixture
+}
+
 test_no_upstream_change_does_nothing
 test_local_only_commits_do_not_trigger_deploy
 test_upstream_change_deploys
+test_fetch_failure_does_not_deploy
+test_merge_conflict_aborts_cleanly
+test_build_failure_does_not_swap
+test_health_failure_warns_but_does_not_roll_back
 
 printf '\n%s passed, %s failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]

@@ -37,7 +37,10 @@ cd "$REPO_DIR" || {
   exit 1
 }
 
-git fetch origin "$BRANCH" --quiet
+if ! git fetch origin "$BRANCH" --quiet 2> /dev/null; then
+  log "ERROR  fetch failed, retrying next tick"
+  exit 1
+fi
 
 # Has upstream produced anything not already merged here? Asked this way, and
 # not as a SHA comparison, because this checkout carries local-only commits
@@ -62,13 +65,23 @@ health_ok() {
   return 1
 }
 
-git pull --no-edit origin "$BRANCH" --quiet
+if ! git pull --no-edit origin "$BRANCH" --quiet; then
+  log "ERROR  pull failed, aborting merge, site left on previous version"
+  git merge --abort > /dev/null 2>&1
+  exit 1
+fi
 
 # Build output goes to its own file, truncated each run, so the deploy log
 # stays readable and the last build is always available for debugging.
-docker compose -p "$PROJECT" --env-file "$ENV_FILE" build > "$BUILD_LOG" 2>&1
+if ! docker compose -p "$PROJECT" --env-file "$ENV_FILE" build > "$BUILD_LOG" 2>&1; then
+  log "ERROR  build failed, site left on previous version, see $BUILD_LOG"
+  exit 1
+fi
 
-docker compose -p "$PROJECT" --env-file "$ENV_FILE" up -d >> "$BUILD_LOG" 2>&1
+if ! docker compose -p "$PROJECT" --env-file "$ENV_FILE" up -d >> "$BUILD_LOG" 2>&1; then
+  log "ERROR  container swap failed, see $BUILD_LOG"
+  exit 1
+fi
 
 SHA="$(git rev-parse --short HEAD)"
 
