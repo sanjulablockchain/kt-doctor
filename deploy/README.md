@@ -133,6 +133,13 @@ they are keeping up. If `/` is already above about 80% used, fix that before
 enabling unattended deploys: a full root filesystem stops writes for every
 container on this box at the same time, including the EHR database.
 
+Baseline measured on 2026-08-20, before cron was enabled: `/` at 5% of 1.3TB,
+with 1.2TB available. Docker held 27 images totalling 11.2GB, and 32.42GB of
+build cache of which 30.09GB was reclaimable. That build cache figure is what
+the builder prune above exists to bound, and it had never been reclaimed by
+anything before this script. Compare against these numbers when judging
+whether the prunes are keeping up.
+
 **2. No new commits.** Should log one up-to-date line, build nothing, and
 restart nothing. Capture the container's state before running, so there is
 something to compare against:
