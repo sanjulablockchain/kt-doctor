@@ -426,3 +426,31 @@ never touches a real host.
 ```bash
 bash deploy/lightsail-autodeploy.test.sh
 ```
+
+## Installation record
+
+Installed and enabled on 2026-08-20. All six verification steps above were
+run by hand on the box before the cron entry was added, and all six behaved
+as described.
+
+Two things the install turned up that are worth keeping written down:
+
+The nginx certificate reload job (`0 3,15 * * *`) lives in the `ubuntu`
+crontab, the same one this script's entry was added to, not in root's. An
+earlier draft of this runbook claimed otherwise. Entries coexist without
+interacting, so nothing needed changing, but do not go looking for that job
+under root.
+
+There are three backup jobs on this box, at 02:00, 02:30, and 20:45. A deploy
+firing every two minutes will occasionally land during one of them. That is
+what the `ionice -c3` on the build is for: it yields disk IO to the backup
+rather than competing with it.
+
+The cron entry installed was:
+
+```
+*/2 * * * * /home/ubuntu/bin/ktdoctor-autodeploy.sh
+```
+
+An absolute path rather than `$HOME/bin/...`, because that is exactly what
+verification step 6 exercised under a stripped environment.
