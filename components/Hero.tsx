@@ -5,10 +5,9 @@ import { Link } from "@/i18n/navigation";
 import { BOOKING_URL } from "@/lib/constants";
 import { locations } from "@/data/locations";
 import { doctors } from "@/data/doctors";
-import { ParallaxImage } from "@/components/ParallaxImage";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { HeroNetworkPanel } from "@/components/HeroNetworkPanel";
-import { withBasePath } from "@/lib/basePath";
+import { HeroSlideshow } from "@/components/HeroSlideshow";
 
 export function Hero() {
   const t = useTranslations("Home");
@@ -22,17 +21,7 @@ export function Hero() {
 
   return (
     <section data-on-navy className="relative overflow-hidden bg-navy lg:min-h-[44rem]">
-      <div className="absolute inset-0">
-        <ParallaxImage
-          src={withBasePath("/home/hero.jpg")}
-          alt={t("heroImageAlt")}
-          width={1200}
-          height={1400}
-          wrapperClassName="h-full w-full"
-          speed={0.12}
-          preload
-        />
-      </div>
+      <HeroSlideshow />
 
       <div
         aria-hidden
