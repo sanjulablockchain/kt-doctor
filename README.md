@@ -69,6 +69,30 @@ This is separate from `CAREERS_EMAILS` in `lib/constants.ts`, which is just the 
 
 A curated, keyless Google "My Maps" showing every clinic is baked in as the default, so the map works with no configuration. Set this only to point the map at a different Google "My Maps" embed URL, or set it to an empty string to hide the map and show the clinic address list instead.
 
+### Google Ads conversion tracking (optional)
+
+```dotenv
+# NEXT_PUBLIC_GOOGLE_ADS_ID=AW-18411557639
+```
+
+Leave this unset and no Google Ads tag renders and no conversion is reported, which keeps local development and preview builds out of the live conversion data. Set it and the gtag base tag loads site-wide.
+
+`NEXT_PUBLIC_` values are inlined at build time, so the value has to be present when `npm run build` runs. In Docker it is passed as a build arg (see the `Dockerfile` and `docker-compose.yml`), which means changing it requires a rebuild, not just a restart.
+
+Reporting individual conversions also needs a label per action. Create each conversion action in Google Ads, then paste its label (the part after the slash in a `AW-18411557639/AbC-D_efGhIjKlMnOp` tag, not the whole string) into `CONVERSION_LABELS` in `lib/gtag.ts`:
+
+| Action | Fires when |
+| --- | --- |
+| `phone_call` | a `tel:` link is clicked |
+| `sms_click` | an `sms:` link is clicked |
+| `whatsapp_click` | a `wa.me` link is clicked |
+| `booking_click` | a healow.com appointment link is clicked |
+| `contact_form` | the `/contact` form submits successfully |
+
+A label left empty means "not set up yet" and sends nothing, so partially configured tracking never reports bogus conversions. Contact and booking links are picked up by a single delegated click listener (`components/ConversionTracking.tsx`), so new links anywhere on the site are tracked automatically with no per-component wiring.
+
+Note that the site has no cookie consent banner. Google Ads sets advertising cookies, so before scaling ad spend, consider a CPRA opt-out mechanism and an update to the privacy policy covering advertising cookies.
+
 ## Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs)

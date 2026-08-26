@@ -14,6 +14,10 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ARG NEXT_PUBLIC_BASE_PATH=""
 ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
+# Google Ads conversion ID. NEXT_PUBLIC_ values are inlined at build time, so
+# this has to be a build arg, not a runtime env var. Left empty, no tag renders.
+ARG NEXT_PUBLIC_GOOGLE_ADS_ID=""
+ENV NEXT_PUBLIC_GOOGLE_ADS_ID=$NEXT_PUBLIC_GOOGLE_ADS_ID
 RUN npm run build
 
 FROM node:22-alpine AS runner

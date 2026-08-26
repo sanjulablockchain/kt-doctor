@@ -4,6 +4,7 @@ services:
       context: .
       args:
         NEXT_PUBLIC_BASE_PATH: ${NEXT_PUBLIC_BASE_PATH-/ktdoctor}
+        NEXT_PUBLIC_GOOGLE_ADS_ID: ${NEXT_PUBLIC_GOOGLE_ADS_ID-}
     restart: unless-stopped
     ports:
       - "${HOST_PORT:-8160}:3000"

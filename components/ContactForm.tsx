@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useEffect, useState, type FormEvent } from "react";
+import { useActionState, useEffect, useRef, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
+import { trackConversion } from "@/lib/gtag";
 import {
   sendContactMessage,
   type ContactFormState,
@@ -34,8 +35,18 @@ export function ContactForm() {
   const [dismissedState, setDismissedState] = useState<ContactFormState | null>(null);
   // Client-side validation errors, shown instantly before any server round-trip.
   const [clientErrors, setClientErrors] = useState<ContactFieldErrors>({});
+  // The success we last reported to Google Ads. Each send produces a new state
+  // object, so this reports one conversion per message and never re-reports on
+  // a re-render or when the confirmation is dismissed.
+  const reportedSuccess = useRef<ContactFormState | null>(null);
 
   const showSuccess = state.status === "success" && dismissedState !== state;
+
+  useEffect(() => {
+    if (state.status !== "success" || reportedSuccess.current === state) return;
+    reportedSuccess.current = state;
+    trackConversion("contact_form");
+  }, [state]);
 
   // Auto-return to the form after the confirmation has been up a short while.
   // The effect only schedules a timer; the state update happens in the timeout

@@ -3,6 +3,7 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import type { ContactFormState } from "@/app/[locale]/contact/actions";
+import type { ConversionAction } from "@/lib/gtag";
 
 const actionMock =
   vi.fn<(prev: ContactFormState, formData: FormData) => Promise<ContactFormState>>();
@@ -11,9 +12,19 @@ vi.mock("@/app/[locale]/contact/actions", () => ({
   sendContactMessage: (prev: ContactFormState, formData: FormData) => actionMock(prev, formData),
 }));
 
+const trackMock = vi.fn<(action: ConversionAction) => void>();
+
+vi.mock("@/lib/gtag", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/gtag")>()),
+  trackConversion: (action: ConversionAction) => trackMock(action),
+}));
+
 import { ContactForm } from "./ContactForm";
 
-beforeEach(() => actionMock.mockReset());
+beforeEach(() => {
+  actionMock.mockReset();
+  trackMock.mockReset();
+});
 // Safety net: ensure no test leaves fake timers on, which would hang the
 // findByText polling in later tests.
 afterEach(() => vi.useRealTimers());
@@ -111,5 +122,51 @@ describe("ContactForm", () => {
     expect(await screen.findByText(/please enter your name/i)).toBeInTheDocument();
     await user.type(screen.getByRole("textbox", { name: /full name/i }), "Jane");
     expect(screen.queryByText(/please enter your name/i)).not.toBeInTheDocument();
+  });
+
+  async function submitValidForm(user: ReturnType<typeof userEvent.setup>) {
+    await user.type(screen.getByRole("textbox", { name: /full name/i }), "Jane");
+    await user.type(screen.getByRole("textbox", { name: /email/i }), "jane@example.com");
+    await user.type(screen.getByRole("textbox", { name: /subject/i }), "Hi");
+    await user.type(screen.getByRole("textbox", { name: /message/i }), "Hello there");
+    await user.click(screen.getByRole("button", { name: /send message/i }));
+  }
+
+  it("reports a Google Ads conversion once per successful submission", async () => {
+    actionMock.mockResolvedValueOnce({ status: "success" });
+    const user = userEvent.setup();
+    render(<ContactForm />);
+
+    await submitValidForm(user);
+    await screen.findByText(/your message has been sent/i);
+
+    expect(trackMock).toHaveBeenCalledExactlyOnceWith("contact_form");
+  });
+
+  it("reports no conversion when the send fails", async () => {
+    actionMock.mockResolvedValueOnce({ status: "error", errorCode: "sendFailed" });
+    const user = userEvent.setup();
+    render(<ContactForm />);
+
+    await submitValidForm(user);
+    await screen.findByText(/couldn't send your message/i);
+
+    expect(trackMock).not.toHaveBeenCalled();
+  });
+
+  it("reports a second conversion for a second message, not for dismissing the first", async () => {
+    // A fresh state object per call, the way the real server action behaves.
+    actionMock.mockImplementation(async () => ({ status: "success" }));
+    const user = userEvent.setup();
+    render(<ContactForm />);
+
+    await submitValidForm(user);
+    await user.click(await screen.findByRole("button", { name: /send another message/i }));
+    expect(trackMock).toHaveBeenCalledTimes(1);
+
+    await submitValidForm(user);
+    await screen.findByText(/your message has been sent/i);
+
+    expect(trackMock).toHaveBeenCalledTimes(2);
   });
 });

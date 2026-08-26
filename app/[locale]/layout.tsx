@@ -13,6 +13,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 import { organizationJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { GoogleAdsTag } from "@/components/GoogleAdsTag";
+import { ConversionTracking } from "@/components/ConversionTracking";
 import { withBasePath } from "@/lib/basePath";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -82,6 +84,8 @@ export default async function RootLayout({
           }}
         />
         <JsonLd data={organizationJsonLd()} />
+        <GoogleAdsTag />
+        <ConversionTracking />
         <ThemeProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <Header />
