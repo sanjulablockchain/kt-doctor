@@ -78,7 +78,10 @@ export function Header() {
         className="absolute inset-0 border-b border-border bg-ivory/95 shadow-header backdrop-blur-md"
       />
 
-      <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-5 sm:h-auto sm:gap-6 sm:px-8 sm:py-2.5">
+      {/* Height comes from the --header-h token rather than padding so the Hero
+          can subtract an exact number from 100svh. `items-center` keeps the
+          crest optically identical to the previous `sm:py-2.5` sizing. */}
+      <div className="relative mx-auto flex h-[var(--header-h,4rem)] max-w-7xl items-center justify-between gap-3 px-5 sm:gap-6 sm:px-8">
         <Link href="/" className="flex shrink-0 items-center">
           {/* Two variants toggled by theme (see .logo-light/.logo-dark in
               globals.css). The dark-mode PNG recolors the near-black ink so the
@@ -107,7 +110,7 @@ export function Header() {
         <nav
           data-testid="mobile-menu"
           onClick={() => setMenuOpen(false)}
-          className={`fixed inset-x-0 top-16 bottom-0 z-30 flex-col gap-1 overflow-y-auto bg-ivory px-5 pb-4 pt-3 font-medium text-ink-soft sm:static sm:inset-auto sm:z-auto sm:flex sm:w-auto sm:flex-1 sm:flex-row sm:items-center sm:justify-center sm:gap-7 sm:overflow-visible sm:bg-transparent sm:p-0 sm:text-sm ${
+          className={`fixed inset-x-0 top-[var(--header-h,4rem)] bottom-0 z-30 flex-col gap-1 overflow-y-auto bg-ivory px-5 pb-4 pt-3 font-medium text-ink-soft sm:static sm:inset-auto sm:z-auto sm:flex sm:w-auto sm:flex-1 sm:flex-row sm:items-center sm:justify-center sm:gap-7 sm:overflow-visible sm:bg-transparent sm:p-0 sm:text-sm ${
             menuOpen ? "flex" : "hidden"
           }`}
         >

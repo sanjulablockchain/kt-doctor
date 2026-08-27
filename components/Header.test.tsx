@@ -145,4 +145,18 @@ describe("Header", () => {
     expect(links.length).toBeGreaterThan(0);
     expect(links[0]).toHaveAttribute("href", "/contact");
   });
+
+  it("pins the header row to the --header-h token so the hero can size against it", () => {
+    const { container } = renderWithIntl(<Header />);
+    const row = container.querySelector("header .max-w-7xl");
+    expect(row?.className).toContain("h-[var(--header-h,4rem)]");
+    expect(row?.className).not.toContain("sm:h-auto");
+  });
+
+  it("hangs the mobile drawer off the same --header-h token as the header row", () => {
+    const { container } = renderWithIntl(<Header />);
+    const drawer = container.querySelector("#mobile-nav, nav");
+    expect(drawer?.className).toContain("top-[var(--header-h,4rem)]");
+    expect(drawer?.className).not.toContain("top-16");
+  });
 });

@@ -316,3 +316,18 @@ h4 {
 .leaflet-control-zoom a:hover {
   background: var(--color-ivory-deep);
 }
+
+/* Height of the sticky <header>, published as a token so the Hero can size
+   itself to exactly one screenful below it (`calc(100svh - var(--header-h))`).
+   The header row consumes the same token, so the two can never drift apart.
+   Mobile is the 4rem bar; from `sm` up the crest logo (h-12) plus its 10px of
+   breathing room on each side is the tallest thing in the row. */
+:root {
+  --header-h: 4rem;
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --header-h: 4.25rem;
+  }
+}
