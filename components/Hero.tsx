@@ -20,7 +20,15 @@ export function Hero() {
   ];
 
   return (
-    <section data-on-navy className="relative overflow-hidden bg-navy lg:min-h-[44rem]">
+    // From `lg` up the hero occupies exactly the screen left under the sticky
+    // header, so the fold lands on its bottom edge: no dead space on tall
+    // monitors, no next-section sliver peeking in. `svh` (not `vh`) keeps that
+    // stable while mobile browser chrome collapses. Below `lg` the two columns
+    // stack, which is inherently taller than a screen, so height stays natural.
+    <section
+      data-on-navy
+      className="relative flex flex-col overflow-hidden bg-navy lg:min-h-[calc(100svh-var(--header-h,4rem))]"
+    >
       <HeroSlideshow />
 
       <div
@@ -28,8 +36,13 @@ export function Hero() {
         className="absolute inset-0 bg-gradient-to-r from-navy from-0% via-navy/75 via-40% to-transparent to-85%"
       />
 
-      <div className="relative mx-auto grid grid-cols-1 max-w-7xl gap-10 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-12 lg:py-20">
-        <div className="flex min-w-0 flex-col gap-6">
+      {/* Padding and gaps are viewport-relative from `lg` up so the content
+          tightens on short laptops rather than spilling past the fold, while
+          `flex-1` + `lg:items-center` centre it in the slack on tall screens.
+          Every clamp sits at its max by ~900px tall, so large displays keep
+          today's spacing exactly. */}
+      <div className="relative mx-auto grid w-full grid-cols-1 max-w-7xl gap-10 px-5 py-12 sm:px-8 sm:py-16 lg:flex-1 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-12 lg:py-[clamp(1rem,4svh,3.5rem)]">
+        <div className="flex min-w-0 flex-col gap-6 lg:gap-[clamp(0.75rem,2.4svh,1.5rem)]">
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-ivory">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-3.5 w-3.5">
               <path
@@ -42,7 +55,7 @@ export function Hero() {
             {t("badge", { count: locations.length })}
           </span>
 
-          <h1 className="max-w-xl font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ivory sm:text-5xl lg:text-[3.4rem]">
+          <h1 className="max-w-xl font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ivory sm:text-5xl lg:text-[clamp(2.25rem,5.8svh,3.4rem)]">
             {t("headingStart")}{" "}
             <span className="text-teal">{t("headingHighlight")}</span>
           </h1>

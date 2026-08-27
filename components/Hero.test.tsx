@@ -45,4 +45,18 @@ describe("Hero", () => {
     );
     expect(screen.getByRole("link", { name: "Facebook" })).toBeInTheDocument();
   });
+
+  it("sizes the hero to one screenful below the sticky header on large viewports", () => {
+    const { container } = render(<Hero />);
+    const section = container.querySelector("section");
+    expect(section?.className).toContain("lg:min-h-[calc(100svh-var(--header-h,4rem))]");
+    expect(section?.className).not.toContain("lg:min-h-[44rem]");
+  });
+
+  it("scales hero vertical padding with viewport height instead of a fixed lg:py-20", () => {
+    const { container } = render(<Hero />);
+    const content = container.querySelector("section > div.relative");
+    expect(content?.className).toContain("lg:py-[clamp(1rem,4svh,3.5rem)]");
+    expect(content?.className).not.toContain("lg:py-20");
+  });
 });

@@ -74,4 +74,11 @@ describe("HeroNetworkPanel", () => {
     expect(screen.getByRole("link", { name: "Facebook" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "YouTube" })).toBeInTheDocument();
   });
+
+  it("scales panel padding and row height with viewport height on large screens", () => {
+    const { container } = render(<HeroNetworkPanel />);
+    expect(container.firstElementChild?.className).toContain("lg:p-[clamp(1rem,2.4svh,1.5rem)]");
+    const row = screen.getByRole("link", { name: /st\. gianna/i });
+    expect(row.className).toContain("lg:py-[clamp(0.4rem,1.15svh,0.75rem)]");
+  });
 });

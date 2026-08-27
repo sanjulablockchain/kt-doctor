@@ -17,8 +17,12 @@ type HeroRowProps = {
   external?: boolean;
 };
 
+// Six rows make this panel the tallest thing in the Hero, so from `lg` up its
+// row height tracks the viewport: that is where the ~185px needed to fit a
+// 1366x768 laptop mostly comes from. The clamp tops out at the original
+// `py-3`, so nothing changes on a display taller than ~900px.
 const rowClass =
-  "-mx-2 flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy";
+  "-mx-2 flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy lg:py-[clamp(0.4rem,1.15svh,0.75rem)]";
 
 function HeroRow({ icon, title, body, tag, tagClassName, href, external = false }: HeroRowProps) {
   const content = (
@@ -98,7 +102,7 @@ export function HeroNetworkPanel() {
   const pediatricAfterHour = findBrand("pediatric-after-hour");
 
   return (
-    <div className="min-w-0 w-full rounded-3xl border border-white/10 bg-navy/75 p-5 backdrop-blur-xl sm:p-6 lg:max-w-md lg:ml-auto">
+    <div className="min-w-0 w-full rounded-3xl border border-white/10 bg-navy/75 p-5 backdrop-blur-xl sm:p-6 lg:max-w-md lg:ml-auto lg:p-[clamp(1rem,2.4svh,1.5rem)]">
       <div className="flex flex-wrap items-center gap-2">
         <span className="inline-flex items-center rounded-full border border-teal/30 bg-teal/10 px-3 py-1 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-teal">
           {tHome("networkEyebrow")}
@@ -108,11 +112,11 @@ export function HeroNetworkPanel() {
         </span>
       </div>
 
-      <p className="mt-3 font-display text-lg font-bold text-ivory sm:text-xl">
+      <p className="mt-3 font-display text-lg font-bold text-ivory sm:text-xl lg:mt-[clamp(0.5rem,1.4svh,0.75rem)]">
         {tHome("networkHeading")}
       </p>
 
-      <ul className="mt-4 divide-y divide-white/10 border-t border-white/15">
+      <ul className="mt-4 divide-y divide-white/10 border-t border-white/15 lg:mt-[clamp(0.5rem,1.8svh,1rem)]">
         <li>
           <HeroRow
             href={BOOKING_URL}
@@ -198,7 +202,7 @@ export function HeroNetworkPanel() {
         </li>
       </ul>
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-white/15 pt-4">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-white/15 pt-4 lg:mt-[clamp(0.5rem,1.8svh,1rem)] lg:pt-[clamp(0.5rem,1.8svh,1rem)]">
         <SocialLinks />
         <Link
           href="/network"
