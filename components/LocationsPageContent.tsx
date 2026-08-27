@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { locations } from "@/data/locations";
+import { MAIN_PHONE } from "@/lib/constants";
 import { LocationCard } from "@/components/LocationCard";
 import { LocationsMap } from "@/components/LocationsMap";
 import { LocationDirections } from "@/components/LocationDirections";
@@ -12,6 +13,7 @@ type View = "list" | "map";
 export function LocationsPageContent() {
   const t = useTranslations("Locations");
   const [view, setView] = useState<View>("list");
+  const telHref = `tel:+1${MAIN_PHONE.replace(/\D/g, "")}`;
 
   return (
     <main className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-8">
@@ -21,7 +23,25 @@ export function LocationsPageContent() {
       <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
         {t("heading")}
       </h1>
-      <p className="mt-2 max-w-xl text-ink-soft">{t("description")}</p>
+      <p className="mt-2 max-w-2xl text-ink-soft">{t("description")}</p>
+
+      {/* Phone booking fallback. The tel: href is picked up by the delegated
+          listener in ConversionTracking, so this reports a phone_call
+          conversion with no per-link wiring. */}
+      <p className="mt-2 max-w-2xl text-ink-soft">
+        {t.rich("callToBook", {
+          phone: MAIN_PHONE,
+          link: (chunks) => (
+            <a
+              href={telHref}
+              aria-label={t("callToBookAria", { phone: MAIN_PHONE })}
+              className="font-display font-semibold text-teal-dark underline decoration-teal/40 underline-offset-2 transition-colors hover:text-teal hover:decoration-teal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal"
+            >
+              {chunks}
+            </a>
+          ),
+        })}
+      </p>
 
       <div className="mt-8 flex items-center justify-between gap-4">
         <div className="inline-flex rounded-full border border-border bg-surface p-1 shadow-card">

@@ -223,7 +223,9 @@
   "Locations": {
     "eyebrowCount": "{count} ubicaciones",
     "heading": "Buscar una clínica",
-    "description": "Una clínica cerca de casa, desde el Valley hasta el South Bay.",
+    "description": "Una clínica cerca de casa, desde el Valley hasta el South Bay. Abra cualquier ubicación para ver su horario, sus proveedores y reservar una cita en línea.",
+    "callToBook": "¿Prefiere hablar con alguien? Llame al <link>{phone}</link> para reservar una cita por teléfono o preguntar cualquier otra cosa.",
+    "callToBookAria": "Llame al {phone} para reservar una cita",
     "list": "Lista",
     "map": "Mapa",
     "showingLocations": "Mostrando {count} de {count} ubicaciones",

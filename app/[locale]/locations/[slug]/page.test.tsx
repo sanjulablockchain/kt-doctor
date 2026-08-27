@@ -51,4 +51,23 @@ describe("LocationDetailPage", () => {
     const cta = screen.getByRole("link", { name: /book appointment now/i });
     expect(cta).toHaveAttribute("href", BOOKING_URL);
   });
+
+  it("places the booking CTA above the clinic details rather than at the bottom of the page", async () => {
+    const ui = await LocationDetailPage({ params: Promise.resolve({ slug: "agoura-hills" }) });
+    render(ui);
+
+    const cta = screen.getByRole("link", { name: /book appointment now/i });
+    const officeHours = screen.getByText("Office Hours");
+
+    expect(
+      cta.compareDocumentPosition(officeHours) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy();
+  });
+
+  it("renders exactly one booking CTA so the page has a single primary action", async () => {
+    const ui = await LocationDetailPage({ params: Promise.resolve({ slug: "agoura-hills" }) });
+    render(ui);
+
+    expect(screen.getAllByRole("link", { name: /book appointment now/i })).toHaveLength(1);
+  });
 });

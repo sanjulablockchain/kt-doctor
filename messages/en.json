@@ -223,7 +223,9 @@
   "Locations": {
     "eyebrowCount": "{count} Locations",
     "heading": "Find a Clinic",
-    "description": "A clinic close to home, from the Valley to the South Bay.",
+    "description": "A clinic close to home, from the Valley to the South Bay. Open any location to see its hours, providers, and book an appointment online.",
+    "callToBook": "Prefer to talk to someone? Call <link>{phone}</link> to book an appointment by phone or ask about anything else.",
+    "callToBookAria": "Call {phone} to book an appointment",
     "list": "List",
     "map": "Map",
     "showingLocations": "Showing {count} of {count} locations",
