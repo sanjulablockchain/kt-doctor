@@ -27,10 +27,18 @@ export type ConversionAction =
  * configured tracking never reports bogus conversions.
  */
 export const CONVERSION_LABELS: Record<ConversionAction, string> = {
-  phone_call: "",
-  sms_click: "",
-  whatsapp_click: "",
-  booking_click: "",
+  // "Website phone tap" (Contact)
+  phone_call: "YdyzCOHd7OgcEIemqMtE",
+  // "Text message tap" (Contact). Both the English and Spanish text links
+  // report here, so the two are counted together.
+  sms_click: "YXKiCOfd7OgcEIemqMtE",
+  // "WhatsApp tap" (Contact)
+  whatsapp_click: "hGjGCOTd7OgcEIemqMtE",
+  // "Booking start (healow)". A click through to healow, not a completed
+  // appointment: we cannot see the far side of that handoff.
+  booking_click: "azvXCOrd7OgcEIemqMtE",
+  // Deliberately unset: no conversion action created for the contact form yet.
+  // Fill this in and the existing wiring starts reporting, no code change.
   contact_form: "",
 };
 
