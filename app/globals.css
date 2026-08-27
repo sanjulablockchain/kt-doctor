@@ -238,13 +238,41 @@ h4 {
   }
 }
 
-/* Locations map (Leaflet + CARTO tiles, components/LocationsMapLeaflet.tsx).
+/* Locations map (Leaflet + OpenStreetMap tiles, components/LocationsMapLeaflet.tsx).
    Leaflet's default .leaflet-div-icon draws a white box, border, and shadow
    behind custom HTML icons; reset it so only our inline SVG pin shows. Popup
    chrome, the zoom control, and the attribution control are restyled to
    match the site's card system in both themes instead of Leaflet's
    light-only default chrome, reusing the same design tokens as everywhere
    else in this file. */
+
+/* "Slate": OSM serves one basemap, so both themes are produced here rather
+   than by swapping tile URLs. grayscale() comes FIRST in each filter and is
+   what makes this work - inverting while hue is still intact turns OSM's
+   forest green to olive and its water to silt, so hue is removed before
+   anything else happens. What is left is a neutral grey basemap in both
+   themes, which leaves teal as the only real color on the map and lets the
+   pins carry it. The filter is scoped to Leaflet's tile pane, so markers,
+   popups and controls keep their true colors. The three rules below mirror
+   the color-scheme cascade at the top of this file: system default, system
+   dark, then an explicit [data-theme] choice, which wins in both
+   directions. */
+:root {
+  --map-tile-dark: grayscale(1) invert(1) brightness(0.86) contrast(0.9);
+  --map-tile-filter: grayscale(1) contrast(1.06) brightness(1.02);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --map-tile-filter: var(--map-tile-dark);
+  }
+}
+:root[data-theme="dark"] {
+  --map-tile-filter: var(--map-tile-dark);
+}
+.leaflet-tile-pane {
+  filter: var(--map-tile-filter);
+}
+
 .ktmg-map-pin {
   background: transparent;
   border: none;

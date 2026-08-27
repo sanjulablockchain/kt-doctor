@@ -71,29 +71,26 @@ describe("LocationsMapLeaflet", () => {
     expect(screen.getAllByTestId("marker")).toHaveLength(2);
   });
 
-  it("uses the light CARTO tiles by default", () => {
+  it("loads tiles from OpenStreetMap, with no API key in the URL", () => {
     renderMap([alpha]);
-    expect(screen.getByTestId("tile-layer").dataset.url).toContain("voyager");
+    const url = screen.getByTestId("tile-layer").dataset.url ?? "";
+    expect(url).toBe("https://tile.openstreetmap.org/{z}/{x}/{y}.png");
+    expect(url).not.toContain("api_key");
   });
 
-  it("uses the dark CARTO tiles when the theme preference is dark", () => {
+  it("credits OpenStreetMap in the tile attribution", () => {
+    renderMap([alpha]);
+    const attribution = screen.getByTestId("tile-layer").dataset.attribution ?? "";
+    expect(attribution).toContain("openstreetmap.org/copyright");
+    expect(attribution).toContain("OpenStreetMap");
+  });
+
+  it("uses the same tiles in dark mode, which is applied in CSS", () => {
     localStorage.setItem("theme", "dark");
     renderMap([alpha]);
-    expect(screen.getByTestId("tile-layer").dataset.url).toContain("dark_all");
-  });
-
-  it("uses the dark CARTO tiles when the preference is system and the OS prefers dark", () => {
-    vi.stubGlobal(
-      "matchMedia",
-      vi.fn((query: string) => ({
-        matches: query === "(prefers-color-scheme: dark)",
-        media: query,
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-      }))
+    expect(screen.getByTestId("tile-layer").dataset.url).toBe(
+      "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
     );
-    renderMap([alpha]);
-    expect(screen.getByTestId("tile-layer").dataset.url).toContain("dark_all");
   });
 
   it("shows the clinic name, address, office hours, and details link in the popup", () => {

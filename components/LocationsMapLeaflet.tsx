@@ -1,12 +1,10 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { useTheme } from "@/components/ThemeProvider";
 import { appleDirectionsUrl, googleDirectionsUrl } from "@/lib/directions";
 import type { MappableLocation } from "@/lib/types";
 
@@ -14,18 +12,18 @@ type LocationsMapLeafletProps = {
   locations: MappableLocation[];
 };
 
-const TILE_LAYERS = {
-  light: {
-    url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-    attribution:
-      '&copy; <a href="https://carto.com/attributions">CARTO</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-  dark: {
-    url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-    attribution:
-      '&copy; <a href="https://carto.com/attributions">CARTO</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-} as const;
+/* OpenStreetMap's own tile server: keyless and free. (We used CARTO's
+   basemaps before; CARTO now stamps "API KEY REQUIRED" across every tile it
+   serves to an anonymous request.) OSM publishes no dark basemap, so dark
+   mode reuses these same tiles and inverts them in CSS rather than swapping
+   the URL - see --map-tile-filter in app/globals.css, which hangs off the
+   same [data-theme] / prefers-color-scheme signals as every other themed
+   token, so the map needs no theme code of its own. */
+const TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+const TILE_ATTRIBUTION =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+// OSM's standard style serves tiles down to z19; Leaflet's own default caps at 18.
+const TILE_MAX_ZOOM = 19;
 
 const PIN_ICON_HTML = `<svg viewBox="0 0 24 24" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
   <path d="M12 2a7 7 0 0 0-7 7c0 5.5 7 12 7 12s7-6.5 7-12a7 7 0 0 0-7-7Z" style="fill:var(--color-teal);stroke:var(--color-teal-dark)" stroke-width="1.2"/>
@@ -40,37 +38,10 @@ const clinicIcon = L.divIcon({
   popupAnchor: [0, -28],
 });
 
-function subscribeToColorScheme(onStoreChange: () => void): () => void {
-  const mql = window.matchMedia("(prefers-color-scheme: dark)");
-  mql.addEventListener("change", onStoreChange);
-  return () => mql.removeEventListener("change", onStoreChange);
-}
-
-function getSystemPrefersDark(): boolean {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
-}
-
-function getServerSystemPrefersDark(): boolean {
-  return false;
-}
-
-function useResolvedTheme(): "light" | "dark" {
-  const { preference } = useTheme();
-  const systemPrefersDark = useSyncExternalStore(
-    subscribeToColorScheme,
-    getSystemPrefersDark,
-    getServerSystemPrefersDark
-  );
-  if (preference === "system") return systemPrefersDark ? "dark" : "light";
-  return preference;
-}
-
 const popupLinkClass = "text-xs font-semibold text-teal-dark hover:text-teal";
 
 export function LocationsMapLeaflet({ locations }: LocationsMapLeafletProps) {
   const t = useTranslations("Locations");
-  const theme = useResolvedTheme();
-  const tileLayer = TILE_LAYERS[theme];
   const bounds = locations.map((loc): [number, number] => [loc.lat, loc.lng]);
 
   return (
@@ -80,7 +51,7 @@ export function LocationsMapLeaflet({ locations }: LocationsMapLeafletProps) {
       scrollWheelZoom={false}
       style={{ width: "100%", height: "100%" }}
     >
-      <TileLayer url={tileLayer.url} attribution={tileLayer.attribution} />
+      <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
       {locations.map((location) => (
         <Marker
           key={location.id}
