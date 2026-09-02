@@ -233,7 +233,10 @@ export const locations: Location[] = [
     lng: -118.5364,
     description:
       "High-quality primary care for pediatric patients, with board-certified pediatricians offering well-child exams, newborn care, sick visits, and urgent care. The team specializes in autism, asthma, and allergies, with a pediatric infectious disease expert on staff, plus extended evening telehealth hours.",
-    hours: { officeHours: "Monday-Friday, 9AM-6PM", telehealthHours: "Monday-Sunday, 9AM-8PM" },
+    hours: {
+      officeHours: "Monday-Friday, 9AM-6PM; Saturday, 8AM-4PM",
+      telehealthHours: "Monday-Sunday, 9AM-8PM",
+    },
     photos: ["/locations/northridge/1.jpg", "/locations/northridge/2.jpg", "/locations/northridge/3.jpg"],
   },
   {
@@ -249,7 +252,10 @@ export const locations: Location[] = [
     lng: -118.1445,
     description:
       "Attentive and comprehensive care for infants, children, and teens, with integrated care for well-child exams, sick visits, and after-hours services, specializing in diagnosing and treating common pediatric health conditions like asthma, autism, and allergies.",
-    hours: { officeHours: "Monday-Friday, 9AM-6PM", telehealthHours: "Monday-Sunday, 9AM-8PM" },
+    hours: {
+      officeHours: "Monday-Friday, 9AM-6PM; Saturday, 8AM-4PM",
+      telehealthHours: "Monday-Sunday, 9AM-8PM",
+    },
     photos: ["/locations/pasadena/1.png", "/locations/pasadena/2.png", "/locations/pasadena/3.png"],
   },
   {
@@ -380,7 +386,10 @@ export const locations: Location[] = [
     lng: -118.4487,
     description:
       "Primary care services for infants, children, and teens, handling all aspects of a child's health needs, from well-child exams to sick visits to vaccinations, specializing in conditions like asthma, allergies, and autism, with care available seven days a week including extended telehealth hours.",
-    hours: { officeHours: "Monday-Friday, 9AM-6PM", telehealthHours: "Monday-Sunday, 9AM-8PM" },
+    hours: {
+      officeHours: "Monday-Friday, 9AM-6PM; Saturday, 8AM-4PM",
+      telehealthHours: "Monday-Sunday, 9AM-8PM",
+    },
     photos: ["/locations/van-nuys/1.png", "/locations/van-nuys/2.png", "/locations/van-nuys/3.png"],
   },
   {
@@ -396,7 +405,10 @@ export const locations: Location[] = [
     lng: -118.6428,
     description:
       "Board-certified pediatricians providing attentive and integrated patient-focused care, specializing in general pediatrics including newborn care, adolescent medicine, well-child exams, and sports and school physicals, and treating common pediatric conditions like asthma and allergies.",
-    hours: { officeHours: "Monday-Friday, 9AM-6PM", telehealthHours: "Monday-Sunday, 9AM-8PM" },
+    hours: {
+      officeHours: "Monday-Friday, 9AM-6PM; Saturday, 8AM-4PM",
+      telehealthHours: "Monday-Sunday, 9AM-8PM",
+    },
     photos: [],
   },
   {
