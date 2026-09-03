@@ -31,6 +31,17 @@ describe("ContactWidget", () => {
     );
   });
 
+  it("draws attention to the closed toggle with a heartbeat pulse, and stops pulsing once open", async () => {
+    render(<ContactWidget />);
+    const toggle = screen.getByRole("button", { name: "Contact us" });
+    expect(toggle.className).toContain("animate-[heartbeat");
+
+    await userEvent.click(toggle);
+    expect(screen.getByRole("button", { name: "Close contact options" }).className).not.toContain(
+      "animate-[heartbeat"
+    );
+  });
+
   it("closes the panel when the toggle is clicked again", async () => {
     render(<ContactWidget />);
     await userEvent.click(screen.getByRole("button", { name: "Contact us" }));

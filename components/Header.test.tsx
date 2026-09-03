@@ -15,16 +15,20 @@ vi.mock("@/i18n/navigation", async () => {
 });
 
 describe("Header", () => {
-  it("renders always-visible nav links to Doctors, Locations, and Resources", () => {
+  it("renders always-visible nav links to Doctors and Locations", () => {
     renderWithIntl(<Header />);
     expect(screen.getByRole("link", { name: "Doctors" })).toHaveAttribute("href", "/doctors");
     expect(screen.getByRole("link", { name: "Locations" })).toHaveAttribute("href", "/locations");
+  });
+
+  it("renders a Resources link inside the More menu to /resources", () => {
+    renderWithIntl(<Header />);
     expect(screen.getByRole("link", { name: "Resources" })).toHaveAttribute("href", "/resources");
   });
 
   it("renders the real booking, pay online, and patient portal links", () => {
     renderWithIntl(<Header />);
-    expect(screen.getByRole("link", { name: /appointments/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /book an appointment/i })).toHaveAttribute(
       "href",
       "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2"
     );
@@ -36,6 +40,12 @@ describe("Header", () => {
       "href",
       "https://mycw178.ecwcloud.com/portal23441/jsp/100mp/login_otp.jsp"
     );
+  });
+
+  it("draws attention to the Book an Appointment button with a heartbeat pulse", () => {
+    renderWithIntl(<Header />);
+    const bookButton = screen.getByRole("link", { name: /book an appointment/i });
+    expect(bookButton.className).toContain("animate-[heartbeat");
   });
 
   it("renders a nav link to /about", () => {
@@ -158,5 +168,23 @@ describe("Header", () => {
     const drawer = container.querySelector("#mobile-nav, nav");
     expect(drawer?.className).toContain("top-[var(--header-h,4rem)]");
     expect(drawer?.className).not.toContain("top-16");
+  });
+
+  it("lets the desktop nav row wrap instead of overflowing if it ever runs out of horizontal space", () => {
+    const { container } = renderWithIntl(<Header />);
+    const nav = container.querySelector("nav");
+    expect(nav?.className).toContain("xl:flex-wrap");
+  });
+
+  it("only switches to the inline desktop nav at the xl breakpoint, keeping the hamburger menu through tablet widths (the full row doesn't fit at 1024px)", () => {
+    const { container } = renderWithIntl(<Header />);
+    const nav = container.querySelector("nav");
+    expect(nav?.className).toContain("xl:flex");
+    expect(nav?.className).not.toContain("lg:flex ");
+    expect(nav?.className).not.toContain("lg:static");
+
+    const toggle = screen.getByRole("button", { name: /toggle menu/i });
+    expect(toggle.className).toContain("xl:hidden");
+    expect(toggle.className).not.toContain("lg:hidden");
   });
 });

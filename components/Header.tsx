@@ -15,16 +15,16 @@ function toE164(usPhone: string): string {
 }
 
 const primaryLinkClass =
-  "flex items-center justify-between gap-2 rounded-xl border-b border-border/70 px-3 py-3.5 text-lg font-semibold text-ink transition-colors hover:bg-ivory-deep hover:text-teal-dark sm:whitespace-nowrap sm:rounded-none sm:border-none sm:px-0 sm:py-0 sm:text-sm sm:font-medium sm:text-ink-soft sm:hover:bg-transparent";
+  "flex items-center justify-between gap-2 rounded-xl border-b border-border/70 px-3 py-3.5 text-lg font-semibold text-ink transition-colors hover:bg-ivory-deep hover:text-teal-dark xl:whitespace-nowrap xl:rounded-none xl:border-none xl:px-0 xl:py-0 xl:text-sm xl:font-medium xl:text-ink-soft xl:hover:bg-transparent";
 
 const secondaryLinkClass =
-  "rounded-xl bg-ivory-deep/50 px-3 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-ivory-deep hover:text-teal-dark sm:bg-transparent sm:px-3 sm:py-2.5 sm:font-normal sm:text-ink-soft";
+  "rounded-xl bg-ivory-deep/50 px-3 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-ivory-deep hover:text-teal-dark xl:bg-transparent xl:px-3 xl:py-2.5 xl:font-normal xl:text-ink-soft";
 
 const locales = ["en", "es"] as const;
 
 function ChevronRight() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4 shrink-0 text-ink-soft/60 sm:hidden">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4 shrink-0 text-ink-soft/60 xl:hidden">
       <path
         d="m9 6 6 6-6 6"
         stroke="currentColor"
@@ -110,7 +110,7 @@ export function Header() {
         <nav
           data-testid="mobile-menu"
           onClick={() => setMenuOpen(false)}
-          className={`fixed inset-x-0 top-[var(--header-h,4rem)] bottom-0 z-30 flex-col gap-1 overflow-y-auto bg-ivory px-5 pb-4 pt-3 font-medium text-ink-soft sm:static sm:inset-auto sm:z-auto sm:flex sm:w-auto sm:flex-1 sm:flex-row sm:items-center sm:justify-center sm:gap-7 sm:overflow-visible sm:bg-transparent sm:p-0 sm:text-sm ${
+          className={`fixed inset-x-0 top-[var(--header-h,4rem)] bottom-0 z-30 flex-col gap-1 overflow-y-auto bg-ivory px-5 pb-4 pt-3 font-medium text-ink-soft xl:static xl:inset-auto xl:z-auto xl:flex xl:w-auto xl:flex-1 xl:flex-row xl:flex-wrap xl:items-center xl:justify-center xl:gap-x-7 xl:gap-y-2 xl:overflow-visible xl:bg-transparent xl:p-0 xl:text-sm ${
             menuOpen ? "flex" : "hidden"
           }`}
         >
@@ -122,15 +122,11 @@ export function Header() {
             {t("locations")}
             <ChevronRight />
           </Link>
-          <Link href="/resources" className={`${primaryLinkClass} order-3`}>
-            {t("resources")}
-            <ChevronRight />
-          </Link>
           <a
             href={PAY_ONLINE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${primaryLinkClass} order-4 sm:order-5`}
+            className={`${primaryLinkClass} order-3 xl:order-5`}
           >
             {t("payOnline")}
             <ChevronRight />
@@ -139,21 +135,21 @@ export function Header() {
             href={PATIENT_PORTAL_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${primaryLinkClass} order-5 sm:order-6`}
+            className={`${primaryLinkClass} order-4 xl:order-6`}
           >
             {t("portalLogIn")}
             <ChevronRight />
           </a>
 
-          <div ref={moreRef} className="relative order-6 sm:order-4 sm:inline-block">
-            <p className="mb-1.5 mt-5 px-3 text-xs font-semibold uppercase tracking-wide text-ink-soft/80 sm:hidden">
+          <div ref={moreRef} className="relative order-6 xl:order-4 xl:inline-block">
+            <p className="mb-1.5 mt-5 px-3 text-xs font-semibold uppercase tracking-wide text-ink-soft/80 xl:hidden">
               {t("more")}
             </p>
             <button
               type="button"
               aria-expanded={moreOpen}
               onClick={() => setMoreOpen((open) => !open)}
-              className="hidden items-center gap-1 rounded-xl px-3 py-2.5 transition-colors hover:bg-ivory-deep hover:text-teal-dark sm:flex sm:rounded-none sm:px-0 sm:py-0 sm:hover:bg-transparent"
+              className="hidden items-center gap-1 rounded-xl px-3 py-2.5 transition-colors hover:bg-ivory-deep hover:text-teal-dark xl:flex xl:rounded-none xl:px-0 xl:py-0 xl:hover:bg-transparent"
             >
               {t("more")}
               <svg
@@ -172,10 +168,13 @@ export function Header() {
             </button>
 
             <div
-              className={`grid grid-cols-2 gap-1.5 sm:absolute sm:right-0 sm:top-full sm:mt-2 sm:w-56 sm:gap-0.5 sm:rounded-2xl sm:border sm:border-border sm:bg-surface sm:p-2 sm:shadow-card ${
-                moreOpen ? "sm:flex sm:flex-col" : "sm:hidden"
+              className={`grid grid-cols-2 gap-1.5 xl:absolute xl:right-0 xl:top-full xl:mt-2 xl:w-56 xl:gap-0.5 xl:rounded-2xl xl:border xl:border-border xl:bg-surface xl:p-2 xl:shadow-card ${
+                moreOpen ? "xl:flex xl:flex-col" : "xl:hidden"
               }`}
             >
+              <Link href="/resources" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+                {t("resources")}
+              </Link>
               <Link href="/services/telehealth" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("telehealth")}
               </Link>
@@ -209,10 +208,10 @@ export function Header() {
             </div>
           </div>
 
-          <div className="order-7 sticky bottom-0 -mx-5 mt-6 flex flex-col gap-3 border-t border-border bg-ivory px-5 pb-1 pt-4 sm:static sm:mx-0 sm:mt-0 sm:flex-row sm:items-center sm:gap-5 sm:border-none sm:bg-transparent sm:p-0">
+          <div className="order-7 sticky bottom-0 -mx-5 mt-6 flex flex-col gap-3 border-t border-border bg-ivory px-5 pb-1 pt-4 xl:static xl:mx-0 xl:mt-0 xl:flex-row xl:items-center xl:gap-5 xl:border-none xl:bg-transparent xl:p-0">
             <a
               href={`tel:${toE164(MAIN_PHONE)}`}
-              className="flex items-center gap-3 rounded-xl px-1 py-1 transition-colors hover:bg-ivory-deep sm:px-0 sm:py-0 sm:hover:bg-transparent"
+              className="flex items-center gap-3 rounded-xl px-1 py-1 transition-colors hover:bg-ivory-deep xl:px-0 xl:py-0 xl:hover:bg-transparent"
             >
               <span
                 aria-hidden
@@ -228,7 +227,7 @@ export function Header() {
                 </svg>
               </span>
               <span className="flex flex-col whitespace-nowrap leading-tight">
-                <span className="hidden text-[10px] font-semibold uppercase tracking-wide text-ink-soft sm:block">
+                <span className="hidden text-[10px] font-semibold uppercase tracking-wide text-ink-soft xl:block">
                   {t("callUs")}
                 </span>
                 <span className="font-display text-sm font-bold text-ink">{MAIN_PHONE}</span>
@@ -271,7 +270,7 @@ export function Header() {
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full bg-teal px-4 py-2 font-display text-xs font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark sm:px-5 sm:py-2.5 sm:text-sm"
+            className="rounded-full bg-teal px-4 py-2 font-display text-xs font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark motion-safe:animate-[heartbeat_2.5s_ease-in-out_infinite] hover:[animation-play-state:paused] sm:px-5 sm:py-2.5 sm:text-sm"
           >
             {t("appointments")}
           </a>
@@ -280,7 +279,7 @@ export function Header() {
             type="button"
             aria-label={t("toggleMenu")}
             aria-pressed={menuOpen}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-ivory-deep text-ink transition-colors hover:bg-border sm:hidden"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-ivory-deep text-ink transition-colors hover:bg-border xl:hidden"
             onClick={() => setMenuOpen((open) => !open)}
           >
             {menuOpen ? (

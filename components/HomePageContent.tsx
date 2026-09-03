@@ -27,6 +27,7 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { DonateTab } from "@/components/DonateTab";
 import { SeasonTab } from "@/components/SeasonTab";
 import { MobileQuickDrawer } from "@/components/MobileQuickDrawer";
+import { EntryPopup } from "@/components/EntryPopup";
 import { withBasePath } from "@/lib/basePath";
 
 function initials(name: string): string {
@@ -532,6 +533,7 @@ export function HomePageContent() {
       <DonateTab />
       <SeasonTab />
       <MobileQuickDrawer />
+      <EntryPopup />
     </main>
   );
 }

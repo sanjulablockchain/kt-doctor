@@ -14,7 +14,7 @@
     "testimonials": "Testimonios",
     "payOnline": "Pagar en línea",
     "portalLogIn": "Portal del paciente",
-    "appointments": "Citas",
+    "appointments": "Reservar una Cita",
     "toggleMenu": "Abrir menú",
     "toggleLanguage": "Cambiar idioma",
     "callUs": "Llámenos",
@@ -77,6 +77,14 @@
     "callUs": "Llámenos",
     "copyPhone": "Copiar número de teléfono",
     "copied": "¡Copiado!"
+  },
+  "EntryPopup": {
+    "heading": "Reserve Ahora",
+    "body": "Hay citas disponibles el mismo día. Llámenos o reserve en línea en solo un minuto.",
+    "bookCta": "Reservar una Cita",
+    "callLabel": "Llamar al {phone}",
+    "closeLabel": "Cerrar",
+    "photoAlt": "Una clínica sonriente chocando la mano con un paciente joven en una camilla"
   },
   "DonateTab": {
     "label": "Donar",

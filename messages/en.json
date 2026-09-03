@@ -14,7 +14,7 @@
     "testimonials": "Testimonials",
     "payOnline": "Pay Online",
     "portalLogIn": "Portal Log In",
-    "appointments": "Appointments",
+    "appointments": "Book an Appointment",
     "toggleMenu": "Toggle menu",
     "toggleLanguage": "Change language",
     "callUs": "Call us",
@@ -77,6 +77,14 @@
     "callUs": "Call Us",
     "copyPhone": "Copy phone number",
     "copied": "Copied!"
+  },
+  "EntryPopup": {
+    "heading": "Book Now",
+    "body": "Same-day appointments are available. Call us or book online in just a minute.",
+    "bookCta": "Book an Appointment",
+    "callLabel": "Call {phone}",
+    "closeLabel": "Close",
+    "photoAlt": "A smiling clinician high-fiving a young patient on an exam table"
   },
   "DonateTab": {
     "label": "Donate",
