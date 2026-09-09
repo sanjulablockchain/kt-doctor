@@ -57,63 +57,66 @@ describe("Header", () => {
     expect(call.querySelector("svg")).toBeInTheDocument();
   });
 
-  // jsdom computes accessible names without layout, so the two stacked spans
-  // concatenate with no separator ("Text us(626) 298-7121") where a real
-  // browser would insert a space. Query the SMS link by href instead.
-  it("renders a text button beside it showing the SMS number and linking to sms:", () => {
-    const { container } = renderWithIntl(<Header />);
-    const text = container.querySelector<HTMLAnchorElement>('a[href^="sms:"]');
+  it("renders the text action as an icon only, linking to sms:", () => {
+    renderWithIntl(<Header />);
+    const text = screen.getByRole("link", { name: "Text us" });
     expect(text).toHaveAttribute("href", `sms:+1${TEXT_PHONE.replace(/\D/g, "")}`);
-    expect(text?.textContent).toContain("Text us");
-    expect(text?.textContent).toContain(TEXT_PHONE);
+    expect(text.textContent).toBe("");
+    expect(text.querySelector("svg")).toBeInTheDocument();
   });
 
-  it("marks the text action with an icon, keeping its wording for assistive tech only", () => {
+  it("shows neither phone number as visible text anywhere in the header", () => {
     const { container } = renderWithIntl(<Header />);
-    const text = container.querySelector('a[href^="sms:"]');
-    expect(text?.querySelector("svg")).toBeInTheDocument();
-
-    const label = Array.from(text?.querySelectorAll("span") ?? []).find(
-      (span) => span.textContent === "Text us"
-    );
-    expect(label?.className).toContain("sr-only");
+    expect(container.textContent).not.toContain(MAIN_PHONE);
+    expect(container.textContent).not.toContain(TEXT_PHONE);
   });
 
-  it("sizes the text icon to match the call icon at both breakpoints", () => {
-    const { container } = renderWithIntl(<Header />);
+  it("gives the call and text icons identical sizing so they read as one pair", () => {
+    renderWithIntl(<Header />);
     const call = screen.getByRole("link", { name: "Call us" });
-    const textIcon = container.querySelector('a[href^="sms:"] span[aria-hidden]');
+    const text = screen.getByRole("link", { name: "Text us" });
     for (const size of ["h-11", "w-11", "xl:h-9", "xl:w-9"]) {
       expect(call.className).toContain(size);
-      expect(textIcon?.className).toContain(size);
+      expect(text.className).toContain(size);
     }
   });
 
   it("keeps the call and text actions on one row at every breakpoint", () => {
-    const { container } = renderWithIntl(<Header />);
+    renderWithIntl(<Header />);
     const call = screen.getByRole("link", { name: "Call us" });
-    const text = container.querySelector('a[href^="sms:"]');
+    const text = screen.getByRole("link", { name: "Text us" });
     const row = call.parentElement;
-    expect(row).toBe(text?.parentElement);
+    expect(row).toBe(text.parentElement);
     expect(row?.className).toContain("flex items-center");
     expect(row?.className).not.toContain("flex-col");
   });
 
-  it("gives the icon-only call action a 44px touch target below the desktop breakpoint", () => {
+  it("gives both icon-only actions a 44px touch target below the desktop breakpoint", () => {
     renderWithIntl(<Header />);
-    const call = screen.getByRole("link", { name: "Call us" });
-    expect(call.className).toContain("h-11");
-    expect(call.className).toContain("w-11");
-    expect(call.className).toContain("xl:h-9");
-    expect(call.className).toContain("xl:w-9");
+    for (const name of ["Call us", "Text us"]) {
+      const action = screen.getByRole("link", { name });
+      expect(action.className).toContain("h-11");
+      expect(action.className).toContain("w-11");
+      expect(action.className).toContain("xl:h-9");
+      expect(action.className).toContain("xl:w-9");
+    }
   });
 
+  it("gives both icon-only actions a hover tooltip so sighted users can identify them", () => {
+    renderWithIntl(<Header />);
+    expect(screen.getByRole("link", { name: "Call us" })).toHaveAttribute("title", "Call us");
+    expect(screen.getByRole("link", { name: "Text us" })).toHaveAttribute("title", "Text us");
+  });
+
+  // With no visible copy left on either action, the aria-label is the only
+  // thing telling a Spanish speaker what they do, so it has to be translated.
   it("labels the call and text actions in Spanish too", () => {
-    const { container } = renderWithIntl(<Header />, "es");
+    renderWithIntl(<Header />, "es");
     expect(screen.getByRole("link", { name: "Llámenos" })).toBeInTheDocument();
-    const text = container.querySelector('a[href^="sms:"]');
-    expect(text?.textContent).toContain("Mensaje de texto");
-    expect(text?.textContent).toContain(TEXT_PHONE);
+    expect(screen.getByRole("link", { name: "Mensaje de texto" })).toHaveAttribute(
+      "href",
+      `sms:+1${TEXT_PHONE.replace(/\D/g, "")}`
+    );
   });
 
   it("renders a nav link to /about", () => {

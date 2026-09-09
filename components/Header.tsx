@@ -215,10 +215,11 @@ export function Header() {
           </div>
 
           <div className="order-7 sticky bottom-0 -mx-5 mt-6 flex flex-col gap-3 border-t border-border bg-ivory px-5 pb-1 pt-4 xl:static xl:mx-0 xl:mt-0 xl:flex-row xl:items-center xl:gap-5 xl:border-none xl:bg-transparent xl:p-0">
-            {/* Call and text share one row at every breakpoint. The call action
-                is the handset alone, so its accessible name has to come from
-                aria-label rather than visible text; the number beside it
-                belongs to the separate SMS line, not to this tel: link. */}
+            {/* Call and text share one row at every breakpoint. Neither shows
+                its number, so both take their accessible name from aria-label
+                and their tooltip from title; the digits live only in the
+                tel:/sms: hrefs. They are deliberately identical in size and
+                tint so the pair reads as one control group. */}
             <div className="flex items-center gap-2.5">
               <a
                 href={`tel:${toE164(MAIN_PHONE)}`}
@@ -238,27 +239,18 @@ export function Header() {
 
               <a
                 href={`sms:${toE164(TEXT_PHONE)}`}
+                aria-label={t("textUs")}
                 title={t("textUs")}
-                className="group flex items-center gap-2 whitespace-nowrap rounded-xl pr-2 transition-colors hover:bg-ivory-deep xl:pr-0 xl:hover:bg-transparent"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-tint text-teal-dark transition-colors hover:bg-teal hover:text-white xl:h-9 xl:w-9"
               >
-                <span
-                  aria-hidden
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-tint text-teal-dark transition-colors group-hover:bg-teal group-hover:text-white xl:h-9 xl:w-9"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 xl:h-4 xl:w-4">
-                    <path
-                      d="M21 11.5a8.4 8.4 0 0 1-9 8.3 9 9 0 0 1-2.5-.4L4 21l1.4-4.1A8 8 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5Z"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-                {/* The label is the icon, so the wording only survives for
-                    assistive tech; keeping it as real text rather than an
-                    aria-label leaves the number in the accessible name. */}
-                <span className="sr-only">{t("textUs")}</span>
-                <span className="font-display text-sm font-bold text-ink">{TEXT_PHONE}</span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-5 w-5 xl:h-4 xl:w-4">
+                  <path
+                    d="M21 11.5a8.4 8.4 0 0 1-9 8.3 9 9 0 0 1-2.5-.4L4 21l1.4-4.1A8 8 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5Z"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </a>
             </div>
 
