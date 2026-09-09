@@ -116,7 +116,7 @@ export function Header() {
         <nav
           data-testid="mobile-menu"
           onClick={() => setMenuOpen(false)}
-          className={`fixed inset-x-0 top-[var(--header-h,4rem)] bottom-0 z-30 flex-col gap-1 overflow-y-auto bg-ivory px-5 pb-4 pt-3 font-medium text-ink-soft xl:static xl:inset-auto xl:z-auto xl:flex xl:w-auto xl:flex-1 xl:flex-row xl:flex-wrap xl:items-center xl:justify-center xl:gap-x-7 xl:gap-y-2 xl:overflow-visible xl:bg-transparent xl:p-0 xl:text-sm ${
+          className={`fixed inset-x-0 top-[var(--header-h,4rem)] bottom-0 z-30 flex-col gap-1 overflow-y-auto bg-ivory px-5 pb-4 pt-3 font-medium text-ink-soft xl:static xl:inset-auto xl:z-auto xl:flex xl:w-auto xl:flex-1 xl:flex-row xl:flex-wrap xl:items-center xl:justify-center xl:gap-x-5 xl:gap-y-2 xl:overflow-visible 2xl:gap-x-7 xl:bg-transparent xl:p-0 xl:text-sm ${
             menuOpen ? "flex" : "hidden"
           }`}
         >
@@ -128,11 +128,15 @@ export function Header() {
             {t("locations")}
             <ChevronRight />
           </Link>
+          <Link href="/resources" className={`${primaryLinkClass} order-3`}>
+            {t("resources")}
+            <ChevronRight />
+          </Link>
           <a
             href={PAY_ONLINE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${primaryLinkClass} order-3 xl:order-5`}
+            className={`${primaryLinkClass} order-4 xl:order-5`}
           >
             {t("payOnline")}
             <ChevronRight />
@@ -141,7 +145,7 @@ export function Header() {
             href={PATIENT_PORTAL_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${primaryLinkClass} order-4 xl:order-6`}
+            className={`${primaryLinkClass} order-5 xl:order-6`}
           >
             {t("portalLogIn")}
             <ChevronRight />
@@ -178,9 +182,6 @@ export function Header() {
                 moreOpen ? "xl:flex xl:flex-col" : "xl:hidden"
               }`}
             >
-              <Link href="/resources" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
-                {t("resources")}
-              </Link>
               <Link href="/services/telehealth" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("telehealth")}
               </Link>

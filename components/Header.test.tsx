@@ -22,9 +22,18 @@ describe("Header", () => {
     expect(screen.getByRole("link", { name: "Locations" })).toHaveAttribute("href", "/locations");
   });
 
-  it("renders a Resources link inside the More menu to /resources", () => {
-    renderWithIntl(<Header />);
-    expect(screen.getByRole("link", { name: "Resources" })).toHaveAttribute("href", "/resources");
+  // Resources sat in the More menu only because the old nav row had no space
+  // for it. Dropping the phone number from the contact actions bought that
+  // space back, so it is a top-level link again rather than a duplicate.
+  it("renders Resources as a top-level nav link, not inside the More menu", () => {
+    const { container } = renderWithIntl(<Header />);
+    const links = screen.getAllByRole("link", { name: "Resources" });
+    expect(links).toHaveLength(1);
+    expect(links[0]).toHaveAttribute("href", "/resources");
+    // A direct child of <nav> is a top-level link; the More menu nests its
+    // items one level deeper, inside the dropdown panel.
+    expect(links[0].parentElement).toBe(container.querySelector("nav"));
+    expect(links[0].className).toContain("order-3");
   });
 
   it("renders the real booking, pay online, and patient portal links", () => {
