@@ -238,11 +238,26 @@ export function Header() {
 
               <a
                 href={`sms:${toE164(TEXT_PHONE)}`}
-                className="flex flex-col whitespace-nowrap rounded-xl px-2 py-2 leading-tight transition-colors hover:bg-ivory-deep xl:px-0 xl:py-0 xl:hover:bg-transparent"
+                title={t("textUs")}
+                className="group flex items-center gap-2 whitespace-nowrap rounded-xl pr-2 transition-colors hover:bg-ivory-deep xl:pr-0 xl:hover:bg-transparent"
               >
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-soft">
-                  {t("textUs")}
+                <span
+                  aria-hidden
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-tint text-teal-dark transition-colors group-hover:bg-teal group-hover:text-white xl:h-9 xl:w-9"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 xl:h-4 xl:w-4">
+                    <path
+                      d="M21 11.5a8.4 8.4 0 0 1-9 8.3 9 9 0 0 1-2.5-.4L4 21l1.4-4.1A8 8 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5Z"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </span>
+                {/* The label is the icon, so the wording only survives for
+                    assistive tech; keeping it as real text rather than an
+                    aria-label leaves the number in the accessible name. */}
+                <span className="sr-only">{t("textUs")}</span>
                 <span className="font-display text-sm font-bold text-ink">{TEXT_PHONE}</span>
               </a>
             </div>

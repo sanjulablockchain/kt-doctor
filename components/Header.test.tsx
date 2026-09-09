@@ -68,6 +68,27 @@ describe("Header", () => {
     expect(text?.textContent).toContain(TEXT_PHONE);
   });
 
+  it("marks the text action with an icon, keeping its wording for assistive tech only", () => {
+    const { container } = renderWithIntl(<Header />);
+    const text = container.querySelector('a[href^="sms:"]');
+    expect(text?.querySelector("svg")).toBeInTheDocument();
+
+    const label = Array.from(text?.querySelectorAll("span") ?? []).find(
+      (span) => span.textContent === "Text us"
+    );
+    expect(label?.className).toContain("sr-only");
+  });
+
+  it("sizes the text icon to match the call icon at both breakpoints", () => {
+    const { container } = renderWithIntl(<Header />);
+    const call = screen.getByRole("link", { name: "Call us" });
+    const textIcon = container.querySelector('a[href^="sms:"] span[aria-hidden]');
+    for (const size of ["h-11", "w-11", "xl:h-9", "xl:w-9"]) {
+      expect(call.className).toContain(size);
+      expect(textIcon?.className).toContain(size);
+    }
+  });
+
   it("keeps the call and text actions on one row at every breakpoint", () => {
     const { container } = renderWithIntl(<Header />);
     const call = screen.getByRole("link", { name: "Call us" });
