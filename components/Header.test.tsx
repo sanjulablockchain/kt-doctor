@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithIntl } from "@/lib/test-utils";
+import { MAIN_PHONE, TEXT_PHONE } from "@/lib/constants";
 import { Header } from "./Header";
 
 // usePathname requires a real Next.js router context, which RTL doesn't
@@ -46,6 +47,52 @@ describe("Header", () => {
     renderWithIntl(<Header />);
     const bookButton = screen.getByRole("link", { name: /book an appointment/i });
     expect(bookButton.className).toContain("animate-[heartbeat");
+  });
+
+  it("renders the call action as a handset icon only, with no number in its label", () => {
+    renderWithIntl(<Header />);
+    const call = screen.getByRole("link", { name: "Call us" });
+    expect(call).toHaveAttribute("href", `tel:+1${MAIN_PHONE.replace(/\D/g, "")}`);
+    expect(call.textContent).toBe("");
+    expect(call.querySelector("svg")).toBeInTheDocument();
+  });
+
+  // jsdom computes accessible names without layout, so the two stacked spans
+  // concatenate with no separator ("Text us(626) 298-7121") where a real
+  // browser would insert a space. Query the SMS link by href instead.
+  it("renders a text button beside it showing the SMS number and linking to sms:", () => {
+    const { container } = renderWithIntl(<Header />);
+    const text = container.querySelector<HTMLAnchorElement>('a[href^="sms:"]');
+    expect(text).toHaveAttribute("href", `sms:+1${TEXT_PHONE.replace(/\D/g, "")}`);
+    expect(text?.textContent).toContain("Text us");
+    expect(text?.textContent).toContain(TEXT_PHONE);
+  });
+
+  it("keeps the call and text actions on one row at every breakpoint", () => {
+    const { container } = renderWithIntl(<Header />);
+    const call = screen.getByRole("link", { name: "Call us" });
+    const text = container.querySelector('a[href^="sms:"]');
+    const row = call.parentElement;
+    expect(row).toBe(text?.parentElement);
+    expect(row?.className).toContain("flex items-center");
+    expect(row?.className).not.toContain("flex-col");
+  });
+
+  it("gives the icon-only call action a 44px touch target below the desktop breakpoint", () => {
+    renderWithIntl(<Header />);
+    const call = screen.getByRole("link", { name: "Call us" });
+    expect(call.className).toContain("h-11");
+    expect(call.className).toContain("w-11");
+    expect(call.className).toContain("xl:h-9");
+    expect(call.className).toContain("xl:w-9");
+  });
+
+  it("labels the call and text actions in Spanish too", () => {
+    const { container } = renderWithIntl(<Header />, "es");
+    expect(screen.getByRole("link", { name: "Llámenos" })).toBeInTheDocument();
+    const text = container.querySelector('a[href^="sms:"]');
+    expect(text?.textContent).toContain("Mensaje de texto");
+    expect(text?.textContent).toContain(TEXT_PHONE);
   });
 
   it("renders a nav link to /about", () => {

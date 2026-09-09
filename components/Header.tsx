@@ -4,7 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { BOOKING_URL, PAY_ONLINE_URL, PATIENT_PORTAL_URL, MAIN_PHONE } from "@/lib/constants";
+import {
+  BOOKING_URL,
+  PAY_ONLINE_URL,
+  PATIENT_PORTAL_URL,
+  MAIN_PHONE,
+  TEXT_PHONE,
+} from "@/lib/constants";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { withBasePath } from "@/lib/basePath";
 
@@ -209,15 +215,18 @@ export function Header() {
           </div>
 
           <div className="order-7 sticky bottom-0 -mx-5 mt-6 flex flex-col gap-3 border-t border-border bg-ivory px-5 pb-1 pt-4 xl:static xl:mx-0 xl:mt-0 xl:flex-row xl:items-center xl:gap-5 xl:border-none xl:bg-transparent xl:p-0">
-            <a
-              href={`tel:${toE164(MAIN_PHONE)}`}
-              className="flex items-center gap-3 rounded-xl px-1 py-1 transition-colors hover:bg-ivory-deep xl:px-0 xl:py-0 xl:hover:bg-transparent"
-            >
-              <span
-                aria-hidden
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-teal-tint text-teal-dark"
+            {/* Call and text share one row at every breakpoint. The call action
+                is the handset alone, so its accessible name has to come from
+                aria-label rather than visible text; the number beside it
+                belongs to the separate SMS line, not to this tel: link. */}
+            <div className="flex items-center gap-2.5">
+              <a
+                href={`tel:${toE164(MAIN_PHONE)}`}
+                aria-label={t("callUs")}
+                title={t("callUs")}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-tint text-teal-dark transition-colors hover:bg-teal hover:text-white xl:h-9 xl:w-9"
               >
-                <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-5 w-5 xl:h-4 xl:w-4">
                   <path
                     d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.9c0-.6.4-1 1-1h4.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .7-.2 1L6.6 10.8Z"
                     stroke="currentColor"
@@ -225,14 +234,18 @@ export function Header() {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </span>
-              <span className="flex flex-col whitespace-nowrap leading-tight">
-                <span className="hidden text-[10px] font-semibold uppercase tracking-wide text-ink-soft xl:block">
-                  {t("callUs")}
+              </a>
+
+              <a
+                href={`sms:${toE164(TEXT_PHONE)}`}
+                className="flex flex-col whitespace-nowrap rounded-xl px-2 py-2 leading-tight transition-colors hover:bg-ivory-deep xl:px-0 xl:py-0 xl:hover:bg-transparent"
+              >
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-soft">
+                  {t("textUs")}
                 </span>
-                <span className="font-display text-sm font-bold text-ink">{MAIN_PHONE}</span>
-              </span>
-            </a>
+                <span className="font-display text-sm font-bold text-ink">{TEXT_PHONE}</span>
+              </a>
+            </div>
 
             <ThemeToggle />
 
