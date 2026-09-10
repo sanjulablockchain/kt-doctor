@@ -57,6 +57,25 @@ describe("BookAppointmentButton", () => {
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
+  it("renders the dialog outside the trigger's subtree, so a navy section cannot restyle it", async () => {
+    // The hero, hero panel, bottom banner and footer are all [data-on-navy],
+    // which pins --color-ivory and --color-teal-tint to their light values.
+    // A dialog rendered inside that subtree inherits them and comes out pale
+    // in dark mode, unlike the same dialog opened from the header.
+    const { container } = renderWithIntl(
+      <div data-on-navy>
+        <BookAppointmentButton>Book</BookAppointmentButton>
+      </div>
+    );
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: "Book" }));
+
+    const dialog = screen.getByRole("dialog");
+    expect(container.contains(dialog)).toBe(false);
+    expect(dialog.closest("[data-on-navy]")).toBeNull();
+  });
+
   it("exposes an explicit accessible name when the call site renders only an icon", async () => {
     renderWithIntl(
       <BookAppointmentButton aria-label="Book an Appointment">

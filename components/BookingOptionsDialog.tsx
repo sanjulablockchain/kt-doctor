@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { BOOKING_URL, MAIN_PHONE, TEXT_PHONE } from "@/lib/constants";
 import { toE164 } from "@/lib/phone";
@@ -84,7 +85,17 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
     },
   ];
 
-  return (
+  // Only ever mounted in response to a click, so this never runs during the
+  // server render; the guard is just belt and braces.
+  if (typeof document === "undefined") return null;
+
+  // Portalled to <body> so the dialog escapes its trigger's subtree. The hero,
+  // hero panel, bottom banner and footer are all [data-on-navy], which pins
+  // --color-ivory and --color-teal-tint to light values for the region - a
+  // dialog rendered inside one came out pale in dark mode while the same
+  // dialog opened from the header looked right. Portalling also frees it from
+  // those sections' overflow-hidden and stacking contexts.
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 p-4 backdrop-blur-sm sm:items-center"
       onClick={onClose}
@@ -169,6 +180,7 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
           ))}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

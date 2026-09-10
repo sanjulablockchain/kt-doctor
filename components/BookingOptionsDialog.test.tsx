@@ -80,13 +80,16 @@ describe("BookingOptionsDialog", () => {
 
   it("closes when the backdrop is clicked but not when the panel is clicked", async () => {
     const onClose = vi.fn();
-    const { container } = renderWithIntl(<BookingOptionsDialog onClose={onClose} />);
+    renderWithIntl(<BookingOptionsDialog onClose={onClose} />);
     const user = userEvent.setup();
 
-    await user.click(screen.getByRole("dialog"));
+    const dialog = screen.getByRole("dialog");
+    await user.click(dialog);
     expect(onClose).not.toHaveBeenCalled();
 
-    await user.click(container.firstChild as Element);
+    // The dialog is portalled to <body>, so the backdrop is its parent
+    // rather than the render container's first child.
+    await user.click(dialog.parentElement as Element);
     expect(onClose).toHaveBeenCalled();
   });
 
