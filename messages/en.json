@@ -92,12 +92,14 @@
     "heading": "Book an Appointment",
     "body": "Choose whichever way is easiest for you.",
     "closeLabel": "Close",
+    "recommendedBadge": "Recommended",
+    "speakPrompt": "Prefer to speak with us?",
     "bookOnlineTitle": "Book online",
     "bookOnlineBody": "Pick a time on our booking site",
     "textTitle": "Text us",
     "textBody": "Message our team at {phone}",
     "callTitle": "Call us",
-    "callBody": "Speak with our team at {phone}"
+    "callBody": "Call {phone}"
   },
   "DonateTab": {
     "label": "Donate",
