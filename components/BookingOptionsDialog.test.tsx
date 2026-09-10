@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithIntl } from "@/lib/test-utils";
 import { BookingOptionsDialog } from "./BookingOptionsDialog";
@@ -72,6 +72,53 @@ describe("BookingOptionsDialog", () => {
     expect(
       screen.getByText("Choose whichever way is easiest for you.")
     ).toBeInTheDocument();
+  });
+
+  it("groups the two recommended options under a shared 'best ways' header", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    const groupHeading = screen.getByText("Best ways to book quickly");
+    const group = groupHeading.closest("section");
+
+    expect(group).not.toBeNull();
+    expect(within(group as HTMLElement).getByRole("link", { name: /book online/i })).toBeInTheDocument();
+    expect(within(group as HTMLElement).getByRole("link", { name: /text us/i })).toBeInTheDocument();
+    // Calling is deliberately outside the group - it is the alternative.
+    expect(within(group as HTMLElement).queryByRole("link", { name: /call us/i })).toBeNull();
+  });
+
+  it("sells each recommended option with its own benefit list", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    const book = screen.getByRole("link", { name: /book online/i });
+    expect(book).toHaveTextContent("See real-time availability");
+    expect(book).toHaveTextContent("Book in less than a minute");
+    expect(book).toHaveTextContent("Get a confirmation right away");
+
+    const text = screen.getByRole("link", { name: /text us/i });
+    expect(text).toHaveTextContent("Get answers fast");
+    expect(text).toHaveTextContent("Request an appointment");
+    expect(text).toHaveTextContent("Friendly, real people");
+  });
+
+  it("gives the call section a supporting line under its prompt", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    expect(
+      screen.getByText("Give us a call and our team will be happy to help.")
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /call us/i })).toHaveTextContent(
+      "Speak with our team at (818) 361-5437"
+    );
+  });
+
+  it("translates the new group and benefit copy", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />, "es");
+
+    expect(screen.getByText("Las mejores formas de reservar rápido")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /reservar en línea/i })
+    ).toHaveTextContent("Reserve en menos de un minuto");
   });
 
   it("introduces calling with a prompt that sits between texting and the call row", () => {
