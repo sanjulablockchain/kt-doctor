@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import Home from "./page";
 
@@ -9,7 +10,7 @@ async function renderHome(locale: "en" | "es" = "en") {
 }
 
 describe("Home page", () => {
-  it("renders links to find a doctor, find a clinic, and book an appointment", async () => {
+  it("renders links to find a doctor and find a clinic", async () => {
     await renderHome();
 
     expect(screen.getByRole("link", { name: /find a doctor/i })).toHaveAttribute(
@@ -20,14 +21,32 @@ describe("Home page", () => {
       "href",
       "/locations"
     );
-    const bookingLinks = screen.getAllByRole("link", { name: /^book/i });
-    expect(bookingLinks.length).toBeGreaterThanOrEqual(1);
-    for (const link of bookingLinks) {
-      expect(link).toHaveAttribute(
-        "href",
-        "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2"
-      );
-    }
+  });
+
+  it("routes every booking call to action through the options chooser, not straight to Healow", async () => {
+    await renderHome();
+
+    // Hero button, hero network panel row, and the bottom navy banner.
+    const bookingTriggers = screen.getAllByRole("button", { name: /^book/i });
+    expect(bookingTriggers).toHaveLength(3);
+    expect(screen.queryByRole("link", { name: /^book/i })).not.toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.click(bookingTriggers[0]);
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /book online/i })).toHaveAttribute(
+      "href",
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2"
+    );
+    expect(screen.getByRole("link", { name: /text us/i })).toHaveAttribute(
+      "href",
+      "sms:+16262987121"
+    );
+    expect(screen.getByRole("link", { name: /call us/i })).toHaveAttribute(
+      "href",
+      "tel:+18183615437"
+    );
   });
 
   it("renders a network teaser section linking to /network", async () => {
@@ -146,7 +165,7 @@ describe("Home page", () => {
     await renderHome("es");
     expect(screen.getByText("cerca de casa.")).toBeInTheDocument();
     expect(
-      screen.getAllByRole("link", { name: /reservar una cita/i }).length
+      screen.getAllByRole("button", { name: /reservar una cita/i }).length
     ).toBeGreaterThanOrEqual(1);
   });
 

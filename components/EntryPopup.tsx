@@ -3,17 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { BOOKING_URL, MAIN_PHONE } from "@/lib/constants";
+import { BOOKING_URL, MAIN_PHONE, TEXT_PHONE } from "@/lib/constants";
+import { toE164 } from "@/lib/phone";
 import { withBasePath } from "@/lib/basePath";
 
 const SEEN_KEY = "ktmg-entry-popup-seen";
 const OPEN_DELAY_MS = 600;
-
-// Formats a US display number like "(818) 361-5437" into E.164 for tel:
-// links, e.g. "+18183615437" — matches components/Footer.tsx's formatting.
-function toE164(usPhone: string): string {
-  return `+1${usPhone.replace(/\D/g, "")}`;
-}
 
 // Homepage-only entry popup: a "Book Now" prompt shown once per browser
 // session (gated by sessionStorage) shortly after the page mounts. Reuses
@@ -151,6 +146,22 @@ export function EntryPopup() {
                 />
               </svg>
               {t("callLabel", { phone: MAIN_PHONE })}
+            </a>
+            <a
+              href={`sms:${toE164(TEXT_PHONE)}`}
+              onClick={() => setOpen(false)}
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-center font-display font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4">
+                <path
+                  d="M21 11.5a8.4 8.4 0 0 1-9 8.3 9 9 0 0 1-2.5-.4L4 21l1.4-4.1A8 8 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {t("textLabel", { phone: TEXT_PHONE })}
             </a>
           </div>
         </div>

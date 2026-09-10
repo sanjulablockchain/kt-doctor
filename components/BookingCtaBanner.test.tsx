@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { BookingCtaBanner } from "./BookingCtaBanner";
 import { BOOKING_URL, MAIN_PHONE } from "@/lib/constants";
@@ -12,9 +13,15 @@ describe("BookingCtaBanner", () => {
     expect(screen.getByText("Same-day openings today")).toBeInTheDocument();
   });
 
-  it("links the primary button to the Healow booking URL in a new tab", () => {
+  it("opens the booking options chooser from the primary button", async () => {
     render(<BookingCtaBanner />);
-    const book = screen.getByRole("link", { name: /book an appointment/i });
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /book an appointment/i }));
+
+    const book = within(screen.getByRole("dialog")).getByRole("link", {
+      name: /book online/i,
+    });
     expect(book).toHaveAttribute("href", BOOKING_URL);
     expect(book).toHaveAttribute("target", "_blank");
     expect(book).toHaveAttribute("rel", "noopener noreferrer");

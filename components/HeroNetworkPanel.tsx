@@ -3,19 +3,23 @@
 import type { ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { BOOKING_URL } from "@/lib/constants";
 import { networkBrands } from "@/data/network";
 import { SocialLinks } from "@/components/SocialLinks";
+import { BookAppointmentButton } from "@/components/BookAppointmentButton";
 
+// A row either navigates (href) or wraps its content in a custom trigger
+// (render, used by the booking row to open the options chooser) - never both,
+// and never neither, which the union enforces at compile time.
 type HeroRowProps = {
   icon: ReactNode; // inner <path>/<rect>/<circle> of a 24x24 stroke icon
   title: string;
   body: string;
   tag?: string;
   tagClassName?: string;
-  href: string;
-  external?: boolean;
-};
+} & (
+  | { href: string; external?: boolean; render?: never }
+  | { render: (content: ReactNode, className: string) => ReactNode; href?: never; external?: never }
+);
 
 // Six rows make this panel the tallest thing in the Hero, so from `lg` up its
 // row height tracks the viewport: that is where the ~185px needed to fit a
@@ -24,7 +28,16 @@ type HeroRowProps = {
 const rowClass =
   "-mx-2 flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy lg:py-[clamp(0.4rem,1.15svh,0.75rem)]";
 
-function HeroRow({ icon, title, body, tag, tagClassName, href, external = false }: HeroRowProps) {
+function HeroRow({
+  icon,
+  title,
+  body,
+  tag,
+  tagClassName,
+  href,
+  external = false,
+  render,
+}: HeroRowProps) {
   const content = (
     <>
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-ivory">
@@ -52,6 +65,10 @@ function HeroRow({ icon, title, body, tag, tagClassName, href, external = false 
       )}
     </>
   );
+
+  if (render) {
+    return <>{render(content, rowClass)}</>;
+  }
 
   if (external) {
     return (
@@ -119,8 +136,14 @@ export function HeroNetworkPanel() {
       <ul className="mt-4 divide-y divide-white/10 border-t border-white/15 lg:mt-[clamp(0.5rem,1.8svh,1rem)]">
         <li>
           <HeroRow
-            href={BOOKING_URL}
-            external
+            // w-full + text-left restore what the <a> gave for free: a button
+            // is shrink-to-fit and centre-aligned by default, which would
+            // narrow the row and centre its title and body.
+            render={(content, className) => (
+              <BookAppointmentButton className={`w-full text-left ${className}`}>
+                {content}
+              </BookAppointmentButton>
+            )}
             tag={t("bookAppointmentTag")}
             tagClassName="text-teal"
             title={t("bookAppointmentTile")}

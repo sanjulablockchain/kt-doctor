@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithIntl } from "@/lib/test-utils";
 import { MAIN_PHONE, TEXT_PHONE } from "@/lib/constants";
@@ -36,12 +36,34 @@ describe("Header", () => {
     expect(links[0].className).toContain("order-3");
   });
 
-  it("renders the real booking, pay online, and patient portal links", () => {
+  it("opens the booking options chooser instead of linking straight to Healow", async () => {
     renderWithIntl(<Header />);
-    expect(screen.getByRole("link", { name: /book an appointment/i })).toHaveAttribute(
+    const user = userEvent.setup();
+
+    const trigger = screen.getByRole("button", { name: /book an appointment/i });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    await user.click(trigger);
+
+    // Scoped to the dialog: the header carries its own call/text icon links,
+    // which would otherwise match these names too.
+    const dialog = within(screen.getByRole("dialog"));
+    expect(dialog.getByRole("link", { name: /book online/i })).toHaveAttribute(
       "href",
       "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2"
     );
+    expect(dialog.getByRole("link", { name: /text us/i })).toHaveAttribute(
+      "href",
+      "sms:+16262987121"
+    );
+    expect(dialog.getByRole("link", { name: /call us/i })).toHaveAttribute(
+      "href",
+      "tel:+18183615437"
+    );
+  });
+
+  it("renders the real pay online and patient portal links", () => {
+    renderWithIntl(<Header />);
     expect(screen.getByRole("link", { name: /pay online/i })).toHaveAttribute(
       "href",
       "https://healowpay.com"
@@ -54,7 +76,7 @@ describe("Header", () => {
 
   it("draws attention to the Book an Appointment button with a heartbeat pulse", () => {
     renderWithIntl(<Header />);
-    const bookButton = screen.getByRole("link", { name: /book an appointment/i });
+    const bookButton = screen.getByRole("button", { name: /book an appointment/i });
     expect(bookButton.className).toContain("animate-[heartbeat");
   });
 

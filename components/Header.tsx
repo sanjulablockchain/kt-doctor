@@ -5,20 +5,15 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import {
-  BOOKING_URL,
   PAY_ONLINE_URL,
   PATIENT_PORTAL_URL,
   MAIN_PHONE,
   TEXT_PHONE,
 } from "@/lib/constants";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { BookAppointmentButton } from "@/components/BookAppointmentButton";
+import { toE164 } from "@/lib/phone";
 import { withBasePath } from "@/lib/basePath";
-
-// Formats a US display number like "(818) 361-5437" into E.164 for tel:
-// links, e.g. "+18183615437" — matches components/Footer.tsx's formatting.
-function toE164(usPhone: string): string {
-  return `+1${usPhone.replace(/\D/g, "")}`;
-}
 
 const primaryLinkClass =
   "flex items-center justify-between gap-2 rounded-xl border-b border-border/70 px-3 py-3.5 text-lg font-semibold text-ink transition-colors hover:bg-ivory-deep hover:text-teal-dark xl:whitespace-nowrap xl:rounded-none xl:border-none xl:px-0 xl:py-0 xl:text-sm xl:font-medium xl:text-ink-soft xl:hover:bg-transparent";
@@ -287,14 +282,9 @@ export function Header() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2.5">
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-teal px-4 py-2 font-display text-xs font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark motion-safe:animate-[heartbeat_2.5s_ease-in-out_infinite] hover:[animation-play-state:paused] sm:px-5 sm:py-2.5 sm:text-sm"
-          >
+          <BookAppointmentButton className="rounded-full bg-teal px-4 py-2 font-display text-xs font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark motion-safe:animate-[heartbeat_2.5s_ease-in-out_infinite] hover:[animation-play-state:paused] sm:px-5 sm:py-2.5 sm:text-sm">
             {t("appointments")}
-          </a>
+          </BookAppointmentButton>
 
           <button
             type="button"
