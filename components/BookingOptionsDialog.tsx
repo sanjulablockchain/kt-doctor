@@ -13,6 +13,8 @@ type BookingOption = {
   title: string;
   body: string;
   external?: boolean;
+  /** Reaches the practice without waiting on the phone, so we steer here. */
+  recommended?: boolean;
   icon: ReactNode; // inner <path>/<rect> of a 24x24 stroke icon
 };
 
@@ -56,6 +58,7 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
       key: "book",
       href: BOOKING_URL,
       external: true,
+      recommended: true,
       title: t("bookOnlineTitle"),
       body: t("bookOnlineBody"),
       icon: (
@@ -68,6 +71,7 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
     {
       key: "text",
       href: `sms:${toE164(TEXT_PHONE)}`,
+      recommended: true,
       title: t("textTitle"),
       body: t("textBody", { phone: TEXT_PHONE }),
       icon: (
@@ -140,9 +144,19 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
                 ? { target: "_blank", rel: "noopener noreferrer" }
                 : {})}
               onClick={onClose}
-              className="group flex items-center gap-4 rounded-2xl border border-border bg-ivory p-4 text-left transition-all hover:-translate-y-0.5 hover:border-teal hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
+              className={`group flex items-center gap-4 rounded-2xl border p-4 text-left transition-all hover:-translate-y-0.5 hover:border-teal hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 ${
+                option.recommended
+                  ? "border-teal bg-teal-tint"
+                  : "border-border bg-ivory"
+              }`}
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-tint text-teal-dark transition-colors group-hover:bg-teal group-hover:text-white">
+              <span
+                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-colors group-hover:bg-teal group-hover:text-white ${
+                  option.recommended
+                    ? "bg-teal text-white"
+                    : "bg-teal-tint text-teal-dark"
+                }`}
+              >
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -157,10 +171,22 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
                 </svg>
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block font-display text-base font-bold text-ink">
-                  {option.title}
+                {/* The badge wraps below the title on narrow phones rather
+                    than squeezing it, hence flex-wrap over a fixed row. */}
+                <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <span className="font-display text-base font-bold text-ink">
+                    {option.title}
+                  </span>
+                  {option.recommended && (
+                    // Outlined rather than solid teal: text-teal-dark on
+                    // bg-surface clears 5.5:1 in both themes, where white on
+                    // teal drops to about 3:1 in dark mode.
+                    <span className="rounded-full border border-teal bg-surface px-2 py-0.5 font-display text-[0.65rem] font-bold uppercase tracking-wide text-teal-dark">
+                      {t("recommendedBadge")}
+                    </span>
+                  )}
                 </span>
-                <span className="block text-sm text-ink-soft">{option.body}</span>
+                <span className="mt-0.5 block text-sm text-ink-soft">{option.body}</span>
               </span>
               <svg
                 viewBox="0 0 24 24"

@@ -52,6 +52,44 @@ describe("BookingOptionsDialog", () => {
     );
   });
 
+  it("badges booking online and texting as recommended, but not calling", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    expect(screen.getByRole("link", { name: /book online/i })).toHaveTextContent(
+      /recommended/i
+    );
+    expect(screen.getByRole("link", { name: /text us/i })).toHaveTextContent(
+      /recommended/i
+    );
+    expect(screen.getByRole("link", { name: /speak with us/i })).not.toHaveTextContent(
+      /recommended/i
+    );
+  });
+
+  it("tells the visitor why those two are the quicker options", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    expect(screen.getByText(/quickest way to be seen/i)).toBeInTheDocument();
+  });
+
+  it("frames calling as the option for people who would rather talk", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    const call = screen.getByRole("link", { name: /prefer to speak with us/i });
+    expect(call).toHaveAttribute("href", "tel:+18183615437");
+    expect(call).toHaveTextContent("(818) 361-5437");
+  });
+
+  it("marks the recommendation with text, not colour alone", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />, "es");
+
+    // The Spanish badge has to be real translated text for the same reason:
+    // a screen reader and a colourblind visitor both need to read it.
+    expect(screen.getByRole("link", { name: /reservar en línea/i })).toHaveTextContent(
+      /recomendado/i
+    );
+  });
+
   it("moves keyboard focus into the dialog when it opens", () => {
     renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
 

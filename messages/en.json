@@ -90,14 +90,15 @@
   },
   "BookingDialog": {
     "heading": "Book an Appointment",
-    "body": "Choose whichever way is easiest for you.",
+    "body": "Booking online or texting us is the quickest way to be seen.",
     "closeLabel": "Close",
+    "recommendedBadge": "Recommended",
     "bookOnlineTitle": "Book online",
     "bookOnlineBody": "Pick a time on our booking site",
     "textTitle": "Text us",
     "textBody": "Message our team at {phone}",
     "callTitle": "Call us",
-    "callBody": "Speak with our team at {phone}"
+    "callBody": "Prefer to speak with us? Call {phone}"
   },
   "DonateTab": {
     "label": "Donate",
