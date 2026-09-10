@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { BOOKING_URL, MAIN_PHONE } from "@/lib/constants";
+import { MAIN_PHONE } from "@/lib/constants";
+import { BookAppointmentButton } from "@/components/BookAppointmentButton";
 import { withBasePath } from "@/lib/basePath";
 
 // Homepage bottom "book an appointment" banner. A fixed-navy surface (identical
@@ -56,16 +57,12 @@ export function BookingCtaBanner() {
 
       {/* Right: primary CTA + phone */}
       <div className="relative flex w-full flex-col gap-2 sm:w-auto">
-        <a
-          href={BOOKING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group inline-flex items-center justify-center gap-2 rounded-full bg-teal px-7 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
-        >
+        <BookAppointmentButton className="group inline-flex items-center justify-center gap-2 rounded-full bg-teal px-7 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark">
           {t("bookAppointment")}
           <svg
             viewBox="0 0 24 24"
             fill="none"
+            aria-hidden
             className="h-4 w-4 transition-transform group-hover:translate-x-1"
           >
             <path
@@ -76,7 +73,7 @@ export function BookingCtaBanner() {
               strokeLinejoin="round"
             />
           </svg>
-        </a>
+        </BookAppointmentButton>
         <a
           href={telHref}
           aria-label={t("bottomCtaCall", { phone: MAIN_PHONE })}

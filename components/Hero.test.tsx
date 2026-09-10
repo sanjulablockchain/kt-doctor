@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { Hero } from "./Hero";
 import { locations } from "@/data/locations";
@@ -13,12 +14,23 @@ describe("Hero", () => {
     expect(screen.getByText("close to home.")).toBeInTheDocument();
   });
 
-  it("renders the 3 CTA buttons with correct hrefs", () => {
+  it("opens the booking options chooser from the primary CTA", async () => {
     render(<Hero />);
-    expect(screen.getByRole("link", { name: /book an appointment/i })).toHaveAttribute(
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /book an appointment/i }));
+
+    const dialog = within(screen.getByRole("dialog"));
+    expect(dialog.getByRole("link", { name: /book online/i })).toHaveAttribute(
       "href",
       BOOKING_URL
     );
+    expect(dialog.getByRole("link", { name: /text us/i })).toBeInTheDocument();
+    expect(dialog.getByRole("link", { name: /call us/i })).toBeInTheDocument();
+  });
+
+  it("renders the 2 navigation CTAs with correct hrefs", () => {
+    render(<Hero />);
     expect(screen.getByRole("link", { name: /find a doctor/i })).toHaveAttribute(
       "href",
       "/doctors"

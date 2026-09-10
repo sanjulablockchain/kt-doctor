@@ -84,8 +84,20 @@
     "body": "Same-day appointments are available. Call us or book online in just a minute.",
     "bookCta": "Book an Appointment",
     "callLabel": "Call {phone}",
+    "textLabel": "Text {phone}",
     "closeLabel": "Close",
     "photoAlt": "A smiling clinician high-fiving a young patient on an exam table"
+  },
+  "BookingDialog": {
+    "heading": "Book an Appointment",
+    "body": "Choose whichever way is easiest for you.",
+    "closeLabel": "Close",
+    "bookOnlineTitle": "Book online",
+    "bookOnlineBody": "Pick a time on our booking site",
+    "textTitle": "Text us",
+    "textBody": "Message our team at {phone}",
+    "callTitle": "Call us",
+    "callBody": "Speak with our team at {phone}"
   },
   "DonateTab": {
     "label": "Donate",

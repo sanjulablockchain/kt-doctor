@@ -37,6 +37,18 @@ describe("EntryPopup", () => {
     );
   });
 
+  it("also offers texting, so it matches the three ways to book offered elsewhere", () => {
+    renderWithIntl(<EntryPopup />);
+    act(() => {
+      vi.runAllTimers();
+    });
+
+    expect(screen.getByRole("link", { name: /text \(626\) 298-7121/i })).toHaveAttribute(
+      "href",
+      "sms:+16262987121"
+    );
+  });
+
   it("shows a supporting photo with meaningful alt text alongside the dialog", () => {
     renderWithIntl(<EntryPopup />);
     act(() => {

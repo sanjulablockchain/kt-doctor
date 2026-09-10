@@ -2,21 +2,16 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { SocialLinks } from "@/components/SocialLinks";
+import { BookAppointmentButton } from "@/components/BookAppointmentButton";
 import {
   MAIN_PHONE,
   TEXT_PHONE,
   TEXT_PHONE_ES,
   GENERAL_EMAIL,
-  BOOKING_URL,
   PATIENT_PORTAL_URL,
 } from "@/lib/constants";
+import { toE164 } from "@/lib/phone";
 import { withBasePath } from "@/lib/basePath";
-
-// Formats a US display number like "(818) 361-5437" into E.164 for tel:/sms:
-// links, e.g. "+18183615437".
-function toE164(usPhone: string): string {
-  return `+1${usPhone.replace(/\D/g, "")}`;
-}
 
 const contactLinkClass =
   "group flex items-start gap-3 rounded-lg text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy";
@@ -212,14 +207,9 @@ export function Footer() {
               </li>
             </ul>
 
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex w-fit items-center rounded-full bg-teal px-5 py-2.5 font-display text-sm font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
-            >
+            <BookAppointmentButton className="mt-6 inline-flex w-fit items-center rounded-full bg-teal px-5 py-2.5 font-display text-sm font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy">
               {t("bookAppointment")}
-            </a>
+            </BookAppointmentButton>
           </div>
         </div>
       </div>

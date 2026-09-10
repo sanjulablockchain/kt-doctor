@@ -84,8 +84,20 @@
     "body": "Hay citas disponibles el mismo día. Llámenos o reserve en línea en solo un minuto.",
     "bookCta": "Reservar una Cita",
     "callLabel": "Llamar al {phone}",
+    "textLabel": "Enviar un mensaje al {phone}",
     "closeLabel": "Cerrar",
     "photoAlt": "Una clínica sonriente chocando la mano con un paciente joven en una camilla"
+  },
+  "BookingDialog": {
+    "heading": "Reservar una Cita",
+    "body": "Elija la opción que le resulte más fácil.",
+    "closeLabel": "Cerrar",
+    "bookOnlineTitle": "Reservar en línea",
+    "bookOnlineBody": "Elija un horario en nuestro sitio de reservas",
+    "textTitle": "Envíenos un mensaje",
+    "textBody": "Escriba a nuestro equipo al {phone}",
+    "callTitle": "Llámenos",
+    "callBody": "Hable con nuestro equipo al {phone}"
   },
   "DonateTab": {
     "label": "Donar",

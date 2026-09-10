@@ -2,10 +2,10 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { BOOKING_URL } from "@/lib/constants";
 import { locations } from "@/data/locations";
 import { doctors } from "@/data/doctors";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
+import { BookAppointmentButton } from "@/components/BookAppointmentButton";
 import { HeroNetworkPanel } from "@/components/HeroNetworkPanel";
 import { HeroSlideshow } from "@/components/HeroSlideshow";
 
@@ -63,18 +63,13 @@ export function Hero() {
           <p className="max-w-lg text-lg text-ivory/75">{t("subheading")}</p>
 
           <div className="mt-2 flex flex-wrap items-center gap-3">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 font-display text-sm font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
-            >
+            <BookAppointmentButton className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 font-display text-sm font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4">
                 <rect x="3" y="4.5" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="2" />
                 <path d="M16 2.5v4M8 2.5v4M3 10h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               </svg>
               {t("bookAppointment")}
-            </a>
+            </BookAppointmentButton>
             <Link
               href="/doctors"
               className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 font-display text-sm font-semibold text-ivory transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy"

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { Footer } from "./Footer";
 
@@ -107,5 +108,26 @@ describe("Footer", () => {
     const portal = screen.getByRole("link", { name: "Patient Portal" });
     expect(portal).toHaveAttribute("target", "_blank");
     expect(portal).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
+  it("opens the booking options chooser instead of linking straight to Healow", async () => {
+    render(<Footer />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /book an appointment/i }));
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /book online/i })).toHaveAttribute(
+      "href",
+      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2"
+    );
+    expect(screen.getByRole("link", { name: /text us/i })).toHaveAttribute(
+      "href",
+      "sms:+16262987121"
+    );
+    expect(screen.getByRole("link", { name: /call us/i })).toHaveAttribute(
+      "href",
+      "tel:+18183615437"
+    );
   });
 });
