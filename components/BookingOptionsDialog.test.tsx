@@ -61,23 +61,39 @@ describe("BookingOptionsDialog", () => {
     expect(screen.getByRole("link", { name: /text us/i })).toHaveTextContent(
       /recommended/i
     );
-    expect(screen.getByRole("link", { name: /speak with us/i })).not.toHaveTextContent(
+    expect(screen.getByRole("link", { name: /call us/i })).not.toHaveTextContent(
       /recommended/i
     );
   });
 
-  it("tells the visitor why those two are the quicker options", () => {
+  it("keeps the intro line neutral about which option to pick", () => {
     renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
 
-    expect(screen.getByText(/quickest way to be seen/i)).toBeInTheDocument();
+    expect(
+      screen.getByText("Choose whichever way is easiest for you.")
+    ).toBeInTheDocument();
   });
 
-  it("frames calling as the option for people who would rather talk", () => {
+  it("introduces calling with a prompt that sits between texting and the call row", () => {
     renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
 
-    const call = screen.getByRole("link", { name: /prefer to speak with us/i });
+    const prompt = screen.getByText(/prefer to speak with us\?/i);
+    const text = screen.getByRole("link", { name: /text us/i });
+    const call = screen.getByRole("link", { name: /call us/i });
+
+    // Node.DOCUMENT_POSITION_FOLLOWING === 4: the prompt comes after the
+    // text option and before the call option.
+    expect(text.compareDocumentPosition(prompt) & 4).toBeTruthy();
+    expect(prompt.compareDocumentPosition(call) & 4).toBeTruthy();
+  });
+
+  it("keeps the prompt out of the call link, so the link stays a short single line", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    const call = screen.getByRole("link", { name: /call us/i });
     expect(call).toHaveAttribute("href", "tel:+18183615437");
     expect(call).toHaveTextContent("(818) 361-5437");
+    expect(call).not.toHaveTextContent(/prefer to speak/i);
   });
 
   it("marks the recommendation with text, not colour alone", () => {

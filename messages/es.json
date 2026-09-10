@@ -90,15 +90,16 @@
   },
   "BookingDialog": {
     "heading": "Reservar una Cita",
-    "body": "Reservar en línea o enviarnos un mensaje es la forma más rápida de ser atendido.",
+    "body": "Elija la opción que le resulte más fácil.",
     "closeLabel": "Cerrar",
     "recommendedBadge": "Recomendado",
+    "speakPrompt": "¿Prefiere hablar con nosotros?",
     "bookOnlineTitle": "Reservar en línea",
     "bookOnlineBody": "Elija un horario en nuestro sitio de reservas",
     "textTitle": "Envíenos un mensaje",
     "textBody": "Escriba a nuestro equipo al {phone}",
     "callTitle": "Llámenos",
-    "callBody": "¿Prefiere hablar con nosotros? Llame al {phone}"
+    "callBody": "Llame al {phone}"
   },
   "DonateTab": {
     "label": "Donar",

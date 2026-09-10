@@ -136,7 +136,25 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
         <p className="mt-1.5 text-sm text-ink-soft">{t("body")}</p>
 
         <div className="mt-5 flex flex-col gap-3">
-          {options.map((option) => (
+          {options.filter((option) => option.recommended).map(renderOption)}
+        </div>
+
+        {/* The prompt introduces the phone option rather than living inside
+            its row: as row copy it pushed the number onto a second line. */}
+        <p className="mt-5 font-display text-sm font-semibold text-ink">
+          {t("speakPrompt")}
+        </p>
+
+        <div className="mt-2 flex flex-col gap-3">
+          {options.filter((option) => !option.recommended).map(renderOption)}
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+
+  function renderOption(option: BookingOption) {
+    return (
             <a
               key={option.key}
               href={option.href}
@@ -203,10 +221,6 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
                 />
               </svg>
             </a>
-          ))}
-        </div>
-      </div>
-    </div>,
-    document.body
-  );
+    );
+  }
 }
