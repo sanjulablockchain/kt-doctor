@@ -31,7 +31,7 @@ describe("BookAppointmentButton", () => {
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /book online/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /text us/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /call us/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /361-5437/ })).toBeInTheDocument();
   });
 
   it("closes the dialog again on Escape, and can be reopened", async () => {

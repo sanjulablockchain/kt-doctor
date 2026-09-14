@@ -26,7 +26,7 @@ describe("Hero", () => {
       BOOKING_URL
     );
     expect(dialog.getByRole("link", { name: /text us/i })).toBeInTheDocument();
-    expect(dialog.getByRole("link", { name: /call us/i })).toBeInTheDocument();
+    expect(dialog.getByRole("link", { name: /361-5437/ })).toBeInTheDocument();
   });
 
   it("renders the 2 navigation CTAs with correct hrefs", () => {
