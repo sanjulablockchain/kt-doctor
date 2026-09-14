@@ -70,7 +70,7 @@ export function Footer() {
           {/* Brand + social */}
           <div className="max-w-sm sm:col-span-2 lg:col-span-1">
             <Image
-              src={withBasePath("/footer-logo.png")}
+              src={withBasePath("/nav_logo.png")}
               alt="Kids & Teens Medical Group"
               width={300}
               height={262}

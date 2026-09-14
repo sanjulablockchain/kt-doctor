@@ -18,8 +18,8 @@ export type NetworkBrand = {
   servicesEs: string[];
   logoSrc: string;
   /* Optional dark-mode logo. Only needed for logos whose ink is near-black and
-     would vanish on the dark card surface (the KTMG crest); colored logos read
-     fine on both surfaces and omit this. */
+     would vanish on the dark card surface; colored logos read fine on both
+     surfaces and omit this. */
   logoDarkSrc?: string;
   externalUrl?: string;
   internalHref?: string;
@@ -50,8 +50,7 @@ export const networkBrands: NetworkBrand[] = [
       "Atención pediátrica certificada en 25 clínicas del área de Los Ángeles, para edades de 0 a 21 años.",
     services: ["Primary Care", "Urgent Care", "Telehealth", "Newborn Care"],
     servicesEs: ["Atención Primaria", "Atención de Urgencia", "Telesalud", "Cuidado del Recién Nacido"],
-    logoSrc: "/clinic-logo.svg",
-    logoDarkSrc: "/clinic-logo-dark.svg",
+    logoSrc: "/nav_logo.png",
     internalHref: "/doctors",
     social: [
       { platform: "facebook", href: "https://www.facebook.com/kidsandteensmedicalgroup/" },

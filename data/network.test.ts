@@ -34,7 +34,7 @@ describe("network brand data", () => {
     const ktmg = networkBrands.find((b) => b.id === "ktmg");
     expect(ktmg?.internalHref).toBe("/doctors");
     expect(ktmg?.externalUrl).toBeUndefined();
-    expect(ktmg?.logoSrc).toBe("/clinic-logo.svg");
+    expect(ktmg?.logoSrc).toBe("/nav_logo.png");
     expect(ktmg?.category).toBe("care");
   });
 

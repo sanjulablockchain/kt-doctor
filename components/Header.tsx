@@ -84,25 +84,12 @@ export function Header() {
           crest optically identical to the previous `sm:py-2.5` sizing. */}
       <div className="relative mx-auto flex h-[var(--header-h,4rem)] max-w-7xl items-center justify-between gap-3 px-5 sm:gap-6 sm:px-8">
         <Link href="/" className="flex shrink-0 items-center">
-          {/* Two variants toggled by theme (see .logo-light/.logo-dark in
-              globals.css). The dark-mode PNG recolors the near-black ink so the
-              crest tagline stays legible on the dark header. Only one is ever
-              displayed, so both carry the same alt without duplicating it. */}
           <Image
             src={withBasePath("/nav_logo.png")}
             alt="Kids & Teens Medical Group"
             width={300}
             height={262}
-            className="logo-light h-9 w-auto min-[375px]:h-11 sm:h-12"
-            priority
-            unoptimized
-          />
-          <Image
-            src={withBasePath("/nav_logo_dark.png")}
-            alt="Kids & Teens Medical Group"
-            width={300}
-            height={262}
-            className="logo-dark h-9 w-auto min-[375px]:h-11 sm:h-12"
+            className="h-9 w-auto min-[375px]:h-11 sm:h-12"
             priority
             unoptimized
           />

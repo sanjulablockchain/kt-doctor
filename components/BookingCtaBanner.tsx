@@ -34,12 +34,12 @@ export function BookingCtaBanner() {
       {/* Left: logo + text */}
       <div className="relative flex items-center gap-4">
         <Image
-          src={withBasePath("/clinic-logo.svg")}
+          src={withBasePath("/nav_logo.png")}
           alt=""
           aria-hidden
-          width={48}
-          height={15}
-          className="hidden h-12 w-auto brightness-0 invert sm:block"
+          width={300}
+          height={262}
+          className="hidden h-12 w-auto sm:block"
           unoptimized
         />
         <div>
