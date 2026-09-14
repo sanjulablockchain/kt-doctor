@@ -7,15 +7,27 @@ import { LocalClock } from "@/components/LocalClock";
 const DIALOG_ID = "season-drawer";
 const DIALOG_TITLE_ID = "season-drawer-title";
 
+// Banners default to 4:5 because the health-awareness artwork is authored at
+// that ratio. Anything shaped differently sets `aspectClass` to its own native
+// ratio so `object-cover` has nothing to crop. Write the utility out in full:
+// Tailwind scans source text, so an interpolated `aspect-[${ratio}]` would
+// never be generated.
+const DEFAULT_ASPECT = "aspect-[4/5]";
+
 // Every banner in public/banners/ must be listed here to appear in the drawer:
 // dropping a file into public/ only makes it downloadable, nothing enumerates
 // the folder at runtime. To add one, add an entry plus its `altKey` message in
 // both messages/en.json and messages/es.json.
 const SEASON_BANNERS = [
+  {
+    src: "/banners/season-usc-pediatrics-partner.jpg",
+    altKey: "banner4Alt",
+    aspectClass: "aspect-[1080/1526]",
+  },
   { src: "/banners/season-iodine-deficiency-day.jpg", altKey: "banner1Alt" },
   { src: "/banners/season-back-to-school-immunizations.jpg", altKey: "banner2Alt" },
   { src: "/banners/season-vision-back-to-school.jpg", altKey: "banner3Alt" },
-] as const;
+] as const satisfies readonly { src: string; altKey: string; aspectClass?: string }[];
 
 type Props = {
   onClose: () => void;
@@ -65,7 +77,9 @@ export function SeasonBanners({ onClose }: Props) {
           {SEASON_BANNERS.map((banner) => (
             <div
               key={banner.src}
-              className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-soft"
+              className={`relative w-full overflow-hidden rounded-2xl shadow-soft ${
+                "aspectClass" in banner ? banner.aspectClass : DEFAULT_ASPECT
+              }`}
             >
               <Image
                 src={banner.src}
