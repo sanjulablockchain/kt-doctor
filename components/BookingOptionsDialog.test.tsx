@@ -2,6 +2,8 @@ import { describe, it, expect, vi } from "vitest";
 import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithIntl } from "@/lib/test-utils";
+import { locations } from "@/data/locations";
+import { insuranceInfo } from "@/data/insurance";
 import { BookingOptionsDialog } from "./BookingOptionsDialog";
 
 const HEALOW_URL =
@@ -25,22 +27,20 @@ describe("BookingOptionsDialog", () => {
     expect(bookLink).toHaveAttribute("rel", expect.stringContaining("noopener"));
   });
 
-  it("offers texting the practice text line", () => {
+  it("offers texting the practice text line, showing the number to read", () => {
     renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
 
-    expect(screen.getByRole("link", { name: /text us/i })).toHaveAttribute(
-      "href",
-      "sms:+16262987121"
-    );
+    const textLink = screen.getByRole("link", { name: /text us/i });
+    expect(textLink).toHaveAttribute("href", "sms:+16262987121");
+    expect(textLink).toHaveTextContent("(626) 298-7121");
   });
 
-  it("offers calling the main practice number", () => {
+  it("leads the call option with the number itself, since that is the useful part", () => {
     renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
 
-    expect(screen.getByRole("link", { name: /call us/i })).toHaveAttribute(
-      "href",
-      "tel:+18183615437"
-    );
+    const callLink = screen.getByRole("link", { name: /361-5437/ });
+    expect(callLink).toHaveAttribute("href", "tel:+18183615437");
+    expect(callLink).toHaveTextContent("We'll find the soonest opening");
   });
 
   it("uses the same text line in Spanish, since the practice has one text number", () => {
@@ -52,105 +52,64 @@ describe("BookingOptionsDialog", () => {
     );
   });
 
-  it("badges booking online and texting as recommended, but not calling", () => {
+  it("heads the dialog with the practice logo", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    const logo = screen.getByRole("img");
+    expect(logo.getAttribute("alt")).toMatch(/\w/);
+  });
+
+  it("counts the clinics from the location data rather than hardcoding a number", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    expect(
+      screen.getByText(new RegExp(`${locations.length} clinics`, "i"))
+    ).toBeInTheDocument();
+  });
+
+  it("states the accepted insurance from the insurance data", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    // Matched on the whole footer line: a bare /PPO/ would also hit
+    // "a-ppo-intment" in the heading.
+    const footerMeta = screen.getByText(/^Ages 0-21 ·/);
+    for (const category of insuranceInfo.acceptedCategories) {
+      expect(footerMeta).toHaveTextContent(category);
+    }
+  });
+
+  it("singles out booking online as the quick option, leaving the other two level", () => {
     renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
 
     expect(screen.getByRole("link", { name: /book online/i })).toHaveTextContent(
-      /recommended/i
+      /under a minute/i
     );
-    expect(screen.getByRole("link", { name: /text us/i })).toHaveTextContent(
-      /recommended/i
+    expect(screen.getByRole("link", { name: /text us/i })).not.toHaveTextContent(
+      /under a minute/i
     );
-    expect(screen.getByRole("link", { name: /call us/i })).not.toHaveTextContent(
-      /recommended/i
-    );
-  });
-
-  it("keeps the intro line neutral about which option to pick", () => {
-    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
-
-    expect(
-      screen.getByText("Choose whichever way is easiest for you.")
-    ).toBeInTheDocument();
-  });
-
-  it("groups the two recommended options under a shared 'best ways' header", () => {
-    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
-
-    const groupHeading = screen.getByText("Best ways to book quickly");
-    const group = groupHeading.closest("section");
-
-    expect(group).not.toBeNull();
-    expect(within(group as HTMLElement).getByRole("link", { name: /book online/i })).toBeInTheDocument();
-    expect(within(group as HTMLElement).getByRole("link", { name: /text us/i })).toBeInTheDocument();
-    // Calling is deliberately outside the group - it is the alternative.
-    expect(within(group as HTMLElement).queryByRole("link", { name: /call us/i })).toBeNull();
-  });
-
-  it("sells each recommended option with its own benefit list", () => {
-    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
-
-    const book = screen.getByRole("link", { name: /book online/i });
-    expect(book).toHaveTextContent("See real-time availability");
-    expect(book).toHaveTextContent("Book in less than a minute");
-    expect(book).toHaveTextContent("Get a confirmation right away");
-
-    const text = screen.getByRole("link", { name: /text us/i });
-    expect(text).toHaveTextContent("Get answers fast");
-    expect(text).toHaveTextContent("Request an appointment");
-    expect(text).toHaveTextContent("Friendly, real people");
-  });
-
-  it("gives the call section a supporting line under its prompt", () => {
-    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
-
-    expect(
-      screen.getByText("Give us a call and our team will be happy to help.")
-    ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /call us/i })).toHaveTextContent(
-      "Speak with our team at (818) 361-5437"
+    expect(screen.getByRole("link", { name: /361-5437/ })).not.toHaveTextContent(
+      /under a minute/i
     );
   });
 
-  it("translates the new group and benefit copy", () => {
+  it("offers a Not now action that dismisses the dialog", async () => {
+    const onClose = vi.fn();
+    renderWithIntl(<BookingOptionsDialog onClose={onClose} />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /not now/i }));
+
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it("translates the new window copy", () => {
     renderWithIntl(<BookingOptionsDialog onClose={() => {}} />, "es");
 
-    expect(screen.getByText("Las mejores formas de reservar rápido")).toBeInTheDocument();
+    expect(screen.getByText(/su hijo puede ser atendido hoy/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /ahora no/i })).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /reservar en línea/i })
-    ).toHaveTextContent("Reserve en menos de un minuto");
-  });
-
-  it("introduces calling with a prompt that sits between texting and the call row", () => {
-    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
-
-    const prompt = screen.getByText(/prefer to speak with us\?/i);
-    const text = screen.getByRole("link", { name: /text us/i });
-    const call = screen.getByRole("link", { name: /call us/i });
-
-    // Node.DOCUMENT_POSITION_FOLLOWING === 4: the prompt comes after the
-    // text option and before the call option.
-    expect(text.compareDocumentPosition(prompt) & 4).toBeTruthy();
-    expect(prompt.compareDocumentPosition(call) & 4).toBeTruthy();
-  });
-
-  it("keeps the prompt out of the call link, so the link stays a short single line", () => {
-    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
-
-    const call = screen.getByRole("link", { name: /call us/i });
-    expect(call).toHaveAttribute("href", "tel:+18183615437");
-    expect(call).toHaveTextContent("(818) 361-5437");
-    expect(call).not.toHaveTextContent(/prefer to speak/i);
-  });
-
-  it("marks the recommendation with text, not colour alone", () => {
-    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />, "es");
-
-    // The Spanish badge has to be real translated text for the same reason:
-    // a screen reader and a colourblind visitor both need to read it.
-    expect(screen.getByRole("link", { name: /reservar en línea/i })).toHaveTextContent(
-      /recomendado/i
-    );
+    ).toHaveTextContent(/en menos de un minuto/i);
   });
 
   it("moves keyboard focus into the dialog when it opens", () => {
@@ -199,9 +158,18 @@ describe("BookingOptionsDialog", () => {
     renderWithIntl(<BookingOptionsDialog onClose={onClose} />);
     const user = userEvent.setup();
 
-    await user.click(screen.getByRole("link", { name: /call us/i }));
+    await user.click(screen.getByRole("link", { name: /361-5437/ }));
 
     expect(onClose).toHaveBeenCalled();
+  });
+
+  it("renders every option inside the dialog, not loose in the page", () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+
+    const dialog = within(screen.getByRole("dialog"));
+    expect(dialog.getByRole("link", { name: /book online/i })).toBeInTheDocument();
+    expect(dialog.getByRole("link", { name: /text us/i })).toBeInTheDocument();
+    expect(dialog.getByRole("link", { name: /361-5437/ })).toBeInTheDocument();
   });
 
   it("locks background scrolling while open and restores it on close", () => {

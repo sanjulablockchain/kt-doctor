@@ -56,7 +56,7 @@ describe("Header", () => {
       "href",
       "sms:+16262987121"
     );
-    expect(dialog.getByRole("link", { name: /call us/i })).toHaveAttribute(
+    expect(dialog.getByRole("link", { name: /361-5437/ })).toHaveAttribute(
       "href",
       "tel:+18183615437"
     );

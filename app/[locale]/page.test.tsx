@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import Home from "./page";
@@ -34,16 +34,19 @@ describe("Home page", () => {
     const user = userEvent.setup();
     await user.click(bookingTriggers[0]);
 
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /book online/i })).toHaveAttribute(
+    // Scoped to the dialog: the page carries its own phone links, which would
+    // otherwise match the call option's number too.
+    const dialog = within(screen.getByRole("dialog"));
+    expect(dialog.getByRole("link", { name: /book online/i })).toHaveAttribute(
       "href",
       "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2"
     );
-    expect(screen.getByRole("link", { name: /text us/i })).toHaveAttribute(
+    expect(dialog.getByRole("link", { name: /text us/i })).toHaveAttribute(
       "href",
       "sms:+16262987121"
     );
-    expect(screen.getByRole("link", { name: /call us/i })).toHaveAttribute(
+    // The call option leads with the number rather than a "Call us" label.
+    expect(dialog.getByRole("link", { name: /361-5437/ })).toHaveAttribute(
       "href",
       "tel:+18183615437"
     );
