@@ -19,6 +19,7 @@ describe("SeasonTab", () => {
 
     const dialog = screen.getByRole("dialog");
     expect(dialog).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /proud USC Pediatrics partner/ })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Global Iodine Deficiency Prevention Day/ })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Back to school reminder/ })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Back to school vision check/ })).toBeInTheDocument();
@@ -42,10 +43,31 @@ describe("SeasonTab", () => {
     await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
 
     const banners = screen.getAllByRole("img");
-    expect(banners).toHaveLength(3);
+    expect(banners).toHaveLength(4);
     for (const banner of banners) {
       expect(banner.getAttribute("alt")).toBeTruthy();
     }
+  });
+
+  it("leads the drawer with the USC partnership flyer", async () => {
+    render(<SeasonTab />);
+    await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
+
+    const banners = screen.getAllByRole("img");
+    expect(banners[0].getAttribute("alt")).toMatch(/proud USC Pediatrics partner/);
+  });
+
+  it("gives each banner its own aspect ratio so nothing is cropped", async () => {
+    render(<SeasonTab />);
+    await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
+
+    // The flyer is taller than the 4:5 health banners. Forcing it into the
+    // shared 4:5 box would crop the award badge and the office address.
+    const flyer = screen.getByRole("img", { name: /proud USC Pediatrics partner/ });
+    expect(flyer.closest("div")).toHaveClass("aspect-[1080/1526]");
+
+    const iodine = screen.getByRole("img", { name: /Global Iodine Deficiency Prevention Day/ });
+    expect(iodine.closest("div")).toHaveClass("aspect-[4/5]");
   });
 
   it("closes the drawer when the close button is clicked", async () => {
@@ -80,5 +102,14 @@ describe("SeasonTab", () => {
     render(<SeasonTab />, "es");
     expect(screen.getByText("Temporada")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Abrir novedades de temporada" })).toBeInTheDocument();
+  });
+
+  it("renders Spanish alt text for every banner when locale is es", async () => {
+    render(<SeasonTab />, "es");
+    await userEvent.click(screen.getByRole("button", { name: "Abrir novedades de temporada" }));
+
+    const banners = screen.getAllByRole("img");
+    expect(banners).toHaveLength(4);
+    expect(screen.getByRole("img", { name: /socio de Pediatr/ })).toBeInTheDocument();
   });
 });
