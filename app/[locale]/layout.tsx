@@ -15,7 +15,6 @@ import { organizationJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 import { GoogleAdsTag } from "@/components/GoogleAdsTag";
 import { ConversionTracking } from "@/components/ConversionTracking";
-import { withBasePath } from "@/lib/basePath";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -41,7 +40,6 @@ export async function generateMetadata({
       template: `%s | ${SITE_NAME}`,
     },
     description: "Board-certified pediatric care across Greater Los Angeles.",
-    icons: { icon: withBasePath("/clinic-logo.svg") },
     openGraph: {
       siteName: SITE_NAME,
       locale: locale === "es" ? "es_ES" : "en_US",
