@@ -4,6 +4,8 @@ import { doctors } from "@/data/doctors";
 import { locations } from "@/data/locations";
 import { stories } from "@/data/stories";
 import { serviceCategories } from "@/data/services";
+import { pressReleases } from "@/data/pressReleases";
+import { pressBios } from "@/data/pressBios";
 
 const STATIC_PATHS = [
   "/",
@@ -15,6 +17,7 @@ const STATIC_PATHS = [
   "/foundation",
   "/insurance",
   "/locations",
+  "/media",
   "/network",
   "/privacy-policy",
   "/resources",
@@ -44,6 +47,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...locations.map((l) => `/locations/${l.id}`),
     ...serviceIds.map((id) => `/services/${id}`),
     ...stories.map((s) => `/blog/${s.id}`),
+    ...pressReleases.map((r) => `/media/press/${r.id}`),
+    ...pressBios.map((b) => `/media/leadership/${b.id}`),
   ];
 
   return [...STATIC_PATHS, ...dynamicPaths].map((path) => ({
