@@ -12,6 +12,7 @@
     "services": "Servicios",
     "blog": "Blog",
     "testimonials": "Testimonios",
+    "media": "Prensa",
     "payOnline": "Pagar en línea",
     "portalLogIn": "Portal del paciente",
     "appointments": "Reservar una Cita",
@@ -524,6 +525,34 @@
       "sendFailed": "No pudimos enviar su mensaje en este momento. Por favor llámenos o escríbanos directamente."
     }
   },
+  "Media": {
+    "eyebrow": "Prensa",
+    "heading": "Recursos de prensa y medios.",
+    "description": "Comunicados de prensa, biografías de liderazgo y el kit de prensa completo de Kids & Teens Medical Group, listos para periodistas, socios y organizadores de eventos.",
+    "pressHeading": "Comunicados de Prensa",
+    "pressDescription": "Anuncios de la práctica.",
+    "leadershipHeading": "Liderazgo",
+    "leadershipDescription": "Biografías formales para prensa, socios y organizadores de eventos.",
+    "kitHeading": "Kit de Prensa",
+    "kitDescription": "Cada parte de la historia de Kids & Teens Medical Group. Lea cada sección en el sitio o descárguela en PDF.",
+    "downloadsHeading": "Descargas",
+    "downloadsDescription": "Archivos listos para imprimir y publicar.",
+    "forImmediateRelease": "Para publicación inmediata",
+    "readRelease": "Leer el comunicado",
+    "readBiography": "Leer la biografía",
+    "downloadPdf": "Descargar PDF",
+    "openSection": "Abrir sección",
+    "backToMedia": "Volver a Prensa",
+    "speakingHeading": "Conferencias y entrevistas",
+    "speakingCta": "Póngase en contacto",
+    "mediaContactHeading": "Contacto de prensa",
+    "mediaContactDescription": "Para entrevistas, permisos y consultas de prensa, comuníquese con Kids & Teens Medical Group.",
+    "patientProfile": "Ver el perfil para pacientes",
+    "pressProfile": "Leer la biografía completa de prensa",
+    "boilerplateHeading": "Acerca de Kids & Teens Medical Group",
+    "boilerplate": "Fundado en 2007 por Janesri De Silva, MD, FAAP, Kids & Teens Medical Group es la red pediátrica independiente más grande del sur de California, al servicio de niños y familias en 25 clínicas del condado de Los Ángeles y las regiones circundantes.",
+    "endOfRelease": "Fin del comunicado"
+  },
   "Seo": {
     "home": {
       "title": "Atención Pediátrica en el Gran Los Ángeles",
@@ -560,6 +589,10 @@
     "locations": {
       "title": "Encuentre una Clínica",
       "description": "Encuentre una clínica pediátrica de Kids & Teens Medical Group cerca de usted en el área de Los Ángeles, con citas el mismo día y sin cita previa."
+    },
+    "media": {
+      "title": "Prensa",
+      "description": "Comunicados de prensa, biografías de liderazgo y el kit de prensa completo de Kids & Teens Medical Group, la red pediátrica independiente más grande del sur de California."
     },
     "network": {
       "title": "Nuestra Red",

@@ -3,6 +3,8 @@ import { SITE_URL, SITE_NAME, MAIN_PHONE } from "@/lib/constants";
 import { routing } from "@/i18n/routing";
 import type { Doctor, Location } from "@/lib/types";
 import type { Story } from "@/data/stories";
+import type { PressRelease } from "@/data/pressReleases";
+import type { PressBio } from "@/data/pressBios";
 import type { FaqItem } from "@/data/faq";
 
 export type OgType = "website" | "article" | "profile";
@@ -202,6 +204,42 @@ export function articleJsonLd(story: Story, locale: string) {
       logo: { "@type": "ImageObject", url: LOGO_URL },
     },
     mainEntityOfPage: absoluteUrl(locale, `/blog/${story.id}`),
+  };
+}
+
+export function pressReleaseJsonLd(release: PressRelease, locale: string) {
+  const isEs = locale === "es";
+  return {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: isEs ? release.titleEs : release.title,
+    description: isEs ? release.excerptEs : release.excerpt,
+    // Already an ISO date on the data, unlike `stories`, which carry a human
+    // date string and need `toIsoDate`.
+    datePublished: release.date,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      logo: { "@type": "ImageObject", url: LOGO_URL },
+    },
+    mainEntityOfPage: absoluteUrl(locale, `/media/press/${release.id}`),
+  };
+}
+
+export function pressBioJsonLd(bio: PressBio, locale: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: `${bio.name}, ${bio.credentials}`,
+    jobTitle: locale === "es" ? bio.roleEs : bio.role,
+    description: locale === "es" ? bio.summaryEs : bio.summary,
+    image: `${SITE_URL}${bio.portraitSrc}`,
+    url: absoluteUrl(locale, `/media/leadership/${bio.id}`),
+    worksFor: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
   };
 }
 

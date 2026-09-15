@@ -12,6 +12,7 @@
     "services": "Services",
     "blog": "Blog",
     "testimonials": "Testimonials",
+    "media": "Media",
     "payOnline": "Pay Online",
     "portalLogIn": "Portal Log In",
     "appointments": "Book an Appointment",
@@ -524,6 +525,34 @@
       "sendFailed": "We couldn't send your message right now. Please call or email us directly."
     }
   },
+  "Media": {
+    "eyebrow": "Media",
+    "heading": "Press and media resources.",
+    "description": "Press releases, leadership biographies, and the complete Kids & Teens Medical Group media kit, ready for journalists, partners, and event organizers.",
+    "pressHeading": "Press Releases",
+    "pressDescription": "Announcements from the practice.",
+    "leadershipHeading": "Leadership",
+    "leadershipDescription": "Formal biographies for press, partners, and event organizers.",
+    "kitHeading": "Media Kit",
+    "kitDescription": "Every part of the Kids & Teens Medical Group story. Read each section on the site, or download it as a PDF.",
+    "downloadsHeading": "Downloads",
+    "downloadsDescription": "Ready-to-use files for print and publication.",
+    "forImmediateRelease": "For Immediate Release",
+    "readRelease": "Read the release",
+    "readBiography": "Read the biography",
+    "downloadPdf": "Download PDF",
+    "openSection": "Open section",
+    "backToMedia": "Back to Media",
+    "speakingHeading": "Speaking and interviews",
+    "speakingCta": "Get in touch",
+    "mediaContactHeading": "Media contact",
+    "mediaContactDescription": "For interviews, permissions, and media enquiries, contact Kids & Teens Medical Group.",
+    "patientProfile": "See patient-facing profile",
+    "pressProfile": "Read full press biography",
+    "boilerplateHeading": "About Kids & Teens Medical Group",
+    "boilerplate": "Founded in 2007 by Janesri De Silva, MD, FAAP, Kids & Teens Medical Group is Southern California's largest independent pediatric network, serving children and families across 25 clinic locations in Los Angeles County and surrounding regions.",
+    "endOfRelease": "End of release"
+  },
   "Seo": {
     "home": {
       "title": "Pediatric Care Across Greater Los Angeles",
@@ -560,6 +589,10 @@
     "locations": {
       "title": "Find a Clinic",
       "description": "Find a Kids & Teens Medical Group pediatric clinic near you across Greater Los Angeles, with same-day and walk-in visits."
+    },
+    "media": {
+      "title": "Media",
+      "description": "Press releases, leadership biographies, and the complete media kit for Kids & Teens Medical Group, Southern California's largest independent pediatric network."
     },
     "network": {
       "title": "Our Network",

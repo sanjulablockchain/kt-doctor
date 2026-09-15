@@ -251,6 +251,18 @@ describe("Header", () => {
     );
   });
 
+  it("renders a Media link in the More menu to /media", () => {
+    renderWithIntl(<Header />);
+    expect(screen.getByRole("link", { name: "Media" })).toHaveAttribute("href", "/media");
+  });
+
+  // localePrefix is "as-needed", so the Spanish route carries the /es prefix
+  // while the default-locale route does not.
+  it("labels the Media nav link in Spanish too", () => {
+    renderWithIntl(<Header />, "es");
+    expect(screen.getByRole("link", { name: "Prensa" })).toHaveAttribute("href", "/es/media");
+  });
+
   it("renders a Contact link in the More menu to /contact", () => {
     renderWithIntl(<Header />);
     const links = screen.getAllByRole("link", { name: "Contact" });

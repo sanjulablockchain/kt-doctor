@@ -188,6 +188,9 @@ export function Header() {
               <Link href="/blog" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("blog")}
               </Link>
+              <Link href="/media" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+                {t("media")}
+              </Link>
               <Link href="/testimonials" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("testimonials")}
               </Link>

@@ -3,10 +3,12 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { doctors } from "@/data/doctors";
 import { locations } from "@/data/locations";
+import { pressBios } from "@/data/pressBios";
 import { Link } from "@/i18n/navigation";
 import { BOOKING_URL, SITE_NAME } from "@/lib/constants";
 import { buildMetadata, physicianJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { PressBioLink } from "@/components/PressBioLink";
 import { withBasePath } from "@/lib/basePath";
 
 function initials(name: string): string {
@@ -59,6 +61,8 @@ export default async function DoctorDetailPage({
   if (!doctor) {
     notFound();
   }
+
+  const pressBio = pressBios.find((b) => b.doctorId === doctor.id) ?? null;
 
   const doctorLocations = doctor.locationIds
     .map((id) => locations.find((loc) => loc.id === id))
@@ -121,6 +125,8 @@ export default async function DoctorDetailPage({
       </div>
 
       {doctor.bio && <p className="mt-8 text-ink-soft">{doctor.bio}</p>}
+
+      {pressBio ? <PressBioLink bioId={pressBio.id} /> : null}
 
       <h2 className="mt-8 font-display text-lg font-bold text-ink">Locations</h2>
       <div className="mt-3 flex flex-col gap-3">

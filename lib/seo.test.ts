@@ -9,9 +9,13 @@ import {
   physicianJsonLd,
   localBusinessJsonLd,
   articleJsonLd,
+  pressReleaseJsonLd,
+  pressBioJsonLd,
   breadcrumbJsonLd,
   faqPageJsonLd,
 } from "./seo";
+import { pressReleases } from "@/data/pressReleases";
+import { pressBios } from "@/data/pressBios";
 import type { Doctor, Location } from "@/lib/types";
 
 describe("localePath", () => {
@@ -196,5 +200,54 @@ describe("faqPageJsonLd", () => {
     expect(jsonld["@type"]).toBe("FAQPage");
     expect(jsonld.mainEntity[0].name).toBe("P");
     expect(jsonld.mainEntity[0].acceptedAnswer.text).toBe("R");
+  });
+});
+
+describe("pressReleaseJsonLd", () => {
+  const release = pressReleases[0];
+
+  it("describes the release as a NewsArticle published by the practice", () => {
+    const jsonld = pressReleaseJsonLd(release, "en");
+    expect(jsonld["@type"]).toBe("NewsArticle");
+    expect(jsonld.headline).toBe(release.title);
+    expect(jsonld.datePublished).toBe(release.date);
+    expect(jsonld.publisher.name).toBe("Kids & Teens Medical Group");
+  });
+
+  it("points mainEntityOfPage at the release's own URL in each locale", () => {
+    expect(pressReleaseJsonLd(release, "en").mainEntityOfPage).toBe(
+      `https://www.ktdoctor.com/media/press/${release.id}`
+    );
+    expect(pressReleaseJsonLd(release, "es").mainEntityOfPage).toBe(
+      `https://www.ktdoctor.com/es/media/press/${release.id}`
+    );
+  });
+
+  it("emits the Spanish headline and description when locale is es", () => {
+    const jsonld = pressReleaseJsonLd(release, "es");
+    expect(jsonld.headline).toBe(release.titleEs);
+    expect(jsonld.description).toBe(release.excerptEs);
+  });
+});
+
+describe("pressBioJsonLd", () => {
+  const bio = pressBios[0];
+
+  it("describes the subject as a Person affiliated with the practice", () => {
+    const jsonld = pressBioJsonLd(bio, "en");
+    expect(jsonld["@type"]).toBe("Person");
+    expect(jsonld.name).toBe("Janesri De Silva, MD, FAAP");
+    expect(jsonld.jobTitle).toBe(bio.role);
+    expect(jsonld.worksFor.name).toBe("Kids & Teens Medical Group");
+  });
+
+  it("uses the absolute portrait URL and the bio's own page URL", () => {
+    const jsonld = pressBioJsonLd(bio, "en");
+    expect(jsonld.image).toBe(`https://www.ktdoctor.com${bio.portraitSrc}`);
+    expect(jsonld.url).toBe(`https://www.ktdoctor.com/media/leadership/${bio.id}`);
+  });
+
+  it("emits the Spanish job title when locale is es", () => {
+    expect(pressBioJsonLd(bio, "es").jobTitle).toBe(bio.roleEs);
   });
 });

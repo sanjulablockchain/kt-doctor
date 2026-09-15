@@ -14,4 +14,23 @@ describe("DoctorDetailPage", () => {
       "https://healow.com/apps/provider/amrita-dosanjh-3161324"
     );
   });
+
+  // A doctor who also has a formal press biography should not be a dead end:
+  // the two versions of her story link to each other.
+  it("links to the press biography for a doctor who has one", async () => {
+    const ui = await DoctorDetailPage({ params: Promise.resolve({ slug: "janesri-de-silva" }) });
+    render(ui);
+
+    expect(screen.getByRole("link", { name: /full press biography/i })).toHaveAttribute(
+      "href",
+      "/media/leadership/janesri-de-silva"
+    );
+  });
+
+  it("shows no press biography link for a doctor who has none", async () => {
+    const ui = await DoctorDetailPage({ params: Promise.resolve({ slug: "amrita-dosanjh" }) });
+    render(ui);
+
+    expect(screen.queryByRole("link", { name: /press biography/i })).not.toBeInTheDocument();
+  });
 });
