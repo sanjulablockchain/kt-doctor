@@ -13,14 +13,14 @@ describe("MediaPage", () => {
   it("renders the media hub heading", () => {
     render(<MediaPage />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Press and media resources."
+      "Press and Media Interest"
     );
   });
 
   it("renders the Spanish heading when locale is es", () => {
     render(<MediaPage />, "es");
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Recursos de prensa y medios."
+      "Interés de Prensa y Medios"
     );
   });
 });

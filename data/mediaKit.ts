@@ -117,12 +117,15 @@ export type MediaDownload = {
 export const mediaDownloads: MediaDownload[] = [
   {
     id: "media-kit",
-    title: "Complete Media Kit",
-    titleEs: "Kit de Prensa Completo",
+    // The client's revision document wrote "Kids & Teens Media Group" here.
+    // Corrected to "Medical", which is the practice's actual name and what the
+    // same document uses everywhere else.
+    title: "Kids & Teens Medical Group | Media Kit",
+    titleEs: "Kids & Teens Medical Group | Kit de Prensa",
     description:
-      "The full Kids & Teens Medical Group media kit as a single PDF, covering the press release, founder biography, services, network, foundation and telehealth.",
+      "Inclusive of Press Release, Founder Biography, Services, Network, Foundation, Telehealth",
     descriptionEs:
-      "El kit de prensa completo de Kids & Teens Medical Group en un solo PDF, que abarca el comunicado de prensa, la biografía de la fundadora, los servicios, la red, la fundación y la telesalud.",
+      "Incluye el Comunicado de Prensa, la Biografía de la Fundadora, los Servicios, la Red, la Fundación y la Telesalud",
     href: "/media/ktmg-media-kit.pdf",
     kind: "pdf",
     available: true,

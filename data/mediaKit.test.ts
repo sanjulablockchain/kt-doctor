@@ -66,6 +66,24 @@ describe("mediaDownloads", () => {
     expect(kit!.href).toMatch(/^\/media\/.+\.pdf$/);
   });
 
+  it("titles the kit download with the practice's real name", () => {
+    const kit = mediaDownloads.find((d) => d.id === "media-kit")!;
+    expect(kit.title).toBe("Kids & Teens Medical Group | Media Kit");
+    expect(kit.description).toBe(
+      "Inclusive of Press Release, Founder Biography, Services, Network, Foundation, Telehealth"
+    );
+  });
+
+  // "Kids & Teens Media Group" appeared in the revision document; the practice
+  // is Kids & Teens Medical Group, as the same document says elsewhere.
+  it("never misspells the practice name as Media Group", () => {
+    const allText = [
+      ...mediaKitSections.flatMap((s) => [s.title, s.titleEs, s.description, s.descriptionEs]),
+      ...mediaDownloads.flatMap((d) => [d.title, d.titleEs, d.description, d.descriptionEs]),
+    ].join(" ");
+    expect(allText).not.toContain("Teens Media Group");
+  });
+
   // The supplied flyer prints www.ktddoctor.com and its QR code encodes the
   // same misspelling, so scanning it sends families to a domain that is not
   // the practice's. It stays switched off until a corrected export arrives.

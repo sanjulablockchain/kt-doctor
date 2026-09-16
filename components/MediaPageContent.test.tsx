@@ -10,17 +10,48 @@ describe("MediaPageContent", () => {
   it("renders the English page heading", () => {
     render(<MediaPageContent />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Press and media resources."
+      "Press and Media Interest"
     );
   });
 
   it("renders the Spanish page heading and section headings when locale is es", () => {
     render(<MediaPageContent />, "es");
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Recursos de prensa y medios."
+      "Interés de Prensa y Medios"
     );
     expect(screen.getByRole("heading", { name: "Comunicados de Prensa" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Kit de Prensa" })).toBeInTheDocument();
+  });
+
+  it("names the leadership section for the biography it holds", () => {
+    render(<MediaPageContent />);
+    expect(screen.getByRole("heading", { name: "Leadership Biography" })).toBeInTheDocument();
+    expect(screen.getByText("Meet the Founder, Kids & Teens Medical Group")).toBeInTheDocument();
+  });
+
+  // The invitation to get in touch is the one line on the hub that asks the
+  // reader to act, so the closing words are a real link rather than flat text.
+  it("turns the closing words of the contact invitation into a link to /contact", () => {
+    render(<MediaPageContent />);
+    const link = screen.getByRole("link", { name: "Contact Us" });
+    expect(link).toHaveAttribute("href", "/contact");
+    expect(link.closest("p")?.textContent).toContain("Media, Partnership, Events Interest");
+  });
+
+  it("renders the contact invitation in Spanish when locale is es", () => {
+    render(<MediaPageContent />, "es");
+    expect(screen.getByRole("link", { name: "ponerse en contacto" })).toHaveAttribute(
+      "href",
+      "/es/contact"
+    );
+  });
+
+  it("renders both lines of the downloads introduction", () => {
+    render(<MediaPageContent />);
+    expect(screen.getByText("For Print and Publication Interest")).toBeInTheDocument();
+    expect(
+      screen.getByText("Convenient Ready-to-Download Files from Our Media Kit")
+    ).toBeInTheDocument();
   });
 
   it("leads with the press release, linking to its own page", () => {
@@ -77,13 +108,13 @@ describe("MediaPageContent", () => {
     }
   });
 
+  // Matched on exact text rather than a RegExp built from the title: the title
+  // contains a pipe, which would be read as regex alternation.
   it("offers the complete media kit as a download", () => {
     render(<MediaPageContent />);
     const kit = mediaDownloads.find((d) => d.id === "media-kit")!;
-    expect(screen.getByRole("link", { name: new RegExp(kit.title, "i") })).toHaveAttribute(
-      "href",
-      kit.href
-    );
+    expect(screen.getByRole("link", { name: kit.title })).toHaveAttribute("href", kit.href);
+    expect(screen.getByText(kit.description)).toBeInTheDocument();
   });
 
   // The supplied flyer's QR code encodes a misspelled domain, so it is staged

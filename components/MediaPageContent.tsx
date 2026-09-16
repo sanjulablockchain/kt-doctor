@@ -48,6 +48,15 @@ export function MediaPageContent() {
         {t("heading")}
       </h1>
       <p className="mt-3 max-w-2xl text-ink-soft">{t("description")}</p>
+      <p className="mt-2 max-w-2xl text-ink-soft">
+        {t.rich("contactInvite", {
+          link: (chunks) => (
+            <Link href="/contact" className="font-semibold text-teal-dark hover:text-teal">
+              {chunks}
+            </Link>
+          ),
+        })}
+      </p>
 
       {/* Press release. Given a lead treatment rather than a card in a grid:
           it is the newest piece and the reason most journalists arrive here. */}
@@ -168,6 +177,7 @@ export function MediaPageContent() {
           {t("downloadsHeading")}
         </h2>
         <p className="mt-2 text-sm text-ink-soft">{t("downloadsDescription")}</p>
+        <p className="mt-1 text-sm text-ink-soft">{t("downloadsSubline")}</p>
 
         <ul className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
           {downloads.map((download) => (
