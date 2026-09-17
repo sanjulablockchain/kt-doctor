@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { mediaKitSections, mediaDownloads } from "./mediaKit";
+import { mediaKitSections, mediaDownloads, uscFlyer } from "./mediaKit";
 import { pressReleases } from "./pressReleases";
 import { pressBios } from "./pressBios";
 
@@ -62,7 +62,6 @@ describe("mediaDownloads", () => {
   it("offers the complete kit as a download", () => {
     const kit = mediaDownloads.find((d) => d.id === "media-kit");
     expect(kit).toBeDefined();
-    expect(kit!.available).toBe(true);
     expect(kit!.href).toMatch(/^\/media\/.+\.pdf$/);
   });
 
@@ -84,14 +83,10 @@ describe("mediaDownloads", () => {
     expect(allText).not.toContain("Teens Media Group");
   });
 
-  // The supplied flyer prints www.ktddoctor.com and its QR code encodes the
-  // same misspelling, so scanning it sends families to a domain that is not
-  // the practice's. It stays switched off until a corrected export arrives.
-  it("keeps the flyer switched off while its QR code points at the wrong domain", () => {
-    const flyer = mediaDownloads.find((d) => d.id === "flyer");
-    expect(flyer).toBeDefined();
-    expect(flyer!.available).toBe(false);
-    expect(flyer!.unavailableReason).toMatch(/ktddoctor/);
+  // The flyer used to sit here as a switched-off download. It now has its own
+  // display section, so Downloads holds only the kit.
+  it("no longer lists the flyer, which has its own section", () => {
+    expect(mediaDownloads.map((d) => d.id)).toEqual(["media-kit"]);
   });
 
   it("gives every download a title and description in both locales", () => {
@@ -109,5 +104,43 @@ describe("mediaDownloads", () => {
       ...mediaDownloads.flatMap((d) => [d.title, d.titleEs, d.description, d.descriptionEs]),
     ].join(" ");
     expect(allText).not.toContain("—");
+  });
+});
+
+describe("uscFlyer", () => {
+  it("points at the self-hosted flyer with its real pixel dimensions", () => {
+    expect(uscFlyer.imageSrc).toBe("/media/ktmg-flyer.jpg");
+    expect(uscFlyer.imageWidth).toBe(1080);
+    expect(uscFlyer.imageHeight).toBe(1526);
+  });
+
+  it("carries alt text in both locales that names the practice and the partnership", () => {
+    expect(uscFlyer.alt).toMatch(/Kids & Teens Medical Group/);
+    expect(uscFlyer.alt).toMatch(/USC/);
+    expect(uscFlyer.altEs.length).toBeGreaterThan(40);
+  });
+
+  // The flyer is a text-heavy image. Its substance has to exist as real text
+  // for screen readers and for search, not only baked into a JPEG.
+  it("restates the flyer's key facts as real bilingual text", () => {
+    expect(uscFlyer.highlights.length).toBeGreaterThanOrEqual(3);
+    for (const highlight of uscFlyer.highlights) {
+      expect(highlight.text.length).toBeGreaterThan(10);
+      expect(highlight.textEs.length).toBeGreaterThan(10);
+    }
+    const all = uscFlyer.highlights.map((h) => h.text).join(" ");
+    expect(all).toMatch(/USC/);
+    expect(all).toMatch(/L\.A\. Care/);
+    expect(all).toMatch(/25/);
+  });
+
+  it("uses no em dash and never names the misspelled domain", () => {
+    const allText = [
+      uscFlyer.alt,
+      uscFlyer.altEs,
+      ...uscFlyer.highlights.flatMap((h) => [h.text, h.textEs]),
+    ].join(" ");
+    expect(allText).not.toContain("—");
+    expect(allText).not.toContain("ktddoctor");
   });
 });

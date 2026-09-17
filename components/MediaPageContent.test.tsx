@@ -4,7 +4,7 @@ import { renderWithIntl as render } from "@/lib/test-utils";
 import { MediaPageContent } from "./MediaPageContent";
 import { pressReleases } from "@/data/pressReleases";
 import { pressBios } from "@/data/pressBios";
-import { mediaKitSections, mediaDownloads } from "@/data/mediaKit";
+import { mediaKitSections, mediaDownloads, uscFlyer } from "@/data/mediaKit";
 
 describe("MediaPageContent", () => {
   it("renders the English page heading", () => {
@@ -80,9 +80,11 @@ describe("MediaPageContent", () => {
     expect(link).toHaveAttribute("href", `/media/leadership/${pressBios[0].id}`);
   });
 
+  // Scoped to the leadership card: the USC flyer's alt text names her too.
   it("gives the founder portrait meaningful alt text naming her", () => {
     render(<MediaPageContent />);
-    const portrait = screen.getByRole("img", { name: /janesri de silva/i });
+    const leadership = screen.getByRole("region", { name: /leadership/i });
+    const portrait = within(leadership).getByRole("img", { name: /janesri de silva/i });
     expect(portrait).toBeInTheDocument();
   });
 
@@ -117,22 +119,61 @@ describe("MediaPageContent", () => {
     expect(screen.getByText(kit.description)).toBeInTheDocument();
   });
 
-  // The supplied flyer's QR code encodes a misspelled domain, so it is staged
-  // but switched off. Nothing about it should reach the page.
-  it("renders no download that is marked unavailable", () => {
-    render(<MediaPageContent />);
-    const flyer = mediaDownloads.find((d) => d.id === "flyer")!;
-    expect(screen.queryByText(flyer.title)).not.toBeInTheDocument();
-    expect(
-      document.querySelector(`a[href="${flyer.href}"]`),
-      "the unavailable flyer must not be linked"
-    ).toBeNull();
-  });
-
   it("gives each section a labelled region so the page is navigable by landmark", () => {
     render(<MediaPageContent />);
-    for (const name of [/press releases/i, /leadership/i, /media kit/i, /downloads/i]) {
+    for (const name of [
+      /press releases/i,
+      /leadership/i,
+      /media kit/i,
+      /USC partnership/i,
+      /downloads/i,
+    ]) {
       expect(screen.getByRole("region", { name })).toBeInTheDocument();
     }
+  });
+});
+
+describe("MediaPageContent USC flyer section", () => {
+  it("renders the flyer with alt text describing it", () => {
+    render(<MediaPageContent />);
+    const image = screen.getByRole("img", { name: uscFlyer.alt });
+    expect(image).toBeInTheDocument();
+  });
+
+  // She asked for this piece specifically "right before the Downloads section".
+  it("sits between the media kit and the downloads section", () => {
+    render(<MediaPageContent />);
+    const kit = screen.getByRole("region", { name: /media kit/i });
+    const flyer = screen.getByRole("region", { name: /USC partnership/i });
+    const downloads = screen.getByRole("region", { name: /downloads/i });
+
+    expect(kit.compareDocumentPosition(flyer) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(
+      flyer.compareDocumentPosition(downloads) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy();
+  });
+
+  it("restates the flyer's key facts as real text beside the image", () => {
+    render(<MediaPageContent />);
+    const flyer = screen.getByRole("region", { name: /USC partnership/i });
+    for (const highlight of uscFlyer.highlights) {
+      expect(within(flyer).getByText(highlight.text)).toBeInTheDocument();
+    }
+  });
+
+  it("offers a full-size view of the flyer in a new tab", () => {
+    render(<MediaPageContent />);
+    const flyer = screen.getByRole("region", { name: /USC partnership/i });
+    const link = within(flyer).getByRole("link", { name: /view full size/i });
+    expect(link).toHaveAttribute("href", uscFlyer.imageSrc);
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
+  });
+
+  it("renders the section heading and highlights in Spanish when locale is es", () => {
+    render(<MediaPageContent />, "es");
+    const flyer = screen.getByRole("region", { name: /alianza con USC/i });
+    expect(within(flyer).getByText(uscFlyer.highlights[0].textEs)).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: uscFlyer.altEs })).toBeInTheDocument();
   });
 });

@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { pressReleases } from "@/data/pressReleases";
 import { pressBios } from "@/data/pressBios";
-import { mediaKitSections, mediaDownloads } from "@/data/mediaKit";
+import { mediaKitSections, mediaDownloads, uscFlyer } from "@/data/mediaKit";
 import { withBasePath } from "@/lib/basePath";
 
 const sectionHeadingClass =
@@ -37,7 +37,6 @@ export function MediaPageContent() {
 
   const release = pressReleases[0];
   const bio = pressBios[0];
-  const downloads = mediaDownloads.filter((d) => d.available);
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
@@ -171,6 +170,64 @@ export function MediaPageContent() {
         </ul>
       </section>
 
+      {/* USC partnership flyer. Placed between the kit and the downloads at the
+          client's request. The flyer's own text is restated beside it because a
+          JPEG is unreadable to screen readers and to search. */}
+      <section aria-labelledby="media-flyer" className="mt-12">
+        <h2 id="media-flyer" className={sectionHeadingClass}>
+          {t("flyerHeading")}
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm text-ink-soft">{t("flyerDescription")}</p>
+
+        <div className={`mt-5 flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8 ${cardClass} sm:p-7`}>
+          {/* The artwork sits on a white plate so the near-white flyer keeps a
+              defined edge against the dark theme's background. */}
+          <div className="mx-auto w-full max-w-xs shrink-0 overflow-hidden rounded-xl border border-border bg-white sm:mx-0 sm:w-64">
+            <Image
+              src={withBasePath(uscFlyer.imageSrc)}
+              alt={isEs ? uscFlyer.altEs : uscFlyer.alt}
+              width={uscFlyer.imageWidth}
+              height={uscFlyer.imageHeight}
+              sizes="(min-width: 640px) 16rem, 20rem"
+              className="h-auto w-full"
+            />
+          </div>
+
+          <div className="min-w-0">
+            <ul className="flex flex-col gap-3">
+              {uscFlyer.highlights.map((highlight) => (
+                <li key={highlight.text} className="flex gap-2.5 text-ink-soft">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden
+                    className="mt-0.5 h-4 w-4 shrink-0 text-teal-dark"
+                  >
+                    <path
+                      d="m5 13 4 4L19 7"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span>{isEs ? highlight.textEs : highlight.text}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={withBasePath(uscFlyer.imageSrc)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`mt-5 ${actionClass}`}
+            >
+              {t("flyerViewFull")}
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Downloads. */}
       <section aria-labelledby="media-downloads" className="mt-12">
         <h2 id="media-downloads" className={sectionHeadingClass}>
@@ -180,7 +237,7 @@ export function MediaPageContent() {
         <p className="mt-1 text-sm text-ink-soft">{t("downloadsSubline")}</p>
 
         <ul className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {downloads.map((download) => (
+          {mediaDownloads.map((download) => (
             <li key={download.id} className={cardClass}>
               <a
                 href={withBasePath(download.href)}

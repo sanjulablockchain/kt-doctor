@@ -108,10 +108,6 @@ export type MediaDownload = {
   descriptionEs: string;
   href: string;
   kind: "pdf" | "image";
-  /** Rendered only when true, so a piece can be staged before it is publishable. */
-  available: boolean;
-  /** Why an unavailable piece is held back. Internal only, never rendered. */
-  unavailableReason?: string;
 };
 
 export const mediaDownloads: MediaDownload[] = [
@@ -128,20 +124,65 @@ export const mediaDownloads: MediaDownload[] = [
       "Incluye el Comunicado de Prensa, la Biografía de la Fundadora, los Servicios, la Red, la Fundación y la Telesalud",
     href: "/media/ktmg-media-kit.pdf",
     kind: "pdf",
-    available: true,
-  },
-  {
-    id: "flyer",
-    title: "Practice Flyer",
-    titleEs: "Folleto de la Práctica",
-    description:
-      "A one-page flyer covering the USC pediatrics partnership, the L.A. Care award, and how to reach the practice.",
-    descriptionEs:
-      "Un folleto de una página sobre la alianza pediátrica con USC, el premio de L.A. Care y cómo comunicarse con la práctica.",
-    href: "/media/ktmg-flyer.jpg",
-    kind: "image",
-    available: false,
-    unavailableReason:
-      "The supplied flyer prints www.ktddoctor.com and its QR code encodes the same misspelling, so scanning it sends families to a domain the practice does not own. Set available to true once a corrected export replaces public/media/ktmg-flyer.jpg.",
   },
 ];
+
+/**
+ * The USC partnership flyer, shown as its own section between the media kit and
+ * the downloads, per client direction.
+ *
+ * KNOWN ISSUE with the supplied artwork (`public/media/ktmg-flyer.jpg`): it
+ * prints "www.ktddoctor.com" and its QR code encodes the same misspelling.
+ * That domain is unregistered, so scanning the code fails rather than reaching
+ * anyone else. It is published here regardless because on screen the QR is
+ * decorative, and the surrounding page links to the real site. Replace the JPEG
+ * once a corrected export arrives; nothing else needs to change.
+ *
+ * The flyer is a text-heavy image, so `highlights` restates its substance as
+ * real text. Screen readers and search engines cannot read a JPEG, and `alt`
+ * alone is the wrong place for five separate facts.
+ */
+export type MediaFeatureHighlight = {
+  text: string;
+  textEs: string;
+};
+
+export type MediaFeature = {
+  id: string;
+  imageSrc: string;
+  imageWidth: number;
+  imageHeight: number;
+  alt: string;
+  altEs: string;
+  highlights: MediaFeatureHighlight[];
+};
+
+export const uscFlyer: MediaFeature = {
+  id: "usc-flyer",
+  imageSrc: "/media/ktmg-flyer.jpg",
+  imageWidth: 1080,
+  imageHeight: 1526,
+  alt: "Kids & Teens Medical Group flyer featuring founder Dr. Janesri De Silva, MD, FAAP, marking the practice as a proud USC Pediatrics partner and a recipient of the L.A. Care Social Determinants of Health Award.",
+  altEs:
+    "Folleto de Kids & Teens Medical Group con la fundadora, la Dra. Janesri De Silva, MD, FAAP, que destaca a la práctica como orgulloso socio de Pediatría de USC y galardonada con el Premio a los Determinantes Sociales de la Salud de L.A. Care.",
+  highlights: [
+    {
+      text: "Proud USC Pediatrics partner.",
+      textEs: "Orgulloso socio de Pediatría de USC.",
+    },
+    {
+      text: "Recipient of the L.A. Care Social Determinants of Health Award, in recognition of outstanding care.",
+      textEs:
+        "Galardonada con el Premio a los Determinantes Sociales de la Salud de L.A. Care, en reconocimiento a su atención excepcional.",
+    },
+    {
+      text: "Founded in 2007, now 25 locations across Southern California.",
+      textEs: "Fundado en 2007, hoy con 25 clínicas en todo el sur de California.",
+    },
+    {
+      text: "Janesri De Silva, MD, FAAP, founder and a delegate to the California Medical Association.",
+      textEs:
+        "Janesri De Silva, MD, FAAP, fundadora y delegada ante la Asociación Médica de California.",
+    },
+  ],
+};
