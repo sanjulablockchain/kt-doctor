@@ -179,30 +179,36 @@ export function MediaPageContent() {
         </h2>
         <p className="mt-2 max-w-2xl text-sm text-ink-soft">{t("flyerDescription")}</p>
 
-        {/* Deliberately narrower than the full-width grids above. Four short
-            lines of text stretched across the 7xl column read as a mostly
-            empty panel; capping the card and centring the text against the
-            tall portrait keeps the artwork the subject and leaves the spare
-            room as page margin rather than a hole inside a box. */}
-        <div
-          className={`mt-5 flex max-w-4xl flex-col gap-6 md:flex-row md:items-center md:gap-8 ${cardClass} md:p-7`}
-        >
-          {/* The artwork sits on a white plate so the near-white flyer keeps a
-              defined edge against the dark theme's background. Stacked until
-              md: a side-by-side row at 640px leaves the text barely 230px wide
-              and wraps every line four ways. */}
-          <div className="mx-auto w-full max-w-[17rem] shrink-0 overflow-hidden rounded-xl border border-border bg-white md:mx-0 md:w-60 lg:w-72">
+        {/* Full-bleed artwork. The flyer meets the card's top, bottom and left
+            edges with no padding, so the card reads as one object instead of a
+            picture floating inside a box: overflow-hidden clips the image to
+            the card's radius, and the padding moves onto the text column. The
+            card is also capped at 4xl, since four short lines stretched across
+            the full 7xl column read as a mostly empty panel.
+
+            Stacked until md, where the flyer bleeds across the top instead: a
+            side-by-side row at 640px leaves the text barely 230px wide and
+            wraps every line four ways. */}
+        <div className="mt-5 flex max-w-4xl flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-card md:flex-row">
+          {/* White plate behind the near-white flyer, so any letterboxing at
+              the extremes reads as part of the artwork rather than as a gap.
+
+              h-auto keeps the flyer uncropped while it is the taller column,
+              which it is at every width with this copy. md:h-full with
+              object-cover is the fallback if the text ever outgrows it, so the
+              column still fills the card rather than leaving a white strip. */}
+          <div className="w-full shrink-0 border-border bg-white md:w-60 md:border-r lg:w-72">
             <Image
               src={withBasePath(uscFlyer.imageSrc)}
               alt={isEs ? uscFlyer.altEs : uscFlyer.alt}
               width={uscFlyer.imageWidth}
               height={uscFlyer.imageHeight}
-              sizes="(min-width: 1024px) 18rem, (min-width: 768px) 15rem, 17rem"
-              className="h-auto w-full"
+              sizes="(min-width: 1024px) 18rem, (min-width: 768px) 15rem, 100vw"
+              className="h-auto w-full md:h-full md:object-cover md:object-top"
             />
           </div>
 
-          <div className="min-w-0 flex-1">
+          <div className="flex min-w-0 flex-1 flex-col justify-center p-5 md:p-7">
             <ul className="flex flex-col gap-3.5">
               {uscFlyer.highlights.map((highlight) => (
                 <li key={highlight.text} className="flex gap-3 leading-relaxed text-ink-soft">
