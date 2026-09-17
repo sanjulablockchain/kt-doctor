@@ -179,29 +179,38 @@ export function MediaPageContent() {
         </h2>
         <p className="mt-2 max-w-2xl text-sm text-ink-soft">{t("flyerDescription")}</p>
 
-        <div className={`mt-5 flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8 ${cardClass} sm:p-7`}>
+        {/* Deliberately narrower than the full-width grids above. Four short
+            lines of text stretched across the 7xl column read as a mostly
+            empty panel; capping the card and centring the text against the
+            tall portrait keeps the artwork the subject and leaves the spare
+            room as page margin rather than a hole inside a box. */}
+        <div
+          className={`mt-5 flex max-w-4xl flex-col gap-6 md:flex-row md:items-center md:gap-8 ${cardClass} md:p-7`}
+        >
           {/* The artwork sits on a white plate so the near-white flyer keeps a
-              defined edge against the dark theme's background. */}
-          <div className="mx-auto w-full max-w-xs shrink-0 overflow-hidden rounded-xl border border-border bg-white sm:mx-0 sm:w-64">
+              defined edge against the dark theme's background. Stacked until
+              md: a side-by-side row at 640px leaves the text barely 230px wide
+              and wraps every line four ways. */}
+          <div className="mx-auto w-full max-w-[17rem] shrink-0 overflow-hidden rounded-xl border border-border bg-white md:mx-0 md:w-60 lg:w-72">
             <Image
               src={withBasePath(uscFlyer.imageSrc)}
               alt={isEs ? uscFlyer.altEs : uscFlyer.alt}
               width={uscFlyer.imageWidth}
               height={uscFlyer.imageHeight}
-              sizes="(min-width: 640px) 16rem, 20rem"
+              sizes="(min-width: 1024px) 18rem, (min-width: 768px) 15rem, 17rem"
               className="h-auto w-full"
             />
           </div>
 
-          <div className="min-w-0">
-            <ul className="flex flex-col gap-3">
+          <div className="min-w-0 flex-1">
+            <ul className="flex flex-col gap-3.5">
               {uscFlyer.highlights.map((highlight) => (
-                <li key={highlight.text} className="flex gap-2.5 text-ink-soft">
+                <li key={highlight.text} className="flex gap-3 leading-relaxed text-ink-soft">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
                     aria-hidden
-                    className="mt-0.5 h-4 w-4 shrink-0 text-teal-dark"
+                    className="mt-1 h-4 w-4 shrink-0 text-teal-dark"
                   >
                     <path
                       d="m5 13 4 4L19 7"
@@ -220,8 +229,17 @@ export function MediaPageContent() {
               href={withBasePath(uscFlyer.imageSrc)}
               target="_blank"
               rel="noopener noreferrer"
-              className={`mt-5 ${actionClass}`}
+              className="mt-6 inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 font-display text-sm font-semibold text-teal-dark transition-colors hover:border-teal hover:bg-teal-tint hover:text-teal"
             >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4 shrink-0">
+                <path
+                  d="M15 3h6v6M21 3l-8 8M10 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-4"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
               {t("flyerViewFull")}
             </a>
           </div>
