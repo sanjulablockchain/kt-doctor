@@ -36,6 +36,14 @@ describe("Media messages", () => {
     expect(es.Header.media.length).toBeGreaterThan(0);
   });
 
+  it("describes the flyer section with the reviewer's approved wording", () => {
+    expect(en.Media.flyerHeading).toBe("Our USC Partnership");
+    expect(en.Media.flyerDescription).toBe(
+      "Kids & Teens Medical Group is a proud USC Pediatrics partner. The flyer below signifies our Tier 1 partnership, including the practice's further recognition from L.A. Care."
+    );
+    expect(es.Media.flyerDescription).toMatch(/Nivel 1/);
+  });
+
   it("adds Seo metadata for the media hub in both locales", () => {
     for (const messages of [en, es]) {
       expect(messages.Seo.media.title.length).toBeGreaterThan(0);

@@ -134,6 +134,17 @@ describe("uscFlyer", () => {
     expect(all).toMatch(/25/);
   });
 
+  // Wording signed off by the client. Pinned exactly so a later tidy-up does
+  // not quietly reword copy that was reviewed.
+  it("carries the reviewer's approved wording for every highlight", () => {
+    expect(uscFlyer.highlights.map((h) => h.text)).toEqual([
+      "Proud USC Pediatrics partner of their Health Benefits Plan.",
+      "Recipient of the L.A. Care Social Determinants of Health Award, in recognition of outstanding care.",
+      "Founded in 2007, Kids & Teens Medical Group is the largest pediatric network in Southern California with 25 clinics, including its Telehealth service.",
+      "Janesri De Silva, MD, FAAP, is the esteemed founder of Kids & Teens Medical Group, and a delegate to the California Medical Association.",
+    ]);
+  });
+
   it("uses no em dash and never names the misspelled domain", () => {
     const allText = [
       uscFlyer.alt,

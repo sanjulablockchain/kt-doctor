@@ -167,8 +167,8 @@ export const uscFlyer: MediaFeature = {
     "Folleto de Kids & Teens Medical Group con la fundadora, la Dra. Janesri De Silva, MD, FAAP, que destaca a la práctica como orgulloso socio de Pediatría de USC y galardonada con el Premio a los Determinantes Sociales de la Salud de L.A. Care.",
   highlights: [
     {
-      text: "Proud USC Pediatrics partner.",
-      textEs: "Orgulloso socio de Pediatría de USC.",
+      text: "Proud USC Pediatrics partner of their Health Benefits Plan.",
+      textEs: "Orgulloso socio de Pediatría de USC en su Plan de Beneficios de Salud.",
     },
     {
       text: "Recipient of the L.A. Care Social Determinants of Health Award, in recognition of outstanding care.",
@@ -176,13 +176,14 @@ export const uscFlyer: MediaFeature = {
         "Galardonada con el Premio a los Determinantes Sociales de la Salud de L.A. Care, en reconocimiento a su atención excepcional.",
     },
     {
-      text: "Founded in 2007, now 25 locations across Southern California.",
-      textEs: "Fundado en 2007, hoy con 25 clínicas en todo el sur de California.",
+      text: "Founded in 2007, Kids & Teens Medical Group is the largest pediatric network in Southern California with 25 clinics, including its Telehealth service.",
+      textEs:
+        "Fundado en 2007, Kids & Teens Medical Group es la red pediátrica más grande del sur de California, con 25 clínicas, incluido su servicio de Telesalud.",
     },
     {
-      text: "Janesri De Silva, MD, FAAP, founder and a delegate to the California Medical Association.",
+      text: "Janesri De Silva, MD, FAAP, is the esteemed founder of Kids & Teens Medical Group, and a delegate to the California Medical Association.",
       textEs:
-        "Janesri De Silva, MD, FAAP, fundadora y delegada ante la Asociación Médica de California.",
+        "Janesri De Silva, MD, FAAP, es la estimada fundadora de Kids & Teens Medical Group y delegada ante la Asociación Médica de California.",
     },
   ],
 };
