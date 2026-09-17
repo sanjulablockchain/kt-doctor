@@ -107,6 +107,9 @@ describe("MediaPageContent", () => {
     for (const link of pdfLinks) {
       expect(link).toHaveAttribute("target", "_blank");
       expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
+      // The kit cards are flex columns, so without self-start each of these
+      // links stretches the width of its card and takes clicks across all of it.
+      expect(link.className).toContain("self-start");
     }
   });
 
@@ -168,6 +171,16 @@ describe("MediaPageContent USC flyer section", () => {
     expect(link).toHaveAttribute("href", uscFlyer.imageSrc);
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
+  });
+
+  // The link sits in a flex column, whose items stretch on the cross axis by
+  // default. Without self-start the button spans the full column width and
+  // reads as a bar rather than a button, whatever its own display value is.
+  it("keeps the full-size button at its content width instead of stretching", () => {
+    render(<MediaPageContent />);
+    const flyer = screen.getByRole("region", { name: /USC partnership/i });
+    const link = within(flyer).getByRole("link", { name: /view full size/i });
+    expect(link.className).toContain("self-start");
   });
 
   it("renders the section heading and highlights in Spanish when locale is es", () => {

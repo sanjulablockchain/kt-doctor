@@ -160,7 +160,7 @@ export function MediaPageContent() {
                 href={withBasePath(section.pdfHref)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`mt-4 ${actionClass}`}
+                className={`mt-4 self-start ${actionClass}`}
               >
                 <DownloadIcon />
                 {t("downloadPdf")}
@@ -235,7 +235,7 @@ export function MediaPageContent() {
               href={withBasePath(uscFlyer.imageSrc)}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 font-display text-sm font-semibold text-teal-dark transition-colors hover:border-teal hover:bg-teal-tint hover:text-teal"
+              className="mt-6 inline-flex self-start items-center gap-2 rounded-xl border border-border px-4 py-2.5 font-display text-sm font-semibold text-teal-dark transition-colors hover:border-teal hover:bg-teal-tint hover:text-teal"
             >
               <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4 shrink-0">
                 <path
