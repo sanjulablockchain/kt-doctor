@@ -140,7 +140,7 @@ describe("uscFlyer", () => {
     expect(uscFlyer.highlights.map((h) => h.text)).toEqual([
       "Proud USC Pediatrics partner of their Health Benefits Plan.",
       "Recipient of the L.A. Care Social Determinants of Health Award, in recognition of outstanding care.",
-      "Founded in 2007, Kids & Teens Medical Group is the largest pediatric network in Southern California with 25 clinics, including its Telehealth service.",
+      "Founded in 2007, Kids & Teens Medical Group is the largest pediatric network in Southern California with 25 clinics, including our Telehealth service.",
       "Janesri De Silva, MD, FAAP, is the esteemed founder of Kids & Teens Medical Group, and a delegate to the California Medical Association.",
     ]);
   });

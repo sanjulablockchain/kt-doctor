@@ -176,9 +176,9 @@ export const uscFlyer: MediaFeature = {
         "Galardonada con el Premio a los Determinantes Sociales de la Salud de L.A. Care, en reconocimiento a su atención excepcional.",
     },
     {
-      text: "Founded in 2007, Kids & Teens Medical Group is the largest pediatric network in Southern California with 25 clinics, including its Telehealth service.",
+      text: "Founded in 2007, Kids & Teens Medical Group is the largest pediatric network in Southern California with 25 clinics, including our Telehealth service.",
       textEs:
-        "Fundado en 2007, Kids & Teens Medical Group es la red pediátrica más grande del sur de California, con 25 clínicas, incluido su servicio de Telesalud.",
+        "Fundado en 2007, Kids & Teens Medical Group es la red pediátrica más grande del sur de California, con 25 clínicas, incluido nuestro servicio de Telesalud.",
     },
     {
       text: "Janesri De Silva, MD, FAAP, is the esteemed founder of Kids & Teens Medical Group, and a delegate to the California Medical Association.",
