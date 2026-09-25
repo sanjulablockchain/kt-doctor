@@ -76,14 +76,21 @@ export function YelpAppreciationSlideshow({
   }
 
   return (
-    <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-12">
+    // No lg:items-center here (grid's default row alignment is stretch):
+    // the review card is much taller than "Why families"/Telehealth's
+    // simple text blurbs, so centering the image against it at its own
+    // natural height (h-96) left it looking short and squat next to a much
+    // taller column. lg:h-full lets it grow to match the text column's
+    // full height instead, at whatever width WhyFamilies/Telehealth's
+    // images already use.
+    <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
       <Image
         src={withBasePath("/home/yelp-appreciation.jpg")}
         alt={t("imageAlt")}
         width={1000}
         height={630}
         sizes="(min-width: 1024px) 45vw, 100vw"
-        className="h-72 w-full rounded-[2rem] object-cover shadow-card sm:h-96 lg:order-2"
+        className="h-72 w-full rounded-[2rem] object-cover shadow-card sm:h-96 lg:order-2 lg:h-full"
       />
       <div className="lg:order-1">{textBlock}</div>
     </div>
