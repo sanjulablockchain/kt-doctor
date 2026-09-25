@@ -37,6 +37,22 @@ describe("YelpAppreciationSlideshow", () => {
     vi.restoreAllMocks();
   });
 
+  it("centers the heading block by default (Homepage usage)", () => {
+    render(<YelpAppreciationSlideshow />);
+
+    const heading = screen.getByText("Featured Yelp Review from One of Our Valued Patients");
+    expect(heading.parentElement?.className).toContain("text-center");
+    expect(heading.parentElement?.className).toContain("mx-auto");
+  });
+
+  it("left-aligns the heading block when align='left' (Media page usage)", () => {
+    render(<YelpAppreciationSlideshow align="left" />);
+
+    const heading = screen.getByText("Featured Yelp Review from One of Our Valued Patients");
+    expect(heading.parentElement?.className).not.toContain("text-center");
+    expect(heading.parentElement?.className).not.toContain("mx-auto");
+  });
+
   it("opens on the featured review with the fixed heading and a 5-star rating", () => {
     render(<YelpAppreciationSlideshow />);
 

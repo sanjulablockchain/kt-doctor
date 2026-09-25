@@ -138,6 +138,22 @@ describe("YelpReviewSlideshow", () => {
     expect(screen.getByText("Short review one.")).toBeInTheDocument();
   });
 
+  it("centers the card by default", () => {
+    render(<YelpReviewSlideshow reviews={reviews} />);
+
+    const blockquote = screen.getByText("Short review one.").closest("blockquote");
+    expect(blockquote?.className).toContain("mx-auto");
+    expect(blockquote?.className).toContain("max-w-2xl");
+  });
+
+  it("left-aligns the card (still reading-width capped) when align='left'", () => {
+    render(<YelpReviewSlideshow reviews={reviews} align="left" />);
+
+    const blockquote = screen.getByText("Short review one.").closest("blockquote");
+    expect(blockquote?.className).not.toContain("mx-auto");
+    expect(blockquote?.className).toContain("max-w-2xl");
+  });
+
   it("with a single review, shows no pause control and does not error on auto-advance", () => {
     render(<YelpReviewSlideshow reviews={[reviews[0]]} />);
 

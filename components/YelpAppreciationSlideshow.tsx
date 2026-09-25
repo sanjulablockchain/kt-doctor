@@ -9,6 +9,14 @@ type YelpAppreciationSlideshowProps = {
   /** Wires the heading to a wrapping <section aria-labelledby>, where the
    * page's own section convention expects one (e.g. the Media page). */
   headingId?: string;
+  /** "center" (default, used on the Homepage): eyebrow, heading, card, and
+   * nav are centered as one spotlighted column, matching that page's other
+   * standalone callouts. "left": everything stays at the section's left
+   * edge instead, still capped to a comfortable reading width - used on
+   * the Media page, where every other section (Press, Leadership, Kit,
+   * Downloads) is left-aligned in the same wide container, so a centered
+   * block would be the odd one out there. */
+  align?: "left" | "center";
 };
 
 // Shared "Yelp Appreciation" feature, identical on the Homepage and the
@@ -16,7 +24,10 @@ type YelpAppreciationSlideshowProps = {
 // (195 across 19 clinics, see data/yelpReviews.ts), opening on Karmilia
 // A.'s review, the one named when this feature was first requested. The
 // carousel itself is YelpReviewSlideshow, shared with LocationYelpReviews.
-export function YelpAppreciationSlideshow({ headingId }: YelpAppreciationSlideshowProps = {}) {
+export function YelpAppreciationSlideshow({
+  headingId,
+  align = "center",
+}: YelpAppreciationSlideshowProps = {}) {
   const t = useTranslations("YelpAppreciation");
 
   const startIndex = useMemo(() => {
@@ -24,14 +35,12 @@ export function YelpAppreciationSlideshow({ headingId }: YelpAppreciationSlidesh
     return index === -1 ? 0 : index;
   }, []);
 
+  const headingWrapperClass =
+    align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl";
+
   return (
     <div>
-      {/* Centered as one block (eyebrow, heading, card, and nav all share
-          the same mx-auto max-w-2xl column) rather than left-aligned like
-          the rest of the homepage's sections - a single spotlighted quote
-          reads as an intentional centerpiece, not a narrow box stranded on
-          the left of a much wider section. */}
-      <div className="mx-auto max-w-2xl text-center">
+      <div className={headingWrapperClass}>
         <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
           {t("eyebrow")}
         </span>
@@ -44,7 +53,7 @@ export function YelpAppreciationSlideshow({ headingId }: YelpAppreciationSlidesh
       </div>
 
       <div className="mt-6">
-        <YelpReviewSlideshow reviews={yelpReviewsSlideshowOrder} startIndex={startIndex} />
+        <YelpReviewSlideshow reviews={yelpReviewsSlideshowOrder} startIndex={startIndex} align={align} />
       </div>
     </div>
   );

@@ -51,17 +51,17 @@ function PlayIcon() {
 const navButtonClass =
   "flex h-9 w-9 items-center justify-center rounded-full border border-border text-ink-soft transition-colors hover:border-teal hover:text-teal-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal";
 
-// Caps the card and the nav row to a comfortable reading width and centers
-// them, so a review doesn't stretch edge to edge inside a wide max-w-7xl
-// section (long lines of body copy are hard to read) and doesn't end up
-// stranded against the left edge of that wider section either.
-const contentWidthClass = "mx-auto max-w-2xl";
-
 type YelpReviewSlideshowProps = {
   reviews: YelpReview[];
   /** Which review to open on. Defaults to the first. Out-of-range values
    * are clamped rather than throwing. */
   startIndex?: number;
+  /** "center" (default): card and nav row are centered as a column, so
+   * they don't stretch edge to edge inside a wide section, and don't end
+   * up stranded against its left edge either. "left": same reading-width
+   * cap, but left-aligned instead, for pages whose other sections are
+   * already left-aligned in the same wide container. */
+  align?: "left" | "center";
 };
 
 // Shared carousel core behind both YelpAppreciationSlideshow (Home/Media,
@@ -74,10 +74,16 @@ type YelpReviewSlideshowProps = {
 // explicit pause button) and off entirely under prefers-reduced-motion,
 // per WCAG 2.2.2 (moving content must be stoppable). Slide changes swap
 // instantly, no transition, by design.
-export function YelpReviewSlideshow({ reviews, startIndex = 0 }: YelpReviewSlideshowProps) {
+export function YelpReviewSlideshow({
+  reviews,
+  startIndex = 0,
+  align = "center",
+}: YelpReviewSlideshowProps) {
   const t = useTranslations("YelpAppreciation");
   const locale = useLocale();
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  const contentWidthClass = align === "center" ? "mx-auto max-w-2xl" : "max-w-2xl";
 
   const total = reviews.length;
   const clampedStart = Math.min(Math.max(startIndex, 0), total - 1);

@@ -256,7 +256,7 @@ export function MediaPageContent() {
       {/* Yelp Appreciation - the same featured review as the Homepage,
           placed above Downloads per the client's request. */}
       <section aria-labelledby="media-yelp" className="mt-12">
-        <YelpAppreciationSlideshow headingId="media-yelp" />
+        <YelpAppreciationSlideshow headingId="media-yelp" align="left" />
       </section>
 
       {/* Downloads. */}
