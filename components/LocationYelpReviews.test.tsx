@@ -1,10 +1,32 @@
-import { describe, it, expect } from "vitest";
-import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { act, screen } from "@testing-library/react";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { LocationYelpReviews } from "./LocationYelpReviews";
+import { reviewsForLocation } from "@/data/yelpReviews";
+
+const originalMatchMedia = window.matchMedia;
+
+function mockMatchMedia(matches: boolean) {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches,
+    media: query,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  })) as unknown as typeof window.matchMedia;
+}
 
 describe("LocationYelpReviews", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    mockMatchMedia(false);
+  });
+
+  afterEach(() => {
+    window.matchMedia = originalMatchMedia;
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+  });
+
   it("renders nothing for a clinic with no collected reviews", () => {
     const { container } = render(
       <LocationYelpReviews locationId="camarillo" locationName="Camarillo" />
@@ -12,47 +34,61 @@ describe("LocationYelpReviews", () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("renders the location heading and every reviewer for a small clinic", () => {
+  it("renders the location heading and opens on that clinic's first review", () => {
+    const [first] = reviewsForLocation("agoura-hills");
     render(<LocationYelpReviews locationId="agoura-hills" locationName="Agoura Hills" />);
 
     expect(
       screen.getByRole("heading", { name: "Yelp Appreciation Reviews in Agoura Hills" })
     ).toBeInTheDocument();
-    expect(screen.getByText("Jane A. on Yelp")).toBeInTheDocument();
-    expect(screen.getByText("Lisa T. on Yelp")).toBeInTheDocument();
-    // No expand control below the threshold of 6 reviewers.
-    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    expect(screen.getByText(first.text)).toBeInTheDocument();
+    expect(screen.getByText(`Review 1 of ${reviewsForLocation("agoura-hills").length}`)).toBeInTheDocument();
   });
 
-  it("stacks a reviewer's multiple reviews under one heading, in chronological order", () => {
-    render(<LocationYelpReviews locationId="valencia" locationName="Valencia" />);
+  it("only cycles through that clinic's own reviews, not other clinics'", () => {
+    const agouraHills = reviewsForLocation("agoura-hills");
+    render(<LocationYelpReviews locationId="agoura-hills" locationName="Agoura Hills" />);
 
-    const karmiliaHeading = screen.getByRole("heading", { name: "Karmilia A. on Yelp" });
-    const article = karmiliaHeading.parentElement!;
-    const dates = article.querySelectorAll("blockquote footer");
-    expect(dates).toHaveLength(2);
-    expect(dates[0].textContent).toBe("June 22, 2026");
-    expect(dates[1].textContent).toBe("September 17, 2026");
+    const nextButton = screen.getByRole("button", { name: "Next review" });
+    for (let i = 1; i < agouraHills.length; i++) {
+      act(() => {
+        nextButton.click();
+      });
+      expect(screen.getByText(agouraHills[i].text)).toBeInTheDocument();
+    }
+
+    // Wraps back to the first review after the last.
+    act(() => {
+      nextButton.click();
+    });
+    expect(screen.getByText(agouraHills[0].text)).toBeInTheDocument();
   });
 
-  it("collapses a large clinic behind a 'show all' control until clicked", async () => {
-    const user = userEvent.setup();
+  it("has no pause control and does not loop a single-review clinic", () => {
+    const [only] = reviewsForLocation("canyon-country");
+    render(<LocationYelpReviews locationId="canyon-country" locationName="Canyon Country" />);
+
+    expect(screen.getByText(only.text)).toBeInTheDocument();
+    expect(screen.getByText("Review 1 of 1")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Pause reviews" })).not.toBeInTheDocument();
+
+    act(() => {
+      vi.advanceTimersByTime(60000);
+    });
+    expect(screen.getByText(only.text)).toBeInTheDocument();
+  });
+
+  it("auto-advances through a clinic's reviews on its own timer", () => {
+    const pasadena = reviewsForLocation("pasadena");
     render(<LocationYelpReviews locationId="pasadena" locationName="Pasadena" />);
 
-    const toggle = screen.getByRole("button", { name: "Show all 40 reviews" });
-    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    const words = pasadena[0].text.trim().split(/\s+/).length;
+    const intervalMs = Math.min(14000, Math.max(6000, words * 300));
 
-    // Only the first 6 reviewer groups render before expanding.
-    const headingsBefore = screen.getAllByRole("heading", { level: 3 });
-    expect(headingsBefore).toHaveLength(6);
+    act(() => {
+      vi.advanceTimersByTime(intervalMs);
+    });
 
-    await user.click(toggle);
-
-    expect(screen.getByRole("button", { name: "Show fewer reviews" })).toHaveAttribute(
-      "aria-expanded",
-      "true"
-    );
-    const headingsAfter = screen.getAllByRole("heading", { level: 3 });
-    expect(headingsAfter.length).toBeGreaterThan(6);
+    expect(screen.getByText(pasadena[1].text)).toBeInTheDocument();
   });
 });

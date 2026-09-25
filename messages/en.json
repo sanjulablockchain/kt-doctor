@@ -284,11 +284,7 @@
     "directionsToApple": "Get directions to {name} in Apple Maps"
   },
   "LocationYelpReviews": {
-    "heading": "Yelp Appreciation Reviews in {location}",
-    "reviewerAttribution": "{name} on Yelp",
-    "ratingLabel": "{rating} out of 5 stars",
-    "showAll": "Show all {count} reviews",
-    "showFewer": "Show fewer reviews"
+    "heading": "Yelp Appreciation Reviews in {location}"
   },
   "Network": {
     "eyebrow": "One Network",

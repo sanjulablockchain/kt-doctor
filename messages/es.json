@@ -284,11 +284,7 @@
     "directionsToApple": "Cómo llegar a {name} en Apple Maps"
   },
   "LocationYelpReviews": {
-    "heading": "Reseñas de Reconocimiento en Yelp en {location}",
-    "reviewerAttribution": "{name} en Yelp",
-    "ratingLabel": "{rating} de 5 estrellas",
-    "showAll": "Ver las {count} reseñas",
-    "showFewer": "Ver menos reseñas"
+    "heading": "Reseñas de Reconocimiento en Yelp en {location}"
   },
   "Network": {
     "eyebrow": "Una red",
