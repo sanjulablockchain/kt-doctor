@@ -5,6 +5,8 @@ import {
   reviewsForLocation,
   locationIdsWithReviews,
   groupReviewsByReviewer,
+  interleaveByLocation,
+  yelpReviewsSlideshowOrder,
   featuredYelpReview,
 } from "./yelpReviews";
 
@@ -75,5 +77,45 @@ describe("yelpReviews data", () => {
     expect(featuredYelpReview.locationId).toBe("valencia");
     expect(featuredYelpReview.reviewer).toBe("Karmilia A.");
     expect(featuredYelpReview.date).toBe("2026-09-17");
+  });
+
+  it("has reviews for Tarzana", () => {
+    expect(reviewsForLocation("tarzana").length).toBeGreaterThan(0);
+  });
+
+  it("decoded accented characters correctly (no mojibake left in the source)", () => {
+    const chris = yelpReviews.find((r) => r.reviewer === "Chris P." && r.locationId === "la-canada");
+    expect(chris?.text).toContain("La Cañada");
+    const nancy = yelpReviews.find((r) => r.reviewer === "Nancy P." && r.locationId === "pasadena");
+    expect(nancy?.text).toContain("Peña Family");
+  });
+
+  describe("interleaveByLocation / yelpReviewsSlideshowOrder", () => {
+    it("keeps every review, without dropping or duplicating any", () => {
+      const interleaved = interleaveByLocation(yelpReviews);
+      expect(interleaved).toHaveLength(yelpReviews.length);
+      expect(new Set(interleaved).size).toBe(yelpReviews.length);
+    });
+
+    it("spans every clinic within the first N slides, N = number of clinics with reviews", () => {
+      const clinicCount = locationIdsWithReviews().length;
+      const firstStretch = yelpReviewsSlideshowOrder.slice(0, clinicCount);
+      expect(new Set(firstStretch.map((r) => r.locationId)).size).toBe(clinicCount);
+    });
+
+    it("only places two same-clinic slides back to back once every other clinic is exhausted", () => {
+      for (let i = 0; i < yelpReviewsSlideshowOrder.length - 1; i++) {
+        if (yelpReviewsSlideshowOrder[i].locationId === yelpReviewsSlideshowOrder[i + 1].locationId) {
+          const remainingLocations = new Set(
+            yelpReviewsSlideshowOrder.slice(i).map((r) => r.locationId)
+          );
+          expect(remainingLocations.size).toBe(1);
+        }
+      }
+    });
+
+    it("includes the featured review", () => {
+      expect(yelpReviewsSlideshowOrder).toContainEqual(featuredYelpReview);
+    });
   });
 });

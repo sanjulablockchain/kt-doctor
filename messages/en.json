@@ -218,7 +218,12 @@
     "eyebrow": "Yelp Appreciation",
     "heading": "Featured Yelp Review from One of Our Valued Patients",
     "reviewerAttribution": "{name} on Yelp",
-    "ratingLabel": "{rating} out of 5 stars"
+    "ratingLabel": "{rating} out of 5 stars",
+    "previousReview": "Previous review",
+    "nextReview": "Next review",
+    "pause": "Pause reviews",
+    "play": "Play reviews",
+    "counter": "Review {index} of {total}"
   },
   "Hero": {
     "exploreNetwork": "Explore the network",

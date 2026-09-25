@@ -1,18 +1,24 @@
-// Curated from KTMG's Yelp listings, collected 2026-09-25.
+// Curated from KTMG's Yelp listings, updated 2026-09-25 (adds Tarzana).
 //
 // Only 5-star reviews are included, per the client's explicit direction.
 // Rows were dropped, not just filtered, for two data-quality reasons found
 // in the source sheet:
-//   - Every "Santa Monica" row was a verbatim duplicate of a San Fernando
+//   - Every "Santa Monica" row is a verbatim duplicate of a San Fernando
 //     row (same reviewer, same text, referencing San Fernando's own
 //     doctor), a copy/paste error upstream, not real Santa Monica content.
-//     Santa Monica has no reviews here as a result.
+//     Still present unchanged in the 2026-09-25 update. Santa Monica has
+//     no reviews here as a result.
 //   - One Glendale reviewer's name was saved as literal "?" characters in
 //     the source export and is not recoverable; that review is excluded
 //     rather than published with an unreadable name.
 //
-// Five clinics (Camarillo, Hollywood, San Pedro, Tarzana, La Mirada) have
-// no reviews yet, the client has not collected them. Locations without an
+// The source file is ISO-8859-1/Windows-1252, not UTF-8 (confirmed by
+// byte inspection) -- accented characters like "La Cañada" and "Peña"
+// decode correctly once read with that encoding, no manual correction
+// needed.
+//
+// Four clinics (Camarillo, Hollywood, San Pedro, La Mirada) have no
+// reviews yet, the client has not collected them. Locations without an
 // entry here simply render no Yelp Appreciation section.
 //
 // locationId values match data/locations.ts ids.
@@ -1093,6 +1099,30 @@ Overall great experience.`,
     text: `We have been going to the Van Nuys location for years, that is until we found out there was an office in Pacoima. All the staff is very friendly. Front office staff Susan and Angelina are very nice and helpful. They both answered all my questions and helped fill out my daughter physical forms for school with no problem. We have had the opportunity to visit this location a few times now and I must say it is very accommodating to our needs and schedules. I would highly recommend this location for your kids.`,
   },
   {
+    locationId: "tarzana",
+    reviewer: "Angie S.",
+    rating: 5,
+    date: "2024-07-18",
+    text: `The doctor saw my son right away. I was very satisfied with the service. The staff was friendly. Thank you for the pleasant experience!`,
+  },
+  {
+    locationId: "tarzana",
+    reviewer: "Eldar A.",
+    rating: 5,
+    date: "2024-04-02",
+    text: `would like to thank the staff and doctors for their responsiveness, for the pleasant mood they create for the children.
+We see the GP regularly and could say that we really appreciate her care.
+Fast service, cozy, clean space.
+Recommended!`,
+  },
+  {
+    locationId: "tarzana",
+    reviewer: "Jonas E.",
+    rating: 5,
+    date: "2024-03-04",
+    text: `Dr. M provides exceptional care and expertise at the pediatrician's office. His thoroughness and genuine concern for patients make visits reassuring . Karina, the assistant, complements the office's professionalism with her warmth and efficiency.`,
+  },
+  {
     locationId: "torrance",
     reviewer: "Andrew W.",
     rating: 5,
@@ -1509,9 +1539,43 @@ export function groupReviewsByReviewer(reviews: YelpReview[]): GroupedYelpReview
   return grouped;
 }
 
-// The single review featured on the Homepage and Media page, per the
-// client's original request. Karmilia A.'s most recent Valencia review was
-// named specifically by both the client and the reviewing stakeholder.
+/**
+ * All 195 reviews, reordered so the Homepage/Media slideshow doesn't run
+ * through 40 consecutive Pasadena reviews before showing anything else.
+ * Round-robins one review per clinic at a time (in the order clinics first
+ * appear above), so the first ~19 slides already span every clinic that
+ * has reviews, and the ordering is fully deterministic (no client-only
+ * shuffle, so server and client render the same sequence).
+ */
+export function interleaveByLocation(reviews: YelpReview[]): YelpReview[] {
+  const queues = new Map<string, YelpReview[]>();
+  for (const review of reviews) {
+    const queue = queues.get(review.locationId);
+    if (queue) {
+      queue.push(review);
+    } else {
+      queues.set(review.locationId, [review]);
+    }
+  }
+  const result: YelpReview[] = [];
+  let remaining = reviews.length;
+  while (remaining > 0) {
+    for (const queue of queues.values()) {
+      const next = queue.shift();
+      if (next) {
+        result.push(next);
+        remaining -= 1;
+      }
+    }
+  }
+  return result;
+}
+
+export const yelpReviewsSlideshowOrder: YelpReview[] = interleaveByLocation(yelpReviews);
+
+// The review the slideshow opens on. Karmilia A.'s most recent Valencia
+// review was named specifically by both the client and the reviewing
+// stakeholder when this feature was first requested.
 const featured = yelpReviews.find(
   (review) =>
     review.locationId === "valencia" &&
@@ -1522,7 +1586,7 @@ const featured = yelpReviews.find(
 if (!featured) {
   throw new Error(
     "Featured Yelp review (Karmilia A., Valencia, 2026-09-17) is missing from yelpReviews — " +
-      "the Homepage and Media page both depend on it."
+      "the Homepage and Media page slideshow both open on it."
   );
 }
 

@@ -218,7 +218,12 @@
     "eyebrow": "Reconocimiento en Yelp",
     "heading": "Reseña Destacada de Yelp de Uno de Nuestros Valiosos Pacientes",
     "reviewerAttribution": "{name} en Yelp",
-    "ratingLabel": "{rating} de 5 estrellas"
+    "ratingLabel": "{rating} de 5 estrellas",
+    "previousReview": "Reseña anterior",
+    "nextReview": "Siguiente reseña",
+    "pause": "Pausar reseñas",
+    "play": "Reanudar reseñas",
+    "counter": "Reseña {index} de {total}"
   },
   "Hero": {
     "exploreNetwork": "Explorar la red",
