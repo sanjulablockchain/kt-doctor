@@ -82,7 +82,17 @@ export function YelpReviewSlideshow({ reviews, startIndex = 0 }: YelpReviewSlide
   const total = reviews.length;
   const clampedStart = Math.min(Math.max(startIndex, 0), total - 1);
   const [activeIndex, setActiveIndex] = useState(clampedStart);
-  const [isPaused, setIsPaused] = useState(false);
+
+  // Hover/focus pause is transient and separate from the explicit pause
+  // button: if these shared one boolean, moving the mouse away would
+  // silently resume a review the visitor deliberately paused, and merely
+  // hovering would flip the button to "Play" without it ever being
+  // clicked. Auto-advance stops for either reason; the button's icon and
+  // aria-pressed only ever reflect the deliberate click.
+  const [isManuallyPaused, setIsManuallyPaused] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const isPaused = isManuallyPaused || isHovering || isFocused;
 
   const review = reviews[activeIndex];
 
@@ -103,10 +113,10 @@ export function YelpReviewSlideshow({ reviews, startIndex = 0 }: YelpReviewSlide
 
   return (
     <div
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocus={() => setIsPaused(true)}
-      onBlur={() => setIsPaused(false)}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
     >
       <blockquote className={`rounded-3xl border border-border bg-surface p-6 shadow-card sm:p-8 ${contentWidthClass}`}>
         <YelpStarRating
@@ -134,12 +144,12 @@ export function YelpReviewSlideshow({ reviews, startIndex = 0 }: YelpReviewSlide
           {!prefersReducedMotion && total > 1 && (
             <button
               type="button"
-              onClick={() => setIsPaused((value) => !value)}
-              aria-pressed={isPaused}
-              aria-label={isPaused ? t("play") : t("pause")}
+              onClick={() => setIsManuallyPaused((value) => !value)}
+              aria-pressed={isManuallyPaused}
+              aria-label={isManuallyPaused ? t("play") : t("pause")}
               className={navButtonClass}
             >
-              {isPaused ? <PlayIcon /> : <PauseIcon />}
+              {isManuallyPaused ? <PlayIcon /> : <PauseIcon />}
             </button>
           )}
         </div>
