@@ -157,7 +157,7 @@ export function HomePageContent() {
       {/* Yelp Appreciation - a single featured review, placed directly below
           "Why families choose us" per the client's request. */}
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
-        <YelpAppreciationSlideshow />
+        <YelpAppreciationSlideshow showImage />
       </section>
 
       {/* Telehealth teaser */}

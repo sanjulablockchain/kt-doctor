@@ -216,7 +216,8 @@
   },
   "YelpAppreciation": {
     "eyebrow": "Reconocimiento en Yelp",
-    "heading": "Reseña Destacada de Yelp de Uno de Nuestros Valiosos Pacientes",
+    "heading": "Lo Que Dicen las Familias",
+    "imageAlt": "Una madre riendo con su pequeña hija en casa",
     "reviewerAttribution": "{name} en Yelp",
     "ratingLabel": "{rating} de 5 estrellas",
     "previousReview": "Reseña anterior",

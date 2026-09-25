@@ -41,7 +41,7 @@ describe("YelpAppreciationSlideshow", () => {
   it("centers the heading block by default (Homepage usage)", () => {
     render(<YelpAppreciationSlideshow />);
 
-    const heading = screen.getByText("Featured Yelp Review from One of Our Valued Patients");
+    const heading = screen.getByText("What Families Are Saying");
     expect(heading.parentElement?.className).toContain("text-center");
     expect(heading.parentElement?.className).toContain("mx-auto");
   });
@@ -49,7 +49,7 @@ describe("YelpAppreciationSlideshow", () => {
   it("left-aligns the heading block when align='left' (Media page usage)", () => {
     render(<YelpAppreciationSlideshow align="left" />);
 
-    const heading = screen.getByText("Featured Yelp Review from One of Our Valued Patients");
+    const heading = screen.getByText("What Families Are Saying");
     expect(heading.parentElement?.className).not.toContain("text-center");
     expect(heading.parentElement?.className).not.toContain("mx-auto");
   });
@@ -57,10 +57,26 @@ describe("YelpAppreciationSlideshow", () => {
   it("opens on the featured review with the fixed heading and a 5-star rating", () => {
     render(<YelpAppreciationSlideshow />);
 
-    expect(screen.getByText("Featured Yelp Review from One of Our Valued Patients")).toBeInTheDocument();
+    expect(screen.getByText("What Families Are Saying")).toBeInTheDocument();
     expect(screen.getByText(featuredYelpReview.text)).toBeInTheDocument();
     expect(screen.getByText(`${featuredYelpReview.reviewer} on Yelp`)).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "5 out of 5 stars" })).toBeInTheDocument();
+  });
+
+  it("renders no image by default, and left-aligns even without an explicit align prop when showImage is set", () => {
+    render(<YelpAppreciationSlideshow showImage />);
+
+    expect(screen.getByRole("img", { name: "A mother laughing with her young daughter at home" })).toBeInTheDocument();
+    const heading = screen.getByText("What Families Are Saying");
+    expect(heading.parentElement?.className).not.toContain("text-center");
+  });
+
+  it("renders no photo when showImage is not set", () => {
+    render(<YelpAppreciationSlideshow />);
+
+    expect(
+      screen.queryByRole("img", { name: "A mother laughing with her young daughter at home" })
+    ).not.toBeInTheDocument();
   });
 
   it("links out to the current review's clinic on Yelp", () => {
@@ -166,7 +182,7 @@ describe("YelpAppreciationSlideshow", () => {
     render(<YelpAppreciationSlideshow />, "es");
 
     expect(
-      screen.getByText("Reseña Destacada de Yelp de Uno de Nuestros Valiosos Pacientes")
+      screen.getByText("Lo Que Dicen las Familias")
     ).toBeInTheDocument();
     expect(screen.getByText(featuredYelpReview.text)).toBeInTheDocument();
   });

@@ -16,6 +16,15 @@ provenance. Crop params for Unsplash URLs: `?w=<W>&h=<H>&fit=crop&q=80&auto=form
 | hero-slide-3.jpg | Gemini-generated | Three generations of a family under blossoming spring trees (1920x1280). |
 | hero-slide-4.jpg | https://unsplash.com/photos/ScnyD7znFTk (Javier Gonzalez Fotografo) | A family of four sitting together on a green sofa in a bright living room (1920x1280). Standard Unsplash Licence: free for commercial use, no attribution required. Replaced an earlier Vecteezy asset whose commercial licence could not be confirmed. |
 
+## Yelp Appreciation
+
+`components/YelpAppreciationSlideshow.tsx` (Homepage only; the Media page
+usage has no image, see that page's own layout).
+
+| File | Source | Description |
+|------|--------|-------------|
+| yelp-appreciation.jpg | https://unsplash.com/photos/a-_1PPjnbUg (Vivek Kumar) | A mother laughing with her young daughter on a sofa, bright indoor light (1920x1210). Standard Unsplash Licence: free for commercial use, no attribution required. |
+
 ## Retired
 
 | File | Source | Description |

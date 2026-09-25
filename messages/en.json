@@ -216,7 +216,8 @@
   },
   "YelpAppreciation": {
     "eyebrow": "Yelp Appreciation",
-    "heading": "Featured Yelp Review from One of Our Valued Patients",
+    "heading": "What Families Are Saying",
+    "imageAlt": "A mother laughing with her young daughter at home",
     "reviewerAttribution": "{name} on Yelp",
     "ratingLabel": "{rating} out of 5 stars",
     "previousReview": "Previous review",
