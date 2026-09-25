@@ -123,7 +123,17 @@ export function YelpReviewSlideshow({ reviews, startIndex = 0 }: YelpReviewSlide
           rating={review.rating}
           label={t("ratingLabel", { rating: review.rating })}
         />
-        <p className="mt-4 whitespace-pre-line text-lg text-ink sm:text-xl">{review.text}</p>
+        {/* Fixed height, not just a min-height: review length ranges from
+            one sentence to several paragraphs (12 to 377 words across the
+            195 reviews), and letting the card grow/shrink with it was
+            shoving every section below it up and down on every slide
+            change. A shorter review just leaves empty space below it here;
+            a longer one scrolls internally (the thin themed scrollbar from
+            globals.css applies automatically) rather than resizing the
+            card. */}
+        <div className="mt-4 h-48 overflow-y-auto pr-2 sm:h-56">
+          <p className="whitespace-pre-line text-lg text-ink sm:text-xl">{review.text}</p>
+        </div>
         <footer className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 font-display text-sm font-semibold text-ink-soft">
           <cite className="not-italic text-ink">
             {t("reviewerAttribution", { name: review.reviewer })}
