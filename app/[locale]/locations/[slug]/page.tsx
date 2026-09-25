@@ -8,6 +8,7 @@ import { BOOKING_URL } from "@/lib/constants";
 import { buildMetadata, localBusinessJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 import { withBasePath } from "@/lib/basePath";
+import { LocationYelpReviews } from "@/components/LocationYelpReviews";
 
 function findLocation(slug: string) {
   return locations.find((loc) => loc.id === slug) ?? null;
@@ -169,6 +170,8 @@ export default async function LocationDetailPage({
           </div>
         </>
       )}
+
+      <LocationYelpReviews locationId={location.id} locationName={location.name} />
     </main>
   );
 }

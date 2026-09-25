@@ -7,6 +7,7 @@ import { pressReleases } from "@/data/pressReleases";
 import { pressBios } from "@/data/pressBios";
 import { mediaKitSections, mediaDownloads, uscFlyer } from "@/data/mediaKit";
 import { withBasePath } from "@/lib/basePath";
+import { YelpAppreciationCard } from "@/components/YelpAppreciationCard";
 
 const sectionHeadingClass =
   "font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl";
@@ -250,6 +251,12 @@ export function MediaPageContent() {
             </a>
           </div>
         </div>
+      </section>
+
+      {/* Yelp Appreciation - the same featured review as the Homepage,
+          placed above Downloads per the client's request. */}
+      <section aria-labelledby="media-yelp" className="mt-12">
+        <YelpAppreciationCard headingId="media-yelp" />
       </section>
 
       {/* Downloads. */}

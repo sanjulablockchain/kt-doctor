@@ -214,6 +214,12 @@
     "browseAllResourcesBody": "See every guide, form, and video we have for your family in one place.",
     "viewAllResources": "View all resources"
   },
+  "YelpAppreciation": {
+    "eyebrow": "Yelp Appreciation",
+    "heading": "Featured Yelp Review from One of Our Valued Patients",
+    "reviewerAttribution": "{name} on Yelp",
+    "ratingLabel": "{rating} out of 5 stars"
+  },
   "Hero": {
     "exploreNetwork": "Explore the network",
     "networkPartnerCount": "{count} partners",
@@ -271,6 +277,13 @@
     "appleMaps": "Apple Maps",
     "directionsToGoogle": "Get directions to {name} in Google Maps",
     "directionsToApple": "Get directions to {name} in Apple Maps"
+  },
+  "LocationYelpReviews": {
+    "heading": "Yelp Appreciation Reviews in {location}",
+    "reviewerAttribution": "{name} on Yelp",
+    "ratingLabel": "{rating} out of 5 stars",
+    "showAll": "Show all {count} reviews",
+    "showFewer": "Show fewer reviews"
   },
   "Network": {
     "eyebrow": "One Network",

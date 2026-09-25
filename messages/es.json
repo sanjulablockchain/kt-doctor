@@ -214,6 +214,12 @@
     "browseAllResourcesBody": "Vea todas las guías, formularios y videos que tenemos para su familia en un solo lugar.",
     "viewAllResources": "Ver todos los recursos"
   },
+  "YelpAppreciation": {
+    "eyebrow": "Reconocimiento en Yelp",
+    "heading": "Reseña Destacada de Yelp de Uno de Nuestros Valiosos Pacientes",
+    "reviewerAttribution": "{name} en Yelp",
+    "ratingLabel": "{rating} de 5 estrellas"
+  },
   "Hero": {
     "exploreNetwork": "Explorar la red",
     "networkPartnerCount": "{count} socios",
@@ -271,6 +277,13 @@
     "appleMaps": "Apple Maps",
     "directionsToGoogle": "Cómo llegar a {name} en Google Maps",
     "directionsToApple": "Cómo llegar a {name} en Apple Maps"
+  },
+  "LocationYelpReviews": {
+    "heading": "Reseñas de Reconocimiento en Yelp en {location}",
+    "reviewerAttribution": "{name} en Yelp",
+    "ratingLabel": "{rating} de 5 estrellas",
+    "showAll": "Ver las {count} reseñas",
+    "showFewer": "Ver menos reseñas"
   },
   "Network": {
     "eyebrow": "Una red",

@@ -14,6 +14,7 @@ import { BookingCtaBanner } from "@/components/BookingCtaBanner";
 import { InfoStatCard } from "@/components/InfoStatCard";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { WhyFamiliesSlideshow } from "@/components/WhyFamiliesSlideshow";
+import { YelpAppreciationCard } from "@/components/YelpAppreciationCard";
 import { Reveal } from "@/components/Reveal";
 import { foundation } from "@/data/foundation";
 import { insuranceInfo } from "@/data/insurance";
@@ -151,6 +152,12 @@ export function HomePageContent() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Yelp Appreciation - a single featured review, placed directly below
+          "Why families choose us" per the client's request. */}
+      <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
+        <YelpAppreciationCard />
       </section>
 
       {/* Telehealth teaser */}
