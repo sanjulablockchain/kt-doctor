@@ -3,6 +3,7 @@ import { act, screen } from "@testing-library/react";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { LocationYelpReviews } from "./LocationYelpReviews";
 import { reviewsForLocation } from "@/data/yelpReviews";
+import { yelpUrlForLocation } from "@/data/yelpLocationLinks";
 
 const originalMatchMedia = window.matchMedia;
 
@@ -43,6 +44,15 @@ describe("LocationYelpReviews", () => {
     ).toBeInTheDocument();
     expect(screen.getByText(first.text)).toBeInTheDocument();
     expect(screen.getByText(`Review 1 of ${reviewsForLocation("agoura-hills").length}`)).toBeInTheDocument();
+  });
+
+  it("links out to that clinic's Yelp page", () => {
+    render(<LocationYelpReviews locationId="agoura-hills" locationName="Agoura Hills" />);
+
+    expect(screen.getByRole("link", { name: "See more reviews on Yelp" })).toHaveAttribute(
+      "href",
+      yelpUrlForLocation("agoura-hills")
+    );
   });
 
   it("only cycles through that clinic's own reviews, not other clinics'", () => {

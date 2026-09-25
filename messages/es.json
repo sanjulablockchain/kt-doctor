@@ -223,7 +223,8 @@
     "nextReview": "Siguiente reseña",
     "pause": "Pausar reseñas",
     "play": "Reanudar reseñas",
-    "counter": "Reseña {index} de {total}"
+    "counter": "Reseña {index} de {total}",
+    "readOnYelp": "Ver más reseñas en Yelp"
   },
   "Hero": {
     "exploreNetwork": "Explorar la red",

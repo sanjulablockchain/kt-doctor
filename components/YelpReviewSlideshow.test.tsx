@@ -3,6 +3,7 @@ import { act, fireEvent, screen } from "@testing-library/react";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { YelpReviewSlideshow } from "./YelpReviewSlideshow";
 import type { YelpReview } from "@/data/yelpReviews";
+import { yelpUrlForLocation } from "@/data/yelpLocationLinks";
 
 const originalMatchMedia = window.matchMedia;
 
@@ -152,6 +153,22 @@ describe("YelpReviewSlideshow", () => {
     const blockquote = screen.getByText("Short review one.").closest("blockquote");
     expect(blockquote?.className).not.toContain("mx-auto");
     expect(blockquote?.className).toContain("max-w-2xl");
+  });
+
+  it("shows no Yelp link when the review's clinic has no known Yelp page", () => {
+    render(<YelpReviewSlideshow reviews={reviews} />);
+
+    expect(screen.queryByRole("link", { name: "See more reviews on Yelp" })).not.toBeInTheDocument();
+  });
+
+  it("links to the clinic's Yelp page when one exists for that review's locationId", () => {
+    const valenciaReview: YelpReview = { ...reviews[0], locationId: "valencia" };
+    render(<YelpReviewSlideshow reviews={[valenciaReview]} />);
+
+    expect(screen.getByRole("link", { name: "See more reviews on Yelp" })).toHaveAttribute(
+      "href",
+      yelpUrlForLocation("valencia")
+    );
   });
 
   it("with a single review, shows no pause control and does not error on auto-advance", () => {

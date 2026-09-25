@@ -3,6 +3,7 @@ import { act, screen } from "@testing-library/react";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { YelpAppreciationSlideshow } from "./YelpAppreciationSlideshow";
 import { yelpReviewsSlideshowOrder, featuredYelpReview } from "@/data/yelpReviews";
+import { yelpUrlForLocation } from "@/data/yelpLocationLinks";
 
 const originalMatchMedia = window.matchMedia;
 
@@ -60,6 +61,15 @@ describe("YelpAppreciationSlideshow", () => {
     expect(screen.getByText(featuredYelpReview.text)).toBeInTheDocument();
     expect(screen.getByText(`${featuredYelpReview.reviewer} on Yelp`)).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "5 out of 5 stars" })).toBeInTheDocument();
+  });
+
+  it("links out to the current review's clinic on Yelp", () => {
+    render(<YelpAppreciationSlideshow />);
+
+    const link = screen.getByRole("link", { name: "See more reviews on Yelp" });
+    expect(link).toHaveAttribute("href", yelpUrlForLocation(featuredYelpReview.locationId));
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
   });
 
   it(`shows a 1-based counter out of ${yelpReviewsSlideshowOrder.length} total reviews`, () => {

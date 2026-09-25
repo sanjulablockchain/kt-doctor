@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import type { YelpReview } from "@/data/yelpReviews";
+import { yelpUrlForLocation } from "@/data/yelpLocationLinks";
 import { YelpStarRating } from "@/components/YelpStarRating";
 
 // Auto-advance speed scales with how much there is to read (roughly 200
@@ -116,6 +117,11 @@ export function YelpReviewSlideshow({
   const formattedDate = new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(
     new Date(`${review.date}T00:00:00`)
   );
+  // Links to that clinic's Yelp business page, not this specific review -
+  // Yelp doesn't expose per-review permalinks, only the client-provided
+  // per-clinic page (data/yelpLocationLinks.ts). Omitted where a clinic
+  // has no page yet.
+  const yelpUrl = yelpUrlForLocation(review.locationId);
 
   return (
     <div
@@ -146,6 +152,19 @@ export function YelpReviewSlideshow({
           </cite>
           <span aria-hidden className="text-border">|</span>
           <span>{formattedDate}</span>
+          {yelpUrl && (
+            <>
+              <span aria-hidden className="text-border">|</span>
+              <a
+                href={yelpUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-teal-dark hover:text-teal"
+              >
+                {t("readOnYelp")}
+              </a>
+            </>
+          )}
         </footer>
       </blockquote>
 
