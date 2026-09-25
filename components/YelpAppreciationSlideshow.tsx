@@ -26,15 +26,22 @@ export function YelpAppreciationSlideshow({ headingId }: YelpAppreciationSlidesh
 
   return (
     <div>
-      <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
-        {t("eyebrow")}
-      </span>
-      <h2
-        id={headingId}
-        className="mt-2 max-w-2xl font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl"
-      >
-        {t("heading")}
-      </h2>
+      {/* Centered as one block (eyebrow, heading, card, and nav all share
+          the same mx-auto max-w-2xl column) rather than left-aligned like
+          the rest of the homepage's sections - a single spotlighted quote
+          reads as an intentional centerpiece, not a narrow box stranded on
+          the left of a much wider section. */}
+      <div className="mx-auto max-w-2xl text-center">
+        <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
+          {t("eyebrow")}
+        </span>
+        <h2
+          id={headingId}
+          className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl"
+        >
+          {t("heading")}
+        </h2>
+      </div>
 
       <div className="mt-6">
         <YelpReviewSlideshow reviews={yelpReviewsSlideshowOrder} startIndex={startIndex} />

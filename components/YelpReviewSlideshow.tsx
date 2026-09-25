@@ -51,11 +51,11 @@ function PlayIcon() {
 const navButtonClass =
   "flex h-9 w-9 items-center justify-center rounded-full border border-border text-ink-soft transition-colors hover:border-teal hover:text-teal-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal";
 
-// Caps the card and the nav row to a comfortable reading width, so a review
-// doesn't stretch edge to edge inside a wide max-w-7xl section (long lines
-// of body copy are hard to read; this keeps them capped regardless of how
-// wide the caller's container is).
-const contentWidthClass = "max-w-2xl";
+// Caps the card and the nav row to a comfortable reading width and centers
+// them, so a review doesn't stretch edge to edge inside a wide max-w-7xl
+// section (long lines of body copy are hard to read) and doesn't end up
+// stranded against the left edge of that wider section either.
+const contentWidthClass = "mx-auto max-w-2xl";
 
 type YelpReviewSlideshowProps = {
   reviews: YelpReview[];
