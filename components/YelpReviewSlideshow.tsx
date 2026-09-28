@@ -143,7 +143,7 @@ export function YelpReviewSlideshow({
             a longer one scrolls internally (the thin themed scrollbar from
             globals.css applies automatically) rather than resizing the
             card. */}
-        <div className="mt-4 h-48 overflow-y-auto pr-2 sm:h-56">
+        <div className="mt-4 h-40 overflow-y-auto pr-2 sm:h-48">
           <p className="whitespace-pre-line text-lg text-ink sm:text-xl">{review.text}</p>
         </div>
         <footer className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 font-display text-sm font-semibold text-ink-soft">
