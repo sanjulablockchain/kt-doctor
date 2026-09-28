@@ -54,6 +54,14 @@ describe("WhyFamiliesSlideshow", () => {
     expect(dots).toHaveLength(images.length);
   });
 
+  it("hides the dot row on phone-width screens, where 21 of them no longer fit on one line", () => {
+    render(<WhyFamiliesSlideshow {...defaultProps} alt="test image" />);
+
+    const dotsRow = getDots()[0].parentElement;
+    expect(dotsRow?.className).toContain("hidden");
+    expect(dotsRow?.className).toContain("sm:flex");
+  });
+
   it("renders previous and next slide buttons", () => {
     render(<WhyFamiliesSlideshow {...defaultProps} alt="test image" />);
 

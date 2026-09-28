@@ -134,7 +134,13 @@ export function WhyFamiliesSlideshow({
         </svg>
       </button>
 
-      <div className="absolute inset-x-0 bottom-4 flex justify-center gap-2">
+      {/* One dot per slide only works up to a point - at 21 slides they no
+          longer fit on one row on a phone-width screen (the smallest
+          screens this renders at, e.g. inside a 2-column grid cell), where
+          they were overflowing/crowding. Hidden below sm: (640px); the
+          prev/next arrows above are always visible (not hover-gated) at
+          that width, so mobile navigation isn't lost. */}
+      <div className="absolute inset-x-0 bottom-4 hidden justify-center gap-2 sm:flex">
         {SLIDES.map((src, index) => (
           <button
             key={src}
