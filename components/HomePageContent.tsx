@@ -168,11 +168,11 @@ export function HomePageContent() {
             alt={t("telehealthImageAlt")}
             width={1000}
             height={665}
-            wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96 lg:order-2"
+            wrapperClassName="h-72 rounded-[2rem] shadow-card sm:h-96"
             speed={0.12}
           />
 
-          <div className="lg:order-1">
+          <div>
             <span className="font-display text-xs font-semibold uppercase tracking-wide text-teal-dark">
               {t("telehealthEyebrow")}
             </span>
