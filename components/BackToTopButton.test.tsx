@@ -35,4 +35,9 @@ describe("BackToTopButton", () => {
     fireEvent.click(screen.getByRole("button", { name: "Back to top" }));
     expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "smooth" });
   });
+
+  it("is the same 56px size as the other floating buttons (ContactWidget, MobileQuickDrawer)", () => {
+    render(<BackToTopButton />);
+    expect(screen.getByTestId("back-to-top").className).toContain("h-14 w-14");
+  });
 });

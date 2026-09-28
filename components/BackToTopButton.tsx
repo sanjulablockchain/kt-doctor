@@ -31,11 +31,11 @@ export function BackToTopButton() {
       aria-hidden={!visible}
       tabIndex={visible ? 0 : -1}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className={`fixed bottom-5 left-5 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-teal-dark text-white shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-teal active:scale-90 sm:bottom-8 sm:left-8 ${
+      className={`fixed bottom-5 left-5 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-teal-dark text-white shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-teal active:scale-90 sm:bottom-8 sm:left-8 ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
       }`}
     >
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-5 w-5">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-6 w-6">
         <path
           d="m5 12 7-7 7 7M12 19V5"
           stroke="currentColor"
