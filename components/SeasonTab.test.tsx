@@ -19,7 +19,7 @@ describe("SeasonTab", () => {
 
     const dialog = screen.getByRole("dialog");
     expect(dialog).toBeInTheDocument();
-    expect(screen.getByRole("img", { name: /proud USC Pediatrics partner/ })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /Tier 1 USC Pediatrics partner/ })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Global Iodine Deficiency Prevention Day/ })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Back to school reminder/ })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Back to school vision check/ })).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe("SeasonTab", () => {
     await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
 
     const banners = screen.getAllByRole("img");
-    expect(banners[0].getAttribute("alt")).toMatch(/proud USC Pediatrics partner/);
+    expect(banners[0].getAttribute("alt")).toMatch(/Tier 1 USC Pediatrics partner/);
   });
 
   it("gives each banner its own aspect ratio so nothing is cropped", async () => {
@@ -63,7 +63,7 @@ describe("SeasonTab", () => {
 
     // The flyer is taller than the 4:5 health banners. Forcing it into the
     // shared 4:5 box would crop the award badge and the office address.
-    const flyer = screen.getByRole("img", { name: /proud USC Pediatrics partner/ });
+    const flyer = screen.getByRole("img", { name: /Tier 1 USC Pediatrics partner/ });
     expect(flyer.closest("div")).toHaveClass("aspect-[1080/1526]");
 
     const iodine = screen.getByRole("img", { name: /Global Iodine Deficiency Prevention Day/ });
