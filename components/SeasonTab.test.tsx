@@ -19,13 +19,13 @@ describe("SeasonTab", () => {
 
     const dialog = screen.getByRole("dialog");
     expect(dialog).toBeInTheDocument();
-    expect(screen.getByRole("img", { name: /proud USC Pediatrics partner/ })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /Tier 1 USC Pediatrics partner/ })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Global Iodine Deficiency Prevention Day/ })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Back to school reminder/ })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Back to school vision check/ })).toBeInTheDocument();
   });
 
-  it("shows the visitor's local clock under the drawer's intro text", async () => {
+  it("shows the visitor's local clock in the header row beside the close button", async () => {
     render(<SeasonTab />);
     await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
 
@@ -33,9 +33,11 @@ describe("SeasonTab", () => {
     expect(clock).toBeInTheDocument();
     expect(clock.textContent).toMatch(/^\d{2}:\d{2}:\d{2}$/);
 
-    // It belongs below the helper copy and above the banners.
-    const helper = screen.getByText("Health reminders and awareness for this season.");
-    expect(helper.compareDocumentPosition(clock)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    // It sits in the same header row as the close button, ahead of the title.
+    const close = screen.getByRole("button", { name: "Close seasonal updates" });
+    expect(clock.closest("div")?.parentElement).toBe(close.parentElement);
+    const title = screen.getByRole("heading", { name: "Seasonal Updates" });
+    expect(clock.compareDocumentPosition(title)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
   it("renders one image per banner asset, each with descriptive alt text", async () => {
@@ -54,7 +56,7 @@ describe("SeasonTab", () => {
     await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
 
     const banners = screen.getAllByRole("img");
-    expect(banners[0].getAttribute("alt")).toMatch(/proud USC Pediatrics partner/);
+    expect(banners[0].getAttribute("alt")).toMatch(/Tier 1 USC Pediatrics partner/);
   });
 
   it("gives each banner its own aspect ratio so nothing is cropped", async () => {
@@ -63,7 +65,7 @@ describe("SeasonTab", () => {
 
     // The flyer is taller than the 4:5 health banners. Forcing it into the
     // shared 4:5 box would crop the award badge and the office address.
-    const flyer = screen.getByRole("img", { name: /proud USC Pediatrics partner/ });
+    const flyer = screen.getByRole("img", { name: /Tier 1 USC Pediatrics partner/ });
     expect(flyer.closest("div")).toHaveClass("aspect-[1080/1526]");
 
     const iodine = screen.getByRole("img", { name: /Global Iodine Deficiency Prevention Day/ });

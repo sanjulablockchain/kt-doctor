@@ -131,12 +131,11 @@ export const mediaDownloads: MediaDownload[] = [
  * The USC partnership flyer, shown as its own section between the media kit and
  * the downloads, per client direction.
  *
- * KNOWN ISSUE with the supplied artwork (`public/media/ktmg-flyer.jpg`): it
- * prints "www.ktddoctor.com" and its QR code encodes the same misspelling.
- * That domain is unregistered, so scanning the code fails rather than reaching
- * anyone else. It is published here regardless because on screen the QR is
- * decorative, and the surrounding page links to the real site. Replace the JPEG
- * once a corrected export arrives; nothing else needs to change.
+ * The artwork is `public/media/ktmg-flyer.jpg`, the "USC Health Benefits Fair"
+ * edition. Its printed URL and QR code both point at www.ktdoctor.com (the
+ * earlier edition misspelled the domain). The same JPEG is reused for the
+ * seasonal drawer at `public/banners/season-usc-pediatrics-partner.jpg`, so
+ * replace both files together.
  *
  * The flyer is a text-heavy image, so `highlights` restates its substance as
  * real text. Screen readers and search engines cannot read a JPEG, and `alt`
@@ -162,9 +161,9 @@ export const uscFlyer: MediaFeature = {
   imageSrc: "/media/ktmg-flyer.jpg",
   imageWidth: 1080,
   imageHeight: 1526,
-  alt: "Kids & Teens Medical Group flyer featuring founder Dr. Janesri De Silva, MD, FAAP, marking the practice as a proud USC Pediatrics partner and a recipient of the L.A. Care Social Determinants of Health Award.",
+  alt: "Kids & Teens Medical Group flyer for the USC Health Benefits Fair on October 6th, featuring founder Dr. Janesri De Silva, MD, FAAP, marking the practice as a proud Tier 1 USC Pediatrics partner and a recipient of the L.A. Care Social Determinants of Health Award.",
   altEs:
-    "Folleto de Kids & Teens Medical Group con la fundadora, la Dra. Janesri De Silva, MD, FAAP, que destaca a la práctica como orgulloso socio de Pediatría de USC y galardonada con el Premio a los Determinantes Sociales de la Salud de L.A. Care.",
+    "Folleto de Kids & Teens Medical Group para la Feria de Beneficios de Salud de USC del 6 de octubre, con la fundadora, la Dra. Janesri De Silva, MD, FAAP, que destaca a la práctica como orgulloso socio de Pediatría de USC de Nivel 1 y galardonada con el Premio a los Determinantes Sociales de la Salud de L.A. Care.",
   highlights: [
     {
       text: "Proud USC Pediatrics partner of their Health Benefits Plan.",
