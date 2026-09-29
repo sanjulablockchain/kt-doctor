@@ -55,23 +55,22 @@ export function SeasonBanners({ onClose }: Props) {
         className="fixed inset-y-0 left-0 z-50 flex w-full max-w-sm flex-col overflow-y-auto bg-surface p-6 shadow-card motion-safe:animate-[slide-in-left_300ms_ease-out] sm:max-w-md"
       >
         <div className="flex items-start justify-between gap-4">
-          <h2 id={DIALOG_TITLE_ID} className="font-display text-xl font-bold text-ink">
-            {t("title")}
-          </h2>
+          <LocalClock />
           <button
             type="button"
             onClick={onClose}
             aria-label={t("closeSeason")}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-ink-soft transition-colors hover:bg-ivory-deep hover:text-ink"
+            className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full text-ink-soft transition-colors hover:bg-ivory-deep hover:text-ink"
           >
             <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4">
               <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </button>
         </div>
+        <h2 id={DIALOG_TITLE_ID} className="mt-5 font-display text-xl font-bold text-ink">
+          {t("title")}
+        </h2>
         <p className="mt-1 text-sm text-ink-soft">{t("helper")}</p>
-
-        <LocalClock />
 
         <div className="mt-6 flex flex-col gap-6">
           {SEASON_BANNERS.map((banner) => (

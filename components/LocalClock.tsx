@@ -75,11 +75,11 @@ export function LocalClock() {
   const offset = now ? formatUtcOffset(now.getTimezoneOffset()) : null;
 
   return (
-    <div className="mt-4 flex w-full items-start gap-1.5 rounded-xl border border-border bg-ivory px-4 py-3">
+    <div className="flex items-start gap-1.5">
       <time
         aria-label={t("clockLabel")}
         dateTime={now ? time : undefined}
-        className="font-display text-2xl font-bold leading-none tracking-tight text-ink tabular-nums"
+        className="font-display text-3xl font-bold leading-none tracking-tight text-ink tabular-nums"
       >
         {time}
       </time>

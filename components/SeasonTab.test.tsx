@@ -25,7 +25,7 @@ describe("SeasonTab", () => {
     expect(screen.getByRole("img", { name: /Back to school vision check/ })).toBeInTheDocument();
   });
 
-  it("shows the visitor's local clock under the drawer's intro text", async () => {
+  it("shows the visitor's local clock in the header row beside the close button", async () => {
     render(<SeasonTab />);
     await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
 
@@ -33,9 +33,11 @@ describe("SeasonTab", () => {
     expect(clock).toBeInTheDocument();
     expect(clock.textContent).toMatch(/^\d{2}:\d{2}:\d{2}$/);
 
-    // It belongs below the helper copy and above the banners.
-    const helper = screen.getByText("Health reminders and awareness for this season.");
-    expect(helper.compareDocumentPosition(clock)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    // It sits in the same header row as the close button, ahead of the title.
+    const close = screen.getByRole("button", { name: "Close seasonal updates" });
+    expect(clock.closest("div")?.parentElement).toBe(close.parentElement);
+    const title = screen.getByRole("heading", { name: "Seasonal Updates" });
+    expect(clock.compareDocumentPosition(title)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
   it("renders one image per banner asset, each with descriptive alt text", async () => {
