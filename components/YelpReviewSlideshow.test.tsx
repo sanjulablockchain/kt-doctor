@@ -171,6 +171,18 @@ describe("YelpReviewSlideshow", () => {
     );
   });
 
+  it("variant='spotlight' attributes by clinic name instead of 'on Yelp', with no outbound link", () => {
+    // Valencia has a real Yelp URL (see data/yelpLocationLinks.ts); the
+    // point of this test is that variant='spotlight' hides the link even
+    // though one exists, not just when one doesn't.
+    const valenciaReview: YelpReview = { ...reviews[0], locationId: "valencia" };
+    render(<YelpReviewSlideshow reviews={[valenciaReview]} variant="spotlight" />);
+
+    expect(screen.getByText("Alice A. in Valencia")).toBeInTheDocument();
+    expect(screen.queryByText("Alice A. on Yelp")).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "See more reviews on Yelp" })).not.toBeInTheDocument();
+  });
+
   it("with a single review, shows no pause control and does not error on auto-advance", () => {
     render(<YelpReviewSlideshow reviews={[reviews[0]]} />);
 

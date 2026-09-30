@@ -219,6 +219,7 @@
     "heading": "What Families Are Saying",
     "imageAlt": "A mother laughing with her young daughter at home",
     "reviewerAttribution": "{name} on Yelp",
+    "reviewerLocationAttribution": "{name} in {location}",
     "ratingLabel": "{rating} out of 5 stars",
     "previousReview": "Previous review",
     "nextReview": "Next review",

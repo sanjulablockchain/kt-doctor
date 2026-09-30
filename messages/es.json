@@ -219,6 +219,7 @@
     "heading": "Lo Que Dicen las Familias",
     "imageAlt": "Una madre riendo con su pequeña hija en casa",
     "reviewerAttribution": "{name} en Yelp",
+    "reviewerLocationAttribution": "{name} en {location}",
     "ratingLabel": "{rating} de 5 estrellas",
     "previousReview": "Reseña anterior",
     "nextReview": "Siguiente reseña",

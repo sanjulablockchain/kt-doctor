@@ -3,7 +3,7 @@ import { act, screen } from "@testing-library/react";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { YelpAppreciationSlideshow } from "./YelpAppreciationSlideshow";
 import { yelpReviewsSlideshowOrder, featuredYelpReview } from "@/data/yelpReviews";
-import { yelpUrlForLocation } from "@/data/yelpLocationLinks";
+import { locations } from "@/data/locations";
 
 const originalMatchMedia = window.matchMedia;
 
@@ -25,6 +25,9 @@ function intervalForFeaturedReview(): number {
   const words = featuredYelpReview.text.trim().split(/\s+/).length;
   return Math.min(14000, Math.max(6000, words * 300));
 }
+
+const featuredLocationName =
+  locations.find((loc) => loc.id === featuredYelpReview.locationId)?.name ?? featuredYelpReview.locationId;
 
 describe("YelpAppreciationSlideshow", () => {
   beforeEach(() => {
@@ -59,8 +62,16 @@ describe("YelpAppreciationSlideshow", () => {
 
     expect(screen.getByText("What Families Are Saying")).toBeInTheDocument();
     expect(screen.getByText(featuredYelpReview.text)).toBeInTheDocument();
-    expect(screen.getByText(`${featuredYelpReview.reviewer} on Yelp`)).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "5 out of 5 stars" })).toBeInTheDocument();
+  });
+
+  it("attributes the reviewer by clinic, not by 'on Yelp', per the client's request", () => {
+    render(<YelpAppreciationSlideshow />);
+
+    expect(
+      screen.getByText(`${featuredYelpReview.reviewer} in ${featuredLocationName}`)
+    ).toBeInTheDocument();
+    expect(screen.queryByText(`${featuredYelpReview.reviewer} on Yelp`)).not.toBeInTheDocument();
   });
 
   it("renders no image by default, and left-aligns even without an explicit align prop when showImage is set", () => {
@@ -79,13 +90,10 @@ describe("YelpAppreciationSlideshow", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("links out to the current review's clinic on Yelp", () => {
+  it("has no outbound Yelp link, per the client's request to keep visitors on-site", () => {
     render(<YelpAppreciationSlideshow />);
 
-    const link = screen.getByRole("link", { name: "See more reviews on Yelp" });
-    expect(link).toHaveAttribute("href", yelpUrlForLocation(featuredYelpReview.locationId));
-    expect(link).toHaveAttribute("target", "_blank");
-    expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
+    expect(screen.queryByRole("link", { name: "See more reviews on Yelp" })).not.toBeInTheDocument();
   });
 
   it(`shows a 1-based counter out of ${yelpReviewsSlideshowOrder.length} total reviews`, () => {

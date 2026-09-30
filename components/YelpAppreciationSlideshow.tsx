@@ -66,6 +66,7 @@ export function YelpAppreciationSlideshow({
           reviews={yelpReviewsSlideshowOrder}
           startIndex={startIndex}
           align={effectiveAlign}
+          variant="spotlight"
         />
       </div>
     </div>

@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import type { YelpReview } from "@/data/yelpReviews";
 import { yelpUrlForLocation } from "@/data/yelpLocationLinks";
+import { locations } from "@/data/locations";
 import { YelpStarRating } from "@/components/YelpStarRating";
 
 // Auto-advance speed scales with how much there is to read (roughly 200
@@ -63,6 +64,17 @@ type YelpReviewSlideshowProps = {
    * cap, but left-aligned instead, for pages whose other sections are
    * already left-aligned in the same wide container. */
   align?: "left" | "center";
+  /** "clinic" (default): used on a single clinic's own page, where every
+   * review already belongs to that one location (naming it again would be
+   * redundant) - shows "{name} on Yelp" and links out to that clinic's
+   * Yelp page.
+   * "spotlight": used on the Homepage/Media rotating slideshow, where
+   * reviews span many clinics - shows "{name} in {location}" instead (so
+   * it's clear which clinic each one is about as it rotates) and has no
+   * outbound Yelp link, per the client's request to keep visitors on-site
+   * rather than send them to Yelp, where they might see less flattering
+   * reviews too. */
+  variant?: "clinic" | "spotlight";
 };
 
 // Shared carousel core behind both YelpAppreciationSlideshow (Home/Media,
@@ -79,6 +91,7 @@ export function YelpReviewSlideshow({
   reviews,
   startIndex = 0,
   align = "center",
+  variant = "clinic",
 }: YelpReviewSlideshowProps) {
   const t = useTranslations("YelpAppreciation");
   const locale = useLocale();
@@ -120,8 +133,10 @@ export function YelpReviewSlideshow({
   // Links to that clinic's Yelp business page, not this specific review -
   // Yelp doesn't expose per-review permalinks, only the client-provided
   // per-clinic page (data/yelpLocationLinks.ts). Omitted where a clinic
-  // has no page yet.
-  const yelpUrl = yelpUrlForLocation(review.locationId);
+  // has no page yet, and entirely in the "spotlight" variant (see prop
+  // doc comment above).
+  const yelpUrl = variant === "clinic" ? yelpUrlForLocation(review.locationId) : undefined;
+  const locationName = locations.find((loc) => loc.id === review.locationId)?.name ?? review.locationId;
 
   return (
     <div
@@ -148,7 +163,9 @@ export function YelpReviewSlideshow({
         </div>
         <footer className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 font-display text-sm font-semibold text-ink-soft">
           <cite className="not-italic text-ink">
-            {t("reviewerAttribution", { name: review.reviewer })}
+            {variant === "spotlight"
+              ? t("reviewerLocationAttribution", { name: review.reviewer, location: locationName })
+              : t("reviewerAttribution", { name: review.reviewer })}
           </cite>
           <span aria-hidden className="text-border">|</span>
           <span>{formattedDate}</span>
