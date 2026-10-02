@@ -16,12 +16,36 @@ import { toE164 } from "@/lib/phone";
 import { withBasePath } from "@/lib/basePath";
 
 const primaryLinkClass =
-  "flex items-center justify-between gap-2 rounded-xl border-b border-border/70 px-3 py-3.5 text-lg font-semibold text-ink transition-colors hover:bg-ivory-deep hover:text-teal-dark xl:whitespace-nowrap xl:rounded-none xl:border-none xl:px-0 xl:py-0 xl:text-sm xl:font-medium xl:text-ink-soft xl:hover:bg-transparent";
+  "flex items-center justify-between gap-2 rounded-xl border-b border-border/70 px-3 py-3.5 text-lg font-semibold text-ink transition-colors hover:bg-ivory-deep hover:text-teal-dark xl:whitespace-nowrap xl:rounded-none xl:border-none xl:px-0 xl:py-0 xl:text-sm xl:font-medium xl:text-ink-soft xl:hover:bg-transparent aria-[current=page]:bg-ivory-deep aria-[current=page]:text-teal-dark xl:aria-[current=page]:bg-transparent xl:aria-[current=page]:font-semibold xl:aria-[current=page]:text-teal-dark xl:aria-[current=page]:underline xl:aria-[current=page]:decoration-2 xl:aria-[current=page]:underline-offset-8";
 
 const secondaryLinkClass =
-  "rounded-xl bg-ivory-deep/50 px-3 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-ivory-deep hover:text-teal-dark xl:bg-transparent xl:px-3 xl:py-2.5 xl:font-normal xl:text-ink-soft";
+  "rounded-xl bg-ivory-deep/50 px-3 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-ivory-deep hover:text-teal-dark xl:bg-transparent xl:px-3 xl:py-2.5 xl:font-normal xl:text-ink-soft aria-[current=page]:bg-teal-tint aria-[current=page]:font-semibold aria-[current=page]:text-teal-dark xl:aria-[current=page]:bg-teal-tint xl:aria-[current=page]:text-teal-dark";
 
 const locales = ["en", "es"] as const;
+
+const MORE_HREFS = [
+  "/services/telehealth",
+  "/about",
+  "/network",
+  "/foundation",
+  "/careers",
+  "/insurance",
+  "/services",
+  "/blog",
+  "/media",
+  "/testimonials",
+  "/contact",
+];
+const NAV_HREFS = ["/doctors", "/locations", "/resources", ...MORE_HREFS];
+
+// The nav item for the current page: an exact match or a parent section
+// (e.g. /doctors/jane-doe highlights Doctors). The longest match wins, so
+// /services/telehealth highlights Telehealth rather than Services.
+export function activeNavHref(pathname: string): string | undefined {
+  return NAV_HREFS.filter((href) => pathname === href || pathname.startsWith(`${href}/`)).sort(
+    (a, b) => b.length - a.length,
+  )[0];
+}
 
 function ChevronRight() {
   return (
@@ -44,6 +68,9 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
+  const activeHref = activeNavHref(pathname);
+  const current = (href: string) => (href === activeHref ? "page" : undefined);
+  const moreActive = activeHref !== undefined && MORE_HREFS.includes(activeHref);
 
   useEffect(() => {
     if (!moreOpen) return;
@@ -102,15 +129,15 @@ export function Header() {
             menuOpen ? "flex" : "hidden"
           }`}
         >
-          <Link href="/doctors" className={`${primaryLinkClass} order-1`}>
+          <Link href="/doctors" aria-current={current("/doctors")} className={`${primaryLinkClass} order-1`}>
             {t("doctors")}
             <ChevronRight />
           </Link>
-          <Link href="/locations" className={`${primaryLinkClass} order-2`}>
+          <Link href="/locations" aria-current={current("/locations")} className={`${primaryLinkClass} order-2`}>
             {t("locations")}
             <ChevronRight />
           </Link>
-          <Link href="/resources" className={`${primaryLinkClass} order-3`}>
+          <Link href="/resources" aria-current={current("/resources")} className={`${primaryLinkClass} order-3`}>
             {t("resources")}
             <ChevronRight />
           </Link>
@@ -141,7 +168,9 @@ export function Header() {
               type="button"
               aria-expanded={moreOpen}
               onClick={() => setMoreOpen((open) => !open)}
-              className="hidden items-center gap-1 rounded-xl px-3 py-2.5 transition-colors hover:bg-ivory-deep hover:text-teal-dark xl:flex xl:rounded-none xl:px-0 xl:py-0 xl:hover:bg-transparent"
+              className={`hidden items-center gap-1 rounded-xl px-3 py-2.5 transition-colors hover:bg-ivory-deep hover:text-teal-dark xl:flex xl:rounded-none xl:px-0 xl:py-0 xl:hover:bg-transparent ${
+                moreOpen || moreActive ? "text-teal-dark" : ""
+              } ${moreActive ? "font-semibold" : ""}`}
             >
               {t("more")}
               <svg
@@ -164,37 +193,37 @@ export function Header() {
                 moreOpen ? "xl:flex xl:flex-col" : "xl:hidden"
               }`}
             >
-              <Link href="/services/telehealth" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/services/telehealth" aria-current={current("/services/telehealth")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("telehealth")}
               </Link>
-              <Link href="/about" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/about" aria-current={current("/about")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("aboutUs")}
               </Link>
-              <Link href="/network" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/network" aria-current={current("/network")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("network")}
               </Link>
-              <Link href="/foundation" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/foundation" aria-current={current("/foundation")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("foundation")}
               </Link>
-              <Link href="/careers" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/careers" aria-current={current("/careers")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("careers")}
               </Link>
-              <Link href="/insurance" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/insurance" aria-current={current("/insurance")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("insurance")}
               </Link>
-              <Link href="/services" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/services" aria-current={current("/services")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("services")}
               </Link>
-              <Link href="/blog" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/blog" aria-current={current("/blog")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("blog")}
               </Link>
-              <Link href="/media" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/media" aria-current={current("/media")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("media")}
               </Link>
-              <Link href="/testimonials" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/testimonials" aria-current={current("/testimonials")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("testimonials")}
               </Link>
-              <Link href="/contact" onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
+              <Link href="/contact" aria-current={current("/contact")} onClick={() => setMoreOpen(false)} className={secondaryLinkClass}>
                 {t("contact")}
               </Link>
             </div>

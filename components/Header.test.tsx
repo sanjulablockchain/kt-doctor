@@ -1,18 +1,62 @@
-import { describe, it, expect, vi } from "vitest";
+import { afterEach, describe, it, expect, vi } from "vitest";
 import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithIntl } from "@/lib/test-utils";
 import { MAIN_PHONE, TEXT_PHONE } from "@/lib/constants";
-import { Header } from "./Header";
+import { Header, activeNavHref } from "./Header";
 
 // usePathname requires a real Next.js router context, which RTL doesn't
-// provide. The Header only uses it to build the language-switcher link, so a
-// fixed path is enough for testing everything else in this file.
+// provide. Tests default to "/" and override `pathname.value` to exercise the
+// active-link highlighting.
+const pathname = vi.hoisted(() => ({ value: "/" }));
 vi.mock("@/i18n/navigation", async () => {
   const actual = await vi.importActual<typeof import("@/i18n/navigation")>(
     "@/i18n/navigation"
   );
-  return { ...actual, usePathname: () => "/" };
+  return { ...actual, usePathname: () => pathname.value };
+});
+
+describe("activeNavHref", () => {
+  it("matches a page exactly or by its parent section", () => {
+    expect(activeNavHref("/doctors")).toBe("/doctors");
+    expect(activeNavHref("/doctors/some-doctor")).toBe("/doctors");
+    expect(activeNavHref("/about")).toBe("/about");
+  });
+
+  it("prefers the most specific match", () => {
+    expect(activeNavHref("/services/telehealth")).toBe("/services/telehealth");
+    expect(activeNavHref("/services/vaccines")).toBe("/services");
+  });
+
+  it("returns nothing for pages outside the nav", () => {
+    expect(activeNavHref("/")).toBeUndefined();
+    expect(activeNavHref("/doctorsx")).toBeUndefined();
+  });
+});
+
+describe("Header active link", () => {
+  afterEach(() => {
+    pathname.value = "/";
+  });
+
+  it("marks the current top-level page with aria-current", () => {
+    pathname.value = "/locations/northridge";
+    renderWithIntl(<Header />);
+    expect(screen.getByRole("link", { name: "Locations" })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("link", { name: "Doctors" })).not.toHaveAttribute("aria-current");
+  });
+
+  it("marks a More menu page and highlights the More button", () => {
+    pathname.value = "/careers";
+    renderWithIntl(<Header />);
+    expect(screen.getByRole("link", { name: "Careers" })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("button", { name: "More" }).className).toContain("text-teal-dark");
+  });
+
+  it("marks nothing on the home page", () => {
+    const { container } = renderWithIntl(<Header />);
+    expect(container.querySelectorAll('nav [aria-current="page"]')).toHaveLength(0);
+  });
 });
 
 describe("Header", () => {

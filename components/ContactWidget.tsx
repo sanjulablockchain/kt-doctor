@@ -177,8 +177,10 @@ export function ContactWidget() {
         aria-expanded={open}
         aria-label={open ? t("closeContact") : t("openContact")}
         onClick={() => setOpen((wasOpen) => !wasOpen)}
-        className={`relative flex h-14 w-14 items-center justify-center rounded-full bg-teal text-white shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-teal-dark hover:[animation-play-state:paused] active:scale-90 ${
-          open ? "" : "motion-safe:animate-[heartbeat_2.5s_ease-in-out_infinite]"
+        className={`relative flex h-14 w-14 items-center justify-center rounded-full text-white shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-teal-dark hover:[animation-play-state:paused] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal/40 active:scale-90 ${
+          open
+            ? "bg-teal-dark ring-4 ring-teal/30"
+            : "bg-teal motion-safe:animate-[heartbeat_2.5s_ease-in-out_infinite]"
         }`}
       >
         {open ? (

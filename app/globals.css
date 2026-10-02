@@ -48,6 +48,16 @@
   color-scheme: dark;
 }
 
+/* Tailwind v4's preflight resets <button> to `cursor: default`, so every
+   button (nav "More", theme toggle, menu toggle, floating contact button)
+   showed an arrow on hover. Restore the pointer for enabled buttons. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
 /* Footer & bottom CTA are a fixed navy surface in both themes; pin the tokens
    they use as "light on navy" to their light values so those regions render
    identically regardless of theme. No-op in light mode (values already match). */

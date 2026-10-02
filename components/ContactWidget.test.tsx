@@ -42,6 +42,17 @@ describe("ContactWidget", () => {
     );
   });
 
+  it("highlights the toggle while the panel is open", async () => {
+    render(<ContactWidget />);
+    const toggle = screen.getByRole("button", { name: "Contact us" });
+    expect(toggle.className).not.toContain("ring-teal/30");
+
+    await userEvent.click(toggle);
+    const openToggle = screen.getByRole("button", { name: "Close contact options" });
+    expect(openToggle.className).toContain("bg-teal-dark");
+    expect(openToggle.className).toContain("ring-teal/30");
+  });
+
   it("closes the panel when the toggle is clicked again", async () => {
     render(<ContactWidget />);
     await userEvent.click(screen.getByRole("button", { name: "Contact us" }));
