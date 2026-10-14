@@ -65,4 +65,9 @@ describe("sitemap", () => {
     const entries = sitemap();
     expect(entries.some((e) => e.url.endsWith("/contact"))).toBe(true);
   });
+
+  // The RingCentral chat test page is unlisted on purpose.
+  it("leaves out the /chat-test page", () => {
+    expect(entries.some((e) => e.url.endsWith("/chat-test"))).toBe(false);
+  });
 });

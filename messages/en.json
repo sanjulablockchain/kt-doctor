@@ -576,7 +576,18 @@
     "boilerplate": "Founded in 2007 by Janesri De Silva, MD, FAAP, Kids & Teens Medical Group is Southern California's largest independent pediatric network, serving children and families across 25 clinic locations in Los Angeles County and surrounding regions.",
     "endOfRelease": "End of release"
   },
+  "ChatTest": {
+    "eyebrow": "Internal testing",
+    "heading": "Website chat test",
+    "intro": "This page is for testing the website chat before it is added to the rest of the site. It is not linked from anywhere on the site and is hidden from search engines.",
+    "instructions": "Use the chat button on this page to start a conversation. It can take a few seconds to appear.",
+    "privacyNote": "Please do not enter real patient information while testing."
+  },
   "Seo": {
+    "chatTest": {
+      "title": "Website Chat Test",
+      "description": "Internal test page for the Kids & Teens Medical Group website chat."
+    },
     "home": {
       "title": "Pediatric Care Across Greater Los Angeles",
       "description": "Board-certified pediatricians at clinics across Greater Los Angeles. Well-child visits, urgent care, vaccines, and telehealth 7 days a week."

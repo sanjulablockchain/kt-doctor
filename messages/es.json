@@ -576,7 +576,18 @@
     "boilerplate": "Fundado en 2007 por Janesri De Silva, MD, FAAP, Kids & Teens Medical Group es la red pediátrica independiente más grande del sur de California, al servicio de niños y familias en 25 clínicas del condado de Los Ángeles y las regiones circundantes.",
     "endOfRelease": "Fin del comunicado"
   },
+  "ChatTest": {
+    "eyebrow": "Pruebas internas",
+    "heading": "Prueba del chat del sitio web",
+    "intro": "Esta página sirve para probar el chat del sitio web antes de agregarlo al resto del sitio. No está enlazada desde ninguna parte del sitio y está oculta para los motores de búsqueda.",
+    "instructions": "Use el botón de chat de esta página para iniciar una conversación. Puede tardar unos segundos en aparecer.",
+    "privacyNote": "Por favor, no ingrese información real de pacientes durante las pruebas."
+  },
   "Seo": {
+    "chatTest": {
+      "title": "Prueba del Chat del Sitio Web",
+      "description": "Página de prueba interna para el chat del sitio web de Kids & Teens Medical Group."
+    },
     "home": {
       "title": "Atención Pediátrica en el Gran Los Ángeles",
       "description": "Pediatras certificados en clínicas del área de Los Ángeles. Chequeos, atención de urgencia, vacunas y telesalud los 7 días de la semana."
