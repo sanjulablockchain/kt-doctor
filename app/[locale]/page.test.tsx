@@ -134,14 +134,19 @@ describe("Home page", () => {
 
   it("renders a Trusted Partners & Affiliations section with all 7 real partner logos", async () => {
     await renderHome();
-    expect(screen.getByText("Trusted Partners & Affiliations")).toBeInTheDocument();
-    expect(screen.getByAltText("Children's Hospital Los Angeles")).toBeInTheDocument();
-    expect(screen.getByAltText("Cedars-Sinai")).toBeInTheDocument();
-    expect(screen.getByAltText("LA Care Health Plan")).toBeInTheDocument();
-    expect(screen.getByAltText("Optum")).toBeInTheDocument();
-    expect(screen.getByAltText("Molina Healthcare")).toBeInTheDocument();
-    expect(screen.getByAltText("Regal Medical Group")).toBeInTheDocument();
-    expect(screen.getByAltText("Providence")).toBeInTheDocument();
+    // The hero's bottom strip carries the same logos, so each appears in both.
+    expect(screen.getAllByText("Trusted Partners & Affiliations").length).toBeGreaterThanOrEqual(1);
+    for (const name of [
+      "Children's Hospital Los Angeles",
+      "Cedars-Sinai",
+      "LA Care Health Plan",
+      "Optum",
+      "Molina Healthcare",
+      "Regal Medical Group",
+      "Providence",
+    ]) {
+      expect(screen.getAllByAltText(name).length).toBeGreaterThanOrEqual(1);
+    }
   });
 
   it("renders a FAQ section with the section heading and first question", async () => {
@@ -166,7 +171,7 @@ describe("Home page", () => {
 
   it("renders the hero heading and CTA copy in Spanish when locale is es", async () => {
     await renderHome("es");
-    expect(screen.getByText("cerca de casa.")).toBeInTheDocument();
+    expect(screen.getByText("su familia.")).toBeInTheDocument();
     expect(
       screen.getAllByRole("button", { name: /reservar una cita/i }).length
     ).toBeGreaterThanOrEqual(1);

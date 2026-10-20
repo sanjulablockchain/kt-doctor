@@ -129,10 +129,11 @@
     "helper": "Accesos rápidos a lo que más importa."
   },
   "Home": {
-    "badge": "{count} clínicas en el área de Los Ángeles",
-    "headingStart": "Atención pediátrica compasiva,",
-    "headingHighlight": "cerca de casa.",
-    "subheading": "Pediatras certificados en el área de Los Ángeles, con visitas el mismo día, telesalud y un médico con quien su familia puede continuar desde recién nacido hasta los 21 años.",
+    "heroSameDayPill": "Citas para el mismo día, hoy",
+    "heroTelehealthPill": "Telesalud los 7 días de la semana",
+    "headingStart": "Atención pensada para",
+    "headingHighlight": "su familia.",
+    "subheading": "Pediatras certificados en {count} clínicas del área de Los Ángeles, en persona hoy o por video desde casa, y un médico con quien su hijo puede crecer, desde recién nacido hasta los 21 años.",
     "heroImageAlt": "Una familia de cuatro sentada junta en un campo de hierba iluminado por el sol",
     "heroSlide1Alt": "Un padre y dos niños pequeños riendo juntos mientras preparan comida en una cocina luminosa",
     "heroSlide2Alt": "Una familia de cuatro tomada de la mano, en silueta ante un atardecer dorado en un campo abierto",
@@ -141,6 +142,7 @@
     "bookAppointment": "Reservar una cita",
     "findDoctor": "Buscar un doctor",
     "findClinic": "Buscar una clínica",
+    "heroTelehealthCta": "Telesalud desde casa",
     "statClinics": "Clínicas",
     "statProviders": "Médicos certificados",
     "statYears": "Años de atención pediátrica",
