@@ -4,14 +4,41 @@ import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
 import { Hero } from "./Hero";
 import { locations } from "@/data/locations";
+import { partners } from "@/data/partners";
 import { BOOKING_URL } from "@/lib/constants";
 
 describe("Hero", () => {
-  it("renders the badge, headline, and subheading", () => {
+  it("renders the status pills, headline, and subheading with the live clinic count", () => {
     render(<Hero />);
-    expect(screen.getByText(`${locations.length} clinics across Greater LA`)).toBeInTheDocument();
-    expect(screen.getByText("Compassionate pediatric care,")).toBeInTheDocument();
-    expect(screen.getByText("close to home.")).toBeInTheDocument();
+    expect(screen.getByText("Same-day openings today")).toBeInTheDocument();
+    expect(screen.getByText("Telehealth 7 days a week")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Care built around your family.");
+    expect(
+      screen.getByText(new RegExp(`at ${locations.length} clinics across Greater LA`))
+    ).toBeInTheDocument();
+  });
+
+  it("renders the Spanish copy", () => {
+    render(<Hero />, "es");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Atención pensada para su familia.");
+    expect(screen.getByRole("link", { name: /telesalud desde casa/i })).toHaveAttribute(
+      "href",
+      "/es/services/telehealth"
+    );
+  });
+
+  it("gates the same-day pill's pulsing dot for reduced motion", () => {
+    const { container } = render(<Hero />);
+    const ping = container.querySelector('[class*="ktmg-ping"]');
+    expect(ping?.className).toContain("motion-reduce:hidden");
+  });
+
+  it("links the telehealth CTA to the telehealth service page", () => {
+    render(<Hero />);
+    expect(screen.getByRole("link", { name: /telehealth from home/i })).toHaveAttribute(
+      "href",
+      "/services/telehealth"
+    );
   });
 
   it("opens the booking options chooser from the primary CTA", async () => {
@@ -41,12 +68,23 @@ describe("Hero", () => {
     );
   });
 
-  it("renders all 4 stat labels", () => {
+  it("renders all 4 stats as term/definition pairs in the bottom strip", () => {
     render(<Hero />);
-    expect(screen.getByText("Clinic locations")).toBeInTheDocument();
-    expect(screen.getByText("Board-certified providers")).toBeInTheDocument();
-    expect(screen.getByText("Years of pediatric care")).toBeInTheDocument();
-    expect(screen.getByText("Ages served")).toBeInTheDocument();
+    const terms = screen.getAllByRole("term").map((el) => el.textContent);
+    expect(terms).toEqual([
+      "Clinic locations",
+      "Board-certified providers",
+      "Years of pediatric care",
+      "Ages served",
+    ]);
+  });
+
+  it("renders every partner logo with its name as alt text", () => {
+    render(<Hero />);
+    expect(screen.getByText("Trusted Partners & Affiliations")).toBeInTheDocument();
+    for (const partner of partners) {
+      expect(screen.getByRole("img", { name: partner.name })).toBeInTheDocument();
+    }
   });
 
   it("renders the embedded One Network panel with its social row", () => {
@@ -68,7 +106,7 @@ describe("Hero", () => {
   it("scales hero vertical padding with viewport height instead of a fixed lg:py-20", () => {
     const { container } = render(<Hero />);
     const content = container.querySelector("section > div.relative");
-    expect(content?.className).toContain("lg:py-[clamp(1rem,4svh,3.5rem)]");
+    expect(content?.className).toContain("lg:py-[clamp(0.5rem,2.5svh,2.5rem)]");
     expect(content?.className).not.toContain("lg:py-20");
   });
 });

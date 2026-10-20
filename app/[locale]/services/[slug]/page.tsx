@@ -4,7 +4,8 @@ import Image from "next/image";
 import { serviceCategories } from "@/data/services";
 import { BackLink } from "@/components/BackLink";
 import { Link } from "@/i18n/navigation";
-import { BOOKING_URL, MAIN_PHONE, TEXT_PHONE, TEXT_PHONE_ES } from "@/lib/constants";
+import { BookAppointmentButton } from "@/components/BookAppointmentButton";
+import { MAIN_PHONE, TEXT_PHONE, TEXT_PHONE_ES } from "@/lib/constants";
 import { buildMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 import { withBasePath } from "@/lib/basePath";
@@ -70,14 +71,9 @@ export default async function ServiceDetailPage({
 
   const actions = (
     <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-      <a
-        href={BOOKING_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="whitespace-nowrap rounded-full bg-teal px-6 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark"
-      >
+      <BookAppointmentButton className="whitespace-nowrap rounded-full bg-teal px-6 py-3.5 text-center font-display font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 focus-visible:ring-offset-surface">
         {bookLabel}
-      </a>
+      </BookAppointmentButton>
       <Link
         href="/services"
         className="whitespace-nowrap rounded-full border border-border bg-surface px-6 py-3.5 text-center font-display font-semibold text-ink transition-colors hover:border-teal hover:text-teal-dark"

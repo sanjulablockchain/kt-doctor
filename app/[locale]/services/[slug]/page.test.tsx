@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
+import { BOOKING_URL } from "@/lib/constants";
 import ServiceDetailPage, { generateStaticParams } from "./page";
 
 describe("ServiceDetailPage", () => {
@@ -25,15 +27,20 @@ describe("ServiceDetailPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders a Book an Appointment link to the real booking URL", async () => {
+  it("opens the booking options chooser from Book an Appointment", async () => {
     const ui = await ServiceDetailPage({ params: Promise.resolve({ slug: "telehealth" }) });
     render(ui);
+    const user = userEvent.setup();
 
-    const bookingLink = screen.getByRole("link", { name: /book an appointment/i });
-    expect(bookingLink).toHaveAttribute(
+    await user.click(screen.getByRole("button", { name: /book an appointment/i }));
+
+    const dialog = within(screen.getByRole("dialog"));
+    expect(dialog.getByRole("link", { name: /book online/i })).toHaveAttribute(
       "href",
-      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2"
+      BOOKING_URL
     );
+    expect(dialog.getByRole("link", { name: /text us/i })).toBeInTheDocument();
+    expect(dialog.getByRole("link", { name: /361-5437/ })).toBeInTheDocument();
   });
 
   it("renders a back link to /services", async () => {
@@ -136,7 +143,7 @@ describe("ServiceDetailPage", () => {
       params: Promise.resolve({ slug: "telehealth", locale: "es" }),
     });
     render(ui, "es");
-    expect(screen.getByRole("link", { name: /reservar una cita/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /reservar una cita/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /más servicios/i })).toHaveAttribute(
       "href",
       "/es/services"
