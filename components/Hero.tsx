@@ -193,7 +193,7 @@ export function Hero() {
               height keeps a 1366x768 laptop compact, width stops the headline
               from crowding the panel beside it. From `sm` the highlighted
               clause starts its own line. */}
-          <h1 className="max-w-3xl font-display text-[2rem] font-extrabold leading-[1.06] tracking-tight text-ivory text-balance sm:text-5xl md:text-[3.25rem] xl:text-[clamp(2.25rem,min(6svh,4.2vw),3.5rem)]">
+          <h1 className="max-w-3xl font-display text-4xl font-extrabold leading-[1.04] tracking-tight text-ivory text-balance sm:text-5xl md:text-6xl xl:text-[clamp(2.5rem,min(7svh,4.5vw),3.75rem)]">
             {t("headingStart")}{" "}
             <span className="text-teal sm:block">{t("headingHighlight")}</span>
           </h1>

@@ -172,7 +172,7 @@ describe("Home page", () => {
 
   it("renders the hero heading and CTA copy in Spanish when locale is es", async () => {
     await renderHome("es");
-    expect(screen.getByText("centrada en su familia.")).toBeInTheDocument();
+    expect(screen.getByText("lo significan todo")).toBeInTheDocument();
     expect(
       screen.getAllByRole("button", { name: /reservar una cita/i }).length
     ).toBeGreaterThanOrEqual(1);

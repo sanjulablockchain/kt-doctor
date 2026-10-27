@@ -18,7 +18,7 @@ describe("Hero", () => {
   it("renders the headline and subheading with the live clinic count", () => {
     render(<Hero />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Care Personalized for Your Child, Centered on Your Family."
+      "Where little smiles mean everything"
     );
     expect(
       screen.getByText(new RegExp(`at ${locations.length} clinics across Greater LA`))
@@ -28,7 +28,7 @@ describe("Hero", () => {
   it("renders the Spanish copy", () => {
     render(<Hero />, "es");
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Atención personalizada para su hijo, centrada en su familia."
+      "Donde las pequeñas sonrisas lo significan todo"
     );
     expect(screen.getByRole("heading", { level: 2, name: "Citas el mismo día" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: "Citas de telesalud" })).toBeInTheDocument();
