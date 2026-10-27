@@ -26,9 +26,10 @@ describe("Home page", () => {
   it("routes every booking call to action through the options chooser, not straight to Healow", async () => {
     await renderHome();
 
-    // Hero button, hero network panel row, and the bottom navy banner.
+    // Hero button, hero same-day and telehealth cards, hero network panel
+    // row, and the bottom navy banner.
     const bookingTriggers = screen.getAllByRole("button", { name: /^book/i });
-    expect(bookingTriggers).toHaveLength(3);
+    expect(bookingTriggers).toHaveLength(5);
     expect(screen.queryByRole("link", { name: /^book/i })).not.toBeInTheDocument();
 
     const user = userEvent.setup();
@@ -237,14 +238,19 @@ describe("Home page", () => {
     );
   });
 
+  // The hero's after-hours card shares this CTA label with the teaser further
+  // down, so the check covers both.
   it("renders an after-hours urgent care teaser linking to the external partner site", async () => {
     await renderHome();
     expect(
       screen.getByText("Sick after six? Our doors are still open.")
     ).toBeInTheDocument();
-    const cta = screen.getByRole("link", { name: /get urgent care now/i });
-    expect(cta).toHaveAttribute("href", "https://pediatricafterhour.com/");
-    expect(cta).toHaveAttribute("target", "_blank");
+    const ctas = screen.getAllByRole("link", { name: /get urgent care now/i });
+    expect(ctas).toHaveLength(2);
+    for (const cta of ctas) {
+      expect(cta).toHaveAttribute("href", "https://pediatricafterhour.com/");
+      expect(cta).toHaveAttribute("target", "_blank");
+    }
   });
 
   it("renders the after-hours teaser heading in Spanish when locale is es", async () => {

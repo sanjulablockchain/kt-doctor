@@ -24,6 +24,9 @@
   --color-teal: light-dark(#0e8fa0, #118da0);
   --color-teal-dark: light-dark(#0b6e7c, #1c93a6);
   --color-teal-tint: light-dark(#e4f5f6, #12333a);
+  /* Brighter teal for small text on navy surfaces, where --color-teal is
+     too dark to reach 4.5:1. Navy is identical in both themes, so is this. */
+  --color-teal-bright: #2fb4c4;
   --color-gold: light-dark(#d6a34a, #d9a94f);
   --color-gold-tint: light-dark(#fbf1de, #2a2317);
   --color-border: light-dark(#dde3ea, #3f4a5a);
@@ -77,6 +80,7 @@
   --color-teal: var(--color-teal);
   --color-teal-dark: var(--color-teal-dark);
   --color-teal-tint: var(--color-teal-tint);
+  --color-teal-bright: var(--color-teal-bright);
   --color-gold: var(--color-gold);
   --color-gold-tint: var(--color-gold-tint);
   --color-border: var(--color-border);
@@ -182,6 +186,18 @@ h4 {
   100% {
     transform: scale(2.6);
     opacity: 0;
+  }
+}
+
+/* Hero partner-logo marquee. The track holds the logo set twice over, so
+   sliding it by exactly half its width lands on an identical frame and the
+   loop has no visible seam. Gated per-use with motion-reduce:animate-none. */
+@keyframes ktmg-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
