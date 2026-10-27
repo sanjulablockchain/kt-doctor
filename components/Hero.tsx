@@ -64,19 +64,21 @@ function HeroTextLink({ href, icon, children }: { href: string; icon: ReactNode;
 // half keeps each half wider than the 1216px container, so the loop never
 // shows an empty gap on wide screens. Only the first set is exposed to
 // assistive tech. The strip pauses on hover, and under reduced motion it stops
-// and wraps into a static, centred row. Logos show in their brand colours.
+// and wraps into a static, centred row. Logos show in their brand colours, on
+// a light band because most of them have dark lettering. They are the cropped
+// marks, so the height is all logo, and the width cap keeps long wordmarks
+// like Providence from outweighing the rest.
 function PartnerMarquee() {
   const t = useTranslations("Home");
 
   return (
-    <div className="relative border-b border-white/10 bg-black/25 backdrop-blur-lg">
-      <div className="mx-auto flex max-w-7xl flex-col gap-2.5 px-5 py-3 sm:px-8 lg:py-[clamp(0.5rem,1.4svh,1rem)]">
-        <p className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-gold">
-          {t("partnersHeading")}
-        </p>
-
+    <div className="relative border-b border-black/5 bg-white/95 backdrop-blur-lg">
+      <div className="mx-auto max-w-7xl px-5 py-3.5 sm:px-8 lg:py-[clamp(0.625rem,1.8svh,1.125rem)]">
         <div className="overflow-hidden motion-safe:[mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
-          <ul className="flex w-max items-center gap-12 pr-12 animate-[ktmg-marquee_40s_linear_infinite] hover:[animation-play-state:paused] motion-reduce:w-full motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-x-8 motion-reduce:gap-y-3 motion-reduce:pr-0">
+          <ul
+            aria-label={t("partnersHeading")}
+            className="flex w-max items-center gap-12 pr-12 animate-[ktmg-marquee_40s_linear_infinite] hover:[animation-play-state:paused] motion-reduce:w-full motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-x-10 motion-reduce:gap-y-4 motion-reduce:pr-0 sm:gap-16 sm:pr-16"
+          >
             {[0, 1, 2, 3].flatMap((copy) =>
               partners.map((partner) => (
                 <li
@@ -85,12 +87,12 @@ function PartnerMarquee() {
                   className={copy > 0 ? "motion-reduce:hidden" : undefined}
                 >
                   <Image
-                    src={withBasePath(partner.logoSrc)}
+                    src={withBasePath(partner.markSrc)}
                     alt={copy > 0 ? "" : partner.name}
-                    width={160}
-                    height={48}
+                    width={320}
+                    height={100}
                     unoptimized
-                    className="h-7 w-auto sm:h-8 xl:h-9"
+                    className="h-8 w-auto max-w-[8.5rem] object-contain sm:h-9 sm:max-w-[9.5rem] xl:h-10 xl:max-w-[10.5rem]"
                   />
                 </li>
               ))
@@ -116,23 +118,27 @@ type HeroCardProps = {
 
 const cardActionClass = `group mt-auto inline-flex w-fit items-center gap-1.5 pt-1 text-left font-display text-[13px] font-semibold text-teal-bright transition-colors hover:text-teal-tint after:absolute after:inset-0 after:content-[''] focus-visible:outline-none`;
 
+// The photo takes the larger share of each stacked card (roughly 6:4 against
+// the copy). Below `xl` it is width-driven via aspect ratio; at `xl` the
+// columns are narrow, so the height follows the viewport instead, keeping the
+// full share on tall screens and easing off on short laptops.
 function HeroCard({ imageSrc, imageAlt, badge, title, body, action }: HeroCardProps) {
   return (
     <li className="relative flex overflow-hidden rounded-2xl border border-white/15 bg-white/[0.07] backdrop-blur-md transition-colors hover:border-teal/60 hover:bg-white/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-teal-tint sm:flex-col">
-      <div className="relative w-28 shrink-0 sm:h-[clamp(5rem,12svh,7rem)] sm:w-auto">
+      <div className="relative w-36 shrink-0 sm:aspect-square sm:w-auto lg:aspect-[4/3] xl:aspect-auto xl:h-[clamp(9rem,25svh,15rem)]">
         <Image
           src={withBasePath(imageSrc)}
           alt={imageAlt}
           fill
           unoptimized
-          sizes="(min-width: 640px) 220px, 112px"
+          sizes="(min-width: 640px) 320px, 144px"
           className="object-cover"
         />
         {badge}
       </div>
-      <div className="flex min-w-0 flex-1 flex-col gap-1.5 p-4">
-        <h2 className="font-display text-base font-bold leading-snug text-ivory">{title}</h2>
-        <p className="text-[13px] leading-relaxed text-ivory/75">{body}</p>
+      <div className="flex min-w-0 flex-1 flex-col gap-1 p-3.5">
+        <h2 className="font-display text-[15px] font-bold leading-tight text-ivory">{title}</h2>
+        <p className="text-[13px] leading-snug text-ivory/75">{body}</p>
         {action(cardActionClass)}
       </div>
     </li>
@@ -185,13 +191,14 @@ export function Hero() {
         <div className="flex min-w-0 flex-col gap-5 lg:gap-[clamp(0.75rem,2.2svh,1.375rem)]">
           {/* Sized by the smaller of viewport height and width at `xl`:
               height keeps a 1366x768 laptop compact, width stops the headline
-              from crowding the panel beside it. */}
-          <h1 className="max-w-2xl font-display text-4xl font-extrabold leading-[1.04] tracking-tight text-ivory sm:text-5xl md:text-6xl xl:text-[clamp(2.5rem,min(7svh,5vw),4.5rem)]">
+              from crowding the panel beside it. From `sm` the highlighted
+              clause starts its own line. */}
+          <h1 className="max-w-3xl font-display text-[2rem] font-extrabold leading-[1.06] tracking-tight text-ivory text-balance sm:text-5xl md:text-[3.25rem] xl:text-[clamp(2.25rem,min(6svh,4.2vw),3.5rem)]">
             {t("headingStart")}{" "}
-            <span className="text-teal">{t("headingHighlight")}</span>
+            <span className="text-teal sm:block">{t("headingHighlight")}</span>
           </h1>
 
-          <p className="max-w-xl text-lg leading-relaxed text-ivory/80 text-pretty">
+          <p className="max-w-xl text-[15px] leading-normal text-ivory/75 text-pretty sm:text-base">
             {t("subheading", { count: locations.length })}
           </p>
 

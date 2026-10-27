@@ -17,7 +17,9 @@ async function expectBookingChooser() {
 describe("Hero", () => {
   it("renders the headline and subheading with the live clinic count", () => {
     render(<Hero />);
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Care built around your family.");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Care Personalized for Your Child, Centered on Your Family."
+    );
     expect(
       screen.getByText(new RegExp(`at ${locations.length} clinics across Greater LA`))
     ).toBeInTheDocument();
@@ -25,7 +27,9 @@ describe("Hero", () => {
 
   it("renders the Spanish copy", () => {
     render(<Hero />, "es");
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Atención pensada para su familia.");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Atención personalizada para su hijo, centrada en su familia."
+    );
     expect(screen.getByRole("heading", { level: 2, name: "Citas el mismo día" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: "Citas de telesalud" })).toBeInTheDocument();
     expect(
@@ -59,6 +63,16 @@ describe("Hero", () => {
       expect(
         screen.getByRole("img", { name: "A pediatrician taking notes during a video telehealth visit" })
       ).toBeInTheDocument();
+    });
+
+    it("gives the photo the larger share of each stacked card", () => {
+      render(<Hero />);
+      const photo = screen.getByRole("img", {
+        name: "A pediatrician listening to a child's chest with a stethoscope",
+      });
+      const frame = photo.parentElement?.className ?? "";
+      expect(frame).toContain("sm:aspect-square");
+      expect(frame).toContain("xl:h-[clamp(9rem,25svh,15rem)]");
     });
 
     it("opens the booking chooser from the same-day card", async () => {
@@ -114,18 +128,25 @@ describe("Hero", () => {
   });
 
   describe("partner marquee", () => {
-    it("exposes each partner logo once to assistive tech", () => {
+    it("exposes each partner logo once to assistive tech, in a labelled list", () => {
       render(<Hero />);
-      expect(screen.getByText("Trusted Partners & Affiliations")).toBeInTheDocument();
+      expect(screen.getByRole("list", { name: "Trusted Partners & Affiliations" })).toBeInTheDocument();
       for (const partner of partners) {
         expect(screen.getAllByRole("img", { name: partner.name })).toHaveLength(1);
       }
     });
 
-    it("shows the logos in their brand colours with no tile behind them", () => {
+    it("has no visible heading over the strip", () => {
+      render(<Hero />);
+      expect(screen.queryByText("Trusted Partners & Affiliations")).not.toBeInTheDocument();
+    });
+
+    it("shows the cropped logos in their brand colours with no tile behind them", () => {
       render(<Hero />);
       for (const partner of partners) {
         const logo = screen.getByRole("img", { name: partner.name });
+        expect(logo).toHaveAttribute("src", partner.markSrc);
+        expect(logo.className).toContain("xl:h-10");
         expect(logo.className).not.toContain("invert");
         expect(logo.className).not.toContain("brightness-0");
         expect(logo.closest("li")?.className ?? "").not.toContain("bg-white");
