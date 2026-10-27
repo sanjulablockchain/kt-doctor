@@ -19,6 +19,19 @@ describe("MobileQuickDrawer", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
+  it("stands in for the edge tabs up to the `tabs` breakpoint, not just on phones", () => {
+    const { container } = render(<MobileQuickDrawer />);
+    const root = container.firstElementChild;
+    expect(root?.className).toContain("tabs:hidden");
+    expect(root?.className).not.toContain("sm:hidden");
+  });
+
+  it("shows the sheet as a centred panel from `sm`", async () => {
+    render(<MobileQuickDrawer />);
+    await userEvent.click(screen.getByRole("button", { name: "Open quick actions" }));
+    expect(screen.getByRole("dialog").className).toContain("sm:max-w-md");
+  });
+
   it("opens the grid sheet on tap, showing Season and Donate tiles", async () => {
     render(<MobileQuickDrawer />);
     await userEvent.click(screen.getByRole("button", { name: "Open quick actions" }));

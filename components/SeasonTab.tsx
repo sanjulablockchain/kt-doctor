@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { SeasonBanners } from "@/components/SeasonBanners";
 
-// Floating "Season" tab, homepage only, `sm` breakpoint and up. Pinned to
-// the left edge, vertically centered so it clears the bottom-anchored
-// BackToTopButton (mirrors DonateTab's right-edge placement). Below `sm`,
-// this is hidden in favor of MobileQuickDrawer, which merges Season and
-// Donate into one launcher so two edge tabs don't crowd a small screen.
+// Floating "Season" tab, homepage only, `tabs` breakpoint (1320px) and up.
+// Pinned to the left edge, vertically centered so it clears the
+// bottom-anchored BackToTopButton (mirrors DonateTab's right-edge placement).
+// Below `tabs` the page content runs under the screen edge, so this is hidden
+// in favor of MobileQuickDrawer, which merges Season and Donate into one
+// launcher.
 export function SeasonTab() {
   const t = useTranslations("SeasonTab");
   const [open, setOpen] = useState(false);
@@ -40,7 +41,7 @@ export function SeasonTab() {
         aria-hidden={open}
         tabIndex={open ? -1 : 0}
         onClick={() => setOpen(true)}
-        className="fixed left-0 top-1/2 z-20 hidden -translate-y-1/2 cursor-pointer flex-col items-center gap-1.5 rounded-r-2xl bg-teal px-1.5 py-3 text-white shadow-soft transition-colors duration-200 hover:bg-teal-dark focus-visible:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-dark focus-visible:ring-offset-2 motion-safe:animate-[slide-in-left_400ms_ease-out] sm:flex sm:gap-2 sm:px-2.5 sm:py-4"
+        className="fixed left-0 top-1/2 z-20 hidden -translate-y-1/2 cursor-pointer flex-col items-center gap-1.5 rounded-r-2xl bg-teal px-1.5 py-3 text-white shadow-soft transition-colors duration-200 hover:bg-teal-dark focus-visible:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-dark focus-visible:ring-offset-2 motion-safe:animate-[slide-in-left_400ms_ease-out] tabs:flex sm:gap-2 sm:px-2.5 sm:py-4"
       >
         <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4 sm:h-5 sm:w-5">
           <path

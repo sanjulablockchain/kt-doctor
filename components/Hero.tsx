@@ -118,25 +118,25 @@ type HeroCardProps = {
 
 const cardActionClass = `group mt-auto inline-flex w-fit items-center gap-1.5 pt-1 text-left font-display text-[13px] font-semibold text-teal-bright transition-colors hover:text-teal-tint after:absolute after:inset-0 after:content-[''] focus-visible:outline-none`;
 
-// The photo takes the larger share of each stacked card (roughly 6:4 against
-// the copy). Below `xl` it is width-driven via aspect ratio; at `xl` the
-// columns are narrow, so the height follows the viewport instead, keeping the
-// full share on tall screens and easing off on short laptops.
+// The photo leads each stacked card while keeping the card short. Below `xl`
+// it is width-driven via aspect ratio (wider frames as the cards widen); at
+// `xl` the height follows the viewport instead, so short laptops get a shorter
+// photo. The photos are 800px square crops, which every frame shape covers.
 function HeroCard({ imageSrc, imageAlt, badge, title, body, action }: HeroCardProps) {
   return (
     <li className="relative flex overflow-hidden rounded-2xl border border-white/15 bg-white/[0.07] backdrop-blur-md transition-colors hover:border-teal/60 hover:bg-white/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-teal-tint sm:flex-col">
-      <div className="relative w-36 shrink-0 sm:aspect-square sm:w-auto lg:aspect-[4/3] xl:aspect-auto xl:h-[clamp(9rem,25svh,15rem)]">
+      <div className="relative w-32 shrink-0 sm:aspect-[4/3] sm:w-auto lg:aspect-[16/9] xl:aspect-auto xl:h-[clamp(7.5rem,18svh,10rem)]">
         <Image
           src={withBasePath(imageSrc)}
           alt={imageAlt}
           fill
           unoptimized
-          sizes="(min-width: 640px) 320px, 144px"
+          sizes="(min-width: 640px) 320px, 128px"
           className="object-cover"
         />
         {badge}
       </div>
-      <div className="flex min-w-0 flex-1 flex-col gap-1 p-3.5">
+      <div className="flex min-w-0 flex-1 flex-col gap-1 px-3.5 py-3">
         <h2 className="font-display text-[15px] font-bold leading-tight text-ivory">{title}</h2>
         <p className="text-[13px] leading-snug text-ivory/75">{body}</p>
         {action(cardActionClass)}
@@ -186,14 +186,16 @@ export function Hero() {
       {/* Padding and gaps are viewport-relative from `lg` up so the content
           tightens on short laptops, while `flex-1` + `xl:items-center` centre
           it in the slack on tall screens. The three cards need the width, so
-          the network panel only moves beside the copy from `xl` (1280px). */}
-      <div className="relative mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-5 py-10 sm:px-8 sm:py-14 lg:flex-1 lg:py-[clamp(1rem,3.5svh,2.75rem)] xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] xl:items-center xl:gap-12">
+          the network panel only moves beside the copy from `xl` (1280px), in
+          a column fixed to its own max width (28rem) so the rest goes to the
+          cards: wider cards wrap less copy, which keeps them short. */}
+      <div className="relative mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-5 py-10 sm:px-8 sm:py-14 lg:flex-1 lg:py-[clamp(1rem,3.5svh,2.75rem)] xl:grid-cols-[minmax(0,1fr)_28rem] xl:items-center xl:gap-12">
         <div className="flex min-w-0 flex-col gap-5 lg:gap-[clamp(0.75rem,2.2svh,1.375rem)]">
           {/* Sized by the smaller of viewport height and width at `xl`:
               height keeps a 1366x768 laptop compact, width stops the headline
               from crowding the panel beside it. From `sm` the highlighted
               clause starts its own line. */}
-          <h1 className="max-w-3xl font-display text-[2rem] font-extrabold leading-[1.06] tracking-tight text-ivory text-balance sm:text-5xl md:text-[3.25rem] xl:text-[clamp(2.25rem,min(6svh,4.2vw),3.5rem)]">
+          <h1 className="max-w-3xl font-display text-4xl font-extrabold leading-[1.04] tracking-tight text-ivory text-balance sm:text-5xl md:text-6xl xl:text-[clamp(2.5rem,min(7svh,4.5vw),3.75rem)]">
             {t("headingStart")}{" "}
             <span className="text-teal sm:block">{t("headingHighlight")}</span>
           </h1>
@@ -240,9 +242,9 @@ export function Hero() {
           </div>
 
           {/* Stacked image-left rows on phones, three columns from `sm`. */}
-          <ul className="mt-1 grid grid-cols-1 gap-3.5 sm:grid-cols-3 xl:max-w-[42.5rem]">
+          <ul className="mt-1 grid grid-cols-1 gap-3.5 sm:grid-cols-3">
             <HeroCard
-              imageSrc="/services/sick-visits.jpg"
+              imageSrc="/home/hero-cards/same-day.webp"
               imageAlt={t("heroCardSameDayImageAlt")}
               badge={
                 <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full bg-navy/85 px-2.5 py-1 font-display text-[10px] font-semibold uppercase tracking-[0.1em] text-teal-tint">
@@ -262,7 +264,7 @@ export function Hero() {
             {/* Telehealth is booked like any other appointment type, so this
                 card opens the same booking chooser rather than the info page. */}
             <HeroCard
-              imageSrc="/services/telehealth.jpg"
+              imageSrc="/home/hero-cards/telehealth.webp"
               imageAlt={t("heroCardTelehealthImageAlt")}
               title={t("heroCardTelehealthTitle")}
               body={t("heroCardTelehealthBody")}
@@ -274,8 +276,8 @@ export function Hero() {
               )}
             />
             <HeroCard
-              imageSrc="/home/hero-slide-2.jpg"
-              imageAlt={t("heroSlide2Alt")}
+              imageSrc="/home/hero-cards/after-hours.webp"
+              imageAlt={t("heroCardAfterHoursImageAlt")}
               badge={
                 <Image
                   src={withBasePath(afterHours.logoSrc)}

@@ -5,20 +5,21 @@ import { foundation } from "@/data/foundation";
 
 const TOOLTIP_ID = "donate-tab-tooltip";
 
-// Floating donate call-to-action, homepage only, `sm` breakpoint and up.
+// Floating donate call-to-action, homepage only, `tabs` breakpoint (1320px)
+// and up.
 // Pinned to the right edge, vertically centered so it clears the
 // bottom-anchored ContactWidget and BackToTopButton. External link — uses a
 // plain <a>, not next-intl's Link. On hover or keyboard focus it reveals a
 // small "$ 0 Admin Fees" reassurance tooltip to its left. All motion is
 // gated behind `motion-safe:` so it is inert under prefers-reduced-motion;
-// the keyframes live in app/globals.css. Below `sm`, this is hidden in favor
-// of MobileQuickDrawer, which merges Donate and Season into one launcher so
-// two edge tabs don't crowd a small screen.
+// the keyframes live in app/globals.css. Below `tabs` the page content runs
+// under the screen edge, so this is hidden in favor of MobileQuickDrawer,
+// which merges Donate and Season into one launcher.
 export function DonateTab() {
   const t = useTranslations("DonateTab");
 
   return (
-    <div className="group fixed right-0 top-1/2 z-20 hidden -translate-y-1/2 motion-safe:animate-[slide-in-right_400ms_ease-out] sm:block">
+    <div className="group fixed right-0 top-1/2 z-20 hidden -translate-y-1/2 motion-safe:animate-[slide-in-right_400ms_ease-out] tabs:block">
       <div
         id={TOOLTIP_ID}
         role="tooltip"
