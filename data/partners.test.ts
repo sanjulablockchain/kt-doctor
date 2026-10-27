@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { partners } from "./partners";
 
 describe("partners data", () => {
@@ -35,6 +37,13 @@ describe("partners data", () => {
   it("every logo is a locally downloaded file", () => {
     for (const partner of partners) {
       expect(partner.logoSrc).toMatch(/^\/partner-/);
+    }
+  });
+
+  it("every partner has a cropped mark that exists in public/", () => {
+    for (const partner of partners) {
+      expect(partner.markSrc).toBe(`/partners/${partner.id}.png`);
+      expect(existsSync(join(process.cwd(), "public", partner.markSrc))).toBe(true);
     }
   });
 });

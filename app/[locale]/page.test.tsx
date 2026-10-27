@@ -135,8 +135,8 @@ describe("Home page", () => {
 
   it("renders a Trusted Partners & Affiliations section with all 7 real partner logos", async () => {
     await renderHome();
-    // The hero's bottom strip carries the same logos, so each appears in both.
-    expect(screen.getAllByText("Trusted Partners & Affiliations").length).toBeGreaterThanOrEqual(1);
+    // The hero's logo strip carries the same logos, so each appears in both.
+    expect(screen.getByText("Trusted Partners & Affiliations")).toBeInTheDocument();
     for (const name of [
       "Children's Hospital Los Angeles",
       "Cedars-Sinai",
@@ -172,7 +172,7 @@ describe("Home page", () => {
 
   it("renders the hero heading and CTA copy in Spanish when locale is es", async () => {
     await renderHome("es");
-    expect(screen.getByText("su familia.")).toBeInTheDocument();
+    expect(screen.getByText("centrada en su familia.")).toBeInTheDocument();
     expect(
       screen.getAllByRole("button", { name: /reservar una cita/i }).length
     ).toBeGreaterThanOrEqual(1);
