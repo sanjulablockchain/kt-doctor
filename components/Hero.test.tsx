@@ -57,22 +57,27 @@ describe("Hero", () => {
         .getAllByRole("heading", { level: 2 })
         .map((h) => h.textContent);
       expect(cards).toEqual(["Same-day appointments", "Telehealth appointments", "After hours urgent care"]);
-      expect(
-        screen.getByRole("img", { name: "A pediatrician listening to a child's chest with a stethoscope" })
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("img", { name: "A pediatrician taking notes during a video telehealth visit" })
-      ).toBeInTheDocument();
+      for (const [name, src] of [
+        ["A pediatrician checking a young girl's pulse during a clinic visit", "same-day"],
+        [
+          "A mother comforting her sick child at home while a pediatrician joins them on a phone video call",
+          "telehealth",
+        ],
+        ["A mother checking her sick child's temperature in bed", "after-hours"],
+      ]) {
+        expect(screen.getByRole("img", { name })).toHaveAttribute("src", `/home/hero-cards/${src}.webp`);
+      }
     });
 
-    it("gives the photo the larger share of each stacked card", () => {
+    it("keeps each card's photo frame short", () => {
       render(<Hero />);
       const photo = screen.getByRole("img", {
-        name: "A pediatrician listening to a child's chest with a stethoscope",
+        name: "A pediatrician checking a young girl's pulse during a clinic visit",
       });
       const frame = photo.parentElement?.className ?? "";
-      expect(frame).toContain("sm:aspect-square");
-      expect(frame).toContain("xl:h-[clamp(9rem,25svh,15rem)]");
+      expect(frame).toContain("sm:aspect-[4/3]");
+      expect(frame).toContain("lg:aspect-[16/9]");
+      expect(frame).toContain("xl:h-[clamp(7.5rem,18svh,10rem)]");
     });
 
     it("opens the booking chooser from the same-day card", async () => {
@@ -206,7 +211,7 @@ describe("Hero", () => {
     const { container } = render(<Hero />);
     const content = container.querySelector("section > div.grid");
     expect(content?.className).toContain("lg:py-[clamp(1rem,3.5svh,2.75rem)]");
-    expect(content?.className).toContain("xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]");
+    expect(content?.className).toContain("xl:grid-cols-[minmax(0,1fr)_28rem]");
     expect(content?.className).not.toContain("lg:grid-cols-");
   });
 });
