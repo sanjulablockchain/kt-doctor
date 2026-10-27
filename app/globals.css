@@ -70,6 +70,14 @@
   --color-teal-tint: #e4f5f6;
 }
 
+/* `tabs:` (1320px) is where the home page's fixed edge tabs (SeasonTab,
+   DonateTab) clear the content: the 80rem container's 2rem padding plus the
+   side margin finally exceed the ~40px tab and a small gap. Below it the tabs
+   would sit on top of content, so MobileQuickDrawer stands in for both. */
+@theme {
+  --breakpoint-tabs: 82.5rem;
+}
+
 @theme inline {
   --color-ivory: var(--color-ivory);
   --color-ivory-deep: var(--color-ivory-deep);

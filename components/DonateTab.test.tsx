@@ -15,6 +15,14 @@ describe("DonateTab", () => {
     expect(link.getAttribute("rel")).toContain("noopener");
   });
 
+  it("only shows from the `tabs` breakpoint, where it clears the page content", () => {
+    render(<DonateTab />);
+    const wrapper = screen.getByRole("link", { name: /donate to the kids and teens foundation/i }).parentElement;
+    expect(wrapper?.className).toContain("hidden");
+    expect(wrapper?.className).toContain("tabs:block");
+    expect(wrapper?.className).not.toContain("sm:block");
+  });
+
   it("shows the visible Donate label", () => {
     render(<DonateTab />);
     expect(screen.getByText("Donate")).toBeInTheDocument();

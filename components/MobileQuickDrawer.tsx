@@ -10,10 +10,12 @@ const SWIPE_OPEN_THRESHOLD_PX = 60;
 const SHEET_ID = "quick-actions-sheet";
 const SHEET_TITLE_ID = "quick-actions-title";
 
-// Mobile-only (hidden at the `sm` breakpoint and up) floating launcher that
-// merges the Season and Donate actions into a single app-drawer-style grid,
-// since two separate edge tabs crowd a small screen - SeasonTab and
-// DonateTab hide themselves at this breakpoint for the same reason. Opens on
+// Floating launcher for phones, tablets and small laptops (hidden at the
+// `tabs` breakpoint, 1320px, and up) that merges the Season and Donate actions
+// into a single app-drawer-style grid. Below `tabs` the page content reaches
+// the screen edges, where SeasonTab and DonateTab would sit on top of it, so
+// those two hide themselves there and this stands in for both. From `sm` the
+// sheet is a centred panel rather than a full-width one. Opens on
 // tap, or via an edge swipe (a touch starting within EDGE_ZONE_PX of the
 // left edge, dragged right past SWIPE_OPEN_THRESHOLD_PX) - the mobile entry
 // point SeasonTab's edge swipe used to own before the merge. Tapping the
@@ -90,7 +92,7 @@ export function MobileQuickDrawer() {
   }, [gridOpen, seasonOpen]);
 
   return (
-    <div className="sm:hidden">
+    <div className="tabs:hidden">
       <button
         type="button"
         aria-expanded={gridOpen}
@@ -100,7 +102,7 @@ export function MobileQuickDrawer() {
         aria-hidden={gridOpen}
         tabIndex={gridOpen ? -1 : 0}
         onClick={() => setGridOpen(true)}
-        className="fixed bottom-5 left-1/2 z-20 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-teal text-white shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-teal-dark active:scale-90"
+        className="fixed bottom-5 left-1/2 z-20 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-teal text-white shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-dark focus-visible:ring-offset-2 active:scale-90 sm:bottom-8"
       >
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="h-6 w-6">
           <circle cx="6" cy="6" r="1.7" />
@@ -128,7 +130,7 @@ export function MobileQuickDrawer() {
             role="dialog"
             aria-modal="true"
             aria-labelledby={SHEET_TITLE_ID}
-            className="fixed inset-x-0 bottom-0 z-50 rounded-t-3xl bg-surface px-6 pb-[calc(2rem+env(safe-area-inset-bottom))] pt-3 shadow-card motion-safe:animate-[slide-up_300ms_ease-out]"
+            className="fixed inset-x-0 bottom-0 z-50 rounded-t-3xl bg-surface px-6 pb-[calc(2rem+env(safe-area-inset-bottom))] pt-3 shadow-card motion-safe:animate-[slide-up_300ms_ease-out] sm:inset-x-auto sm:left-1/2 sm:w-full sm:max-w-md sm:-translate-x-1/2"
           >
             <div aria-hidden="true" className="mx-auto mb-4 h-1.5 w-10 shrink-0 rounded-full bg-border" />
 

@@ -13,6 +13,14 @@ describe("SeasonTab", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
+  it("only shows from the `tabs` breakpoint, where it clears the page content", () => {
+    render(<SeasonTab />);
+    const toggle = screen.getByRole("button", { name: "Open seasonal updates" });
+    expect(toggle.className).toContain("hidden");
+    expect(toggle.className).toContain("tabs:flex");
+    expect(toggle.className).not.toContain("sm:flex ");
+  });
+
   it("opens the drawer on click and shows every seasonal banner", async () => {
     render(<SeasonTab />);
     await userEvent.click(screen.getByRole("button", { name: "Open seasonal updates" }));
