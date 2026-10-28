@@ -18,8 +18,6 @@ export type HeroSlide = {
 type HeroCarouselProps = {
   slides: HeroSlide[];
   label: string;
-  pauseLabel: string;
-  playLabel: string;
 };
 
 export const AUTO_ADVANCE_MS = 10_000;
@@ -31,10 +29,9 @@ const SWIPE_THRESHOLD_PX = 50;
 // Auto-advance: a progress bar fills inside the active tab over
 // AUTO_ADVANCE_MS, and its animationend moves to the next slide, so the bar and
 // the switch can never drift apart. Pausing the bar's animation pauses the
-// carousel: while hovered, while keyboard focus is inside it, or via the
-// pause button (WCAG 2.2.2 needs a way to stop content that moves for more
-// than 5s). Under reduced motion the bar and the button are hidden, and with
-// no animation to end, nothing advances on its own.
+// carousel: while hovered, and while keyboard focus is inside it. There is
+// deliberately no pause button (product decision). Under reduced motion the
+// bar is hidden, and with no animation to end, nothing advances on its own.
 //
 // From `xl` both slides share one grid cell, so the area is as tall as the
 // taller slide and the stats strip below never jumps; slides cross-fade with
@@ -47,15 +44,14 @@ const SWIPE_THRESHOLD_PX = 50;
 // readers, but it stays in the markup for search engines. Tabs follow the
 // WAI-ARIA tabs pattern (roving tabindex, arrow/Home/End keys), and a
 // horizontal swipe on touch screens switches slides too.
-export function HeroCarousel({ slides, label, pauseLabel, playLabel }: HeroCarouselProps) {
+export function HeroCarousel({ slides, label }: HeroCarouselProps) {
   const [active, setActive] = useState(0);
-  const [stopped, setStopped] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [keyboardFocus, setKeyboardFocus] = useState(false);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
-  const running = !stopped && !hovered && !keyboardFocus;
+  const running = !hovered && !keyboardFocus;
 
   function select(index: number, focus = false) {
     const next = (index + slides.length) % slides.length;
@@ -115,7 +111,7 @@ export function HeroCarousel({ slides, label, pauseLabel, playLabel }: HeroCarou
       onFocus={handleFocus}
       onBlur={handleBlur}
     >
-      <div className="order-first flex items-center gap-1 self-center rounded-full border border-white/15 bg-black/30 p-1 backdrop-blur-md xl:order-last">
+      <div className="order-first self-center rounded-full border border-white/15 bg-black/30 p-1 backdrop-blur-md xl:order-last">
         <div role="tablist" aria-label={label} className="flex items-center gap-1">
           {slides.map((slide, index) => {
             const selected = index === active;
@@ -159,22 +155,13 @@ export function HeroCarousel({ slides, label, pauseLabel, playLabel }: HeroCarou
             );
           })}
         </div>
-        <button
-          type="button"
-          onClick={() => setStopped((s) => !s)}
-          aria-label={stopped ? playLabel : pauseLabel}
-          className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full text-ivory/75 transition-colors hover:bg-white/10 hover:text-ivory focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint motion-reduce:hidden"
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="h-3.5 w-3.5">
-            {stopped ? <path d="M8 5.5v13l10.5-6.5L8 5.5Z" /> : <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />}
-          </svg>
-        </button>
       </div>
 
       <div
         className="grid xl:flex-1"
-        // Rotating content must not interrupt a screen reader; once stopped,
-        // a slide change made by the visitor is announced politely.
+        // Rotating content must not interrupt a screen reader; while paused
+        // (keyboard focus inside), a slide change made by the visitor is
+        // announced politely.
         aria-live={running ? "off" : "polite"}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}

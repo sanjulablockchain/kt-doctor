@@ -328,8 +328,6 @@ export function Hero() {
       <div className="relative mx-auto flex w-full max-w-7xl flex-col px-5 py-8 sm:px-8 sm:py-12 lg:flex-1 lg:py-[clamp(1rem,2.75svh,2.25rem)]">
         <HeroCarousel
           label={t("heroSlidesLabel")}
-          pauseLabel={t("heroSlidesPause")}
-          playLabel={t("heroSlidesPlay")}
           slides={[
             { id: "care", label: t("heroSlideCareLabel"), content: careSlide },
             { id: "why", label: t("heroSlideWhyLabel"), content: <HeroWhySlide /> },

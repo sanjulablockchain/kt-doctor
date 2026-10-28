@@ -10,7 +10,7 @@ const slides = [
 
 function renderCarousel() {
   return render(
-    <HeroCarousel slides={slides} label="Highlights" pauseLabel="Pause slides" playLabel="Play slides" />
+<HeroCarousel slides={slides} label="Highlights" />
   );
 }
 
@@ -133,32 +133,30 @@ describe("HeroCarousel", () => {
       expect(progress().style.animationPlayState).toBe("running");
     });
 
-    it("can be paused and resumed with the pause button", async () => {
+    it("pauses while keyboard focus is inside, and resumes when it leaves", async () => {
       renderCarousel();
-      await userEvent.click(screen.getByRole("button", { name: "Pause slides" }));
+      await userEvent.tab();
+      expect(tab("First")).toHaveFocus();
       expect(progress().style.animationPlayState).toBe("paused");
-      await userEvent.click(screen.getByRole("button", { name: "Play slides" }));
-      expect(screen.getByRole("button", { name: "Pause slides" })).toBeInTheDocument();
+      await userEvent.tab();
+      expect(progress().style.animationPlayState).toBe("running");
     });
 
-    it("keeps the pause button out of the tab list", () => {
+    it("has no pause button", () => {
       renderCarousel();
-      expect(screen.getByRole("tablist")).not.toContainElement(
-        screen.getByRole("button", { name: "Pause slides" })
-      );
+      expect(screen.queryByRole("button", { name: /pause|play/i })).not.toBeInTheDocument();
     });
 
-    it("does not advance under reduced motion: the bar and the button hide", () => {
+    it("does not advance under reduced motion: the bar hides", () => {
       renderCarousel();
       expect(progress().className).toContain("motion-reduce:hidden");
-      expect(screen.getByRole("button", { name: "Pause slides" }).className).toContain("motion-reduce:hidden");
     });
 
-    it("keeps rotating changes silent and announces them once stopped", async () => {
+    it("keeps rotating changes silent and announces them while paused", async () => {
       renderCarousel();
       const area = panel("First").parentElement!;
       expect(area).toHaveAttribute("aria-live", "off");
-      await userEvent.click(screen.getByRole("button", { name: "Pause slides" }));
+      await userEvent.tab();
       expect(area).toHaveAttribute("aria-live", "polite");
     });
   });
