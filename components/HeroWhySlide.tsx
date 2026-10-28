@@ -29,7 +29,7 @@ const tileLinkClass =
 function ReasonTile(props: ReasonTileProps) {
   const { icon, title, body, href } = props;
   return (
-    <li className="group relative flex gap-3.5 rounded-2xl border border-white/15 bg-white/[0.07] p-4 backdrop-blur-md transition-colors hover:border-teal/60 hover:bg-white/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-teal-tint sm:flex-col sm:gap-3 sm:p-5 xl:p-[clamp(0.875rem,2.2svh,1.25rem)]">
+    <li className="hero-fade group relative flex gap-3.5 rounded-2xl border border-white/15 bg-white/[0.07] p-4 backdrop-blur-md transition-colors hover:border-teal/60 hover:bg-white/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-teal-tint sm:flex-col sm:gap-3 sm:p-5 xl:p-[clamp(0.875rem,2.2svh,1.25rem)]">
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal/15 text-teal-bright">
         <svg
           viewBox="0 0 24 24"
@@ -76,7 +76,9 @@ export function HeroWhySlide() {
 
   return (
     <div className="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] xl:items-center xl:gap-12">
-      <div className="flex min-w-0 flex-col gap-5 lg:gap-[clamp(0.75rem,2.2svh,1.375rem)]">
+      {/* `hero-fade` blocks fade with the slide (see HeroCarousel). This
+          column has no blurred glass, so it fades as one block. */}
+      <div className="hero-fade flex min-w-0 flex-col gap-5 lg:gap-[clamp(0.75rem,2.2svh,1.375rem)]">
         <div className="flex flex-wrap items-center gap-3">
           <Image
             src={withBasePath("/partners/usc.png")}

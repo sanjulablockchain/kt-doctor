@@ -40,12 +40,20 @@ const SWIPE_THRESHOLD_PX = 50;
 // the inactive slide is removed and the incoming one fades up instead, and the
 // tabs move above the slides where they are visible without scrolling.
 //
+// The fade is never put on the slide itself. The cards and panels inside use
+// backdrop-filter, and an ancestor with opacity below 1 makes browsers drop
+// that blur until the fade ends, so it would pop in late. Instead each block
+// marked `.hero-fade` fades on its own (see [data-hero-slide] in
+// globals.css). `data-switched` limits the below-`xl` fade-up to real slide
+// changes, so the first slide does not fade in on page load.
+//
 // The inactive slide is `inert`, so it is skipped by keyboard and screen
 // readers, but it stays in the markup for search engines. Tabs follow the
 // WAI-ARIA tabs pattern (roving tabindex, arrow/Home/End keys), and a
 // horizontal swipe on touch screens switches slides too.
 export function HeroCarousel({ slides, label }: HeroCarouselProps) {
   const [active, setActive] = useState(0);
+  const [switched, setSwitched] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [keyboardFocus, setKeyboardFocus] = useState(false);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -56,6 +64,7 @@ export function HeroCarousel({ slides, label }: HeroCarouselProps) {
   function select(index: number, focus = false) {
     const next = (index + slides.length) % slides.length;
     setActive(next);
+    setSwitched(true);
     if (focus) tabRefs.current[next]?.focus();
   }
 
@@ -106,6 +115,7 @@ export function HeroCarousel({ slides, label }: HeroCarouselProps) {
   return (
     <div
       className="flex flex-col gap-6 xl:flex-1 xl:gap-[clamp(0.75rem,2.4svh,1.5rem)]"
+      data-switched={switched || undefined}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onFocus={handleFocus}
@@ -173,10 +183,10 @@ export function HeroCarousel({ slides, label }: HeroCarouselProps) {
             role="tabpanel"
             aria-labelledby={`hero-tab-${slide.id}`}
             inert={index !== active}
-            className={`min-w-0 transition-[opacity,translate] duration-700 ease-out motion-reduce:transition-none xl:[grid-area:1/1] xl:self-center ${
-              index === active
-                ? "translate-y-0 opacity-100 max-xl:motion-safe:animate-[ktmg-fade-up_500ms_ease-out]"
-                : "pointer-events-none opacity-0 max-xl:hidden xl:translate-y-3"
+            data-hero-slide
+            data-active={index === active}
+            className={`min-w-0 xl:[grid-area:1/1] xl:self-center ${
+              index === active ? "" : "pointer-events-none max-xl:hidden"
             }`}
           >
             {slide.content}

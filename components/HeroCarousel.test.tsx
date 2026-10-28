@@ -98,11 +98,28 @@ describe("HeroCarousel", () => {
     expect(panel("First").className).not.toContain("max-xl:hidden");
   });
 
-  it("cross-fades between slides", () => {
+  // Opacity on the slide itself would make browsers drop the backdrop blur of
+  // the glass cards inside until the fade ends; the fade lives on the
+  // `.hero-fade` blocks instead, keyed off data-active (see globals.css).
+  it("marks the active slide for the fade without putting opacity on the slide itself", async () => {
     renderCarousel();
-    expect(panel("First").className).toContain("transition-[opacity,translate]");
-    expect(panel("First").className).toContain("opacity-100");
-    expect(panel("Second").className).toContain("opacity-0");
+    expect(panel("First")).toHaveAttribute("data-active", "true");
+    expect(panel("Second")).toHaveAttribute("data-active", "false");
+    for (const name of ["First", "Second"]) {
+      expect(panel(name)).toHaveAttribute("data-hero-slide");
+      expect(panel(name).className).not.toMatch(/opacity|transition|animate-/);
+    }
+    await userEvent.click(tab("Second"));
+    expect(panel("Second")).toHaveAttribute("data-active", "true");
+    expect(panel("First")).toHaveAttribute("data-active", "false");
+  });
+
+  it("flags real slide changes, so the first slide doesn't fade in on page load", async () => {
+    const { container } = renderCarousel();
+    const root = container.firstElementChild!;
+    expect(root).not.toHaveAttribute("data-switched");
+    await userEvent.click(tab("Second"));
+    expect(root).toHaveAttribute("data-switched", "true");
   });
 
   describe("auto-advance", () => {

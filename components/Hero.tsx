@@ -125,7 +125,7 @@ const cardActionClass = `group mt-auto inline-flex w-fit items-center gap-1.5 pt
 // photo. The photos are 800px square crops, which every frame shape covers.
 function HeroCard({ imageSrc, imageAlt, badge, title, body, action }: HeroCardProps) {
   return (
-    <li className="relative flex overflow-hidden rounded-2xl border border-white/15 bg-white/[0.07] backdrop-blur-md transition-colors hover:border-teal/60 hover:bg-white/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-teal-tint sm:flex-col">
+    <li className="hero-fade relative flex overflow-hidden rounded-2xl border border-white/15 bg-white/[0.07] backdrop-blur-md transition-colors hover:border-teal/60 hover:bg-white/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-teal-tint sm:flex-col">
       <div className="relative w-32 shrink-0 sm:aspect-[4/3] sm:w-auto lg:aspect-[16/9] xl:aspect-auto xl:h-[clamp(7.5rem,18svh,10rem)]">
         <Image
           src={withBasePath(imageSrc)}
@@ -171,16 +171,16 @@ export function Hero() {
             height keeps a 1366x768 laptop compact, width stops the headline
             from crowding the panel beside it. From `sm` the highlighted
             clause starts its own line. */}
-        <h1 className="max-w-3xl font-display text-4xl font-extrabold leading-[1.04] tracking-tight text-ivory text-balance sm:text-5xl md:text-6xl xl:text-[clamp(2.5rem,min(7svh,4.5vw),3.75rem)]">
+        <h1 className="hero-fade max-w-3xl font-display text-4xl font-extrabold leading-[1.04] tracking-tight text-ivory text-balance sm:text-5xl md:text-6xl xl:text-[clamp(2.5rem,min(7svh,4.5vw),3.75rem)]">
           {t("headingStart")}{" "}
           <span className="text-teal sm:block">{t("headingHighlight")}</span>
         </h1>
 
-        <p className="max-w-xl text-[15px] leading-normal text-ivory/75 text-pretty sm:text-base">
+        <p className="hero-fade max-w-xl text-[15px] leading-normal text-ivory/75 text-pretty sm:text-base">
           {t("subheading", { count: locations.length })}
         </p>
 
-        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
+        <div className="hero-fade flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
           <BookAppointmentButton
             className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-teal px-6 py-3.5 font-display text-[15px] font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark ${focusRing}`}
           >

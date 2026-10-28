@@ -276,6 +276,24 @@ describe("Hero", () => {
       expect(screen.getByRole("tabpanel", { name: "Care today" })).toHaveAttribute("inert");
     });
 
+    // A fading ancestor would switch the glass blur off until the fade ends,
+    // so each blurred element must fade itself, under no fading parent.
+    it("fades every glass element itself, never through a fading parent", () => {
+      render(<Hero />);
+      const glass = screen
+        .getAllByRole("tabpanel")
+        .flatMap((p) => Array.from(p.querySelectorAll<HTMLElement>('[class*="backdrop-blur"]')));
+      expect(glass.length).toBeGreaterThanOrEqual(8); // 3 cards, network panel, 4 tiles
+      for (const el of glass) {
+        expect(el.classList).toContain("hero-fade");
+        let parent = el.parentElement;
+        while (parent && !parent.hasAttribute("data-hero-slide")) {
+          expect(parent.classList).not.toContain("hero-fade");
+          parent = parent.parentElement;
+        }
+      }
+    });
+
     it("keeps the one h1 on the care slide", () => {
       render(<Hero />);
       expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
