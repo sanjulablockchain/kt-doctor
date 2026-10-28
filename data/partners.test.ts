@@ -4,8 +4,8 @@ import { join } from "node:path";
 import { partners } from "./partners";
 
 describe("partners data", () => {
-  it("has exactly 7 real trusted partners", () => {
-    expect(partners).toHaveLength(7);
+  it("has exactly 8 real trusted partners", () => {
+    expect(partners).toHaveLength(8);
     expect(partners.map((p) => p.id).sort()).toEqual(
       [
         "cedars-sinai",
@@ -15,6 +15,7 @@ describe("partners data", () => {
         "optum",
         "providence",
         "regal-medical-group",
+        "usc",
       ].sort()
     );
   });
@@ -30,6 +31,7 @@ describe("partners data", () => {
         "Optum",
         "Providence",
         "Regal Medical Group",
+        "University of Southern California",
       ].sort()
     );
   });
@@ -37,6 +39,7 @@ describe("partners data", () => {
   it("every logo is a locally downloaded file", () => {
     for (const partner of partners) {
       expect(partner.logoSrc).toMatch(/^\/partner-/);
+      expect(existsSync(join(process.cwd(), "public", partner.logoSrc))).toBe(true);
     }
   });
 
@@ -44,6 +47,16 @@ describe("partners data", () => {
     for (const partner of partners) {
       expect(partner.markSrc).toBe(`/partners/${partner.id}.png`);
       expect(existsSync(join(process.cwd(), "public", partner.markSrc))).toBe(true);
+    }
+  });
+
+  it("gives every dark-lettered mark a dark-mode copy that exists in public/", () => {
+    // Optum (all orange) and USC (gold badge) read on dark as they are.
+    const withoutDark = partners.filter((p) => !p.markDarkSrc).map((p) => p.id);
+    expect(withoutDark.sort()).toEqual(["optum", "usc"]);
+    for (const partner of partners.filter((p) => p.markDarkSrc)) {
+      expect(partner.markDarkSrc).toBe(`/partners/dark/${partner.id}.png`);
+      expect(existsSync(join(process.cwd(), "public", partner.markDarkSrc!))).toBe(true);
     }
   });
 });

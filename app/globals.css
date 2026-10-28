@@ -209,6 +209,30 @@ h4 {
   }
 }
 
+/* HeroCarousel: the active tab's progress bar. Its animationend advances the
+   slide, so the duration is set inline from AUTO_ADVANCE_MS. */
+@keyframes ktmg-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* HeroCarousel below `xl`, where the inactive slide is removed rather than
+   stacked: the incoming slide fades up into place. */
+@keyframes ktmg-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Floating DonateTab: subtle idle heart-beat on the heart icon. */
 @keyframes heartbeat {
   0%,

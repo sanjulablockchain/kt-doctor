@@ -145,11 +145,37 @@ describe("Hero", () => {
   });
 
   describe("partner marquee", () => {
-    it("exposes each partner logo once to assistive tech, in a labelled list", () => {
+    // Logos with a dark-mode copy carry the alt on both images; CSS shows one
+    // per theme (jsdom loads no CSS, so both are counted here).
+    it("exposes each partner logo once per theme to assistive tech, in a labelled list", () => {
       render(<Hero />);
-      expect(screen.getByRole("list", { name: "Trusted Partners & Affiliations" })).toBeInTheDocument();
+      const strip = within(screen.getByRole("list", { name: "Trusted Partners & Affiliations" }));
       for (const partner of partners) {
-        expect(screen.getAllByRole("img", { name: partner.name })).toHaveLength(1);
+        expect(strip.getAllByRole("img", { name: partner.name })).toHaveLength(partner.markDarkSrc ? 2 : 1);
+      }
+    });
+
+    it("includes the USC logo", () => {
+      render(<Hero />);
+      const strip = within(screen.getByRole("list", { name: "Trusted Partners & Affiliations" }));
+      expect(strip.getByRole("img", { name: "University of Southern California" })).toHaveAttribute(
+        "src",
+        "/partners/usc.png"
+      );
+    });
+
+    it("follows the theme: a surface-coloured band, with dark-mode logo copies swapped in", () => {
+      render(<Hero />);
+      const list = screen.getByRole("list", { name: "Trusted Partners & Affiliations" });
+      const band = list.closest(".backdrop-blur-lg");
+      expect(band?.className).toContain("bg-surface/95");
+      expect(band?.className).not.toContain("bg-white");
+      for (const partner of partners.filter((p) => p.markDarkSrc)) {
+        const [light, dark] = within(list).getAllByRole("img", { name: partner.name });
+        expect(light).toHaveAttribute("src", partner.markSrc);
+        expect(light.className).toContain("logo-light");
+        expect(dark).toHaveAttribute("src", partner.markDarkSrc);
+        expect(dark.className).toContain("logo-dark");
       }
     });
 
@@ -160,8 +186,9 @@ describe("Hero", () => {
 
     it("shows the cropped logos in their brand colours with no tile behind them", () => {
       render(<Hero />);
+      const strip = within(screen.getByRole("list", { name: "Trusted Partners & Affiliations" }));
       for (const partner of partners) {
-        const logo = screen.getByRole("img", { name: partner.name });
+        const [logo] = strip.getAllByRole("img", { name: partner.name });
         expect(logo).toHaveAttribute("src", partner.markSrc);
         expect(logo.className).toContain("xl:h-10");
         expect(logo.className).not.toContain("invert");
@@ -181,7 +208,7 @@ describe("Hero", () => {
     it("stops for reduced motion", () => {
       const { container } = render(<Hero />);
       const track = container.querySelector("ul.w-max");
-      expect(track?.className).toContain("animate-[ktmg-marquee_40s_linear_infinite]");
+      expect(track?.className).toContain("animate-[ktmg-marquee_46s_linear_infinite]");
       expect(track?.className).toContain("motion-reduce:animate-none");
     });
 

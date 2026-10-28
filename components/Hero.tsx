@@ -47,38 +47,56 @@ function HeroTextLink({ href, icon, children }: { href: string; icon: ReactNode;
 // half keeps each half wider than the 1216px container, so the loop never
 // shows an empty gap on wide screens. Only the first set is exposed to
 // assistive tech. The strip pauses on hover, and under reduced motion it stops
-// and wraps into a static, centred row. Logos show in their brand colours, on
-// a light band because most of them have dark lettering. They are the cropped
-// marks, so the height is all logo, and the width cap keeps long wordmarks
-// like Providence from outweighing the rest.
+// and wraps into a static, centred row. Logos show in their brand colours on
+// a band that follows the theme: white in light mode, the dark surface in dark
+// mode, where marks with dark lettering swap to a lightened copy (see
+// .logo-light/.logo-dark in globals.css; both carry the alt, only one shows).
+// They are the cropped marks, so the height is all logo, and the width cap
+// keeps long wordmarks like Providence from outweighing the rest.
+const markClass =
+  "h-8 w-auto max-w-[8.5rem] object-contain sm:h-9 sm:max-w-[9.5rem] xl:h-10 xl:max-w-[10.5rem]";
+
 function PartnerMarquee() {
   const t = useTranslations("Home");
 
   return (
-    <div className="relative border-b border-black/5 bg-white/95 backdrop-blur-lg">
+    <div className="relative border-b border-border/60 bg-surface/95 backdrop-blur-lg">
       <div className="mx-auto max-w-7xl px-5 py-3.5 sm:px-8 lg:py-[clamp(0.625rem,1.8svh,1.125rem)]">
         <div className="overflow-hidden motion-safe:[mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
           <ul
             aria-label={t("partnersHeading")}
-            className="flex w-max items-center gap-12 pr-12 animate-[ktmg-marquee_40s_linear_infinite] hover:[animation-play-state:paused] motion-reduce:w-full motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-x-10 motion-reduce:gap-y-4 motion-reduce:pr-0 sm:gap-16 sm:pr-16"
+            className="flex w-max items-center gap-12 pr-12 animate-[ktmg-marquee_46s_linear_infinite] hover:[animation-play-state:paused] motion-reduce:w-full motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-x-10 motion-reduce:gap-y-4 motion-reduce:pr-0 sm:gap-16 sm:pr-16"
           >
             {[0, 1, 2, 3].flatMap((copy) =>
-              partners.map((partner) => (
-                <li
-                  key={`${copy}-${partner.id}`}
-                  aria-hidden={copy > 0 || undefined}
-                  className={copy > 0 ? "motion-reduce:hidden" : undefined}
-                >
-                  <Image
-                    src={withBasePath(partner.markSrc)}
-                    alt={copy > 0 ? "" : partner.name}
-                    width={320}
-                    height={100}
-                    unoptimized
-                    className="h-8 w-auto max-w-[8.5rem] object-contain sm:h-9 sm:max-w-[9.5rem] xl:h-10 xl:max-w-[10.5rem]"
-                  />
-                </li>
-              ))
+              partners.map((partner) => {
+                const alt = copy > 0 ? "" : partner.name;
+                return (
+                  <li
+                    key={`${copy}-${partner.id}`}
+                    aria-hidden={copy > 0 || undefined}
+                    className={copy > 0 ? "motion-reduce:hidden" : undefined}
+                  >
+                    <Image
+                      src={withBasePath(partner.markSrc)}
+                      alt={alt}
+                      width={320}
+                      height={100}
+                      unoptimized
+                      className={`${partner.markDarkSrc ? "logo-light " : ""}${markClass}`}
+                    />
+                    {partner.markDarkSrc && (
+                      <Image
+                        src={withBasePath(partner.markDarkSrc)}
+                        alt={alt}
+                        width={320}
+                        height={100}
+                        unoptimized
+                        className={`logo-dark ${markClass}`}
+                      />
+                    )}
+                  </li>
+                );
+              })
             )}
           </ul>
         </div>
@@ -310,6 +328,8 @@ export function Hero() {
       <div className="relative mx-auto flex w-full max-w-7xl flex-col px-5 py-8 sm:px-8 sm:py-12 lg:flex-1 lg:py-[clamp(1rem,2.75svh,2.25rem)]">
         <HeroCarousel
           label={t("heroSlidesLabel")}
+          pauseLabel={t("heroSlidesPause")}
+          playLabel={t("heroSlidesPlay")}
           slides={[
             { id: "care", label: t("heroSlideCareLabel"), content: careSlide },
             { id: "why", label: t("heroSlideWhyLabel"), content: <HeroWhySlide /> },

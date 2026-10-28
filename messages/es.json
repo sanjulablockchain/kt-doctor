@@ -154,6 +154,8 @@
     "heroCardAfterHoursBody": "Entre semana de 6pm a 11pm, fines de semana todo el día, atención virtual 24/7. Llame al <call>{phone}</call>.",
     "heroOpensInNewTab": "(se abre en una pestaña nueva)",
     "heroSlidesLabel": "Destacados",
+    "heroSlidesPause": "Pausar diapositivas",
+    "heroSlidesPlay": "Reproducir diapositivas",
     "heroSlideCareLabel": "Atención hoy",
     "heroSlideWhyLabel": "Por qué nos eligen",
     "whyUscLogoAlt": "University of Southern California",
