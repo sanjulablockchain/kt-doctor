@@ -11,29 +11,12 @@ import { networkBrands } from "@/data/network";
 import { AFTER_HOURS_PHONE } from "@/lib/constants";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { BookAppointmentButton } from "@/components/BookAppointmentButton";
+import { HeroCarousel } from "@/components/HeroCarousel";
 import { HeroNetworkPanel } from "@/components/HeroNetworkPanel";
 import { HeroSlideshow } from "@/components/HeroSlideshow";
+import { HeroWhySlide } from "@/components/HeroWhySlide";
+import { ArrowIcon, focusRing } from "@/components/heroShared";
 import { withBasePath } from "@/lib/basePath";
-
-const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-tint focus-visible:ring-offset-2 focus-visible:ring-offset-navy";
-
-function ArrowIcon({ diagonal = false, colorClass = "text-teal" }: { diagonal?: boolean; colorClass?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden
-      className={`h-3.5 w-3.5 shrink-0 ${colorClass} transition-transform group-hover:translate-x-0.5`}
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d={diagonal ? "M7 17 17 7M9 7h8v8" : "M5 12h14m-6-6 6 6-6 6"} />
-    </svg>
-  );
-}
 
 function HeroTextLink({ href, icon, children }: { href: string; icon: ReactNode; children: ReactNode }) {
   return (
@@ -159,6 +142,144 @@ export function Hero() {
     { label: t("statAges"), value: "0-21" },
   ];
 
+  // Slide 1: book today. The three cards need the width, so the network
+  // panel only moves beside the copy from `xl` (1280px), in a column fixed to
+  // its own max width (28rem) so the rest goes to the cards: wider cards wrap
+  // less copy, which keeps them short.
+  const careSlide = (
+    <div className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_28rem] xl:items-center xl:gap-12">
+      <div className="flex min-w-0 flex-col gap-5 lg:gap-[clamp(0.75rem,2.2svh,1.375rem)]">
+        {/* Sized by the smaller of viewport height and width at `xl`:
+            height keeps a 1366x768 laptop compact, width stops the headline
+            from crowding the panel beside it. From `sm` the highlighted
+            clause starts its own line. */}
+        <h1 className="max-w-3xl font-display text-4xl font-extrabold leading-[1.04] tracking-tight text-ivory text-balance sm:text-5xl md:text-6xl xl:text-[clamp(2.5rem,min(7svh,4.5vw),3.75rem)]">
+          {t("headingStart")}{" "}
+          <span className="text-teal sm:block">{t("headingHighlight")}</span>
+        </h1>
+
+        <p className="max-w-xl text-[15px] leading-normal text-ivory/75 text-pretty sm:text-base">
+          {t("subheading", { count: locations.length })}
+        </p>
+
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
+          <BookAppointmentButton
+            className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-teal px-6 py-3.5 font-display text-[15px] font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark ${focusRing}`}
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4">
+              <rect x="3" y="4.5" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="2" />
+              <path d="M16 2.5v4M8 2.5v4M3 10h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            {t("bookAppointment")}
+          </BookAppointmentButton>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <HeroTextLink
+              href="/doctors"
+              icon={
+                <>
+                  <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6h0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1" />
+                  <path d="M8 15v1a6 6 0 0 0 6 6h0a6 6 0 0 0 6-6v-4" />
+                  <circle cx="20" cy="10" r="2" />
+                </>
+              }
+            >
+              {t("findDoctor")}
+            </HeroTextLink>
+            <HeroTextLink
+              href="/locations"
+              icon={
+                <>
+                  <path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z" />
+                  <circle cx="12" cy="9" r="2.25" />
+                </>
+              }
+            >
+              {t("findClinic")}
+            </HeroTextLink>
+          </div>
+        </div>
+
+        {/* Stacked image-left rows on phones, three columns from `sm`. */}
+        <ul className="mt-1 grid grid-cols-1 gap-3.5 sm:grid-cols-3">
+          <HeroCard
+            imageSrc="/home/hero-cards/same-day.webp"
+            imageAlt={t("heroCardSameDayImageAlt")}
+            badge={
+              <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full bg-navy/85 px-2.5 py-1 font-display text-[10px] font-semibold uppercase tracking-[0.1em] text-teal-tint">
+                <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-teal" />
+                {t("heroCardSameDayBadge")}
+              </span>
+            }
+            title={t("heroCardSameDayTitle")}
+            body={t("heroCardSameDayBody", { count: locations.length })}
+            action={(className) => (
+              <BookAppointmentButton className={`cursor-pointer ${className}`}>
+                {t("heroCardSameDayCta")}
+                <ArrowIcon colorClass="text-current" />
+              </BookAppointmentButton>
+            )}
+          />
+          {/* Telehealth is booked like any other appointment type, so this
+              card opens the same booking chooser rather than the info page. */}
+          <HeroCard
+            imageSrc="/home/hero-cards/telehealth.webp"
+            imageAlt={t("heroCardTelehealthImageAlt")}
+            title={t("heroCardTelehealthTitle")}
+            body={t("heroCardTelehealthBody")}
+            action={(className) => (
+              <BookAppointmentButton className={`cursor-pointer ${className}`}>
+                {t("heroCardTelehealthCta")}
+                <ArrowIcon colorClass="text-current" />
+              </BookAppointmentButton>
+            )}
+          />
+          <HeroCard
+            imageSrc="/home/hero-cards/after-hours.webp"
+            imageAlt={t("heroCardAfterHoursImageAlt")}
+            badge={
+              <Image
+                src={withBasePath(afterHours.logoSrc)}
+                alt={afterHours.name}
+                width={345}
+                height={88}
+                unoptimized
+                className="absolute left-2 top-2 h-6 w-auto rounded-md bg-white px-1.5 py-0.5 sm:left-2.5 sm:top-2.5 sm:h-7"
+              />
+            }
+            title={t("heroCardAfterHoursTitle")}
+            body={t.rich("heroCardAfterHoursBody", {
+              phone: AFTER_HOURS_PHONE,
+              // Sits above the card's stretched link so the number stays
+              // tappable on its own.
+              call: (chunks) => (
+                <a
+                  href={afterHoursTel}
+                  aria-label={t("afterHoursCallLabel", { phone: AFTER_HOURS_PHONE })}
+                  className={`relative z-10 whitespace-nowrap rounded font-semibold text-ivory underline-offset-2 hover:underline ${focusRing}`}
+                >
+                  {chunks}
+                </a>
+              ),
+            })}
+            action={(className) => (
+              <a href={afterHours.externalUrl} target="_blank" rel="noopener noreferrer" className={className}>
+                {/* One inline wrapper so the space before the hidden note
+                    survives: as separate flex items it would be dropped
+                    and the name would read "...now(opens...". */}
+                <span>
+                  {t("afterHoursCta")} <span className="sr-only">{t("heroOpensInNewTab")}</span>
+                </span>
+                <ArrowIcon diagonal colorClass="text-current" />
+              </a>
+            )}
+          />
+        </ul>
+      </div>
+
+      <HeroNetworkPanel />
+    </div>
+  );
+
   return (
     // From `lg` up the hero is at least the screen left under the sticky
     // header, so tall monitors get no dead space and no next-section sliver.
@@ -184,141 +305,16 @@ export function Hero() {
       <PartnerMarquee />
 
       {/* Padding and gaps are viewport-relative from `lg` up so the content
-          tightens on short laptops, while `flex-1` + `xl:items-center` centre
-          it in the slack on tall screens. The three cards need the width, so
-          the network panel only moves beside the copy from `xl` (1280px), in
-          a column fixed to its own max width (28rem) so the rest goes to the
-          cards: wider cards wrap less copy, which keeps them short. */}
-      <div className="relative mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-5 py-10 sm:px-8 sm:py-14 lg:flex-1 lg:py-[clamp(1rem,3.5svh,2.75rem)] xl:grid-cols-[minmax(0,1fr)_28rem] xl:items-center xl:gap-12">
-        <div className="flex min-w-0 flex-col gap-5 lg:gap-[clamp(0.75rem,2.2svh,1.375rem)]">
-          {/* Sized by the smaller of viewport height and width at `xl`:
-              height keeps a 1366x768 laptop compact, width stops the headline
-              from crowding the panel beside it. From `sm` the highlighted
-              clause starts its own line. */}
-          <h1 className="max-w-3xl font-display text-4xl font-extrabold leading-[1.04] tracking-tight text-ivory text-balance sm:text-5xl md:text-6xl xl:text-[clamp(2.5rem,min(7svh,4.5vw),3.75rem)]">
-            {t("headingStart")}{" "}
-            <span className="text-teal sm:block">{t("headingHighlight")}</span>
-          </h1>
-
-          <p className="max-w-xl text-[15px] leading-normal text-ivory/75 text-pretty sm:text-base">
-            {t("subheading", { count: locations.length })}
-          </p>
-
-          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
-            <BookAppointmentButton
-              className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-teal px-6 py-3.5 font-display text-[15px] font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5 hover:bg-teal-dark ${focusRing}`}
-            >
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4">
-                <rect x="3" y="4.5" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="2" />
-                <path d="M16 2.5v4M8 2.5v4M3 10h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-              {t("bookAppointment")}
-            </BookAppointmentButton>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-              <HeroTextLink
-                href="/doctors"
-                icon={
-                  <>
-                    <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6h0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1" />
-                    <path d="M8 15v1a6 6 0 0 0 6 6h0a6 6 0 0 0 6-6v-4" />
-                    <circle cx="20" cy="10" r="2" />
-                  </>
-                }
-              >
-                {t("findDoctor")}
-              </HeroTextLink>
-              <HeroTextLink
-                href="/locations"
-                icon={
-                  <>
-                    <path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z" />
-                    <circle cx="12" cy="9" r="2.25" />
-                  </>
-                }
-              >
-                {t("findClinic")}
-              </HeroTextLink>
-            </div>
-          </div>
-
-          {/* Stacked image-left rows on phones, three columns from `sm`. */}
-          <ul className="mt-1 grid grid-cols-1 gap-3.5 sm:grid-cols-3">
-            <HeroCard
-              imageSrc="/home/hero-cards/same-day.webp"
-              imageAlt={t("heroCardSameDayImageAlt")}
-              badge={
-                <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full bg-navy/85 px-2.5 py-1 font-display text-[10px] font-semibold uppercase tracking-[0.1em] text-teal-tint">
-                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-teal" />
-                  {t("heroCardSameDayBadge")}
-                </span>
-              }
-              title={t("heroCardSameDayTitle")}
-              body={t("heroCardSameDayBody", { count: locations.length })}
-              action={(className) => (
-                <BookAppointmentButton className={`cursor-pointer ${className}`}>
-                  {t("heroCardSameDayCta")}
-                  <ArrowIcon colorClass="text-current" />
-                </BookAppointmentButton>
-              )}
-            />
-            {/* Telehealth is booked like any other appointment type, so this
-                card opens the same booking chooser rather than the info page. */}
-            <HeroCard
-              imageSrc="/home/hero-cards/telehealth.webp"
-              imageAlt={t("heroCardTelehealthImageAlt")}
-              title={t("heroCardTelehealthTitle")}
-              body={t("heroCardTelehealthBody")}
-              action={(className) => (
-                <BookAppointmentButton className={`cursor-pointer ${className}`}>
-                  {t("heroCardTelehealthCta")}
-                  <ArrowIcon colorClass="text-current" />
-                </BookAppointmentButton>
-              )}
-            />
-            <HeroCard
-              imageSrc="/home/hero-cards/after-hours.webp"
-              imageAlt={t("heroCardAfterHoursImageAlt")}
-              badge={
-                <Image
-                  src={withBasePath(afterHours.logoSrc)}
-                  alt={afterHours.name}
-                  width={345}
-                  height={88}
-                  unoptimized
-                  className="absolute left-2 top-2 h-6 w-auto rounded-md bg-white px-1.5 py-0.5 sm:left-2.5 sm:top-2.5 sm:h-7"
-                />
-              }
-              title={t("heroCardAfterHoursTitle")}
-              body={t.rich("heroCardAfterHoursBody", {
-                phone: AFTER_HOURS_PHONE,
-                // Sits above the card's stretched link so the number stays
-                // tappable on its own.
-                call: (chunks) => (
-                  <a
-                    href={afterHoursTel}
-                    aria-label={t("afterHoursCallLabel", { phone: AFTER_HOURS_PHONE })}
-                    className={`relative z-10 whitespace-nowrap rounded font-semibold text-ivory underline-offset-2 hover:underline ${focusRing}`}
-                  >
-                    {chunks}
-                  </a>
-                ),
-              })}
-              action={(className) => (
-                <a href={afterHours.externalUrl} target="_blank" rel="noopener noreferrer" className={className}>
-                  {/* One inline wrapper so the space before the hidden note
-                      survives: as separate flex items it would be dropped
-                      and the name would read "...now(opens...". */}
-                  <span>
-                    {t("afterHoursCta")} <span className="sr-only">{t("heroOpensInNewTab")}</span>
-                  </span>
-                  <ArrowIcon diagonal colorClass="text-current" />
-                </a>
-              )}
-            />
-          </ul>
-        </div>
-
-        <HeroNetworkPanel />
+          tightens on short laptops, while `flex-1` lets the slides centre in
+          the slack on tall screens. */}
+      <div className="relative mx-auto flex w-full max-w-7xl flex-col px-5 py-8 sm:px-8 sm:py-12 lg:flex-1 lg:py-[clamp(1rem,2.75svh,2.25rem)]">
+        <HeroCarousel
+          label={t("heroSlidesLabel")}
+          slides={[
+            { id: "care", label: t("heroSlideCareLabel"), content: careSlide },
+            { id: "why", label: t("heroSlideWhyLabel"), content: <HeroWhySlide /> },
+          ]}
+        />
       </div>
 
       <div className="relative border-t border-white/10 bg-black/30 backdrop-blur-xl">
