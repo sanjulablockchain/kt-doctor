@@ -119,7 +119,8 @@ export function HeroNetworkPanel() {
   const pediatricAfterHour = findBrand("pediatric-after-hour");
 
   return (
-    <div className="min-w-0 w-full rounded-3xl border border-white/10 bg-navy/75 p-5 backdrop-blur-xl sm:p-6 lg:p-[clamp(1rem,2.4svh,1.5rem)] xl:ml-auto xl:max-w-md">
+    // `hero-fade`: fades with its hero slide (see HeroCarousel).
+    <div className="hero-fade min-w-0 w-full rounded-3xl border border-white/10 bg-navy/75 p-5 backdrop-blur-xl sm:p-6 lg:p-[clamp(1rem,2.4svh,1.5rem)] xl:ml-auto xl:max-w-md">
       <div className="flex flex-wrap items-center gap-2">
         <span className="inline-flex items-center rounded-full border border-teal/30 bg-teal/10 px-3 py-1 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-teal">
           {tHome("networkEyebrow")}

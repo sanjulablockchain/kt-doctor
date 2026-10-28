@@ -26,10 +26,10 @@ describe("Home page", () => {
   it("routes every booking call to action through the options chooser, not straight to Healow", async () => {
     await renderHome();
 
-    // Hero button, hero same-day and telehealth cards, hero network panel
-    // row, and the bottom navy banner.
+    // Hero slide 1 button, its same-day and telehealth cards, the network
+    // panel row, hero slide 2 button, and the bottom navy banner.
     const bookingTriggers = screen.getAllByRole("button", { name: /^book/i });
-    expect(bookingTriggers).toHaveLength(5);
+    expect(bookingTriggers).toHaveLength(6);
     expect(screen.queryByRole("link", { name: /^book/i })).not.toBeInTheDocument();
 
     const user = userEvent.setup();
@@ -91,12 +91,15 @@ describe("Home page", () => {
     );
   });
 
+  // The hero's "Why families choose us" slide shares this label with the
+  // teaser further down, so the check covers both.
   it("renders an insurance teaser linking to /insurance", async () => {
     await renderHome();
-    expect(screen.getByRole("link", { name: /see accepted insurance/i })).toHaveAttribute(
-      "href",
-      "/insurance"
-    );
+    const links = screen.getAllByRole("link", { name: /see accepted insurance/i });
+    expect(links).toHaveLength(2);
+    for (const link of links) {
+      expect(link).toHaveAttribute("href", "/insurance");
+    }
   });
 
   it("renders a standalone Resources section with the real resources and a link to /resources", async () => {
@@ -172,7 +175,7 @@ describe("Home page", () => {
 
   it("renders the hero heading and CTA copy in Spanish when locale is es", async () => {
     await renderHome("es");
-    expect(screen.getByText("lo significan todo")).toBeInTheDocument();
+    expect(screen.getByText("Lo conocemos de por vida.")).toBeInTheDocument();
     expect(
       screen.getAllByRole("button", { name: /reservar una cita/i }).length
     ).toBeGreaterThanOrEqual(1);

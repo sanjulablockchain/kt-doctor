@@ -209,6 +209,49 @@ h4 {
   }
 }
 
+/* HeroCarousel: the active tab's progress bar. Its animationend advances the
+   slide, so the duration is set inline from AUTO_ADVANCE_MS. */
+@keyframes ktmg-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* HeroCarousel slide fades. Each `.hero-fade` block fades on its own rather
+   than the whole slide: the glass cards inside use backdrop-filter, which
+   browsers switch off while any ancestor is below opacity 1, so a slide-level
+   fade made the blur pop in only once the fade ended. Opacity on the blurred
+   element itself keeps the blur. The colour properties keep the cards' hover
+   transitions, which this unlayered rule would otherwise override.
+   From `xl` the slides are stacked, so the outgoing blocks sink and fade
+   while the incoming ones rise in. Below `xl` the incoming slide goes from
+   display:none to shown, which a transition alone can't animate, so
+   @starting-style gives it a start point; [data-switched] keeps that to real
+   slide changes, not the first paint. */
+[data-hero-slide] .hero-fade {
+  transition-property: opacity, translate, color, background-color, border-color;
+  transition-duration: 700ms, 700ms, 150ms, 150ms, 150ms;
+  transition-timing-function: ease-out;
+}
+[data-hero-slide][data-active="false"] .hero-fade {
+  opacity: 0;
+  translate: 0 0.75rem;
+}
+@starting-style {
+  [data-switched] [data-hero-slide][data-active="true"] .hero-fade {
+    opacity: 0;
+    translate: 0 0.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-hero-slide] .hero-fade {
+    transition: none;
+  }
+}
+
 /* Floating DonateTab: subtle idle heart-beat on the heart icon. */
 @keyframes heartbeat {
   0%,
