@@ -2,6 +2,18 @@ import { describe, it, expect } from "vitest";
 import { mediaKitSections, mediaDownloads, uscFlyer } from "./mediaKit";
 import { pressReleases } from "./pressReleases";
 import { pressBios } from "./pressBios";
+import { newsCoverage } from "./newsCoverage";
+
+describe("uscFlyer", () => {
+  // The flyer promoted the October 6 benefits fair that the USC article
+  // covers, so the flyer section links to that article as its first bullet.
+  it("points at an existing news coverage item for the event it promoted", () => {
+    expect(uscFlyer.newsCoverageId).toBeDefined();
+    const article = newsCoverage.find((c) => c.id === uscFlyer.newsCoverageId);
+    expect(article).toBeDefined();
+    expect(article!.url).toContain("campushealth.usc.edu");
+  });
+});
 
 describe("mediaKitSections", () => {
   it("mirrors all six tabs from the supplied media kit", () => {

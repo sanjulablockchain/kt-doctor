@@ -154,6 +154,12 @@ export type MediaFeature = {
   alt: string;
   altEs: string;
   highlights: MediaFeatureHighlight[];
+  /**
+   * Id of the `newsCoverage` item about the event this flyer promoted. The
+   * Media page renders it as a linked first bullet above `highlights`, so the
+   * article appears both in the news section and beside the flyer.
+   */
+  newsCoverageId?: string;
 };
 
 export const uscFlyer: MediaFeature = {
@@ -164,6 +170,7 @@ export const uscFlyer: MediaFeature = {
   alt: "Kids & Teens Medical Group flyer for the USC Health Benefits Fair on October 6th, featuring founder Dr. Janesri De Silva, MD, FAAP, marking the practice as a proud Tier 1 USC Pediatrics partner and a recipient of the L.A. Care Social Determinants of Health Award.",
   altEs:
     "Folleto de Kids & Teens Medical Group para la Feria de Beneficios de Salud de USC del 6 de octubre, con la fundadora, la Dra. Janesri De Silva, MD, FAAP, que destaca a la práctica como orgulloso socio de Pediatría de USC de Nivel 1 y galardonada con el Premio a los Determinantes Sociales de la Salud de L.A. Care.",
+  newsCoverageId: "usc-campus-health-benefits-fair-2026",
   highlights: [
     {
       text: "Proud USC Pediatrics partner of their Health Benefits Plan.",
