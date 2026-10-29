@@ -44,6 +44,13 @@ describe("Media messages", () => {
     expect(es.Media.flyerDescription).toMatch(/Nivel 1/);
   });
 
+  it("describes the news coverage section in both locales", () => {
+    expect(en.Media.newsHeading).toBe("In the News");
+    expect(es.Media.newsHeading).toBe("En las Noticias");
+    expect(en.Media.newsPublishedBy).toContain("{outlet}");
+    expect(es.Media.newsPublishedBy).toContain("{outlet}");
+  });
+
   it("adds Seo metadata for the media hub in both locales", () => {
     for (const messages of [en, es]) {
       expect(messages.Seo.media.title.length).toBeGreaterThan(0);

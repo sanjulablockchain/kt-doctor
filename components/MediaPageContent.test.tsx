@@ -5,6 +5,7 @@ import { MediaPageContent } from "./MediaPageContent";
 import { pressReleases } from "@/data/pressReleases";
 import { pressBios } from "@/data/pressBios";
 import { mediaKitSections, mediaDownloads, uscFlyer } from "@/data/mediaKit";
+import { newsCoverage } from "@/data/newsCoverage";
 
 describe("MediaPageContent", () => {
   it("renders the English page heading", () => {
@@ -126,6 +127,7 @@ describe("MediaPageContent", () => {
     render(<MediaPageContent />);
     for (const name of [
       /press releases/i,
+      /in the news/i,
       /leadership/i,
       /media kit/i,
       /USC partnership/i,
@@ -188,5 +190,67 @@ describe("MediaPageContent USC flyer section", () => {
     const flyer = screen.getByRole("region", { name: /alianza con USC/i });
     expect(within(flyer).getByText(uscFlyer.highlights[0].textEs)).toBeInTheDocument();
     expect(screen.getByRole("img", { name: uscFlyer.altEs })).toBeInTheDocument();
+  });
+});
+
+describe("MediaPageContent In the News section", () => {
+  const item = newsCoverage[0];
+
+  it("renders the section as a labelled region directly after the press releases", () => {
+    render(<MediaPageContent />);
+    const press = screen.getByRole("region", { name: /press releases/i });
+    const news = screen.getByRole("region", { name: /in the news/i });
+    const leadership = screen.getByRole("region", { name: /leadership/i });
+    expect(press.compareDocumentPosition(news) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(
+      news.compareDocumentPosition(leadership) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy();
+  });
+
+  it("names the outlet and shows the publication date as a time element", () => {
+    render(<MediaPageContent />);
+    const news = screen.getByRole("region", { name: /in the news/i });
+    expect(within(news).getByText(`Published by ${item.outlet}`)).toBeInTheDocument();
+    const time = news.querySelector("time");
+    expect(time).toHaveAttribute("dateTime", item.date);
+    expect(time).toHaveTextContent(item.displayDate);
+  });
+
+  // The article belongs to the outlet, so the headline and the call to action
+  // both leave the site for the original page rather than republishing it.
+  it("links the headline and the read link out to the article in a new tab", () => {
+    render(<MediaPageContent />);
+    const news = screen.getByRole("region", { name: /in the news/i });
+    const links = within(news)
+      .getAllByRole("link")
+      .filter((a) => a.getAttribute("href") === item.url);
+    expect(links).toHaveLength(2);
+    for (const link of links) {
+      expect(link).toHaveAttribute("target", "_blank");
+      expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
+      expect(link).toHaveAccessibleName(/opens in a new tab/i);
+    }
+    expect(within(news).getByRole("heading", { level: 3 })).toHaveTextContent(item.title);
+  });
+
+  it("shows our summary and quotes the article's sentence about the practice", () => {
+    render(<MediaPageContent />);
+    const news = screen.getByRole("region", { name: /in the news/i });
+    expect(within(news).getByText(item.summary)).toBeInTheDocument();
+    const quote = within(news).getByText(item.quote);
+    expect(quote.closest("blockquote")).not.toBeNull();
+  });
+
+  it("renders the heading, date, summary and quote in Spanish when locale is es", () => {
+    render(<MediaPageContent />, "es");
+    const news = screen.getByRole("region", { name: /en las noticias/i });
+    expect(within(news).getByText(`Publicado por ${item.outlet}`)).toBeInTheDocument();
+    expect(within(news).getByText(item.displayDateEs)).toBeInTheDocument();
+    expect(within(news).getByText(item.summaryEs)).toBeInTheDocument();
+    expect(within(news).getByText(item.quoteEs)).toBeInTheDocument();
+    expect(within(news).getByRole("link", { name: /leer el artículo/i })).toHaveAttribute(
+      "href",
+      item.url
+    );
   });
 });
