@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { pressReleases } from "@/data/pressReleases";
 import { pressBios } from "@/data/pressBios";
 import { mediaKitSections, mediaDownloads, uscFlyer } from "@/data/mediaKit";
+import { newsCoverage } from "@/data/newsCoverage";
 import { withBasePath } from "@/lib/basePath";
 import { YelpAppreciationSlideshow } from "@/components/YelpAppreciationSlideshow";
 
@@ -16,6 +17,20 @@ const cardClass = "rounded-2xl border border-border bg-surface p-5 shadow-card";
 
 const actionClass =
   "inline-flex items-center gap-1 font-display text-sm font-semibold text-teal-dark hover:text-teal";
+
+function ExternalIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4 shrink-0">
+      <path
+        d="M15 3h6v6M21 3l-8 8M10 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 function DownloadIcon() {
   return (
@@ -93,6 +108,63 @@ export function MediaPageContent() {
             </a>
           </div>
         </article>
+      </section>
+
+      {/* In the news. Third-party coverage, directly under our own releases so
+          the two kinds of news sit together. Each item links out to the outlet;
+          the article is theirs, so only a summary and the one sentence naming
+          the practice appear here. */}
+      <section aria-labelledby="media-news" className="mt-12">
+        <h2 id="media-news" className={sectionHeadingClass}>
+          {t("newsHeading")}
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm text-ink-soft">{t("newsDescription")}</p>
+
+        <ul className="mt-5 flex flex-col gap-5">
+          {newsCoverage.map((item) => (
+            <li key={item.id}>
+              <article className={`${cardClass} sm:p-7`}>
+                <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-display text-xs font-semibold uppercase tracking-wide text-ink-soft">
+                  <span className="text-teal-dark">
+                    {t("newsPublishedBy", { outlet: item.outlet })}
+                  </span>
+                  <time dateTime={item.date}>
+                    {isEs ? item.displayDateEs : item.displayDate}
+                  </time>
+                </p>
+                <h3 className="mt-2 max-w-3xl font-display text-xl font-bold leading-snug text-ink sm:text-2xl">
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-teal-dark"
+                  >
+                    {item.title}
+                    <span className="sr-only"> {t("newsOpensNewTab")}</span>
+                  </a>
+                </h3>
+                <p className="mt-3 max-w-3xl text-ink-soft">
+                  {isEs ? item.summaryEs : item.summary}
+                </p>
+                <blockquote className="mt-4 max-w-3xl border-l-4 border-teal pl-4 text-ink-soft italic">
+                  {isEs ? item.quoteEs : item.quote}
+                </blockquote>
+                <div className="mt-5">
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={actionClass}
+                  >
+                    <ExternalIcon />
+                    {t("readArticle")}
+                    <span className="sr-only"> {t("newsOpensNewTab")}</span>
+                  </a>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Leadership. */}
@@ -238,15 +310,7 @@ export function MediaPageContent() {
               rel="noopener noreferrer"
               className="mt-6 inline-flex self-start items-center gap-2 rounded-xl border border-border px-4 py-2.5 font-display text-sm font-semibold text-teal-dark transition-colors hover:border-teal hover:bg-teal-tint hover:text-teal"
             >
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4 shrink-0">
-                <path
-                  d="M15 3h6v6M21 3l-8 8M10 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-4"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <ExternalIcon />
               {t("flyerViewFull")}
             </a>
           </div>
