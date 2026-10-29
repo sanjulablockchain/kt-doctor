@@ -185,6 +185,43 @@ describe("MediaPageContent USC flyer section", () => {
     expect(link.className).toContain("self-start");
   });
 
+  // Tany asked for the article to appear a second time, as a link at the top
+  // of the flyer's bullet list, since the flyer promoted the event it covers.
+  it("opens the bullet list with a link to the USC Campus Health article", () => {
+    render(<MediaPageContent />);
+    const flyer = screen.getByRole("region", { name: /USC partnership/i });
+    const items = flyer.querySelectorAll("ul > li");
+    expect(items).toHaveLength(uscFlyer.highlights.length + 1);
+
+    const article = newsCoverage.find((c) => c.id === uscFlyer.newsCoverageId)!;
+    const link = within(items[0] as HTMLElement).getByRole("link");
+    expect(link).toHaveAttribute("href", article.url);
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
+    expect(link).toHaveAccessibleName(/USC Campus Health News/);
+    expect(link).toHaveAccessibleName(/opens in a new tab/i);
+  });
+
+  it("keeps the article link bullet ahead of the first flyer highlight", () => {
+    render(<MediaPageContent />);
+    const flyer = screen.getByRole("region", { name: /USC partnership/i });
+    const link = within(flyer).getByRole("link", { name: /USC Campus Health News/ });
+    const firstHighlight = within(flyer).getByText(uscFlyer.highlights[0].text);
+    expect(
+      link.compareDocumentPosition(firstHighlight) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy();
+  });
+
+  it("renders the article link bullet in Spanish when locale is es", () => {
+    render(<MediaPageContent />, "es");
+    const flyer = screen.getByRole("region", { name: /alianza con USC/i });
+    const link = within(flyer).getByRole("link", { name: /Destacado en USC Campus Health News/ });
+    expect(link).toHaveAttribute(
+      "href",
+      newsCoverage.find((c) => c.id === uscFlyer.newsCoverageId)!.url
+    );
+  });
+
   it("renders the section heading and highlights in Spanish when locale is es", () => {
     render(<MediaPageContent />, "es");
     const flyer = screen.getByRole("region", { name: /alianza con USC/i });

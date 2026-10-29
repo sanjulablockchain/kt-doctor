@@ -32,6 +32,20 @@ function ExternalIcon() {
   );
 }
 
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="mt-1 h-4 w-4 shrink-0 text-teal-dark">
+      <path
+        d="m5 13 4 4L19 7"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function DownloadIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4 shrink-0">
@@ -53,6 +67,10 @@ export function MediaPageContent() {
 
   const release = pressReleases[0];
   const bio = pressBios[0];
+  // The USC benefits-fair article is shown twice at the client's request: as
+  // an item in the news section, and again as the first bullet of the USC
+  // flyer section, which is about the same event.
+  const uscNews = newsCoverage.find((item) => item.id === uscFlyer.newsCoverageId);
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
@@ -283,22 +301,25 @@ export function MediaPageContent() {
 
           <div className="flex min-w-0 flex-1 flex-col justify-center p-5 md:p-7">
             <ul className="flex flex-col gap-3.5">
+              {uscNews && (
+                <li className="flex gap-3 leading-relaxed text-ink-soft">
+                  <CheckIcon />
+                  <span>
+                    <a
+                      href={uscNews.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-teal-dark underline decoration-teal/40 underline-offset-4 hover:text-teal hover:decoration-teal"
+                    >
+                      {t("flyerNewsLink")}
+                      <span className="sr-only"> {t("newsOpensNewTab")}</span>
+                    </a>
+                  </span>
+                </li>
+              )}
               {uscFlyer.highlights.map((highlight) => (
                 <li key={highlight.text} className="flex gap-3 leading-relaxed text-ink-soft">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden
-                    className="mt-1 h-4 w-4 shrink-0 text-teal-dark"
-                  >
-                    <path
-                      d="m5 13 4 4L19 7"
-                      stroke="currentColor"
-                      strokeWidth="2.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <CheckIcon />
                   <span>{isEs ? highlight.textEs : highlight.text}</span>
                 </li>
               ))}
