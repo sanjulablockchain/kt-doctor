@@ -123,7 +123,12 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
         aria-labelledby="booking-options-heading"
         tabIndex={-1}
         onClick={(event) => event.stopPropagation()}
-        className="relative flex max-h-[90svh] w-full max-w-2xl flex-col overflow-y-auto rounded-2xl border border-border bg-surface shadow-card motion-safe:animate-[slide-up_300ms_ease-out] focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 focus:ring-offset-black/50"
+        // A squared-off landscape window: light rounding only, and wider
+        // while the two-column finder is showing so it reads as a
+        // rectangle rather than a tall column.
+        className={`relative flex max-h-[90svh] w-full flex-col overflow-y-auto rounded-lg border border-border bg-surface shadow-card motion-safe:animate-[slide-up_300ms_ease-out] focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 focus:ring-offset-black/50 ${
+          step === "finder" ? "max-w-4xl" : "max-w-2xl"
+        }`}
       >
         {/* Header bar */}
         <div className="flex items-center justify-between gap-3 border-b border-border bg-ivory px-4 py-3 sm:px-5">

@@ -47,21 +47,28 @@ describe("LessWaitingFinder", () => {
     );
   });
 
-  it("puts the shortest waits at the top of the list", () => {
+  it("puts the shortest waits at the top of the list without labelling them", () => {
     renderWithIntl(<LessWaitingFinder onBack={() => {}} onChoose={() => {}} />);
 
     const items = within(screen.getByRole("list", { name: /clinics/i })).getAllByRole("listitem");
-    const firstShort = items.findIndex((item) => /short wait/i.test(item.textContent ?? ""));
-    const firstLong = items.findIndex((item) => /busier/i.test(item.textContent ?? ""));
-    expect(firstShort).toBe(0);
-    expect(firstLong).toBeGreaterThan(firstShort);
-    expect(Object.values(clinicWaitLevels)).toContain("long");
+    const names = items.map((item) => within(item).getByRole("heading").textContent);
+    const levelOf = (name: string | null) =>
+      clinicWaitLevels[physicalClinics().find((l) => l.name === name)!.id];
+    expect(levelOf(names[0])).toBe("short");
+    expect(levelOf(names[names.length - 1])).toBe("long");
+
+    // The wait and open/closed badges were dropped: parents only see the order.
+    expect(screen.queryByText(/short wait|moderate wait|busier/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/open now|closed now/i)).not.toBeInTheDocument();
   });
 
-  it("shows whether each clinic is open right now", () => {
+  it("offers a Call link with each clinic's own number beside Book here", () => {
     renderWithIntl(<LessWaitingFinder onBack={() => {}} onChoose={() => {}} />);
 
-    expect(screen.getAllByText(/open now/i).length).toBeGreaterThan(0);
+    const camarillo = physicalClinics().find((l) => l.id === "camarillo")!;
+    const call = screen.getByRole("link", { name: /call camarillo/i });
+    expect(call).toHaveAttribute("href", "tel:+18054842818");
+    expect(call).toHaveTextContent(camarillo.phone);
   });
 
   it("narrows the list as the visitor types a city or ZIP", async () => {
@@ -81,8 +88,10 @@ describe("LessWaitingFinder", () => {
 
     await user.type(screen.getByRole("searchbox", { name: /city, zip/i }), "Bakersfield");
 
-    expect(screen.getByText(/no clinic matches/i)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /book online at any clinic/i })).toHaveAttribute(
+    // The default link moves into the empty state itself, so it is the next
+    // thing a parent sees rather than a footnote.
+    const empty = screen.getByRole("status", { name: /no clinic matches/i });
+    expect(within(empty).getByRole("link", { name: /book online at any clinic/i })).toHaveAttribute(
       "href",
       BOOKING_URL
     );
@@ -158,7 +167,9 @@ describe("LessWaitingFinder", () => {
       await user.click(screen.getByRole("button", { name: /use my location/i }));
     });
 
-    expect(screen.getByRole("status")).toHaveTextContent(/couldn't get your location/i);
+    expect(screen.getByRole("status", { name: /location/i })).toHaveTextContent(
+      /couldn't get your location/i
+    );
   });
 
   it("translates the finder copy", () => {
