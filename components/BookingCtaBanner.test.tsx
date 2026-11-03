@@ -19,9 +19,11 @@ describe("BookingCtaBanner", () => {
 
     await user.click(screen.getByRole("button", { name: /book an appointment/i }));
 
-    const book = within(screen.getByRole("dialog")).getByRole("link", {
-      name: /book online/i,
-    });
+    // Book online now opens the offices-with-less-waiting finder, whose
+    // fallback is the shared Healow link.
+    const dialog = within(screen.getByRole("dialog"));
+    await user.click(dialog.getByRole("button", { name: /book online/i }));
+    const book = dialog.getByRole("link", { name: /book online at any clinic/i });
     expect(book).toHaveAttribute("href", BOOKING_URL);
     expect(book).toHaveAttribute("target", "_blank");
     expect(book).toHaveAttribute("rel", "noopener noreferrer");

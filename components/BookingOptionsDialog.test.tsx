@@ -18,13 +18,49 @@ describe("BookingOptionsDialog", () => {
     expect(dialog).toHaveAccessibleName();
   });
 
-  it("offers booking online through the Healow booking site in a new tab", () => {
+  it("opens the offices-with-less-waiting finder when Book online is chosen", async () => {
     renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+    const user = userEvent.setup();
 
-    const bookLink = screen.getByRole("link", { name: /book online/i });
+    await user.click(screen.getByRole("button", { name: /book online/i }));
+
+    const dialog = within(screen.getByRole("dialog"));
+    expect(dialog.getByRole("list", { name: /clinics/i })).toBeInTheDocument();
+    expect(dialog.queryByRole("link", { name: /text us/i })).not.toBeInTheDocument();
+  });
+
+  it("keeps the Healow booking site one click away as the finder's fallback, in a new tab", async () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /book online/i }));
+
+    const bookLink = screen.getByRole("link", { name: /book online at any clinic/i });
     expect(bookLink).toHaveAttribute("href", HEALOW_URL);
     expect(bookLink).toHaveAttribute("target", "_blank");
     expect(bookLink).toHaveAttribute("rel", expect.stringContaining("noopener"));
+  });
+
+  it("returns from the finder to the three options with Back", async () => {
+    renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /book online/i }));
+    await user.click(screen.getByRole("button", { name: /back/i }));
+
+    expect(screen.getByRole("link", { name: /text us/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /book online/i })).toBeInTheDocument();
+  });
+
+  it("closes once a clinic is booked from the finder", async () => {
+    const onClose = vi.fn();
+    renderWithIntl(<BookingOptionsDialog onClose={onClose} />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /book online/i }));
+    await user.click(screen.getByRole("link", { name: /book online at any clinic/i }));
+
+    expect(onClose).toHaveBeenCalled();
   });
 
   it("offers texting the practice text line, showing the number to read", () => {
@@ -81,7 +117,7 @@ describe("BookingOptionsDialog", () => {
   it("singles out booking online as the quick option, leaving the other two level", () => {
     renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
 
-    expect(screen.getByRole("link", { name: /book online/i })).toHaveTextContent(
+    expect(screen.getByRole("button", { name: /book online/i })).toHaveTextContent(
       /under a minute/i
     );
     expect(screen.getByRole("link", { name: /text us/i })).not.toHaveTextContent(
@@ -108,7 +144,7 @@ describe("BookingOptionsDialog", () => {
     expect(screen.getByText(/su hijo puede ser atendido hoy/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /ahora no/i })).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /reservar en línea/i })
+      screen.getByRole("button", { name: /reservar en línea/i })
     ).toHaveTextContent(/en menos de un minuto/i);
   });
 
@@ -167,7 +203,7 @@ describe("BookingOptionsDialog", () => {
     renderWithIntl(<BookingOptionsDialog onClose={() => {}} />);
 
     const dialog = within(screen.getByRole("dialog"));
-    expect(dialog.getByRole("link", { name: /book online/i })).toBeInTheDocument();
+    expect(dialog.getByRole("button", { name: /book online/i })).toBeInTheDocument();
     expect(dialog.getByRole("link", { name: /text us/i })).toBeInTheDocument();
     expect(dialog.getByRole("link", { name: /361-5437/ })).toBeInTheDocument();
   });

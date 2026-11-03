@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithIntl as render } from "@/lib/test-utils";
-import { BOOKING_URL } from "@/lib/constants";
 import ServiceDetailPage, { generateStaticParams } from "./page";
 
 describe("ServiceDetailPage", () => {
@@ -35,10 +34,7 @@ describe("ServiceDetailPage", () => {
     await user.click(screen.getByRole("button", { name: /book an appointment/i }));
 
     const dialog = within(screen.getByRole("dialog"));
-    expect(dialog.getByRole("link", { name: /book online/i })).toHaveAttribute(
-      "href",
-      BOOKING_URL
-    );
+    expect(dialog.getByRole("button", { name: /book online/i })).toBeInTheDocument();
     expect(dialog.getByRole("link", { name: /text us/i })).toBeInTheDocument();
     expect(dialog.getByRole("link", { name: /361-5437/ })).toBeInTheDocument();
   });

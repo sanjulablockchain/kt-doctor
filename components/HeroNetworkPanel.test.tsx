@@ -36,10 +36,7 @@ describe("HeroNetworkPanel", () => {
     await user.click(screen.getByRole("button", { name: /book appointment/i }));
 
     const dialog = within(screen.getByRole("dialog"));
-    expect(dialog.getByRole("link", { name: /book online/i })).toHaveAttribute(
-      "href",
-      expect.stringContaining("healow.com")
-    );
+    expect(dialog.getByRole("button", { name: /book online/i })).toBeInTheDocument();
     expect(dialog.getByRole("link", { name: /text us/i })).toBeInTheDocument();
     expect(dialog.getByRole("link", { name: /361-5437/ })).toBeInTheDocument();
   });
