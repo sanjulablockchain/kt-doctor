@@ -101,7 +101,27 @@
     "callEyebrow": "Call",
     "callBody": "We'll find the soonest opening",
     "footerMeta": "Ages 0-21 · {categories} accepted",
-    "notNow": "Not now"
+    "notNow": "Not now",
+    "finder": {
+      "eyebrow": "Offices with less waiting",
+      "heading": "Same-day openings today, for less waiting",
+      "body": "Pick a quieter clinic and your child is seen sooner. Across {count} clinics.",
+      "searchLabel": "Search by city, ZIP code or clinic",
+      "searchPlaceholder": "City, ZIP code or clinic name",
+      "useMyLocation": "Use my location",
+      "locating": "Finding clinics near you",
+      "locationUnavailable": "We couldn't get your location. Search by city or ZIP code instead.",
+      "locationStatus": "Location status",
+      "listLabel": "Clinics, shortest wait first",
+      "milesAway": "{miles} mi away",
+      "bookHere": "Book here",
+      "bookAt": "Book at {name}",
+      "callAt": "Call {name}",
+      "noMatches": "No clinic matches that search. Try a nearby city, or book online at any clinic.",
+      "fallbackLead": "Can't find your office?",
+      "fallbackCta": "Book online at any clinic",
+      "back": "Back"
+    }
   },
   "DonateTab": {
     "label": "Donate",

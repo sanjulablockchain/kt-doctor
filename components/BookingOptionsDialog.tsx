@@ -1,18 +1,22 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
-import { BOOKING_URL, MAIN_PHONE, SITE_NAME, TEXT_PHONE } from "@/lib/constants";
+import { MAIN_PHONE, SITE_NAME, TEXT_PHONE } from "@/lib/constants";
 import { locations } from "@/data/locations";
 import { insuranceInfo } from "@/data/insurance";
 import { toE164 } from "@/lib/phone";
 import { withBasePath } from "@/lib/basePath";
+import { LessWaitingFinder } from "@/components/LessWaitingFinder";
 
 type BookingOption = {
   key: string;
-  href: string;
+  /** Where the option goes. Omitted when `onSelect` moves within the dialog. */
+  href?: string;
+  /** Stays inside the dialog instead of leaving the page. */
+  onSelect?: () => void;
   /** Small uppercase label above the title. */
   eyebrow: string;
   title: string;
@@ -28,12 +32,18 @@ type BookingOption = {
 // row of options, and a footer of practice facts. Booking online is the only
 // highlighted option - texting and calling sit level beside it.
 //
+// Booking online no longer jumps straight to Healow: it opens a second step
+// inside the same window, the offices-with-less-waiting finder, which links
+// each clinic to its own Healow facility page and keeps the shared Healow
+// link as the fallback. Texting and calling are unchanged.
+//
 // Rendered only while open: the caller mounts it and owns the open state, so
 // there is never a hidden dialog in the DOM. Reuses EntryPopup's dialog
 // behaviour (Escape, backdrop click, body-scroll lock, focus into the panel).
 export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
   const t = useTranslations("BookingDialog");
   const panelRef = useRef<HTMLDivElement>(null);
+  const [step, setStep] = useState<"options" | "finder">("options");
 
   // Scroll lock and the initial focus move belong to the dialog being open at
   // all, so they run once per mount. Keeping them out of the Escape effect
@@ -64,8 +74,7 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
   const options: BookingOption[] = [
     {
       key: "book",
-      href: BOOKING_URL,
-      external: true,
+      onSelect: () => setStep("finder"),
       highlighted: true,
       eyebrow: t("bookEyebrow"),
       title: t("bookTitle"),
@@ -114,7 +123,12 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
         aria-labelledby="booking-options-heading"
         tabIndex={-1}
         onClick={(event) => event.stopPropagation()}
-        className="relative flex max-h-[90svh] w-full max-w-2xl flex-col overflow-y-auto rounded-2xl border border-border bg-surface shadow-card motion-safe:animate-[slide-up_300ms_ease-out] focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 focus:ring-offset-black/50"
+        // A squared-off landscape window: light rounding only, and wider
+        // while the two-column finder is showing so it reads as a
+        // rectangle rather than a tall column.
+        className={`relative flex max-h-[90svh] w-full flex-col overflow-y-auto rounded-lg border border-border bg-surface shadow-card motion-safe:animate-[slide-up_300ms_ease-out] focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 focus:ring-offset-black/50 ${
+          step === "finder" ? "max-w-4xl" : "max-w-2xl"
+        }`}
       >
         {/* Header bar */}
         <div className="flex items-center justify-between gap-3 border-b border-border bg-ivory px-4 py-3 sm:px-5">
@@ -155,51 +169,69 @@ export function BookingOptionsDialog({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        {/* Options */}
-        <div className="flex flex-col gap-3.5 px-4 pb-5 pt-4 sm:px-5">
-          <div className="flex items-center gap-2.5">
-            <span className="font-display text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-ink-soft">
-              {t("urgencyEyebrow")}
-            </span>
-            <span aria-hidden className="h-px flex-1 border-t border-dotted border-border" />
-          </div>
+        {step === "finder" ? (
+          <LessWaitingFinder onBack={() => setStep("options")} onChoose={onClose} />
+        ) : (
+          /* Options */
+          <div className="flex flex-col gap-3.5 px-4 pb-5 pt-4 sm:px-5">
+            <div className="flex items-center gap-2.5">
+              <span className="font-display text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-ink-soft">
+                {t("urgencyEyebrow")}
+              </span>
+              <span aria-hidden className="h-px flex-1 border-t border-dotted border-border" />
+            </div>
 
-          {/* Booking online gets the wider column from `sm` up: its copy is
-              the longest and it is the option we steer toward. */}
-          <div className="grid gap-3 sm:grid-cols-[1.3fr_1fr_1fr]">
-            {options.map((option) => (
-              <a
-                key={option.key}
-                href={option.href}
-                {...(option.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                onClick={onClose}
-                className={`flex flex-col gap-1.5 rounded-xl p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 ${
+            {/* Booking online gets the wider column from `sm` up: its copy is
+                the longest and it is the option we steer toward. */}
+            <div className="grid gap-3 sm:grid-cols-[1.3fr_1fr_1fr]">
+              {options.map((option) => {
+                const className = `flex w-full flex-col gap-1.5 rounded-xl p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 ${
                   option.highlighted
                     ? "border-[1.5px] border-teal bg-teal-tint"
                     : "border border-border bg-ivory hover:border-teal"
-                }`}
-              >
-                <span
-                  className={`font-display text-[0.7rem] font-bold uppercase tracking-[0.06em] ${
-                    option.highlighted ? "text-teal-dark" : "text-ink-soft"
-                  }`}
-                >
-                  {option.eyebrow}
-                </span>
-                <span
-                  className={`font-display text-base font-bold text-ink ${
-                    option.nowrapTitle ? "whitespace-nowrap" : ""
-                  }`}
-                >
-                  {option.title}
-                </span>
-                <span className="text-[0.8125rem] text-ink-soft">{option.body}</span>
-              </a>
-            ))}
+                }`;
+                const content = (
+                  <>
+                    <span
+                      className={`font-display text-[0.7rem] font-bold uppercase tracking-[0.06em] ${
+                        option.highlighted ? "text-teal-dark" : "text-ink-soft"
+                      }`}
+                    >
+                      {option.eyebrow}
+                    </span>
+                    <span
+                      className={`font-display text-base font-bold text-ink ${
+                        option.nowrapTitle ? "whitespace-nowrap" : ""
+                      }`}
+                    >
+                      {option.title}
+                    </span>
+                    <span className="text-[0.8125rem] text-ink-soft">{option.body}</span>
+                  </>
+                );
+
+                // An in-dialog step is a button; leaving the page is a link.
+                return option.onSelect ? (
+                  <button key={option.key} type="button" onClick={option.onSelect} className={className}>
+                    {content}
+                  </button>
+                ) : (
+                  <a
+                    key={option.key}
+                    href={option.href}
+                    {...(option.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    onClick={onClose}
+                    className={className}
+                  >
+                    {content}
+                  </a>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Footer bar */}
         <div className="flex flex-col gap-3 border-t border-border bg-ivory px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">

@@ -29,7 +29,7 @@ describe("BookAppointmentButton", () => {
     await user.click(screen.getByRole("button", { name: "Book" }));
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /book online/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /book online/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /text us/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /361-5437/ })).toBeInTheDocument();
   });

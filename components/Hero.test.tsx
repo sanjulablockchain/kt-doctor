@@ -5,7 +5,6 @@ import { renderWithIntl as render } from "@/lib/test-utils";
 import { Hero } from "./Hero";
 import { locations } from "@/data/locations";
 import { partners } from "@/data/partners";
-import { BOOKING_URL } from "@/lib/constants";
 
 // The slide 1 ("Care today") panel, which is the one showing on load.
 function careSlide() {
@@ -14,7 +13,7 @@ function careSlide() {
 
 async function expectBookingChooser() {
   const dialog = within(screen.getByRole("dialog"));
-  expect(dialog.getByRole("link", { name: /book online/i })).toHaveAttribute("href", BOOKING_URL);
+  expect(dialog.getByRole("button", { name: /book online/i })).toBeInTheDocument();
   expect(dialog.getByRole("link", { name: /text us/i })).toBeInTheDocument();
   expect(dialog.getByRole("link", { name: /361-5437/ })).toBeInTheDocument();
 }

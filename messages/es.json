@@ -101,7 +101,27 @@
     "callEyebrow": "Llamar",
     "callBody": "Le buscaremos la cita más pronta",
     "footerMeta": "Edades 0-21 · Aceptamos {categories}",
-    "notNow": "Ahora no"
+    "notNow": "Ahora no",
+    "finder": {
+      "eyebrow": "Oficinas con menos espera",
+      "heading": "Citas disponibles hoy, con menos espera",
+      "body": "Elija una clínica más tranquila y su hijo será atendido antes. En {count} clínicas.",
+      "searchLabel": "Buscar por ciudad, código postal o clínica",
+      "searchPlaceholder": "Ciudad, código postal o nombre de la clínica",
+      "useMyLocation": "Usar mi ubicación",
+      "locating": "Buscando clínicas cerca de usted",
+      "locationUnavailable": "No pudimos obtener su ubicación. Busque por ciudad o código postal.",
+      "locationStatus": "Estado de la ubicación",
+      "listLabel": "Clínicas, de menor a mayor espera",
+      "milesAway": "A {miles} mi",
+      "bookHere": "Reservar aquí",
+      "bookAt": "Reservar en {name}",
+      "callAt": "Llamar a {name}",
+      "noMatches": "Ninguna clínica coincide con esa búsqueda. Pruebe una ciudad cercana o reserve en línea en cualquier clínica.",
+      "fallbackLead": "¿No encuentra su oficina?",
+      "fallbackCta": "Reservar en línea en cualquier clínica",
+      "back": "Atrás"
+    }
   },
   "DonateTab": {
     "label": "Donar",

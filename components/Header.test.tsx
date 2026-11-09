@@ -92,10 +92,7 @@ describe("Header", () => {
     // Scoped to the dialog: the header carries its own call/text icon links,
     // which would otherwise match these names too.
     const dialog = within(screen.getByRole("dialog"));
-    expect(dialog.getByRole("link", { name: /book online/i })).toHaveAttribute(
-      "href",
-      "https://healow.com/apps/practice/janesri-de-silva-md-a-prof-corp-dba-kids-and-teens-medical-group-25634?v=2&t=2"
-    );
+    expect(dialog.getByRole("button", { name: /book online/i })).toBeInTheDocument();
     expect(dialog.getByRole("link", { name: /text us/i })).toHaveAttribute(
       "href",
       "sms:+16262987121"
