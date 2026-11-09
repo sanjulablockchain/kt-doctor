@@ -282,9 +282,9 @@ describe("Header", () => {
   it("renders the color theme toggle", () => {
     renderWithIntl(<Header />);
     expect(screen.getByRole("group", { name: /color theme/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "System" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Light" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Dark" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "System" })).not.toBeInTheDocument();
   });
 
   it("renders a Telehealth link in the More menu to /services/telehealth", () => {

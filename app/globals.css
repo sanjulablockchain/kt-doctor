@@ -7,13 +7,14 @@
   action color from the clinic crest, warm gold for trust/rating accents.
 
   Theming: each token is defined once with light-dark(<light>, <dark>). The
-  applied theme is driven by `color-scheme` — :root declares `light dark`
-  (follow the OS by default) and an explicit choice sets `color-scheme` via
-  the [data-theme] attribute on <html> (see ThemeProvider). All light-mode
-  values below are unchanged from before dark mode.
+  applied theme is driven by `color-scheme`: :root is `light`, so the site is
+  light for everyone by default regardless of the OS setting, and choosing
+  Dark in the header sets [data-theme="dark"] on <html> (see ThemeProvider),
+  which flips `color-scheme` and therefore every light-dark() token at once.
+  All light-mode values below are unchanged from before dark mode.
 */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
   --color-ivory: light-dark(#f8fafc, #0f141a);
   --color-ivory-deep: light-dark(#eef2f6, #1b232e);
@@ -42,11 +43,8 @@
   --shadow-header: 0 1px 0 0 light-dark(rgb(18 24 31 / 0.04), rgb(0 0 0 / 0.5));
 }
 
-/* Explicit override: a pinned choice forces color-scheme, which is what
-   light-dark() resolves against. System = no attribute = inherit `light dark`. */
-:root[data-theme="light"] {
-  color-scheme: light;
-}
+/* The dark choice forces color-scheme, which is what light-dark() resolves
+   against. No attribute = the light default above. */
 :root[data-theme="dark"] {
   color-scheme: dark;
 }
@@ -158,22 +156,12 @@ h4 {
   Theme-aware logo swap, for a NetworkCard partner logo whose ink is near-black
   and would vanish on the dark card surface (see NetworkBrand.logoDarkSrc in
   data/network.ts). light-dark() can't switch a url(), so the two variants are
-  toggled here. This mirrors the exact resolution the rest of the app gets from
-  `color-scheme: light dark` + [data-theme] (see ThemeProvider): system
-  preference via the media query, an explicit choice via the attribute, with
-  the explicit choice winning. Both are always in the DOM so the swap is
+  toggled here off the same [data-theme="dark"] attribute that drives every
+  other token (see ThemeProvider). Both are always in the DOM so the swap is
   flash-free (the server can't know the theme).
 */
 .logo-dark {
   display: none;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .logo-light {
-    display: none;
-  }
-  :root:not([data-theme="light"]) .logo-dark {
-    display: block;
-  }
 }
 :root[data-theme="dark"] .logo-light {
   display: none;
@@ -329,18 +317,12 @@ h4 {
    anything else happens. What is left is a neutral grey basemap in both
    themes, which leaves teal as the only real color on the map and lets the
    pins carry it. The filter is scoped to Leaflet's tile pane, so markers,
-   popups and controls keep their true colors. The three rules below mirror
-   the color-scheme cascade at the top of this file: system default, system
-   dark, then an explicit [data-theme] choice, which wins in both
-   directions. */
+   popups and controls keep their true colors. The two rules below mirror
+   the color-scheme cascade at the top of this file: light by default, dark
+   when [data-theme="dark"] is set. */
 :root {
   --map-tile-dark: grayscale(1) invert(1) brightness(0.86) contrast(0.9);
   --map-tile-filter: grayscale(1) contrast(1.06) brightness(1.02);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --map-tile-filter: var(--map-tile-dark);
-  }
 }
 :root[data-theme="dark"] {
   --map-tile-filter: var(--map-tile-dark);

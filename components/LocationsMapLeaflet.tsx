@@ -17,8 +17,8 @@ type LocationsMapLeafletProps = {
    serves to an anonymous request.) OSM publishes no dark basemap, so dark
    mode reuses these same tiles and inverts them in CSS rather than swapping
    the URL - see --map-tile-filter in app/globals.css, which hangs off the
-   same [data-theme] / prefers-color-scheme signals as every other themed
-   token, so the map needs no theme code of its own. */
+   same [data-theme="dark"] attribute as every other themed token, so the map
+   needs no theme code of its own. */
 const TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 const TILE_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';

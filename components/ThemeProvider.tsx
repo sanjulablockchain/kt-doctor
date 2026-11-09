@@ -2,7 +2,9 @@
 
 import { createContext, useCallback, useContext, useSyncExternalStore } from "react";
 
-export type ThemePreference = "system" | "light" | "dark";
+// Light is the default for everyone, whatever the OS says; dark is opt-in via
+// the header toggle and remembered in localStorage.
+export type ThemePreference = "light" | "dark";
 
 type ThemeContextValue = {
   preference: ThemePreference;
@@ -14,26 +16,27 @@ const STORAGE_KEY = "theme";
 // Safe default so components (e.g. Header in isolation tests) can call
 // useTheme() without an explicit provider. The real provider overrides it.
 const ThemeContext = createContext<ThemeContextValue>({
-  preference: "system",
+  preference: "light",
   setPreference: () => {},
 });
 
 function readStoredPreference(): ThemePreference {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "light" || stored === "dark") return stored;
+    if (localStorage.getItem(STORAGE_KEY) === "dark") return "dark";
   } catch {
-    // localStorage can throw (privacy mode / disabled) — fall back to system.
+    // localStorage can throw (privacy mode / disabled); fall back to light.
   }
-  return "system";
+  return "light";
 }
 
+// Light is the no-attribute default in globals.css, so only dark is written
+// to the DOM. This keeps the boot script in app/[locale]/layout.tsx trivial.
 function applyPreference(preference: ThemePreference) {
   const root = document.documentElement;
-  if (preference === "system") {
-    root.removeAttribute("data-theme");
+  if (preference === "dark") {
+    root.setAttribute("data-theme", "dark");
   } else {
-    root.setAttribute("data-theme", preference);
+    root.removeAttribute("data-theme");
   }
 }
 
@@ -62,7 +65,7 @@ function getServerSnapshot(): ThemePreference {
   // Deterministic on the server and for the first (hydration) client render so
   // they match. The pre-paint inline script (root layout) has already applied
   // the real theme to <html>, so nothing flashes while this reconciles.
-  return "system";
+  return "light";
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -70,8 +73,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const setPreference = useCallback((next: ThemePreference) => {
     try {
-      if (next === "system") localStorage.removeItem(STORAGE_KEY);
-      else localStorage.setItem(STORAGE_KEY, next);
+      if (next === "dark") localStorage.setItem(STORAGE_KEY, "dark");
+      else localStorage.removeItem(STORAGE_KEY);
     } catch {
       // Ignore storage failures; the DOM still updates below.
     }
