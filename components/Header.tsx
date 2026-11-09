@@ -107,8 +107,10 @@ export function Header() {
       />
 
       {/* Height comes from the --header-h token rather than padding so the Hero
-          can subtract an exact number from 100svh. `items-center` keeps the
-          crest optically identical to the previous `sm:py-2.5` sizing. */}
+          can subtract an exact number from 100svh. The crest is the tallest
+          thing in the row (h-20 from `sm` up, h-12 on phones), so the token in
+          globals.css is sized as crest height plus breathing room; change the
+          two together. `items-center` vertically centres everything else. */}
       <div className="relative mx-auto flex h-[var(--header-h,4rem)] max-w-7xl items-center justify-between gap-3 px-5 sm:gap-6 sm:px-8">
         <Link href="/" className="flex shrink-0 items-center">
           <Image
@@ -116,7 +118,7 @@ export function Header() {
             alt="Kids & Teens Medical Group"
             width={300}
             height={262}
-            className="h-9 w-auto min-[375px]:h-11 sm:h-12"
+            className="h-10 w-auto min-[375px]:h-12 sm:h-20"
             priority
             unoptimized
           />

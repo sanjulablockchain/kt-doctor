@@ -141,7 +141,7 @@ export function DoctorsPageContent() {
 
       <p
         ref={resultsRef}
-        className="mt-6 scroll-mt-24 text-sm font-medium text-ink-soft"
+        className="mt-6 scroll-mt-[calc(var(--header-h,4rem)+1.5rem)] text-sm font-medium text-ink-soft"
       >
         {t("showingProviders", { filtered: filtered.length, total: doctors.length })}
       </p>

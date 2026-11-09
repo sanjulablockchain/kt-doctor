@@ -396,14 +396,16 @@ h4 {
 /* Height of the sticky <header>, published as a token so the Hero can size
    itself to exactly one screenful below it (`calc(100svh - var(--header-h))`).
    The header row consumes the same token, so the two can never drift apart.
-   Mobile is the 4rem bar; from `sm` up the crest logo (h-12) plus its 10px of
-   breathing room on each side is the tallest thing in the row. */
+   The crest logo is the tallest thing in the row at every breakpoint: on phones
+   it is h-12 (3rem) inside the 4rem bar; from `sm` up it is h-20 (5rem) plus
+   10px of breathing room on each side. Keep these in step with the crest's
+   size classes in components/Header.tsx. */
 :root {
   --header-h: 4rem;
 }
 
 @media (min-width: 40rem) {
   :root {
-    --header-h: 4.25rem;
+    --header-h: 6.25rem;
   }
 }
