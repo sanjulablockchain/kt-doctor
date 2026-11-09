@@ -282,9 +282,9 @@ describe("Header", () => {
   it("renders the color theme toggle", () => {
     renderWithIntl(<Header />);
     expect(screen.getByRole("group", { name: /color theme/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "System" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Light" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Dark" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "System" })).not.toBeInTheDocument();
   });
 
   it("renders a Telehealth link in the More menu to /services/telehealth", () => {
@@ -319,6 +319,15 @@ describe("Header", () => {
     const row = container.querySelector("header .max-w-7xl");
     expect(row?.className).toContain("h-[var(--header-h,4rem)]");
     expect(row?.className).not.toContain("sm:h-auto");
+  });
+
+  it("renders the crest at h-20 from sm up and h-12 on phones, matching --header-h in globals.css", () => {
+    renderWithIntl(<Header />);
+    const crest = screen.getByRole("img", { name: "Kids & Teens Medical Group" });
+    expect(crest.className).toContain("sm:h-20");
+    expect(crest.className).toContain("min-[375px]:h-12");
+    expect(crest.className).toContain("w-auto");
+    expect(crest.className).not.toContain("sm:h-12");
   });
 
   it("hangs the mobile drawer off the same --header-h token as the header row", () => {

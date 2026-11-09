@@ -22,17 +22,18 @@ describe("ThemeToggle", () => {
     document.documentElement.removeAttribute("data-theme");
   });
 
-  it("renders System, Light, and Dark options within a labeled group", () => {
+  it("renders only Light and Dark options within a labeled group", () => {
     renderToggle();
     expect(screen.getByRole("group", { name: /color theme/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "System" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Light" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Dark" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "System" })).not.toBeInTheDocument();
+    expect(screen.getAllByRole("button")).toHaveLength(2);
   });
 
-  it("marks System pressed by default", () => {
+  it("marks Light pressed by default", () => {
     renderToggle();
-    expect(screen.getByRole("button", { name: "System" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "Light" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("button", { name: "Dark" })).toHaveAttribute("aria-pressed", "false");
   });
 
@@ -40,15 +41,16 @@ describe("ThemeToggle", () => {
     renderToggle();
     await userEvent.click(screen.getByRole("button", { name: "Dark" }));
     expect(screen.getByRole("button", { name: "Dark" })).toHaveAttribute("aria-pressed", "true");
-    expect(screen.getByRole("button", { name: "System" })).toHaveAttribute("aria-pressed", "false");
+    expect(screen.getByRole("button", { name: "Light" })).toHaveAttribute("aria-pressed", "false");
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
     expect(localStorage.getItem("theme")).toBe("dark");
   });
 
-  it("selecting System removes the data-theme attribute", async () => {
+  it("selecting Light removes the data-theme attribute and the stored value", async () => {
     renderToggle();
     await userEvent.click(screen.getByRole("button", { name: "Dark" }));
-    await userEvent.click(screen.getByRole("button", { name: "System" }));
+    await userEvent.click(screen.getByRole("button", { name: "Light" }));
     expect(document.documentElement.hasAttribute("data-theme")).toBe(false);
+    expect(localStorage.getItem("theme")).toBe(null);
   });
 });

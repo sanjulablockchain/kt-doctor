@@ -25,7 +25,6 @@
   },
   "ThemeToggle": {
     "label": "Tema de color",
-    "system": "Sistema",
     "light": "Claro",
     "dark": "Oscuro"
   },

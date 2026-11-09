@@ -3,15 +3,6 @@
 import { useTranslations } from "next-intl";
 import { useTheme, type ThemePreference } from "./ThemeProvider";
 
-function SystemIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4">
-      <rect x="3" y="4" width="18" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M8 20h8M12 16v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 function SunIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-4 w-4">
@@ -40,7 +31,6 @@ function MoonIcon() {
 }
 
 const OPTIONS: { value: ThemePreference; Icon: () => React.JSX.Element }[] = [
-  { value: "system", Icon: SystemIcon },
   { value: "light", Icon: SunIcon },
   { value: "dark", Icon: MoonIcon },
 ];
