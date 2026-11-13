@@ -30,6 +30,42 @@ describe("LegalPageContent", () => {
     ).toBeInTheDocument();
   });
 
+  it("renders the SMS privacy policy with its effective date and STOP opt-out", () => {
+    render(<LegalPageContent doc="smsPrivacy" />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "SMS Privacy Policy" })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "1. Introduction" })).toBeInTheDocument();
+    expect(screen.getByText(/Effective Date: November 12, 2026/)).toBeInTheDocument();
+    expect(screen.getByText(/by replying STOP to any SMS message/)).toBeInTheDocument();
+  });
+
+  it("renders the SMS terms with a link to the SMS privacy policy", () => {
+    render(<LegalPageContent doc="smsTerms" />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "SMS Terms and Conditions" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 2, name: "10. Medical Emergencies" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "www.ktdoctor.com/sms-privacy-policy" })
+    ).toHaveAttribute("href", "/sms-privacy-policy");
+  });
+
+  it("keeps the Spanish locale on SMS page links", () => {
+    render(<LegalPageContent doc="smsTerms" />, "es");
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Términos y Condiciones de SMS" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "www.ktdoctor.com/sms-privacy-policy" })
+    ).toHaveAttribute("href", "/es/sms-privacy-policy");
+  });
+
   it("renders Spanish content in the es locale", () => {
     render(<LegalPageContent doc="privacy" />, "es");
 

@@ -50,6 +50,14 @@ describe("Footer", () => {
       "href",
       "/terms-and-conditions"
     );
+    expect(screen.getByRole("link", { name: "SMS Privacy Policy" })).toHaveAttribute(
+      "href",
+      "/sms-privacy-policy"
+    );
+    expect(screen.getByRole("link", { name: "SMS Terms & Conditions" })).toHaveAttribute(
+      "href",
+      "/sms-terms-and-conditions"
+    );
     expect(screen.getByRole("link", { name: "Same-Day Appointments" })).toHaveAttribute(
       "href",
       "/services/same-day-appointments"
@@ -83,10 +91,11 @@ describe("Footer", () => {
 
   it("uses the Spanish text line when rendered in the es locale", () => {
     render(<Footer />, "es");
-    expect(screen.getByRole("link", { name: /818\) 423-5637/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /626\) 298-7121/ })).toHaveAttribute(
       "href",
-      "sms:+18184235637"
+      "sms:+16262987121"
     );
+    expect(screen.queryByText(/423-5637/)).not.toBeInTheDocument();
   });
 
   it("renders a Telehealth link in the For Patients column", () => {

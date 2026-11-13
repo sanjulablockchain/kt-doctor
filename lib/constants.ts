@@ -12,7 +12,8 @@ export const PATIENT_PORTAL_URL =
 
 export const MAIN_PHONE = "(818) 361-5437";
 export const TEXT_PHONE = "(626) 298-7121";
-export const TEXT_PHONE_ES = "(818) 423-5637";
+// Spanish texts go to the same line as English (client decision, 2026-11-13).
+export const TEXT_PHONE_ES = TEXT_PHONE;
 export const AFTER_HOURS_PHONE = "(818) 280-4268";
 export const GENERAL_EMAIL = "customerservice@ktdoctor.com";
 

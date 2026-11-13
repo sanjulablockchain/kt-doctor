@@ -14,8 +14,16 @@ export type LegalListItem = {
   textEs: string;
 };
 
+// A link rendered after a paragraph's text. `href` is a site path (e.g.
+// "/sms-privacy-policy") so the visitor's locale is kept.
+export type LegalLink = {
+  href: string;
+  text: string;
+  textEs: string;
+};
+
 export type LegalBlock =
-  | { type: "paragraph"; text: string; textEs: string }
+  | { type: "paragraph"; text: string; textEs: string; link?: LegalLink }
   | { type: "list"; items: LegalListItem[] };
 
 export type LegalSection = {
@@ -26,7 +34,8 @@ export type LegalSection = {
 
 export type LegalDocument = {
   effectiveDate: string; // ISO date
-  intro: { text: string; textEs: string };
+  // Optional: some documents open straight into a numbered "1." section.
+  intro?: { text: string; textEs: string };
   sections: LegalSection[];
 };
 

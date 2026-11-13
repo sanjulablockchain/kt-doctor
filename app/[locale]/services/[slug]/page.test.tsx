@@ -163,14 +163,13 @@ describe("ServiceDetailPage", () => {
       "href",
       "tel:+18183615437"
     );
-    expect(screen.getByRole("link", { name: /626\) 298-7121/ })).toHaveAttribute(
-      "href",
-      "sms:+16262987121"
-    );
-    expect(screen.getByRole("link", { name: /818\) 423-5637/ })).toHaveAttribute(
-      "href",
-      "sms:+18184235637"
-    );
+    // English and Spanish text rows share one line.
+    const textLinks = screen.getAllByRole("link", { name: /626\) 298-7121/ });
+    expect(textLinks).toHaveLength(2);
+    for (const link of textLinks) {
+      expect(link).toHaveAttribute("href", "sms:+16262987121");
+    }
+    expect(screen.queryByText(/423-5637/)).not.toBeInTheDocument();
   });
 
   it("renders no benefits or schedule sections for a plain service", async () => {

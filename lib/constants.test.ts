@@ -5,6 +5,7 @@ import {
   PATIENT_PORTAL_URL,
   MAIN_PHONE,
   TEXT_PHONE,
+  TEXT_PHONE_ES,
   GENERAL_EMAIL,
 } from "./constants";
 
@@ -29,5 +30,9 @@ describe("constants", () => {
     expect(MAIN_PHONE).toBe("(818) 361-5437");
     expect(TEXT_PHONE).toBe("(626) 298-7121");
     expect(GENERAL_EMAIL).toBe("customerservice@ktdoctor.com");
+  });
+
+  it("routes Spanish texts to the same line as English", () => {
+    expect(TEXT_PHONE_ES).toBe("(626) 298-7121");
   });
 });

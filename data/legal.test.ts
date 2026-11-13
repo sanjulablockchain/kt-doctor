@@ -1,20 +1,24 @@
 import { describe, it, expect } from "vitest";
 import { privacyPolicy, termsAndConditions, type LegalDocument } from "./legal";
+import { smsPrivacyPolicy, smsTermsAndConditions } from "./smsLegal";
 
 const documents: Array<[string, LegalDocument]> = [
   ["privacyPolicy", privacyPolicy],
   ["termsAndConditions", termsAndConditions],
+  ["smsPrivacyPolicy", smsPrivacyPolicy],
+  ["smsTermsAndConditions", smsTermsAndConditions],
 ];
 
 // Collect every user-facing string in a document so we can assert style rules
 // (e.g. no em dashes) across the whole thing at once.
 function allStrings(doc: LegalDocument): string[] {
-  const out: string[] = [doc.intro.text, doc.intro.textEs];
+  const out: string[] = doc.intro ? [doc.intro.text, doc.intro.textEs] : [];
   for (const section of doc.sections) {
     out.push(section.heading, section.headingEs);
     for (const block of section.blocks) {
       if (block.type === "paragraph") {
         out.push(block.text, block.textEs);
+        if (block.link) out.push(block.link.text, block.link.textEs);
       } else {
         for (const item of block.items) {
           out.push(item.text, item.textEs);
@@ -28,9 +32,28 @@ function allStrings(doc: LegalDocument): string[] {
 }
 
 describe.each(documents)("legal document: %s", (_name, doc) => {
-  it("has an intro with English and Spanish text", () => {
+  it("has English and Spanish intro text when it has an intro", () => {
+    if (!doc.intro) return;
     expect(doc.intro.text.length).toBeGreaterThan(20);
     expect(doc.intro.textEs.length).toBeGreaterThan(20);
+  });
+
+  it("has numbered section headings in order, matching in both languages", () => {
+    doc.sections.forEach((section, i) => {
+      expect(section.heading.startsWith(`${i + 1}. `)).toBe(true);
+      expect(section.headingEs.startsWith(`${i + 1}. `)).toBe(true);
+    });
+  });
+
+  it("links only to site paths, with an English and Spanish label", () => {
+    for (const section of doc.sections) {
+      for (const block of section.blocks) {
+        if (block.type !== "paragraph" || !block.link) continue;
+        expect(block.link.href.startsWith("/")).toBe(true);
+        expect(block.link.text.length).toBeGreaterThan(0);
+        expect(block.link.textEs.length).toBeGreaterThan(0);
+      }
+    }
   });
 
   it("has a valid ISO effective date", () => {

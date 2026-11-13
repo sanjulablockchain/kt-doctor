@@ -58,6 +58,8 @@
     "telehealth": "Telehealth",
     "privacyPolicy": "Privacy Policy",
     "termsAndConditions": "Terms & Conditions",
+    "smsPrivacyPolicy": "SMS Privacy Policy",
+    "smsTermsAndConditions": "SMS Terms & Conditions",
     "rights": "All rights reserved.",
     "contact": "Contact"
   },
@@ -65,6 +67,8 @@
     "eyebrow": "Legal",
     "privacyTitle": "Privacy Policy",
     "termsTitle": "Terms and Conditions",
+    "smsPrivacyTitle": "SMS Privacy Policy",
+    "smsTermsTitle": "SMS Terms and Conditions",
     "effectiveLabel": "Effective Date",
     "backToHome": "Back to Home"
   },
@@ -700,6 +704,14 @@
     "termsAndConditions": {
       "title": "Terms and Conditions",
       "description": "The terms and conditions governing your use of the Kids & Teens Medical Group website."
+    },
+    "smsPrivacyPolicy": {
+      "title": "SMS Privacy Policy",
+      "description": "How Kids & Teens Medical Group collects, uses, and protects information related to its text messaging program, and how to opt out."
+    },
+    "smsTermsAndConditions": {
+      "title": "SMS Terms and Conditions",
+      "description": "Terms for the Kids & Teens Medical Group text messaging program: message types, frequency, rates, and how to reply STOP or HELP."
     },
     "testimonials": {
       "title": "Testimonials",
