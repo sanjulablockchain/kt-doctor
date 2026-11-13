@@ -34,7 +34,7 @@ export const stories: Story[] = [
     title: "Flu, RSV and COVID Season: When to Bring Your Child In",
     titleEs: "Temporada de Gripe, VRS y COVID: Cuándo Traer a su Hijo a Consulta",
     date: "November 13, 2026",
-    imageSrc: "/blog-cold-flu-rsv-season-2026-placeholder.png",
+    imageSrc: "/blog-cold-flu-rsv-season-2026.png",
     excerpt:
       "Coughs, fevers and runny noses are everywhere this time of year. Here is how to tell when your child can rest at home, when to see a pediatrician, and when to get emergency care.",
     excerptEs:
@@ -90,7 +90,7 @@ export const stories: Story[] = [
     title: "Traveling With Kids This Holiday Season: A Parent's Health Checklist",
     titleEs: "Viajar con Niños Esta Temporada Navideña: Una Lista de Salud para Padres",
     date: "November 13, 2026",
-    imageSrc: "/blog-holiday-travel-health-checklist-placeholder.png",
+    imageSrc: "/blog-holiday-travel-health-checklist.png",
     excerpt:
       "Holiday trips mean new places, long days and lots of people. A little planning before you leave can keep your family healthy and help you handle the bumps along the way.",
     excerptEs:
