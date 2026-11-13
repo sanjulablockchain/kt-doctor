@@ -90,9 +90,14 @@ export default async function BlogPostPage({
             <h2 className="font-display text-xl font-bold text-ink">
               {locale === "es" ? section.headingEs : section.heading}
             </h2>
-            <p className="mt-2 text-ink-soft">
-              {locale === "es" ? section.bodyEs : section.body}
-            </p>
+            {/* A blank line ("\n\n") in the body starts a new paragraph. */}
+            {(locale === "es" ? section.bodyEs : section.body)
+              .split("\n\n")
+              .map((paragraph, i) => (
+                <p key={i} className={`${i === 0 ? "mt-2" : "mt-3"} text-ink-soft`}>
+                  {paragraph}
+                </p>
+              ))}
           </div>
         ))}
       </div>

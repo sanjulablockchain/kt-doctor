@@ -453,7 +453,8 @@ export function HomePageContent() {
         </Reveal>
 
         <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {stories.map((story, i) => {
+          {/* Newest four only: one full row on desktop. /blog lists them all. */}
+          {stories.slice(0, 4).map((story, i) => {
             const title = locale === "es" ? story.titleEs : story.title;
 
             return (

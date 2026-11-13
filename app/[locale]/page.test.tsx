@@ -129,8 +129,22 @@ describe("Home page", () => {
   it("renders a Featured Stories section linking to the on-site blog post pages", async () => {
     await renderHome();
     expect(screen.getByText("Featured Stories")).toBeInTheDocument();
-    const storyLink = screen.getByRole("link", { name: /halloween safety tips for parents/i });
-    expect(storyLink).toHaveAttribute("href", "/blog/halloween-safety-tips");
+    const storyLink = screen.getByRole("link", { name: /flu, rsv and covid season/i });
+    expect(storyLink).toHaveAttribute("href", "/blog/cold-flu-rsv-season-2026");
+  });
+
+  it("shows only the four newest stories in Featured Stories, new posts first", async () => {
+    await renderHome();
+    const hrefs = screen
+      .getAllByRole("link")
+      .map((a) => a.getAttribute("href"))
+      .filter((href) => href?.startsWith("/blog/"));
+    expect(hrefs).toEqual([
+      "/blog/cold-flu-rsv-season-2026",
+      "/blog/holiday-travel-health-checklist",
+      "/blog/autism-awareness-month",
+      "/blog/breathe-easy-this-winter",
+    ]);
   });
 
   it("renders a Trusted Partners & Affiliations section with all 7 real partner logos", async () => {
@@ -207,7 +221,7 @@ describe("Home page", () => {
   it("renders the Featured Stories card titles in Spanish when locale is es", async () => {
     await renderHome("es");
     expect(
-      screen.getByText("Consejos de Seguridad para Halloween para los Padres")
+      screen.getByText("Temporada de Gripe, VRS y COVID: Cuándo Traer a su Hijo a Consulta")
     ).toBeInTheDocument();
   });
 

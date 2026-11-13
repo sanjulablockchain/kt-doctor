@@ -4,10 +4,43 @@ import { renderWithIntl as render } from "@/lib/test-utils";
 import BlogPostPage, { generateStaticParams } from "./page";
 
 describe("BlogPostPage", () => {
-  it("generates static params for all 4 real stories", () => {
+  it("generates static params for all 6 stories", () => {
     const params = generateStaticParams();
-    expect(params).toHaveLength(4);
+    expect(params).toHaveLength(6);
     expect(params).toContainEqual({ slug: "halloween-safety-tips" });
+    expect(params).toContainEqual({ slug: "cold-flu-rsv-season-2026" });
+    expect(params).toContainEqual({ slug: "holiday-travel-health-checklist" });
+  });
+
+  it("splits a section body into separate paragraphs at blank lines", async () => {
+    const ui = await BlogPostPage({
+      params: Promise.resolve({ slug: "cold-flu-rsv-season-2026" }),
+    });
+    render(ui);
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Flu, RSV and COVID Season: When to Bring Your Child In"
+    );
+    const first = screen.getByText(/^Every fall and winter, flu, RSV/);
+    const second = screen.getByText(/^Most children recover with rest and fluids/);
+    expect(first.tagName).toBe("P");
+    expect(second.tagName).toBe("P");
+    expect(first).not.toBe(second);
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Call 911 or Go to the ER for Emergencies" })
+    ).toBeInTheDocument();
+  });
+
+  it("renders a new post in Spanish when locale is es", async () => {
+    const ui = await BlogPostPage({
+      params: Promise.resolve({ slug: "holiday-travel-health-checklist", locale: "es" }),
+    });
+    render(ui, "es");
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Viajar con Niños Esta Temporada Navideña: Una Lista de Salud para Padres"
+    );
+    expect(screen.getByText("Prepare un Botiquín para los Niños")).toBeInTheDocument();
   });
 
   it("renders the title, date, image, and all real sections", async () => {
