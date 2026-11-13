@@ -22,19 +22,28 @@ const STATIC_PATHS = [
   "/privacy-policy",
   "/resources",
   "/services",
+  "/sms-privacy-policy",
+  "/sms-terms-and-conditions",
   "/terms-and-conditions",
   "/testimonials",
 ];
 
+const LEGAL_PATHS = new Set([
+  "/privacy-policy",
+  "/terms-and-conditions",
+  "/sms-privacy-policy",
+  "/sms-terms-and-conditions",
+]);
+
 function changeFrequency(path: string): "weekly" | "monthly" | "yearly" {
   if (path === "/" || path === "/blog") return "weekly";
-  if (path === "/privacy-policy" || path === "/terms-and-conditions") return "yearly";
+  if (LEGAL_PATHS.has(path)) return "yearly";
   return "monthly";
 }
 
 function priority(path: string): number {
   if (path === "/") return 1;
-  if (path === "/privacy-policy" || path === "/terms-and-conditions") return 0.3;
+  if (LEGAL_PATHS.has(path)) return 0.3;
   if (path.split("/").length > 2) return 0.6; // detail pages
   return 0.8; // index/section pages
 }

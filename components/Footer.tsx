@@ -43,6 +43,8 @@ export function Footer() {
     { href: "/blog", label: t("blog") },
     { href: "/privacy-policy", label: t("privacyPolicy") },
     { href: "/terms-and-conditions", label: t("termsAndConditions") },
+    { href: "/sms-privacy-policy", label: t("smsPrivacyPolicy") },
+    { href: "/sms-terms-and-conditions", label: t("smsTermsAndConditions") },
   ] as const;
 
   const patientLinks = [

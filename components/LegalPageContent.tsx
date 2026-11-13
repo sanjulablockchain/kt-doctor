@@ -8,13 +8,16 @@ import {
   type LegalBlock,
   type LegalDocument,
 } from "@/data/legal";
+import { smsPrivacyPolicy, smsTermsAndConditions } from "@/data/smsLegal";
 
-type DocKey = "privacy" | "terms";
-type TitleKey = "privacyTitle" | "termsTitle";
+type DocKey = "privacy" | "terms" | "smsPrivacy" | "smsTerms";
+type TitleKey = "privacyTitle" | "termsTitle" | "smsPrivacyTitle" | "smsTermsTitle";
 
 const DOCS: Record<DocKey, { document: LegalDocument; titleKey: TitleKey }> = {
   privacy: { document: privacyPolicy, titleKey: "privacyTitle" },
   terms: { document: termsAndConditions, titleKey: "termsTitle" },
+  smsPrivacy: { document: smsPrivacyPolicy, titleKey: "smsPrivacyTitle" },
+  smsTerms: { document: smsTermsAndConditions, titleKey: "smsTermsTitle" },
 };
 
 // Format an ISO date for display. UTC keeps the rendered day stable across
@@ -30,7 +33,23 @@ function formatDate(iso: string, locale: string): string {
 
 function BlockView({ block, es }: { block: LegalBlock; es: boolean }) {
   if (block.type === "paragraph") {
-    return <p className="mt-4 text-ink-soft">{es ? block.textEs : block.text}</p>;
+    const { link } = block;
+    return (
+      <p className="mt-4 text-ink-soft">
+        {es ? block.textEs : block.text}
+        {link ? (
+          <>
+            {" "}
+            <Link
+              href={link.href}
+              className="break-words font-semibold text-teal-dark underline underline-offset-2 hover:text-teal"
+            >
+              {es ? link.textEs : link.text}
+            </Link>
+          </>
+        ) : null}
+      </p>
+    );
   }
 
   return (
@@ -76,7 +95,9 @@ export function LegalPageContent({ doc }: { doc: DocKey }) {
         {t("effectiveLabel")}: {formatDate(document.effectiveDate, locale)}
       </p>
 
-      <p className="mt-6 text-ink-soft">{es ? document.intro.textEs : document.intro.text}</p>
+      {document.intro ? (
+        <p className="mt-6 text-ink-soft">{es ? document.intro.textEs : document.intro.text}</p>
+      ) : null}
 
       <div className="mt-8 flex flex-col gap-8">
         {document.sections.map((section) => (

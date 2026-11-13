@@ -50,6 +50,14 @@ describe("Footer", () => {
       "href",
       "/terms-and-conditions"
     );
+    expect(screen.getByRole("link", { name: "SMS Privacy Policy" })).toHaveAttribute(
+      "href",
+      "/sms-privacy-policy"
+    );
+    expect(screen.getByRole("link", { name: "SMS Terms & Conditions" })).toHaveAttribute(
+      "href",
+      "/sms-terms-and-conditions"
+    );
     expect(screen.getByRole("link", { name: "Same-Day Appointments" })).toHaveAttribute(
       "href",
       "/services/same-day-appointments"

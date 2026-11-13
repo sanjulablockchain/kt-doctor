@@ -58,6 +58,8 @@
     "telehealth": "Telesalud",
     "privacyPolicy": "Política de Privacidad",
     "termsAndConditions": "Términos y Condiciones",
+    "smsPrivacyPolicy": "Política de Privacidad de SMS",
+    "smsTermsAndConditions": "Términos y Condiciones de SMS",
     "rights": "Todos los derechos reservados.",
     "contact": "Contacto"
   },
@@ -65,6 +67,8 @@
     "eyebrow": "Legal",
     "privacyTitle": "Política de Privacidad",
     "termsTitle": "Términos y Condiciones",
+    "smsPrivacyTitle": "Política de Privacidad de SMS",
+    "smsTermsTitle": "Términos y Condiciones de SMS",
     "effectiveLabel": "Fecha de Vigencia",
     "backToHome": "Volver al Inicio"
   },
@@ -700,6 +704,14 @@
     "termsAndConditions": {
       "title": "Términos y Condiciones",
       "description": "Los términos y condiciones que rigen el uso del sitio web de Kids & Teens Medical Group."
+    },
+    "smsPrivacyPolicy": {
+      "title": "Política de Privacidad de SMS",
+      "description": "Cómo Kids & Teens Medical Group recopila, usa y protege la información de su programa de mensajes de texto, y cómo darse de baja."
+    },
+    "smsTermsAndConditions": {
+      "title": "Términos y Condiciones de SMS",
+      "description": "Términos del programa de mensajes de texto de Kids & Teens Medical Group: tipos de mensajes, frecuencia, tarifas y cómo responder STOP o HELP."
     },
     "testimonials": {
       "title": "Testimonios",

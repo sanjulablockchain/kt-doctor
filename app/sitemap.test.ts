@@ -10,7 +10,7 @@ import { pressBios } from "@/data/pressBios";
 describe("sitemap", () => {
   const entries = sitemap();
   const serviceCount = serviceCategories.flatMap((c) => c.services).length;
-  const staticCount = 16;
+  const staticCount = 18;
 
   it("includes one entry per static + dynamic route", () => {
     expect(entries).toHaveLength(
@@ -40,6 +40,14 @@ describe("sitemap", () => {
       expect(
         entries.some((e) => e.url === `https://www.ktdoctor.com/media/leadership/${bio.id}`)
       ).toBe(true);
+    }
+  });
+
+  it("includes the SMS legal pages as low-priority yearly entries", () => {
+    for (const path of ["/sms-privacy-policy", "/sms-terms-and-conditions"]) {
+      const entry = entries.find((e) => e.url === `https://www.ktdoctor.com${path}`);
+      expect(entry?.changeFrequency).toBe("yearly");
+      expect(entry?.priority).toBe(0.3);
     }
   });
 
