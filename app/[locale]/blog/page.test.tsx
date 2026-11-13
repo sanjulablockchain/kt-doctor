@@ -14,6 +14,29 @@ describe("BlogPage", () => {
     ).toBeInTheDocument();
   });
 
+  it("lists all 6 stories with the November 2026 posts first", () => {
+    render(<BlogPage />);
+    const hrefs = screen
+      .getAllByRole("link")
+      .map((a) => a.getAttribute("href"))
+      .filter((href) => href?.startsWith("/blog/"));
+    expect(hrefs).toHaveLength(6);
+    expect(hrefs.slice(0, 2)).toEqual([
+      "/blog/cold-flu-rsv-season-2026",
+      "/blog/holiday-travel-health-checklist",
+    ]);
+  });
+
+  it("renders the new posts' Spanish titles when locale is es", () => {
+    render(<BlogPage />, "es");
+    expect(
+      screen.getByText("Temporada de Gripe, VRS y COVID: Cuándo Traer a su Hijo a Consulta")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Viajar con Niños Esta Temporada Navideña: Una Lista de Salud para Padres")
+    ).toBeInTheDocument();
+  });
+
   it("links each story card to its detail page", () => {
     render(<BlogPage />);
     expect(
