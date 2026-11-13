@@ -23,7 +23,10 @@ describe("ContactWidget", () => {
     );
     expect(screen.getByRole("link", { name: /Texto \(Español\)/ })).toHaveAttribute(
       "href",
-      expect.stringContaining("sms:+18184235637")
+      expect.stringContaining("sms:+16262987121")
+    );
+    expect(screen.getByRole("link", { name: /Texto \(Español\)/ })).toHaveTextContent(
+      "(626) 298-7121"
     );
     expect(screen.getByRole("link", { name: /Call Us/ })).toHaveAttribute(
       "href",

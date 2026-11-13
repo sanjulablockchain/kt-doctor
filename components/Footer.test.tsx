@@ -91,10 +91,11 @@ describe("Footer", () => {
 
   it("uses the Spanish text line when rendered in the es locale", () => {
     render(<Footer />, "es");
-    expect(screen.getByRole("link", { name: /818\) 423-5637/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /626\) 298-7121/ })).toHaveAttribute(
       "href",
-      "sms:+18184235637"
+      "sms:+16262987121"
     );
+    expect(screen.queryByText(/423-5637/)).not.toBeInTheDocument();
   });
 
   it("renders a Telehealth link in the For Patients column", () => {
